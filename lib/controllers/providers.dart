@@ -42,4 +42,5 @@ final currentRouteProvider =
 
 //banner dinamico
 final imageIndexProvider = StateProvider<int>((ref) => 0);
+
 final imageBannerIndexProvider = StateProvider<int>((ref) => 0);

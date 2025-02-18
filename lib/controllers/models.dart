@@ -16,6 +16,24 @@ class ButtonState {
   }
 }
 
+//Modelo para las opiniones
+class Opinion {
+  final String autor;
+  final String fecha;
+  final String calificacion;
+  final String titulo;
+  final String descripcion;
+
+  Opinion({
+    required this.autor,
+    required this.fecha,
+    required this.calificacion,
+    required this.titulo,
+    required this.descripcion,
+  });
+}
+
+
 // Notifier que maneja el estado del botón
 class ButtonStateNotifier extends StateNotifier<ButtonState> {
   ButtonStateNotifier()

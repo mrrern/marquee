@@ -10,7 +10,7 @@ class BannerInitial extends ConsumerStatefulWidget {
 }
 
 class _BannerInitialState extends ConsumerState<BannerInitial> {
-  late Timer timer; // Timer para cambiar la imagen automáticamente
+  late Timer timerCarrusel; // Timer para cambiar la imagen automáticamente
 
   final List<String> images = [
     img1,
@@ -18,28 +18,34 @@ class _BannerInitialState extends ConsumerState<BannerInitial> {
     img3,
   ];
 
-  void startImageSwitcher() {
-    timer = Timer.periodic(const Duration(seconds: 10), (timer) {
-      ref.read(imageIndexProvider.notifier).state =
-          (ref.read(imageBannerIndexProvider) + 1) % images.length;
+  void carruselSwicht() {
+    timerCarrusel = Timer.periodic(const Duration(seconds: 8), (timerL) {
+      final currentIndex = ref.read(imageBannerIndexProvider);
+      final nextIndex = currentIndex + 1;
+
+      if (nextIndex >= images.length) {
+        ref.read(imageBannerIndexProvider.notifier).state = 0;
+      } else {
+        ref.read(imageBannerIndexProvider.notifier).state = nextIndex;
+      }
     });
   }
 
   @override
   void initState() {
     super.initState();
-    startImageSwitcher();
+    carruselSwicht();
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width;
     final position = MediaQuery.of(context).size.height;
-    final indexImage = ref.watch(imageIndexProvider);
+    final indexImage = ref.watch(imageBannerIndexProvider);
 
     return Stack(children: [
       AnimatedSwitcher(
-        duration: Duration(seconds: 1),
+        duration: Duration(milliseconds: 500),
         child: Image.asset(
           images[indexImage],
           key: ValueKey<int>(indexImage),

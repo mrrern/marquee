@@ -17,7 +17,7 @@ class ButtonItem extends ConsumerWidget {
 
     return Container(
       padding: EdgeInsets.only(right: 17),
-      width: size * .06,
+      width: size * .08,
       child: MouseRegion(
         onEnter: (_) => buttonNotifier.hover(true),
         onExit: (_) => buttonNotifier.hover(false),
@@ -29,6 +29,8 @@ class ButtonItem extends ConsumerWidget {
             child: Text(
               title,
               style: GoogleFonts.inter(
+                  fontSize: size * .016,
+                  fontWeight: FontWeight.w500,
                   color: buttonState.isSelected || buttonState.isHovered
                       ? grey
                       : black),
