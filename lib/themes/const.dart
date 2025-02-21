@@ -67,4 +67,4 @@ const review =
     'En el día más importante de sus vidas, transformamos su boda mediante el diseño e instalación de equipos audiovisuales de alta calidad. Ofrecemos asesoría integral, planificación musical, así como la contratación de artistas, DJs, equipos de sonido, iluminación y escenarios que estén a la altura de tan importante celebración.';
 
 //video
-const video = "assets/video/1.mp4";
+final video = "assets/video/1.mp4";

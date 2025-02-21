@@ -4,30 +4,37 @@ on:
   push:
     branches:
       - main
-      
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      
+
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
         channel: any
         flutter-version: 3.x
-        
+
     - name: Enable Flutter web 
-      run: flutter config --enable-web 
-      
+      run: flutter config --enable-web
+
     - name: Install dependencies
       run: flutter packages get
-      
+
     - name: Build web
-      run: flutter build web  
-      
+      run: flutter build web
+
+    - name: Modify index.html
+      run: |
+        # Cambiar <base href="/"> a <base href="./">
+        sed -i 's|<base href="/">|<base href="./">|' ./build/web/index.html
+        # Cambiar <title></title> a <title>Marquee Audiovisuales</title>
+        sed -i 's|<title></title>|<title>Marquee Audiovisuales</title>|' ./build/web/index.html
+
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v4
       with:
