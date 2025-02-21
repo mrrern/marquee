@@ -16,6 +16,12 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     super.initState();
     // fetchOpiniones();
     final scrollController = ref.read(scrollControllerProvider);
+    scrollController.addListener(() {
+      setState(() {
+        scrollOffset = scrollController.offset * 0.2;
+        //Controla la velocidad del efecto
+      });
+    });
     controllerVideo = VideoPlayerController.asset(video)
       ..initialize().then((_) {
         // Configurar la repetición automática e iniciar el video
@@ -23,12 +29,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         controllerVideo.play(); // Reproducir el video automáticamente
         setState(() {}); // Actualizar el widget para mostrar el video
       });
-    scrollController.addListener(() {
-      setState(() {
-        scrollOffset = scrollController.offset * 0.2;
-        //Controla la velocidad del efecto
-      });
-    });
   }
 
   @override
@@ -213,7 +213,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                                         enlargeFactor: 0,
                                         pauseAutoPlayInFiniteScroll: false,
                                         autoPlayAnimationDuration:
-                                            Duration(seconds: 3),
+                                            Duration(seconds: 4),
                                         pauseAutoPlayOnManualNavigate: false,
                                         scrollDirection: Axis.horizontal,
                                         pageSnapping: false,
@@ -221,7 +221,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                                         viewportFraction: 0.8,
                                         enlargeCenterPage: true,
                                         autoPlayCurve: Curves.linear,
-                                        autoPlayInterval: Duration(seconds: 2),
+                                        autoPlayInterval: Duration(seconds: 3),
                                         enableInfiniteScroll: true)),
                               ),
                             ),
