@@ -69,3 +69,10 @@ class CurrentRouteNotifier extends StateNotifier<String> {
   }
 }
 
+class CarouselNotifier extends StateNotifier<int> {
+  CarouselNotifier() : super(0);
+
+  void nextImage() {
+    state = (state + 1) % 2; // Cambia entre 0 y 1, ya que hay dos imágenes
+  }
+}

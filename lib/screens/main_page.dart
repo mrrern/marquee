@@ -9,19 +9,33 @@ class MainScreen extends ConsumerStatefulWidget {
 
 class _MainScreenState extends ConsumerState<MainScreen> {
   double scrollOffset = 0;
+  late VideoPlayerController controllerVideo;
 
   @override
   void initState() {
     super.initState();
     // fetchOpiniones();
     final scrollController = ref.read(scrollControllerProvider);
-
+    controllerVideo = VideoPlayerController.asset(video)
+      ..initialize().then((_) {
+        // Configurar la repetición automática e iniciar el video
+        controllerVideo.setLooping(true); // Repetición infinita
+        controllerVideo.play(); // Reproducir el video automáticamente
+        setState(() {}); // Actualizar el widget para mostrar el video
+      });
     scrollController.addListener(() {
       setState(() {
         scrollOffset = scrollController.offset * 0.2;
         //Controla la velocidad del efecto
       });
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controllerVideo
+        .dispose(); // Limpiar el controlador cuando el widget se destruya
   }
 
   @override
@@ -138,6 +152,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                       ////////
                       Padding(
                         padding: EdgeInsets.only(
+                          top: position * .1,
                           left: size * .1,
                           right: size * .1,
                         ),
@@ -150,6 +165,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           ),
                         ),
                       ),
+
+                      ///
+                      ///
+                      ///
+                      SocialBanners(),
                       //////
                       ///
                       ///
@@ -158,8 +178,149 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                       ///
                       ///////
                       SizedBox(
-                        height: position * 4,
-                      )
+                        height: position * .2,
+                      ),
+                      SizedBox(
+                        width: size,
+                        height: position * .6,
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: SizedBox(
+                                width: size,
+                                height: position * .5,
+                                child: CarouselSlider(
+                                    items: [
+                                      frame1,
+                                      frame2,
+                                      frame1,
+                                      frame2,
+                                      frame2,
+                                      frame1
+                                    ].map((i) {
+                                      return Container(
+                                        width: size * .2,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: AssetImage(i),
+                                                fit: BoxFit.contain)),
+                                      );
+                                    }).toList(),
+                                    options: CarouselOptions(
+                                        aspectRatio: 2.0,
+                                        autoPlay: true,
+                                        enlargeFactor: 0,
+                                        pauseAutoPlayInFiniteScroll: false,
+                                        autoPlayAnimationDuration:
+                                            Duration(seconds: 3),
+                                        pauseAutoPlayOnManualNavigate: false,
+                                        scrollDirection: Axis.horizontal,
+                                        pageSnapping: false,
+                                        disableCenter: true,
+                                        viewportFraction: 0.8,
+                                        enlargeCenterPage: true,
+                                        autoPlayCurve: Curves.linear,
+                                        autoPlayInterval: Duration(seconds: 2),
+                                        enableInfiniteScroll: true)),
+                              ),
+                            ),
+                            Center(
+                              child: Container(
+                                width: size * .3,
+                                height: position * .6,
+                                padding: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFFFFFFF),
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                child: controllerVideo.value.isInitialized
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(35),
+                                        child: AspectRatio(
+                                            aspectRatio: controllerVideo
+                                                .value.aspectRatio,
+                                            child:
+                                                VideoPlayer(controllerVideo)),
+                                      )
+                                    : const CircularProgressIndicator(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      //////
+                      /////
+                      ///Marcas
+                      ///
+                      //////
+                      SizedBox(
+                        height: position * .2,
+                      ),
+                      SizedBox(
+                        width: size,
+                        height: position * .2,
+                        child: SizedBox(
+                          width: size,
+                          height: position * .2,
+                          child: CarouselSlider(
+                              items: [
+                                spons,
+                                spons,
+                                spons,
+                                spons,
+                                spons,
+                              ].map((i) {
+                                return Container(
+                                  width: 1440,
+                                  decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      image: DecorationImage(
+                                          image: AssetImage(i),
+                                          fit: BoxFit.fitHeight)),
+                                );
+                              }).toList(),
+                              options: CarouselOptions(
+                                  height: position * .08,
+                                  aspectRatio: 2.0,
+                                  autoPlay: true,
+                                  enlargeFactor: 0,
+                                  pauseAutoPlayInFiniteScroll: false,
+                                  autoPlayAnimationDuration:
+                                      Duration(seconds: 3),
+                                  pauseAutoPlayOnManualNavigate: false,
+                                  scrollDirection: Axis.horizontal,
+                                  pageSnapping: false,
+                                  disableCenter: false,
+                                  viewportFraction: 0.8,
+                                  enlargeCenterPage: true,
+                                  autoPlayCurve: Curves.linear,
+                                  autoPlayInterval: Duration(seconds: 2),
+                                  enableInfiniteScroll: true)),
+                        ),
+                      ),
+                      SizedBox(
+                        height: position * .2,
+                      ),
+                      SizedBox(
+                        width: size,
+                        height: position * .1,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ButtonItem2(
+                                title: 'Politicas de Privacidad',
+                                route: '/polities'),
+                            ButtonItem2(
+                                title: 'Politicas de Cookies',
+                                route: '/cookies'),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: position * .2,
+                      ),
                     ],
                   ),
                 ),

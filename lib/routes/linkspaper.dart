@@ -6,6 +6,9 @@ export 'package:google_fonts/google_fonts.dart';
 export 'package:intl/intl.dart' hide TextDirection;
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:animated_rating_stars/animated_rating_stars.dart';
+export 'package:url_launcher/url_launcher.dart';
+export 'package:carousel_slider/carousel_slider.dart';
+export 'package:video_player/video_player.dart';
 // Pantallas
 export 'package:bodas/app.dart';
 export 'package:bodas/screens/main_page.dart';
@@ -33,5 +36,6 @@ export 'package:bodas/widgets/button_title.dart';
 export 'package:bodas/widgets/carrusell_small.dart';
 export 'package:bodas/widgets/who_widget.dart';
 export 'package:bodas/widgets/card_rated.dart';
-
-
+export 'package:bodas/widgets/item_social_media.dart';
+export 'package:bodas/widgets/social_banners.dart';
+export 'package:bodas/widgets/carousel_widget.dart';

@@ -7,6 +7,8 @@ final buttonStateProvider =
   return ButtonStateNotifier();
 });
 
+final hoverButtonProvider = StateNotifierProvider.family<ButtonStateNotifier, ButtonState, dynamic>((ref, text) => ButtonStateNotifier(),);
+
 //controller del scroll
 final scrollControllerProvider = Provider<ScrollController>((ref) {
   return ScrollController();
@@ -44,3 +46,8 @@ final currentRouteProvider =
 final imageIndexProvider = StateProvider<int>((ref) => 0);
 
 final imageBannerIndexProvider = StateProvider<int>((ref) => 0);
+
+//Maneja el carrusel del final
+final carouselProvider = StateNotifierProvider<CarouselNotifier, int>((ref) {
+  return CarouselNotifier();
+});
