@@ -30,6 +30,7 @@ environment:
 dependencies:
   animated_rating_stars: ^1.0.1
   carousel_slider: ^5.0.0
+  
   cupertino_icons: ^1.0.8
   flutter:
     sdk: flutter
@@ -44,7 +45,7 @@ dependencies:
   intl: ^0.20.2
   riverpod_annotation: ^2.6.1
   url_launcher: ^6.3.1
-  video_player: ^2.9.2
+  youtube_web_player: ^1.2.2
   webview_flutter: ^4.10.0
 
 dev_dependencies:

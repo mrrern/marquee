@@ -8,7 +8,7 @@ export 'package:flutter_svg/flutter_svg.dart';
 export 'package:animated_rating_stars/animated_rating_stars.dart';
 export 'package:url_launcher/url_launcher.dart';
 export 'package:carousel_slider/carousel_slider.dart';
-export 'package:video_player/video_player.dart';
+export 'package:youtube_web_player/youtube_web_player.dart';
 // Pantallas
 export 'package:bodas/app.dart';
 export 'package:bodas/screens/main_page.dart';

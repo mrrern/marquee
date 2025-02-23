@@ -9,7 +9,7 @@ class MainScreen extends ConsumerStatefulWidget {
 
 class _MainScreenState extends ConsumerState<MainScreen> {
   double scrollOffset = 0;
-  late VideoPlayerController controllerVideo;
+  YoutubeWebPlayerController? _controller = YoutubeWebPlayerController();
 
   @override
   void initState() {
@@ -22,20 +22,16 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         //Controla la velocidad del efecto
       });
     });
-    controllerVideo = VideoPlayerController.asset(video)
-      ..initialize().then((_) {
-        // Configurar la repetición automática e iniciar el video
-        controllerVideo.setLooping(true); // Repetición infinita
-        controllerVideo.play(); // Reproducir el video automáticamente
-        setState(() {}); // Actualizar el widget para mostrar el video
-      });
+    _controller?.addListener(() {
+      if (_controller!.isReady) {
+        _controller?.play;
+      }
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
-    controllerVideo
-        .dispose(); // Limpiar el controlador cuando el widget se destruya
   }
 
   @override
@@ -234,16 +230,12 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                                   color: const Color(0xFFFFFFFF),
                                   borderRadius: BorderRadius.circular(25),
                                 ),
-                                child: controllerVideo.value.isInitialized
-                                    ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(35),
-                                        child: AspectRatio(
-                                            aspectRatio: controllerVideo
-                                                .value.aspectRatio,
-                                            child:
-                                                VideoPlayer(controllerVideo)),
-                                      )
-                                    : const CircularProgressIndicator(),
+                                child: YoutubeWebPlayer(
+                                  videoId: 'HmIdaxtQL9w',
+                                  isAutoPlay: true,
+                                  background: white,
+                                  controller: _controller,
+                                ),
                               ),
                             ),
                           ],
