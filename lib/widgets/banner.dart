@@ -38,6 +38,13 @@ class _BannerInitialState extends ConsumerState<BannerInitial> {
   }
 
   @override
+  void dispose() {
+    timerCarrusel.cancel();
+    carruselSwicht();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width;
     final position = MediaQuery.of(context).size.height;

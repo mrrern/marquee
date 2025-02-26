@@ -1,5 +1,6 @@
 import 'package:bodas/routes/linkspaper.dart';
 
+
 class ButtonItem extends ConsumerWidget {
   final String title;
   final String route;
@@ -17,7 +18,7 @@ class ButtonItem extends ConsumerWidget {
 
     return Container(
       padding: EdgeInsets.only(right: 17),
-      width: size * .08,
+      width: Responsive.isWeb(context) ? size * .08 : size * .1,
       child: MouseRegion(
         onEnter: (_) => buttonNotifier.hover(true),
         onExit: (_) => buttonNotifier.hover(false),
@@ -29,7 +30,8 @@ class ButtonItem extends ConsumerWidget {
             child: Text(
               title,
               style: GoogleFonts.inter(
-                  fontSize: size * .016,
+                                    fontSize: Responsive.isWeb(context)? size * .016 : size * .03,
+
                   fontWeight: FontWeight.w500,
                   color: buttonState.isSelected || buttonState.isHovered
                       ? grey
@@ -57,7 +59,7 @@ class ButtonItem2 extends ConsumerWidget {
 
     return Container(
       padding: EdgeInsets.only(right: 17),
-      width: size * .3,
+      width: Responsive.isWeb(context) ?  size * .3 : size * .4,
       child: MouseRegion(
         onEnter: (_) => buttonNotifier.hover(true),
         onExit: (_) => buttonNotifier.hover(false),
@@ -70,7 +72,7 @@ class ButtonItem2 extends ConsumerWidget {
               title,
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
-                  fontSize: size * .016,
+                  fontSize: Responsive.isWeb(context)? size * .016 : size * .03,
                   fontWeight: FontWeight.w500,
                   color: buttonState.isSelected || buttonState.isHovered
                       ? grey

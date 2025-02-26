@@ -9,6 +9,9 @@ export 'package:animated_rating_stars/animated_rating_stars.dart';
 export 'package:url_launcher/url_launcher.dart';
 export 'package:carousel_slider/carousel_slider.dart';
 export 'package:youtube_web_player/youtube_web_player.dart';
+export 'package:bodas/widgets/responsive_widget.dart';
+
+
 // Pantallas
 export 'package:bodas/app.dart';
 export 'package:bodas/screens/main_page.dart';
@@ -39,3 +42,4 @@ export 'package:bodas/widgets/card_rated.dart';
 export 'package:bodas/widgets/item_social_media.dart';
 export 'package:bodas/widgets/social_banners.dart';
 export 'package:bodas/widgets/carousel_widget.dart';
+export 'package:bodas/widgets/custom_text.dart';

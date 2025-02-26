@@ -5,11 +5,11 @@ class Responsive extends StatelessWidget {
   final Widget tablet;
   final Widget web;
 
-  const Responsive({
-    super.key,
+  const Responsive(
+    this.tablet, {
     required this.mobile,
-    required this.tablet,
     required this.web,
+    super.key,
   });
 
   // Tamaños por diseño

@@ -68,3 +68,66 @@ const review =
 
 //video
 final video = "assets/video/1.mp4";
+
+
+
+// Colors
+class AppColors {
+  static const white = Color(0xFFFFFFFF);
+  static const black = Color(0xFF000000);
+  static const lightGrey = Color(0xFFECECEC);
+  static const darkGrey = Color(0xFF363636);
+  static const mediumGrey = Color(0xFFA1A1A1);
+  static const textDarkGrey = Color(0xFF2A2A2A);
+  static const textMediumGrey = Color(0xFF3F3F3F);
+  static const buttonBackground = Color(0x94020000);
+}
+
+// Text Styles
+class AppTextStyles {
+  static const navLinkStyle = TextStyle(
+    fontFamily: 'Inter',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    height: 0.6,
+  );
+
+  static const formLabelStyle = TextStyle(
+    fontFamily: 'Inter',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: AppColors.textMediumGrey,
+  );
+
+  static const buttonTextStyle = TextStyle(
+    fontFamily: 'Inter',
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
+    color: AppColors.lightGrey,
+  );
+
+  static const passwordHintStyle = TextStyle(
+    fontFamily: 'Inter',
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    color: AppColors.black,
+  );
+
+  static const footerTextStyle = TextStyle(
+    fontFamily: 'Metrophobic',
+    fontSize: 22,
+    fontWeight: FontWeight.w400,
+    letterSpacing: -0.66,
+    height: 2.0,
+    color: AppColors.black,
+  );
+}
+
+// Dimensions
+class AppDimensions {
+  static const double formWidth = 469;
+  static const double logoWidth = 309;
+  static const double buttonWidth = 189;
+  static const double formPaddingHorizontal = 45;
+  static const double formPaddingVertical = 22;
+}

@@ -33,6 +33,13 @@ class _CarruselFState extends ConsumerState<CarruselF> {
   }
 
   @override
+  void dispose() {
+    timer.cancel;
+    _startImageSwitcher();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width;
     final position = MediaQuery.of(context).size.height;

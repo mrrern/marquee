@@ -9,7 +9,7 @@ class MainScreen extends ConsumerStatefulWidget {
 
 class _MainScreenState extends ConsumerState<MainScreen> {
   double scrollOffset = 0;
-  YoutubeWebPlayerController? _controller = YoutubeWebPlayerController();
+  final YoutubeWebPlayerController _controller = YoutubeWebPlayerController();
 
   @override
   void initState() {
@@ -22,9 +22,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         //Controla la velocidad del efecto
       });
     });
-    _controller?.addListener(() {
-      if (_controller!.isReady) {
-        _controller?.play;
+    _controller.addListener(() {
+      if (_controller.isReady) {
+        _controller.play;
       }
     });
   }
@@ -185,7 +185,9 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                               alignment: Alignment.center,
                               child: SizedBox(
                                 width: size,
-                                height: position * .5,
+                                height: Responsive.isWeb(context)
+                                    ? position * .3
+                                    : position * .5,
                                 child: CarouselSlider(
                                     items: [
                                       frame1,
@@ -295,7 +297,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                         height: position * .2,
                       ),
                       SizedBox(
-                        width: size,
+                        width: Responsive.isWeb(context) ? size : size / .5,
                         height: position * .1,
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
