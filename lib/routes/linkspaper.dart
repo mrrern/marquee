@@ -43,3 +43,9 @@ export 'package:bodas/widgets/item_social_media.dart';
 export 'package:bodas/widgets/social_banners.dart';
 export 'package:bodas/widgets/carousel_widget.dart';
 export 'package:bodas/widgets/custom_text.dart';
+export 'package:bodas/widgets/footer_widget.dart';
+export 'package:bodas/widgets/header_widget.dart';
+export 'package:bodas/widgets/couple_info.dart';
+export 'package:bodas/widgets/sidebar_menu.dart';
+export 'package:bodas/widgets/wedding_detais.dart';
+

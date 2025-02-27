@@ -81,6 +81,10 @@ class AppColors {
   static const textDarkGrey = Color(0xFF2A2A2A);
   static const textMediumGrey = Color(0xFF3F3F3F);
   static const buttonBackground = Color(0x94020000);
+
+   // Text colors
+  static const Color primaryText = Colors.black;
+  static const Color secondaryText = Color(0xFF888888);
 }
 
 // Text Styles
