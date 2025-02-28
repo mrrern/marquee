@@ -1,7 +1,7 @@
 import 'package:bodas/routes/linkspaper.dart';
 
 class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({Key? key}) : super(key: key);
+  const HeaderWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,20 +16,23 @@ class HeaderWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // Logo
-            Image.asset(
-              logo,
-              width: 216,
-              fit: BoxFit.contain,
+            GestureDetector(
+              onTap: () => context.go('/'),
+              child: Image.asset(
+                logo,
+                width: 216,
+                fit: BoxFit.contain,
+              ),
             ),
 
             // Exit button
             Container(
               margin: const EdgeInsets.only(top: 21),
-              child: const Text(
+              child: Text(
                 'Salir',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 20,
+                  fontSize: isMobile? 20 : 30,
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
                   height: 0.6,

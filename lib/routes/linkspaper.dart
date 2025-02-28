@@ -10,6 +10,7 @@ export 'package:url_launcher/url_launcher.dart';
 export 'package:carousel_slider/carousel_slider.dart';
 export 'package:youtube_web_player/youtube_web_player.dart';
 export 'package:bodas/widgets/responsive_widget.dart';
+export 'package:webview_flutter/webview_flutter.dart';
 
 
 // Pantallas
@@ -17,7 +18,7 @@ export 'package:bodas/app.dart';
 export 'package:bodas/screens/main_page.dart';
 export 'package:bodas/screens/access_page.dart';
 export 'package:bodas/screens/sign_page.dart';
-export 'package:webview_flutter/webview_flutter.dart';
+export 'package:bodas/screens/form_1.dart';
 
 //routes
 export 'package:bodas/routes/routes.dart';

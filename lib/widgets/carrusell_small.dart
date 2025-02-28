@@ -34,7 +34,7 @@ class _CarruselFState extends ConsumerState<CarruselF> {
 
   @override
   void dispose() {
-    timer.cancel;
+    timer;
     _startImageSwitcher();
     super.dispose();
   }

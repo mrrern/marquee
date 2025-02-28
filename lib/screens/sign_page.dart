@@ -99,8 +99,8 @@ class _SignPageState extends ConsumerState<SignPage> {
                           child: SizedBox(
                             width: screenWidth,
                             height: Responsive.isWeb(context)
-                                ? screenHeight * .3
-                                : screenHeight * .5,
+                                ? screenHeight * .5
+                                : screenHeight * .3,
                             child: CarouselSlider(
                                 items: [
                                   frame1,
@@ -169,8 +169,8 @@ class _SignPageState extends ConsumerState<SignPage> {
                               children: [
                                 // Logo in form
                                 Center(
-                                  child: Image.network(
-                                    'https://cdn.builder.io/api/v1/image/assets/TEMP/13de04d5f7ac706972d40f6ee23a19a1eb87d22dfc2885bfdf39ca7b7fb7e489?placeholderIfAbsent=true&apiKey=b81a115941b74925855f1403cb35cc79',
+                                  child: Image.asset(
+                                    logo,
                                     width: AppDimensions.logoWidth,
                                     fit: BoxFit.contain,
                                   ),
@@ -178,8 +178,12 @@ class _SignPageState extends ConsumerState<SignPage> {
 
                                 // Email field
                                 SizedBox(height: isTablet ? 40 : 54),
-                                Text(
-                                  'E-mail',
+                                TextField(
+                                  controller: _emailController,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'E-mail',
+                                  ),
                                   style: AppTextStyles.formLabelStyle,
                                 ),
                                 SizedBox(height: isTablet ? 40 : 48),
@@ -190,22 +194,24 @@ class _SignPageState extends ConsumerState<SignPage> {
 
                                 // Password field
                                 SizedBox(height: isTablet ? 40 : 48),
-                                Text(
-                                  'Contraseña',
-                                  style: AppTextStyles.formLabelStyle.copyWith(
-                                    color: AppColors.textDarkGrey,
+                                TextField(
+                                  controller: _passwordController,
+                                  obscureText: true,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Contraseña',
                                   ),
+                                  style: AppTextStyles.formLabelStyle,
                                 ),
                                 SizedBox(height: isTablet ? 40 : 52),
                                 Container(
                                   height: 1,
                                   color: AppColors.black,
                                 ),
-                                
+
                                 // Password hint
-                              
+
                                 Center(
-                                
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(
                                       horizontal: isTablet ? 3 : 0,
@@ -242,22 +248,31 @@ class _SignPageState extends ConsumerState<SignPage> {
                                         // Handle registration
                                       }
                                     },
-                                    child: Container(
-                                      width: AppDimensions.buttonWidth,
-                                      padding: EdgeInsets.fromLTRB(
-                                        isTablet ? 20 : 46,
-                                        3,
-                                        isTablet ? 20 : 46,
-                                        17,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.buttonBackground,
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Text(
-                                        'Registrate',
-                                        style: AppTextStyles.buttonTextStyle,
-                                        textAlign: TextAlign.center,
+                                    child: MouseRegion(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          context.go('/form1');
+                                        },
+                                        child: Container(
+                                          width: AppDimensions.buttonWidth,
+                                          padding: EdgeInsets.fromLTRB(
+                                            isTablet ? 20 : 46,
+                                            3,
+                                            isTablet ? 20 : 46,
+                                            17,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.buttonBackground,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Text(
+                                            'Registrate',
+                                            style:
+                                                AppTextStyles.buttonTextStyle,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   ),
