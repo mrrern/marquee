@@ -30,10 +30,13 @@ const bod1 = 'assets/images/bod1.png';
 const bod2 = 'assets/images/bod2.png';
 const bod3 = 'assets/images/bod3.png';
 const bod4 = 'assets/images/bod4.png';
+
+//social media
 const insta = 'assets/images/inst.svg';
 const face = 'assets/images/face.svg';
 const tiktok = 'assets/images/tiktok.svg';
 
+//carrousel
 const frame2 = 'assets/images/frame2.png';
 const frame1 = 'assets/images/frame1.png';
 
@@ -50,6 +53,7 @@ const f9 = 'assets/images/f9.png';
 const f10 = 'assets/images/f10.png';
 const f11 = 'assets/images/f11.png';
 const f12 = 'assets/images/f12.png';
+
 
 //colors
 const white = Colors.white70;

@@ -129,7 +129,6 @@ class _InicialFormState extends ConsumerState<InicialForm> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.stretch,
                                       children: const [
-                                        SidebarMenu(),
                                         SizedBox(height: 40),
                                         WeddingDetailsForm(),
                                       ],
@@ -179,6 +178,11 @@ class _InicialFormState extends ConsumerState<InicialForm> {
                             const FooterWidget(),
                           ],
                         ),
+                        if(!isMobile)
+                        Positioned.fromRect(
+                          rect: Rect.fromLTRB(0, 200, 0, 200),
+                          child: SidebarMenu(),
+                        )
                       ],
                     ),
                   ),
