@@ -1,7 +1,7 @@
 import 'package:bodas/routes/linkspaper.dart';
 
 class CoupleInfoForm extends StatelessWidget {
-  const CoupleInfoForm({Key? key}) : super(key: key);
+  const CoupleInfoForm({super.key});
 
   @override
   Widget build(BuildContext context) {

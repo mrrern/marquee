@@ -51,12 +51,14 @@ class _BannerInitialState extends ConsumerState<BannerInitial> {
     final indexImage = ref.watch(imageBannerIndexProvider);
 
     return Stack(children: [
-      AnimatedSwitcher(
-        duration: Duration(milliseconds: 500),
-        child: Image.asset(
-          images[indexImage],
-          key: ValueKey<int>(indexImage),
-          fit: BoxFit.fitWidth,
+      SizedBox(
+        child: AnimatedSwitcher(
+          duration: Duration(milliseconds: 500),
+          child: Image.asset(
+            images[indexImage],
+            key: ValueKey<int>(indexImage),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
       Positioned(
