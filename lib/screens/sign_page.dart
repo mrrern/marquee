@@ -36,8 +36,8 @@ class _SignPageState extends ConsumerState<SignPage> {
             children: [
               // Background image
               Positioned.fill(
-                child: Image.network(
-                  'https://cdn.builder.io/api/v1/image/assets/TEMP/9e0afe19d6718ebe588e1641706704fd8b45e01a257e91b63a8c56fb5e350a83?placeholderIfAbsent=true&apiKey=b81a115941b74925855f1403cb35cc79',
+                child: Image.asset(
+                  back2,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -331,29 +331,7 @@ class _SignPageState extends ConsumerState<SignPage> {
                     ),
 
                   // Footer
-                  Padding(
-                    padding: EdgeInsets.only(top: 14, left: 33),
-                    child: RichText(
-                      text: TextSpan(
-                        style: AppTextStyles.footerTextStyle,
-                        children: [
-                          TextSpan(
-                            text: 'Política de privacidad',
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                          TextSpan(text: ' '),
-                          TextSpan(
-                            text: 'Política de cookies',
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  FooterWidget(),
                   SizedBox(height: 32),
                 ],
               ),

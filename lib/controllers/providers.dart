@@ -7,10 +7,13 @@ final buttonStateProvider =
   return ButtonStateNotifier();
 });
 
-final hoverButtonProvider = StateNotifierProvider.family<ButtonStateNotifier, ButtonState, dynamic>((ref, text) => ButtonStateNotifier(),);
+final hoverButtonProvider =
+    StateNotifierProvider.family<ButtonStateNotifier, ButtonState, dynamic>(
+  (ref, text) => ButtonStateNotifier(),
+);
 
 //controller del scroll
-final scrollControllerProvider = Provider<ScrollController>((ref) {
+final scrollControllerProvider = Provider.autoDispose<ScrollController>((ref) {
   return ScrollController();
 });
 
@@ -31,11 +34,6 @@ final StateProvider<bool> scrolledProvider = StateProvider<bool>((ref) {
   return scrolled;
 });
 
-//Manejar el state del size
-final screenSizeProvider = Provider<Size>((ref) {
-  return Size(0, 0);
-});
-
 //Maneja la ruta en la que se encuentra
 final currentRouteProvider =
     StateNotifierProvider<CurrentRouteNotifier, String>((ref) {
@@ -43,7 +41,7 @@ final currentRouteProvider =
 });
 
 //banner dinamico
-final imageIndexProvider = StateProvider<int>((ref) => 0);
+final imageIndexProvider = StateProvider.autoDispose<int>((ref) => 0);
 
 final imageBannerIndexProvider = StateProvider<int>((ref) => 0);
 

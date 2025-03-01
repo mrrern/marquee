@@ -1,4 +1,5 @@
 import 'package:bodas/routes/linkspaper.dart';
+import 'package:flutter/gestures.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
@@ -15,22 +16,31 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   void initState() {
     super.initState();
     // fetchOpiniones();
-    final scrollController = ref.read(scrollControllerProvider);
-    scrollController.addListener(() {
-      setState(() {
-        scrollOffset = scrollController.offset * 0.2;
-        //Controla la velocidad del efecto
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return; // Verifica si el widget sigue activo
+      final scrollController = ref.read(scrollControllerProvider);
+      scrollController.initialScrollOffset;
+      scrollController.addListener(() {
+        setState(() {
+          if (!mounted) return;
+          scrollOffset = scrollController.offset * 0.2;
+          //Controla la velocidad del efecto
+        });
       });
     });
+
     _controller.addListener(() {
       if (_controller.isReady) {
-        _controller.play;
+        _controller.play();
       }
     });
   }
 
   @override
   void dispose() {
+    _controller.dispose(); // Limpia el reproductor de YouTube
+    super.dispose();
     super.dispose();
   }
 
@@ -63,6 +73,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 height: position,
                 child: SingleChildScrollView(
                   controller: scrollController,
+                  dragStartBehavior: DragStartBehavior.start,
                   reverse: true,
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
@@ -202,7 +213,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                                         decoration: BoxDecoration(
                                             image: DecorationImage(
                                                 image: AssetImage(i),
-                                                fit: BoxFit.contain)),
+                                                fit: BoxFit.cover)),
                                       );
                                     }).toList(),
                                     options: CarouselOptions(
@@ -251,7 +262,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                       SizedBox(
                         height: position * .2,
                       ),
-                      
+
                       SizedBox(
                         height: position * .2,
                       ),

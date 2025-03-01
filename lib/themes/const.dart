@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 //Images constants
 const logo = "assets/logo.png";
 const background = "assets/images/Perlin2.png";
+const back2 = "assets/images/bck.png";
 
 //sponsors
 const bose = "assets/sponsors/marquee-audiovisuales-logotipo-bose.jpg";
@@ -54,7 +55,6 @@ const f10 = 'assets/images/f10.png';
 const f11 = 'assets/images/f11.png';
 const f12 = 'assets/images/f12.png';
 
-
 //colors
 const white = Colors.white70;
 const black = Colors.black87;
@@ -73,8 +73,6 @@ const review =
 //video
 final video = "assets/video/1.mp4";
 
-
-
 // Colors
 class AppColors {
   static const white = Color(0xFFFFFFFF);
@@ -86,7 +84,7 @@ class AppColors {
   static const textMediumGrey = Color(0xFF3F3F3F);
   static const buttonBackground = Color(0x94020000);
 
-   // Text colors
+  // Text colors
   static const Color primaryText = Colors.black;
   static const Color secondaryText = Color(0xFF888888);
 }

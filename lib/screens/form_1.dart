@@ -22,8 +22,8 @@ class _InicialFormState extends ConsumerState<InicialForm> {
         children: [
           // Background image
           Positioned.fill(
-            child: Image.network(
-              'https://cdn.builder.io/api/v1/image/assets/TEMP/9e0afe19d6718ebe588e1641706704fd8b45e01a257e91b63a8c56fb5e350a83?placeholderIfAbsent=true&apiKey=b81a115941b74925855f1403cb35cc79',
+            child: Image.asset(
+              back2,
               fit: BoxFit.cover,
             ),
           ),
@@ -109,8 +109,8 @@ class _InicialFormState extends ConsumerState<InicialForm> {
                       children: [
                         // Background image
                         Positioned.fill(
-                          child: Image.network(
-                            'https://cdn.builder.io/api/v1/image/assets/b81a115941b74925855f1403cb35cc79/48a8a400d9e8d6b2ccd85999bd7e7f89454aa91bf54061c27b368b32f36eae37?placeholderIfAbsent=true',
+                          child: Image.asset(
+                            back2,
                             fit: BoxFit.cover,
                           ),
                         ),
