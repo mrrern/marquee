@@ -1,4 +1,5 @@
 import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/widgets/registration_form.dart';
 
 class InicialForm extends ConsumerStatefulWidget {
   const InicialForm({super.key});
@@ -128,9 +129,9 @@ class _InicialFormState extends ConsumerState<InicialForm> {
                                   ? Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.stretch,
-                                      children: const [
+                                      children: [
                                         SizedBox(height: 40),
-                                        WeddingDetailsForm(),
+                                        RegistrationForm(),
                                       ],
                                     )
                                   : Row(
