@@ -1,5 +1,4 @@
 import 'package:bodas/routes/linkspaper.dart';
-import 'package:bodas/widgets/registration_form.dart';
 
 class InicialForm extends ConsumerStatefulWidget {
   const InicialForm({super.key});
@@ -21,12 +20,12 @@ class _InicialFormState extends ConsumerState<InicialForm> {
       body: Stack(
         children: [
           // Background image
-          Positioned.fill(
-            child: Image.asset(
-              back2,
-              fit: BoxFit.cover,
-            ),
-          ),
+          // Positioned.fill(
+          //   child: Image.asset(
+          //     back2,
+          //     fit: BoxFit.cover,
+          //   ),
+          // ),
 
           SingleChildScrollView(
             child: Form(
@@ -179,11 +178,11 @@ class _InicialFormState extends ConsumerState<InicialForm> {
                             const FooterWidget(),
                           ],
                         ),
-                        if(!isMobile)
-                        Positioned.fromRect(
-                          rect: Rect.fromLTRB(0, 200, 0, 200),
-                          child: SidebarMenu(),
-                        )
+                        if (!isMobile)
+                          Positioned.fromRect(
+                            rect: Rect.fromLTRB(2, 20, 0, 0),
+                            child: SidebarMenu(),
+                          )
                       ],
                     ),
                   ),

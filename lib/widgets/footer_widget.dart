@@ -12,7 +12,7 @@ class _FooterWidgetState extends ConsumerState<FooterWidget> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width;
     final position = MediaQuery.of(context).size.height;
-    
+
     return Column(
       children: [
         SizedBox(
@@ -55,8 +55,12 @@ class _FooterWidgetState extends ConsumerState<FooterWidget> {
                     enableInfiniteScroll: true)),
           ),
         ),
-        SizedBox(
-          height: position * .2,
+        Padding(
+          padding: EdgeInsets.fromLTRB(
+              Responsive.isWeb(context) ? position * .1 : position * .2,
+              0,
+              0,
+              0),
         ),
         SizedBox(
           width: Responsive.isWeb(context) ? size : size / .5,

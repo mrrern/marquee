@@ -49,4 +49,5 @@ export 'package:bodas/widgets/header_widget.dart';
 export 'package:bodas/widgets/couple_info.dart';
 export 'package:bodas/widgets/sidebar_menu.dart';
 export 'package:bodas/widgets/wedding_detais.dart';
+export 'package:bodas/widgets/registration_form.dart';
 

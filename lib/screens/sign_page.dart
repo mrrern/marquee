@@ -115,7 +115,7 @@ class _SignPageState extends ConsumerState<SignPage> {
                                     decoration: BoxDecoration(
                                         image: DecorationImage(
                                             image: AssetImage(i),
-                                            fit: BoxFit.contain)),
+                                            fit: BoxFit.cover)),
                                   );
                                 }).toList(),
                                 options: CarouselOptions(
