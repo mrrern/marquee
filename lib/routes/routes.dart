@@ -20,6 +20,10 @@ final GoRouter router = GoRouter(
       builder: (context, state) => InicialForm(),
     ),
     GoRoute(
+      path: '/music',
+      builder: (context, state) => MusicFormScreen(),
+    ),
+    GoRoute(
       path: '/polities',
       builder: (context, state) => PrivacyPage(),
     ),

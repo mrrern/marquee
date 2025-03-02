@@ -22,6 +22,7 @@ export 'package:bodas/screens/sign_page.dart';
 export 'package:bodas/screens/form_1.dart';
 export 'package:bodas/screens/privavie_page.dart';
 export 'package:bodas/screens/cookies_page.dart';
+export 'package:bodas/screens/music_form.dart';
 
 
 //routes

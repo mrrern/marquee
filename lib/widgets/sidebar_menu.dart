@@ -70,6 +70,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
 
           // Menu items
           _buildMenuItem(
+            route: '/form1',
             icon: Icons.app_registration,
             label: 'Registro',
             isActive: false,
@@ -78,6 +79,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
 
           const SizedBox(height: 20),
           _buildMenuItem(
+            route: '/cotiza',
             icon: Icons.request_quote,
             label: 'Cotización',
             isActive: true,
@@ -86,6 +88,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
 
           const SizedBox(height: 20),
           _buildMenuItem(
+            route: '/music',
             icon: Icons.music_note,
             label: 'Ficha musical',
             isActive: true,
@@ -175,6 +178,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
 
           const SizedBox(height: 20),
           _buildMenuItem(
+            route: "/notes",
             icon: Icons.note_alt_outlined,
             label: 'Notas',
             isActive: true,
@@ -183,6 +187,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
 
           const SizedBox(height: 20),
           _buildMenuItem(
+            route: '/notification',
             icon: Icons.notifications_outlined,
             label: 'Notificación',
             isActive: true,
@@ -198,12 +203,16 @@ class _SidebarMenuState extends State<SidebarMenu> {
     required String label,
     required bool isActive,
     required int index,
+    required String route,
   }) {
+    String currentRoute = GoRouter.of(context).state.path.toString();
+    bool isActive = currentRoute == route; // Verifica si es la ruta actual
     return InkWell(
       onTap: () {
         if (widget.onMenuItemTap != null) {
           widget.onMenuItemTap!(index);
         }
+        context.go(route);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
