@@ -2,7 +2,7 @@ import 'package:bodas/routes/linkspaper.dart';
 
 
 class MusicFormScreen extends StatefulWidget {
-  const MusicFormScreen({Key? key}) : super(key: key);
+  const MusicFormScreen({super.key});
 
   @override
   State<MusicFormScreen> createState() => _MusicFormScreenState();
@@ -121,7 +121,7 @@ Widget _buildDesktopContent() {
           const SizedBox(width: 20),
 
           // Image Section - 18% width
-          _buildImagesSection(),
+          
         ],
       );
     },
@@ -129,34 +129,6 @@ Widget _buildDesktopContent() {
 }
 
 
-  Widget _buildImageFrame(String imagePath) {
-    return Container(
-      width: 150,
-      height: 150,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black, width: 2),
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(color: Colors.grey.withValues(alpha: 0.5), blurRadius: 5, spreadRadius: 2),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Image.asset(imagePath, fit: BoxFit.cover),
-      ),
-    );
-  }
-
-
-Widget _buildImagesSection() {
-  return Column(
-    children: [
-      _buildImageFrame('assets/wedding1.jpg'),
-      const SizedBox(height: 20),
-      _buildImageFrame('assets/wedding2.jpg'),
-    ],
-  );
-}
 
   Widget _buildMobileContent() {
     return Column(

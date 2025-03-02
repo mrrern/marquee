@@ -1,52 +1,117 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-class WeddingDetailsForm extends ConsumerStatefulWidget {
-  const WeddingDetailsForm({super.key});
-
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _WeddingDetailsFormState();
-}
-
-class _WeddingDetailsFormState extends ConsumerState<WeddingDetailsForm> {
-  String _selectedCeremonyType = 'Ceremonia Civil';
+class WeddingFormFields extends StatelessWidget {
+  const WeddingFormFields({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isMobile = screenWidth < 991;
+    final isMobile = MediaQuery.of(context).size.width < 640;
 
     return Container(
-      margin: EdgeInsets.only(top: isMobile ? 0 : 272),
+      constraints: const BoxConstraints(maxWidth: 655),
+      margin: isMobile ? const EdgeInsets.only(left: 34) : EdgeInsets.zero,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Two column layout for form fields
-          isMobile
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _buildLeftColumn(),
-                    const SizedBox(height: 39),
-                    _buildRightColumn(),
-                  ],
-                )
-              : Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(child: _buildLeftColumn()),
-                    const SizedBox(width: 20),
-                    Expanded(child: _buildRightColumn()),
-                  ],
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: Text(
+                'Aquí empieza todo:',
+                style: GoogleFonts.inter(
+                  fontSize: isMobile ? 30 : 40,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF888888),
                 ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
 
-          // Ceremony location field
-          const SizedBox(height: 9),
-          Container(
-            margin: const EdgeInsets.only(left: 11),
-            height: 38,
-            decoration: BoxDecoration(
-              color: AppColors.lightGrey,
-              borderRadius: BorderRadius.circular(4),
+          // Names field group
+          _buildFieldGroup(
+            context: context,
+            label: 'Nombres y apellidos del los novios',
+            child: _buildDualInputRow(
+              context: context,
+              firstValue: 'Carlos Rodriguez',
+              secondValue: 'Erika Rivas',
+              
+            ),
+          ),
+
+          // Phone field group
+          _buildFieldGroup(
+            context: context,
+            label: 'Teléfonos',
+            child: _buildPhoneInputRow(context),
+          ),
+
+          // Birth date field group
+          _buildFieldGroup(
+            context: context,
+            label: 'Fecha de Nacimiento',
+            child: isMobile
+                ? const SizedBox() // Hidden on mobile
+                : _buildDualInputRow(context: context),
+          ),
+
+          // Email field group
+          _buildFieldGroup(
+            context: context,
+            label: 'Correo Electrónico',
+            child: _buildDualInputRow(context: context),
+          ),
+
+          // Ceremony type and guests
+          _buildFieldGroup(
+            context: context,
+            label: '',
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: _buildDropdownField(
+                    context: context,
+                    label: 'Tipo de ceremonia',
+                  ),
+                ),
+                if (!isMobile) const SizedBox(width: 40),
+                Expanded(
+                  child: _buildInputField(
+                    context: context,
+                    value: 'Numero de invitados',
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // Ceremony location
+          _buildFieldGroup(
+            context: context,
+            label: 'Lugar de la ceremonia',
+            child: _buildInputField(context: context),
+          ),
+
+          // Submit button
+          Center(
+            child: Container(
+              width: 208,
+              margin: const EdgeInsets.symmetric(vertical: 30),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: const Color(0xFFD9D9D9),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                'SOLICITAR COTIZACION',
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
           ),
         ],
@@ -54,204 +119,150 @@ class _WeddingDetailsFormState extends ConsumerState<WeddingDetailsForm> {
     );
   }
 
-  Widget _buildLeftColumn() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Date of birth field
-        Padding(
-          padding: const EdgeInsets.only(left: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 38,
-                decoration: BoxDecoration(
-                  color: AppColors.lightGrey,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
-              const SizedBox(height: 19),
-              const Text(
-                'Correo Electrónico',
-                style: TextStyle(
-                  fontFamily: 'Inter',
+  Widget _buildFieldGroup({
+    required BuildContext context,
+    required String label,
+    required Widget child,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (label.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Text(
+                label,
+                style: GoogleFonts.inter(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: Colors.black,
-                  height: 1,
                 ),
               ),
-              const SizedBox(height: 17),
-              Container(
-                height: 38,
-                decoration: BoxDecoration(
-                  color: AppColors.lightGrey,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
-            ],
-          ),
-        ),
-
-        const SizedBox(height: 16),
-        const Text(
-          'Tipo de ceremonia',
-          style: TextStyle(
-            fontFamily: 'Inter',
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
-            height: 1,
-          ),
-        ),
-
-        Padding(
-          padding: const EdgeInsets.only(left: 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 10),
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.lightGrey,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildCeremonyTypeOption(
-                      title: 'Ceremonia Civil',
-                      isSelected: _selectedCeremonyType == 'Ceremonia Civil',
-                      onTap: () => setState(() {
-                        _selectedCeremonyType = 'Ceremonia Civil';
-                      }),
-                    ),
-                    const SizedBox(height: 8),
-                    _buildCeremonyTypeOption(
-                      title: 'Ceremonia Civil, Cóctel de Entrada, Ambos',
-                      isSelected: _selectedCeremonyType ==
-                          'Ceremonia Civil, Cóctel de Entrada, Ambos',
-                      onTap: () => setState(() {
-                        _selectedCeremonyType =
-                            'Ceremonia Civil, Cóctel de Entrada, Ambos';
-                      }),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Lugar de la ceremonia',
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
-                  height: 1,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+            ),
+          child,
+        ],
+      ),
     );
   }
 
-  Widget _buildCeremonyTypeOption({
-    required String title,
-    required bool isSelected,
-    required VoidCallback onTap,
+  Widget _buildDualInputRow({
+    required BuildContext context,
+    String firstValue = '',
+    String secondValue = '',
   }) {
-    return GestureDetector(
-      onTap: onTap,
+    final isMobile = MediaQuery.of(context).size.width < 640;
+
+    return isMobile
+        ? Column(
+            children: [
+              _buildInputField(context: context, value: firstValue),
+              const SizedBox(height: 15),
+              _buildInputField(context: context, value: secondValue),
+            ],
+          )
+        : Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: _buildInputField(context: context, value: firstValue),
+              ),
+              const SizedBox(width: 40),
+              Expanded(
+                child: _buildInputField(context: context, value: secondValue,),
+              ),
+            ],
+          );
+  }
+
+  Widget _buildPhoneInputRow(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 640;
+
+    return isMobile
+        ? Column(
+            children: [
+              _buildPhoneField(context),
+              const SizedBox(height: 15),
+              _buildPhoneField(context),
+            ],
+          )
+        : Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(child: _buildPhoneField(context)),
+              const SizedBox(width: 40),
+              Expanded(child: _buildPhoneField(context)),
+            ],
+          );
+  }
+
+  Widget _buildInputField({
+    required BuildContext context,
+    String value = '',
+  }) {
+    final isMobile = MediaQuery.of(context).size.width < 640;
+
+    return Container(
+      height: isMobile ? 41 : 38,
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      decoration: BoxDecoration(
+        color: const Color(0xFFD9D9D9),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      alignment: Alignment.centerLeft,
+      child: value.isNotEmpty
+          ? Text(
+              value,
+              style: GoogleFonts.inter(),
+            )
+          : null,
+    );
+  }
+
+  Widget _buildPhoneField(BuildContext context) {
+    return Container(
+      height: 38,
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      decoration: BoxDecoration(
+        color: const Color(0xFFD9D9D9),
+        borderRadius: BorderRadius.circular(4),
+      ),
       child: Row(
         children: [
-          Container(
-            width: 18,
-            height: 18,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Colors.black,
-                width: 1.5,
-              ),
-              color: isSelected ? Colors.black : Colors.transparent,
-            ),
-            child: isSelected
-                ? const Center(
-                    child: Icon(
-                      Icons.circle,
-                      size: 10,
-                      color: Colors.white,
-                    ),
-                  )
-                : null,
+          Image.asset(
+            spain, // Replace with actual flag path
+            width: 20,
+            height: 15,
           ),
           const SizedBox(width: 10),
-          Flexible(
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-            ),
-          ),
+          const Icon(Icons.keyboard_arrow_down),
         ],
       ),
     );
   }
 
-  Widget _buildRightColumn() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Birth date field
-        Container(
-          width: 297,
-          height: 38,
-          decoration: BoxDecoration(
-            color: AppColors.lightGrey,
-            borderRadius: BorderRadius.circular(4),
+  Widget _buildDropdownField({
+    required BuildContext context,
+    required String label,
+  }) {
+    return Container(
+      height: 38,
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      decoration: BoxDecoration(
+        color: const Color(0xFFD9D9D9),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: GoogleFonts.inter(),
           ),
-        ),
-
-        const SizedBox(height: 50),
-        Container(
-          height: 38,
-          decoration: BoxDecoration(
-            color: AppColors.lightGrey,
-            borderRadius: BorderRadius.circular(4),
-          ),
-        ),
-
-        const SizedBox(height: 16),
-        const Text(
-          'Numero de invitados',
-          style: TextStyle(
-            fontFamily: 'Inter',
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
-            height: 1,
-          ),
-        ),
-
-        const SizedBox(height: 14),
-        Container(
-          width: 296,
-          height: 38,
-          decoration: BoxDecoration(
-            color: AppColors.lightGrey,
-            borderRadius: BorderRadius.circular(4),
-          ),
-        ),
-      ],
+          const Icon(Icons.keyboard_arrow_down),
+        ],
+      ),
     );
   }
 }

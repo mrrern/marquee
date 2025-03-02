@@ -17,7 +17,7 @@ class RegistroResponsive extends ConsumerWidget {
 }
 
 class _RegistroMobileScreen extends ConsumerWidget {
-  const _RegistroMobileScreen({super.key});
+  const _RegistroMobileScreen();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

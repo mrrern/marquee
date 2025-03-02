@@ -57,6 +57,10 @@ const f10 = 'assets/images/f10.png';
 const f11 = 'assets/images/f11.png';
 const f12 = 'assets/images/f12.png';
 
+const port1 = 'assets/images/Port1.png';
+const port2 = 'assets/images/Port2.png';
+
+const spain = 'assets/images/iconSpain.png';
 //colors
 const white = Colors.white70;
 const black = Colors.black87;

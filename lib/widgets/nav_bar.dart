@@ -90,3 +90,36 @@ class MovilNavbar extends ConsumerWidget {
     );
   }
 }
+
+class FormHeader extends StatelessWidget {
+  const FormHeader({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: MediaQuery.of(context).size.width < 640 ? 10 : 6,
+        vertical: MediaQuery.of(context).size.width < 640 ? 10 : 7,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Image.asset(
+            logo, // Replace with actual logo path
+            width: MediaQuery.of(context).size.width < 640 ? 160 : 216,
+            height: 46,
+            fit: BoxFit.contain,
+          ),
+          Text(
+            'Salir',
+            style: GoogleFonts.inter(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -24,8 +24,8 @@ class _SidebarMenuState extends State<SidebarMenu> {
     double sidebarWidth = isMobile
         ? 60
         : isExpanded
-            ? 250
-            : 80;
+            ? 200
+            : 70;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -102,6 +102,8 @@ class _SidebarMenuState extends State<SidebarMenu> {
               padding: const EdgeInsets.only(left: 40, top: 11),
               child: Text(
                 'Entrada',
+                  textAlign: TextAlign.end,
+
                 style: GoogleFonts.inter(
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
@@ -117,6 +119,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
                 padding: const EdgeInsets.only(top: 13, right: 15),
                 child: Text(
                   'Ceremonia',
+                  textAlign: TextAlign.end,
                   style: GoogleFonts.inter(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
@@ -133,6 +136,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
                 padding: const EdgeInsets.only(top: 14),
                 child: Text(
                   'Cóctel',
+                  textAlign: TextAlign.end,
                   style: GoogleFonts.inter(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
@@ -149,6 +153,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
                 padding: const EdgeInsets.only(top: 14),
                 child: Text(
                   'Comida',
+                  textAlign: TextAlign.end,
                   style: GoogleFonts.inter(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
@@ -165,6 +170,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
                 padding: const EdgeInsets.only(top: 14, right: 15),
                 child: Text(
                   'Barra libre',
+                  textAlign: TextAlign.end,
                   style: GoogleFonts.inter(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,

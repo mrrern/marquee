@@ -17,7 +17,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/form1',
-      builder: (context, state) => InicialForm(),
+      builder: (context, state) => WeddingRegistrationScreen(),
     ),
     GoRoute(
       path: '/music',
