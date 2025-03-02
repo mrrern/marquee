@@ -17,10 +17,10 @@ class _FooterWidgetState extends ConsumerState<FooterWidget> {
       children: [
         SizedBox(
           width: size,
-          height: position * .2,
+          height: Responsive.isWeb(context) ? position * .2 : position * .4,
           child: SizedBox(
             width: size,
-            height: position * .2,
+            height: Responsive.isWeb(context) ? position * .2 : position * .4,
             child: CarouselSlider(
                 items: [
                   spons,
@@ -34,11 +34,13 @@ class _FooterWidgetState extends ConsumerState<FooterWidget> {
                     decoration: BoxDecoration(
                         color: Colors.transparent,
                         image: DecorationImage(
-                            image: AssetImage(i), fit: BoxFit.fitHeight)),
+                            image: AssetImage(i), fit: BoxFit.contain)),
                   );
                 }).toList(),
                 options: CarouselOptions(
-                    height: position * .08,
+                    height: Responsive.isWeb(context)
+                        ? position * .08
+                        : position * .4,
                     aspectRatio: 2.0,
                     autoPlay: true,
                     enlargeFactor: 0,
@@ -57,7 +59,7 @@ class _FooterWidgetState extends ConsumerState<FooterWidget> {
         ),
         Padding(
           padding: EdgeInsets.fromLTRB(
-              Responsive.isWeb(context) ? position * .1 : position * .2,
+              Responsive.isWeb(context) ? position * .1 : position * .07,
               0,
               0,
               0),

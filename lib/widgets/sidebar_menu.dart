@@ -1,74 +1,192 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-class SidebarMenu extends StatelessWidget {
-  const SidebarMenu({super.key});
+class SidebarMenu extends StatefulWidget {
+  final Function(int)? onMenuItemTap;
+
+  const SidebarMenu({
+    super.key,
+    this.onMenuItemTap,
+  });
+
+  @override
+  State<SidebarMenu> createState() => _SidebarMenuState();
+}
+
+class _SidebarMenuState extends State<SidebarMenu> {
+  bool isExpanded = true;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    bool isMobile = Responsive.isMobile(context);
+    bool isTablet = Responsive.isTablet(context);
+    bool isWeb = Responsive.isWeb(context);
+
+    double sidebarWidth = isMobile
+        ? 60
+        : isExpanded
+            ? 250
+            : 80;
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      width: sidebarWidth,
       decoration: BoxDecoration(
-        color: AppColors.mediumGrey,
+        color: const Color(0xFFD9D9D9),
         borderRadius: BorderRadius.circular(10),
       ),
-      padding: const EdgeInsets.fromLTRB(18, 32, 43, 32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Welcome title
-          const Text(
-            'Bienvenido',
-            style: TextStyle(
-              color: AppColors.darkGrey,
-              fontSize: 25,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w600,
-              height: 0.4,
+          // Expansion/retraction button
+          Align(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+              icon: Icon(
+                isExpanded ? Icons.chevron_left : Icons.chevron_right,
+                size: 30,
+              ),
+              onPressed: () {
+                setState(() {
+                  isExpanded = !isExpanded;
+                });
+              },
             ),
           ),
 
-          const SizedBox(height: 49),
+          // Welcome text
+          if (isExpanded)
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 10, 15, 20),
+              child: Text(
+                'Bienvenido',
+                style: GoogleFonts.inter(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF4E4C4C),
+                  height: 0.4,
+                ),
+              ),
+            ),
 
-          // Registration menu item (active)
+          // Menu items
           _buildMenuItem(
-            icon: '',
+            icon: Icons.app_registration,
             label: 'Registro',
-            isActive: true,
+            isActive: false,
+            index: 0,
           ),
 
-          const SizedBox(height: 78),
-
-          // Quote menu item
+          const SizedBox(height: 20),
           _buildMenuItem(
-            icon: '',
+            icon: Icons.request_quote,
             label: 'Cotización',
-            isActive: false,
+            isActive: true,
+            index: 1,
           ),
 
-          const SizedBox(height: 78),
-
-          // Musical sheet menu item
+          const SizedBox(height: 20),
           _buildMenuItem(
-            icon: '',
+            icon: Icons.music_note,
             label: 'Ficha musical',
-            isActive: false,
+            isActive: true,
+            index: 2,
           ),
 
-          const SizedBox(height: 78),
+          // Submenu items - only show when expanded
+          if (isExpanded) ...[
+            // Submenu items
+            Padding(
+              padding: const EdgeInsets.only(left: 40, top: 11),
+              child: Text(
+                'Entrada',
+                style: GoogleFonts.inter(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  color: const Color(0xFF030000),
+                  height: 0.8,
+                ),
+              ),
+            ),
 
-          // Notes menu item
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 13, right: 15),
+                child: Text(
+                  'Ceremonia',
+                  style: GoogleFonts.inter(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black,
+                    height: 0.8,
+                  ),
+                ),
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 14),
+                child: Text(
+                  'Cóctel',
+                  style: GoogleFonts.inter(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black,
+                    height: 0.8,
+                  ),
+                ),
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 14),
+                child: Text(
+                  'Comida',
+                  style: GoogleFonts.inter(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black,
+                    height: 0.8,
+                  ),
+                ),
+              ),
+            ),
+
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 14, right: 15),
+                child: Text(
+                  'Barra libre',
+                  style: GoogleFonts.inter(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black,
+                    height: 0.8,
+                  ),
+                ),
+              ),
+            ),
+          ],
+
+          const SizedBox(height: 20),
           _buildMenuItem(
-            icon: '',
+            icon: Icons.note_alt_outlined,
             label: 'Notas',
-            isActive: false,
+            isActive: true,
+            index: 3,
           ),
 
-          const SizedBox(height: 73),
-
-          // Notification menu item
+          const SizedBox(height: 20),
           _buildMenuItem(
-            icon: '',
+            icon: Icons.notifications_outlined,
             label: 'Notificación',
-            isActive: false,
+            isActive: true,
+            index: 4,
           ),
         ],
       ),
@@ -76,33 +194,43 @@ class SidebarMenu extends StatelessWidget {
   }
 
   Widget _buildMenuItem({
-    required String icon,
+    required IconData icon,
     required String label,
     required bool isActive,
+    required int index,
   }) {
-    return Row(
-      children: [
-        Text(
-          icon,
-          style: TextStyle(
-            fontFamily: 'Font Awesome 5 Free',
-            fontSize: 25,
-            fontWeight: FontWeight.w900,
-            color: isActive ? Colors.black : AppColors.mediumGrey,
-          ),
+    return InkWell(
+      onTap: () {
+        if (widget.onMenuItemTap != null) {
+          widget.onMenuItemTap!(index);
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 25,
+              color: isActive ? Colors.black : const Color(0xFFC1C1C1),
+            ),
+            if (isExpanded) ...[
+              const SizedBox(width: 15),
+              Expanded(
+                child: Text(
+                  label,
+                  style: GoogleFonts.inter(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    color: isActive ? Colors.black : const Color(0xFFA3A3A3),
+                    height: 0.8,
+                  ),
+                ),
+              ),
+            ],
+          ],
         ),
-        const SizedBox(width: 16),
-        Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'Inter',
-            fontSize: 15,
-            fontWeight: FontWeight.w400,
-            height: 0.8,
-            color: Colors.black,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

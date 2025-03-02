@@ -20,12 +20,12 @@ class _InicialFormState extends ConsumerState<InicialForm> {
       body: Stack(
         children: [
           // Background image
-          // Positioned.fill(
-          //   child: Image.asset(
-          //     back2,
-          //     fit: BoxFit.cover,
-          //   ),
-          // ),
+          Positioned.fill(
+            child: Image.asset(
+              back2,
+              fit: BoxFit.cover,
+            ),
+          ),
 
           SingleChildScrollView(
             child: Form(
@@ -130,7 +130,7 @@ class _InicialFormState extends ConsumerState<InicialForm> {
                                           CrossAxisAlignment.stretch,
                                       children: [
                                         SizedBox(height: 40),
-                                        RegistrationForm(),
+                                        WeddingDetailsForm(),
                                       ],
                                     )
                                   : Row(
@@ -178,11 +178,11 @@ class _InicialFormState extends ConsumerState<InicialForm> {
                             const FooterWidget(),
                           ],
                         ),
-                        if (!isMobile)
-                          Positioned.fromRect(
-                            rect: Rect.fromLTRB(2, 20, 0, 0),
-                            child: SidebarMenu(),
-                          )
+
+                        Positioned.fromRect(
+                          rect: Rect.fromLTRB(2, 20, 0, 0),
+                          child: SidebarMenu(),
+                        )
                       ],
                     ),
                   ),

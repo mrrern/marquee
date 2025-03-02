@@ -11,6 +11,7 @@ export 'package:carousel_slider/carousel_slider.dart';
 export 'package:youtube_web_player/youtube_web_player.dart';
 export 'package:bodas/widgets/responsive_widget.dart';
 export 'package:webview_flutter/webview_flutter.dart';
+export 'package:file_picker/file_picker.dart';
 
 
 // Pantallas
@@ -19,6 +20,9 @@ export 'package:bodas/screens/main_page.dart';
 export 'package:bodas/screens/access_page.dart';
 export 'package:bodas/screens/sign_page.dart';
 export 'package:bodas/screens/form_1.dart';
+export 'package:bodas/screens/privavie_page.dart';
+export 'package:bodas/screens/cookies_page.dart';
+
 
 //routes
 export 'package:bodas/routes/routes.dart';
@@ -50,4 +54,9 @@ export 'package:bodas/widgets/couple_info.dart';
 export 'package:bodas/widgets/sidebar_menu.dart';
 export 'package:bodas/widgets/wedding_detais.dart';
 export 'package:bodas/widgets/registration_form.dart';
+export 'package:bodas/widgets/login_form.dart';
+export 'package:bodas/widgets/registro_responsive.dart';
+export 'package:bodas/widgets/form_section.dart';
+export 'package:bodas/widgets/form_input_field.dart';
+export 'package:bodas/widgets/radio_options.dart';
 

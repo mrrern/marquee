@@ -1,6 +1,5 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-
 class ButtonItem extends ConsumerWidget {
   final String title;
   final String route;
@@ -17,8 +16,8 @@ class ButtonItem extends ConsumerWidget {
     final size = MediaQuery.of(context).size.width;
 
     return Container(
-      padding: EdgeInsets.only(right: 17),
-      width: Responsive.isWeb(context) ? size * .08 : size * .1,
+      padding: EdgeInsets.only(right: Responsive.isWeb(context) ? 17 : 5),
+      width: Responsive.isWeb(context) ? size * .08 : size * .23,
       child: MouseRegion(
         onEnter: (_) => buttonNotifier.hover(true),
         onExit: (_) => buttonNotifier.hover(false),
@@ -30,8 +29,8 @@ class ButtonItem extends ConsumerWidget {
             child: Text(
               title,
               style: GoogleFonts.inter(
-                                    fontSize: Responsive.isWeb(context)? size * .016 : size * .03,
-
+                  fontSize:
+                      Responsive.isWeb(context) ? size * .016 : size * .05,
                   fontWeight: FontWeight.w500,
                   color: buttonState.isSelected || buttonState.isHovered
                       ? grey
@@ -59,7 +58,7 @@ class ButtonItem2 extends ConsumerWidget {
 
     return Container(
       padding: EdgeInsets.only(right: 17),
-      width: Responsive.isWeb(context) ?  size * .3 : size * .4,
+      width: Responsive.isWeb(context) ? size * .3 : size * .4,
       child: MouseRegion(
         onEnter: (_) => buttonNotifier.hover(true),
         onExit: (_) => buttonNotifier.hover(false),
@@ -72,7 +71,8 @@ class ButtonItem2 extends ConsumerWidget {
               title,
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
-                  fontSize: Responsive.isWeb(context)? size * .016 : size * .03,
+                  fontSize:
+                      Responsive.isWeb(context) ? size * .016 : size * .03,
                   fontWeight: FontWeight.w500,
                   color: buttonState.isSelected || buttonState.isHovered
                       ? grey

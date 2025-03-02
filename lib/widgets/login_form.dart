@@ -1,30 +1,27 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-class RegistroForm extends ConsumerWidget {
-  const RegistroForm({super.key});
+class LoginForm extends ConsumerWidget {
+  const LoginForm({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
 
-    // Get form field values
     final email = ref.watch(emailProvider);
     final password = ref.watch(passwordProvider);
-    final confirmPassword = ref.watch(confirmPasswordProvider);
     final isPasswordVisible = ref.watch(isPasswordVisibleProvider);
-    final isPasswordConfirmVisible =
-        ref.watch(isPasswordConfirmVisibleProvider);
 
-    // Error Field
     final emailError = ref.watch(emailErrorProvider);
     final passwordError = ref.watch(passwordErrorProvider);
-    final confirmPasswordError = ref.watch(passwordConfirmErrorProvider);
     final isFormValid = ref.watch(isFormValidProvider);
 
     return Container(
-      width: 469,
-      padding: const EdgeInsets.fromLTRB(45, 22, 45, 30),
+      width: Responsive.isWeb(context) ? 469 : width * 0.85,
+      padding: EdgeInsets.symmetric(
+        horizontal: Responsive.isWeb(context) ? 46 : 30,
+        vertical: Responsive.isWeb(context) ? 22 : 20,
+      ),
       decoration: BoxDecoration(
         color: const Color(0xFFECECEC),
         borderRadius: BorderRadius.circular(10),
@@ -32,26 +29,27 @@ class RegistroForm extends ConsumerWidget {
         boxShadow: const [
           BoxShadow(
             color: Color.fromRGBO(0, 0, 0, 0.25),
-            blurRadius: 19,
-            offset: Offset(0, 45),
+            blurRadius: 15,
+            offset: Offset(0, 40),
+            spreadRadius: 6,
           ),
         ],
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Logo centered
+          // Logo
           Center(
             child: Image.asset(
               logo,
-              width: Responsive.isWeb(context) ? 200 : 180,
+              width: 309,
               fit: BoxFit.contain,
             ),
           ),
 
           // Email Field
-          SizedBox(height: Responsive.isWeb(context) ? 30 : 20),
+          SizedBox(height: Responsive.isWeb(context) ? 51 : 40),
           Text(
             'E-mail',
             style: GoogleFonts.inter(
@@ -60,7 +58,7 @@ class RegistroForm extends ConsumerWidget {
               color: Colors.black,
             ),
           ),
-
+          SizedBox(height: 10),
           TextField(
             onChanged: (value) =>
                 ref.read(emailProvider.notifier).state = value,
@@ -97,7 +95,7 @@ class RegistroForm extends ConsumerWidget {
               ),
             ),
           Container(
-            height: 1,
+            height: 2,
             width: Responsive.isWeb(context) ? 377 : width * 0.7,
             color: emailError != null && email.isNotEmpty
                 ? Colors.red
@@ -105,7 +103,7 @@ class RegistroForm extends ConsumerWidget {
           ),
 
           // Password Field
-          SizedBox(height: Responsive.isWeb(context) ? 30 : 20),
+          SizedBox(height: Responsive.isWeb(context) ? 50 : 40),
           Text(
             'Contraseña',
             style: GoogleFonts.inter(
@@ -114,6 +112,7 @@ class RegistroForm extends ConsumerWidget {
               color: Colors.black,
             ),
           ),
+          SizedBox(height: 10),
           TextField(
             onChanged: (value) =>
                 ref.read(passwordProvider.notifier).state = value,
@@ -148,7 +147,7 @@ class RegistroForm extends ConsumerWidget {
             onSubmitted: isFormValid
                 ? (_) {
                     // Handle login when Enter is pressed and form is valid
-                    _handleRegister(ref, context);
+                    _handleLogin(ref, context);
                   }
                 : null,
           ),
@@ -165,90 +164,18 @@ class RegistroForm extends ConsumerWidget {
               ),
             ),
           Container(
-            height: 1,
+            height: 2,
             width: Responsive.isWeb(context) ? 374 : width * 0.7,
             color: passwordError != null && password.isNotEmpty
                 ? Colors.red
                 : Colors.black,
           ),
 
-          // Confirm password field
-          SizedBox(height: Responsive.isWeb(context) ? 30 : 20),
-          Text(
-            'Confirme su Contraseña',
-            style: GoogleFonts.inter(
-              fontSize: Responsive.isWeb(context) ? 20 : 18,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
-          ),
-
-          TextField(
-            onChanged: (value) =>
-                ref.read(confirmPasswordProvider.notifier).state = value,
-            obscureText: !isPasswordConfirmVisible,
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.zero,
-              errorText: null, // Hide default error to maintain design
-              errorStyle: GoogleFonts.inter(
-                fontSize: 12,
-                color: Colors.red,
-              ),
-              // Hide the error container to maintain design
-              errorBorder: InputBorder.none,
-              focusedErrorBorder: InputBorder.none,
-              suffixIcon: IconButton(
-                icon: Icon(
-                  isPasswordConfirmVisible
-                      ? Icons.visibility
-                      : Icons.visibility_off,
-                  color: Colors.grey,
-                ),
-                onPressed: () {
-                  ref.read(isPasswordConfirmVisibleProvider.notifier).state =
-                      !isPasswordConfirmVisible;
-                },
-              ),
-            ),
-            style: GoogleFonts.inter(
-              fontSize: 16,
-              color: Colors.black87,
-            ),
-            textInputAction: TextInputAction.done,
-            onSubmitted: isFormValid
-                ? (_) {
-                    // Handle Register when Enter is pressed and form is valid
-                    _handleRegister(ref, context);
-                  }
-                : null,
-          ),
-          // Only show the error if there is one and the field has been touched
-          if (confirmPasswordError != null && confirmPassword.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(top: 4, bottom: 4),
-              child: Text(
-                confirmPasswordError,
-                style: GoogleFonts.inter(
-                  fontSize: 12,
-                  color: Colors.red,
-                ),
-              ),
-            ),
-          Container(
-            height: 1,
-            width: Responsive.isWeb(context) ? 374 : width * 0.7,
-            color: confirmPasswordError != null && confirmPassword.isNotEmpty
-                ? Colors.red
-                : Colors.black,
-          ),
-          const SizedBox(height: 36),
-
-          // Register button
-          SizedBox(height: Responsive.isWeb(context) ? 16 : 10),
+          // Login Button
+          SizedBox(height: Responsive.isWeb(context) ? 36 : 30),
           Center(
             child: InkWell(
-              onTap: isFormValid ? () => _handleRegister(ref, context) : null,
+              onTap: isFormValid ? () => _handleLogin(ref, context) : null,
               child: Container(
                 width: 189,
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -261,7 +188,7 @@ class RegistroForm extends ConsumerWidget {
                 ),
                 child: Center(
                   child: Text(
-                    'Registrarse',
+                    'Acceso',
                     style: GoogleFonts.inter(
                       fontSize: 20,
                       fontWeight: FontWeight.w400,
@@ -272,84 +199,62 @@ class RegistroForm extends ConsumerWidget {
               ),
             ),
           ),
+
+          // Forgot Password Link
+          SizedBox(height: 9),
+          Center(
+            child: InkWell(
+              onTap: () {
+                // Handle forgot password logic
+              },
+              child: Text(
+                'Olvidaste tu contraseña?',
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
-}
 
-// Hidden text field widget for custom styling
-class HiddenTextField extends ConsumerWidget {
-  final String hint;
-  final StateProvider<String> provider;
-  final bool obscureText;
+  void _handleLogin(WidgetRef ref, BuildContext context) {
+    final email = ref.read(emailProvider);
+    final password = ref.read(passwordProvider);
 
-  const HiddenTextField({
-    super.key,
-    required this.hint,
-    required this.provider,
-    this.obscureText = false,
-  });
+    // Here you would implement your authentication logic
+    print('Login attempt with: $email');
+    print('Login attempt with: $password');
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return TextField(
-      obscureText: obscureText,
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: GoogleFonts.inter(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: const Color(0xFF2A2A2A).withValues(alpha: 0.5),
+    // Example of showing a loading indicator and handling success/failure
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+    
+    );
+
+    // Simulate authentication delay
+    Future.delayed(const Duration(seconds: 2), () {
+      context.pop(); // Close loading dialog
+
+      // Here you would check if authentication was successful
+      // For now, we'll just show a success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Inicio de sesión exitoso'),
+          backgroundColor: Colors.green,
         ),
-        border: InputBorder.none,
-        contentPadding: EdgeInsets.zero,
-      ),
-      style: GoogleFonts.inter(
-        fontSize: 20,
-        fontWeight: FontWeight.w600,
-        color: const Color(0xFF2A2A2A),
-      ),
-      onChanged: (value) => ref.read(provider.notifier).state = value,
-    );
+      );
+
+      // Navigate to home or dashboard
+      // context.go('/dashboard');
+    });
   }
-}
-
-void _handleRegister(WidgetRef ref, BuildContext context) {
-  final email = ref.read(emailProvider);
-  final password = ref.read(passwordProvider);
-  final confirmPassword = ref.read(confirmPasswordProvider);
-
-  // Here you would implement your authentication logic
-  print('Login attempt with: $email');
-  print('Login attempt with: $password');
-  print('Login attempt with: $confirmPassword');
-
-  // Example of showing a loading indicator and handling success/failure
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (context) => const Center(
-      child: CircularProgressIndicator(),
-    ),
-  );
-
-  // Simulate authentication delay
-  Future.delayed(const Duration(seconds: 2), () {
-    context.pop(); // Close loading dialog
-
-    // Here you would check if authentication was successful
-    // For now, we'll just show a success message
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Registro de sesión exitoso'),
-        backgroundColor: Colors.green,
-      ),
-    );
-
-    // Navigate to home or dashboard
-    // context.go('/dashboard');
-  });
-
-  context.go('/form1');
 }

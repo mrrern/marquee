@@ -36,6 +36,8 @@ const bod4 = 'assets/images/bod4.png';
 const insta = 'assets/images/inst.svg';
 const face = 'assets/images/face.svg';
 const tiktok = 'assets/images/tiktok.svg';
+const youtube = 'assets/images/youtube.png';
+const spotify = 'assets/images/spotify.png';
 
 //carrousel
 const frame2 = 'assets/images/frame2.png';

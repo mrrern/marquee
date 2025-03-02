@@ -31,7 +31,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     });
 
     _controller.addListener(() {
-      if (_controller.isReady) {
+      if (_controller.isReady == true) {
         _controller.play();
       }
     });
@@ -40,7 +40,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   void dispose() {
     _controller.dispose(); // Limpia el reproductor de YouTube
-    super.dispose();
     super.dispose();
   }
 
@@ -73,8 +72,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 height: position,
                 child: SingleChildScrollView(
                   controller: scrollController,
-                  dragStartBehavior: DragStartBehavior.start,
-                  reverse: true,
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -262,7 +259,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                       SizedBox(
                         height: position * .2,
                       ),
-
+                      FooterWidget(),
                       SizedBox(
                         height: position * .2,
                       ),
