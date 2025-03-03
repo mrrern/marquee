@@ -6,11 +6,13 @@ class FormInputField extends StatelessWidget {
   final TextEditingController? controller;
   final double height;
   final bool multiline;
+  final void Function(String)? cambio;
 
   const FormInputField({
     super.key,
     this.hintText,
     this.controller,
+    this.cambio,
     this.height = 35,
     this.multiline = false,
   });
@@ -25,7 +27,9 @@ class FormInputField extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
+        
         maxLines: multiline ? null : 1,
+        onChanged: cambio,
         decoration: InputDecoration(
           hintText: hintText,
           border: InputBorder.none,

@@ -135,6 +135,11 @@ class WeddingMusicFormNotifier extends StateNotifier<WeddingMusicFormData> {
     state = state.copyWith(firstOpenBarSong: value);
   }
 
+  //Select type
+  void updateSelectedMusicType(String value) {
+    state = state.copyWith(selectecMusicType: value);
+  }
+
   /// Add a song to groom's list
   void addGroomSong(String song) {
     // Trim the song to remove leading/trailing whitespace
@@ -233,6 +238,19 @@ class WeddingMusicFormNotifier extends StateNotifier<WeddingMusicFormData> {
   /// Update additional notes
   void updateAdditionalNotes(String value) {
     state = state.copyWith(additionalNotes: value);
+  }
+
+  void updateReadingName(int index, String newName) {
+    final updatedReadings = [...?state.readers];
+    updatedReadings[index] = updatedReadings[index].copyWith(name: newName);
+    state = state.copyWith(readers: updatedReadings);
+  }
+
+  void updateReadingOption(int index, String newOption) {
+    final updatedReadings = [...?state.readers];
+    updatedReadings[index] =
+        updatedReadings[index].copyWith(selectedOption: newOption);
+    state = state.copyWith(readers: updatedReadings);
   }
 
   /// Save form data

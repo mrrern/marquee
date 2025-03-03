@@ -1,14 +1,14 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-
-class MusicFormScreen extends StatefulWidget {
+class MusicFormScreen extends ConsumerStatefulWidget {
   const MusicFormScreen({super.key});
 
   @override
-  State<MusicFormScreen> createState() => _MusicFormScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _MusicFormScreenState();
 }
 
-class _MusicFormScreenState extends State<MusicFormScreen> {
+class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,8 +59,8 @@ class _MusicFormScreenState extends State<MusicFormScreen> {
                   child: SizedBox(
                     width: 904,
                     child: isMobile
-                      ? _buildMobileContent()
-                      : _buildDesktopContent(),
+                        ? _buildMobileContent()
+                        : _buildDesktopContent(),
                   ),
                 ),
               ],
@@ -94,41 +94,39 @@ class _MusicFormScreenState extends State<MusicFormScreen> {
       ],
     );
   }
-Widget _buildDesktopContent() {
-  return Builder(
-    builder: (context) {
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Sidebar - 27% width
-          SizedBox(
-            width: 244,
-            child: SidebarMenu(
-              onMenuItemTap: (index) {
-                // Handle menu item tap
-              },
+
+  Widget _buildDesktopContent() {
+    return Builder(
+      builder: (context) {
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Sidebar - 27% width
+            SizedBox(
+              width: 244,
+              child: SidebarMenu(
+                onMenuItemTap: (index) {
+                  // Handle menu item tap
+                },
+              ),
             ),
-          ),
 
-          const SizedBox(width: 20),
+            const SizedBox(width: 20),
 
-          // Form content - 55% width
-          Expanded(
-            flex: 5,
-            child: _buildFormContent(),
-          ),
+            // Form content - 55% width
+            Expanded(
+              flex: 5,
+              child: _buildFormContent(),
+            ),
 
-          const SizedBox(width: 20),
+            const SizedBox(width: 20),
 
-          // Image Section - 18% width
-          
-        ],
-      );
-    },
-  );
-}
-
-
+            // Image Section - 18% width
+          ],
+        );
+      },
+    );
+  }
 
   Widget _buildMobileContent() {
     return Column(
@@ -150,6 +148,8 @@ Widget _buildDesktopContent() {
   }
 
   Widget _buildFormContent() {
+    final formState = ref.watch(weddingMusicFormProvider);
+    final formNotifier = ref.read(weddingMusicFormProvider.notifier);
     return Padding(
       padding: const EdgeInsets.only(top: 38),
       child: Column(
@@ -169,11 +169,14 @@ Widget _buildDesktopContent() {
                 ),
               ),
               const SizedBox(height: 15),
-              const FormInputField(),
-
+              FormInputField(
+                cambio: (_) {
+                  formNotifier.updateEntranceMusic;
+                },
+              ),
               const SizedBox(height: 15),
               Text(
-                'Canción de entrada del novio/a:',
+                'Canción de entrada del novio:',
                 style: GoogleFonts.inter(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -182,11 +185,14 @@ Widget _buildDesktopContent() {
                 ),
               ),
               const SizedBox(height: 12),
-              const FormInputField(),
-
+              FormInputField(
+                cambio: (_) {
+                  formNotifier.updateGroomEntranceMusic;
+                },
+              ),
               const SizedBox(height: 26),
               Text(
-                'Canción de entrada del novio/a:',
+                'Canción de entrada de la novia:',
                 style: GoogleFonts.inter(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -195,7 +201,11 @@ Widget _buildDesktopContent() {
                 ),
               ),
               const SizedBox(height: 12),
-              const FormInputField(),
+              FormInputField(
+                cambio: (_) {
+                  formNotifier.updateBrideEntranceMusic;
+                },
+              ),
             ],
           ),
 
@@ -280,7 +290,6 @@ Widget _buildDesktopContent() {
               ),
               const SizedBox(height: 13),
               const FormInputField(),
-
               const SizedBox(height: 29),
               Text(
                 'Música para el cóctel (chill out, flamenco chill, lounge, chill-jazz fussion, etc.) especificad aquí):',
@@ -297,7 +306,8 @@ Widget _buildDesktopContent() {
                   color: const Color(0xFFD9D9D9),
                   borderRadius: BorderRadius.circular(4),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 9),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 11, vertical: 9),
                 width: double.infinity,
                 child: Row(
                   children: [
@@ -336,7 +346,6 @@ Widget _buildDesktopContent() {
               ),
               const SizedBox(height: 13),
               const FormInputField(),
-
               const SizedBox(height: 24),
               Text(
                 'Música durante la cena: (baladas, bossa nova, jazz, versiones cover grandes éxitos, música años 20/50…)',
@@ -349,7 +358,6 @@ Widget _buildDesktopContent() {
               ),
               const SizedBox(height: 13),
               const FormInputField(),
-
               const SizedBox(height: 35),
               Text(
                 'Corte de la tarta:',
@@ -362,7 +370,6 @@ Widget _buildDesktopContent() {
               ),
               const SizedBox(height: 14),
               const FormInputField(),
-
               const SizedBox(height: 27),
               Text(
                 'Entrega de regalos/ramos:',
@@ -375,7 +382,6 @@ Widget _buildDesktopContent() {
               ),
               const SizedBox(height: 10),
               const FormInputField(),
-
               const SizedBox(height: 27),
               Text(
                 'Alguna sorpresa (Micrófono para discursos, cumpleaños, etc...)',
@@ -407,7 +413,6 @@ Widget _buildDesktopContent() {
               ),
               const SizedBox(height: 13),
               const FormInputField(),
-
               const SizedBox(height: 27),
               Text(
                 'Primera canción Barra Libre (Opcional)',
@@ -420,7 +425,6 @@ Widget _buildDesktopContent() {
               ),
               const SizedBox(height: 10),
               const FormInputField(),
-
               const SizedBox(height: 32),
               Text(
                 'Música que queréis que suene: Aquí debéis aportar la música que no debe faltar para vosotros y vuestros invitados en este día tan especial. Recomiendo unas 20 o 25 canciones por cada uno como mínimo. (Opción de poner enlace obligatorio)',
@@ -431,7 +435,6 @@ Widget _buildDesktopContent() {
                   height: 1,
                 ),
               ),
-
               const SizedBox(height: 17),
               Text(
                 'Lo más rápido si has creado tu lista de Spotify o YouTube es arrastrar el enlace directamente sobre el icono de deseo.',
@@ -442,10 +445,8 @@ Widget _buildDesktopContent() {
                   height: 1,
                 ),
               ),
-
               const SizedBox(height: 22),
               _buildMusicSelectionRow(),
-
               const SizedBox(height: 12),
               Text(
                 'Aquí puedes dejar los enlaces de tus canciones favoritas.',
@@ -456,16 +457,12 @@ Widget _buildDesktopContent() {
                   height: 1,
                 ),
               ),
-
               const SizedBox(height: 14),
               _buildLinkInputRow(),
-
               const SizedBox(height: 22),
               _buildRadioQuestion('¿Hay invitados de nacionalidad distinta?'),
-
               const SizedBox(height: 16),
               _buildRadioQuestion('¿Pondríamos alguna canción de su País?'),
-
               const SizedBox(height: 16),
               Text(
                 '¿Cuál?',
@@ -478,10 +475,8 @@ Widget _buildDesktopContent() {
               ),
               const SizedBox(height: 10),
               const FormInputField(),
-
               const SizedBox(height: 14),
               _buildRadioQuestion('¿Se aceptarán peticiones de los invitados?'),
-
               const SizedBox(height: 11),
               Text(
                 '¿se aceptará canciones o géneros prohibidos? EJ Paquito el chocolatero, Follow the leader…',
@@ -494,7 +489,6 @@ Widget _buildDesktopContent() {
               ),
               const SizedBox(height: 16),
               _buildRadioQuestion(''),
-
               const SizedBox(height: 18),
               Text(
                 '¿Cuál?',
@@ -507,7 +501,6 @@ Widget _buildDesktopContent() {
               ),
               const SizedBox(height: 17),
               const FormInputField(),
-
               const SizedBox(height: 13),
               Text(
                 'Última canción barra libre:',
@@ -520,7 +513,6 @@ Widget _buildDesktopContent() {
               ),
               const SizedBox(height: 7),
               const FormInputField(),
-
               const SizedBox(height: 14),
               Text(
                 'SI CONSIDERAS ALGO DE INTERES QUE SE NOS OLVIDE EN LA LISTA ESTE ES EL LUGAR:',
@@ -539,7 +531,6 @@ Widget _buildDesktopContent() {
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),
-
               const SizedBox(height: 29),
               Center(
                 child: Container(
@@ -569,80 +560,97 @@ Widget _buildDesktopContent() {
   }
 
   Widget _buildReadingRow(String label) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          width: 60,
-          child: Text(
-            label,
-            style: GoogleFonts.inter(
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        const SizedBox(width: 20),
-        Expanded(
-          child: Column(
+    final formState = ref.watch(weddingMusicFormProvider);
+    final formNotifier = ref.read(weddingMusicFormProvider.notifier);
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: formState.readers!.length,
+        itemBuilder: (context, index) {
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(
+                width: 60,
+                child: Text(
+                  label,
+                  style: GoogleFonts.inter(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 20),
+              Expanded(
+                child: Column(
+                  children: [
+                    Container(
+                      height: 35,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 7),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFD9D9D9),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: FormInputField(
+                          hintText: "Nombre y Apellido",
+                          cambio: (value) {
+                            formNotifier.updateReadingName(index, value);
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
               Container(
-                height: 35,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+                width: 230,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
                 decoration: BoxDecoration(
                   color: const Color(0xFFD9D9D9),
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Nombre y apellido',
-                    style: GoogleFonts.inter(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFFACACAC),
+                child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                        filled: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        labelText: "Selecciona a continuacion"),
+                    icon: Icon(
+                      Icons.keyboard_arrow_down,
+                      color: Color(0xFFACACAC),
                     ),
-                  ),
-                ),
+                    value: formState.readers![index].selectedOption,
+                    items: [
+                      'Link o enlace',
+                      'Nosotros nos Encargamos',
+                      'No computa'
+                    ].map((type) {
+                      return DropdownMenuItem(value: type, child: Text(type));
+                    }).toList(),
+                    onChanged: (value) {
+                      if (value != null) {
+                        formNotifier.updateSelectedMusicType(value);
+                      }
+                      if (value == null) {
+                        "Seleccione";
+                      }
+                    }),
               ),
             ],
-          ),
-        ),
-        const SizedBox(width: 10),
-        Container(
-          width: 230,
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-          decoration: BoxDecoration(
-            color: const Color(0xFFD9D9D9),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Row(
-            children: [
-              Text(
-                'Seleccione a continuación',
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xFFACACAC),
-                ),
-              ),
-              const SizedBox(width: 5),
-              const Icon(
-                Icons.arrow_drop_down,
-                color: Color(0xFFACACAC),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+          );
+        });
   }
 
   Widget _buildMusicSelectionRow() {
     return Row(
       children: [
-        // Carlos column
+        // Husband column
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -661,7 +669,7 @@ Widget _buildDesktopContent() {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.asset(
-                      'assets/images/spotify_logo.png',
+                      spotify,
                       width: 108,
                       height: 103,
                       fit: BoxFit.contain,
@@ -678,7 +686,8 @@ Widget _buildDesktopContent() {
                   ),
                   const SizedBox(width: 10),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
                     decoration: BoxDecoration(
                       color: const Color(0xFFEEEEEE),
                       borderRadius: BorderRadius.circular(10),
@@ -698,7 +707,7 @@ Widget _buildDesktopContent() {
 
         const SizedBox(width: 20),
 
-        // Erika column
+        // Bride column
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -734,7 +743,8 @@ Widget _buildDesktopContent() {
                   ),
                   const SizedBox(width: 10),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 18, vertical: 6),
                     decoration: BoxDecoration(
                       color: const Color(0xFFEEEEEE),
                       borderRadius: BorderRadius.circular(10),

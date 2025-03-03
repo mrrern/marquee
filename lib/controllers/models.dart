@@ -1,4 +1,3 @@
-
 import 'package:bodas/routes/linkspaper.dart';
 
 // Modelo de estado para el botón
@@ -33,7 +32,6 @@ class Opinion {
   });
 }
 
-
 // Notifier que maneja el estado del botón
 class ButtonStateNotifier extends StateNotifier<ButtonState> {
   ButtonStateNotifier()
@@ -50,7 +48,6 @@ class ButtonStateNotifier extends StateNotifier<ButtonState> {
   }
 }
 
-
 class ScreenSizeNotifier extends StateNotifier<double> {
   ScreenSizeNotifier() : super(0);
 
@@ -58,8 +55,6 @@ class ScreenSizeNotifier extends StateNotifier<double> {
     state = newSize;
   }
 }
-
-
 
 class CurrentRouteNotifier extends StateNotifier<String> {
   CurrentRouteNotifier() : super('/');
@@ -83,7 +78,8 @@ class RegistrationNotifier extends StateNotifier<AsyncValue<void>> {
   Future<void> register(String email, String password) async {
     state = const AsyncLoading();
     try {
-      await Future.delayed(const Duration(seconds: 2)); // Simulación de registro
+      await Future.delayed(
+          const Duration(seconds: 2)); // Simulación de registro
       state = const AsyncData(null);
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
@@ -98,7 +94,7 @@ class WeddingMusicFormData {
   String? groomEntranceMusic;
 
   // Ceremony
-  List<Reader> readers = [];
+  final List<CeremonyReading>? readers;
   String? ringExchangeMusic;
   String? kissAndSignatureMusic;
   String? ceremonyEndMusic;
@@ -160,14 +156,21 @@ class WeddingMusicFormData {
     this.forbiddenSongs,
     this.lastSong,
     this.additionalNotes,
-  });
+    List<CeremonyReading>? readers,
+
+  }): readers = readers ?? [
+    CeremonyReading(name: "", selectedOption: "Nosotros nos encargamos"),
+    CeremonyReading(name: "", selectedOption: "Nosotros nos encargamos"),
+    CeremonyReading(name: "", selectedOption: "Nosotros nos encargamos"),
+    CeremonyReading(name: "", selectedOption: "Nosotros nos encargamos"),
+  ];
 
   // Copy with method for immutability
   WeddingMusicFormData copyWith({
     String? entranceMusic,
     String? brideEntranceMusic,
     String? groomEntranceMusic,
-    List<Reader>? readers,
+    List<CeremonyReading>? readers,
     String? ringExchangeMusic,
     String? kissAndSignatureMusic,
     String? ceremonyEndMusic,
@@ -190,13 +193,15 @@ class WeddingMusicFormData {
     String? forbiddenSongs,
     String? lastSong,
     String? additionalNotes,
+    String? selectecMusicType,
   }) {
     return WeddingMusicFormData(
       entranceMusic: entranceMusic ?? this.entranceMusic,
       brideEntranceMusic: brideEntranceMusic ?? this.brideEntranceMusic,
       groomEntranceMusic: groomEntranceMusic ?? this.groomEntranceMusic,
       ringExchangeMusic: ringExchangeMusic ?? this.ringExchangeMusic,
-      kissAndSignatureMusic: kissAndSignatureMusic ?? this.kissAndSignatureMusic,
+      kissAndSignatureMusic:
+          kissAndSignatureMusic ?? this.kissAndSignatureMusic,
       ceremonyEndMusic: ceremonyEndMusic ?? this.ceremonyEndMusic,
       cocktailMusic: cocktailMusic ?? this.cocktailMusic,
       cocktailMusicStyle: cocktailMusicStyle ?? this.cocktailMusicStyle,
@@ -217,17 +222,22 @@ class WeddingMusicFormData {
       forbiddenSongs: forbiddenSongs ?? this.forbiddenSongs,
       lastSong: lastSong ?? this.lastSong,
       additionalNotes: additionalNotes ?? this.additionalNotes,
+      readers: readers ?? this.readers,
     );
   }
 }
 
 /// Model for a reader during the ceremony
-class Reader {
-  String name;
-  String selection;
+class CeremonyReading {
+  final String name;
+  final String selectedOption;
 
-  Reader({
-    required this.name,
-    required this.selection,
-  });
+  CeremonyReading({required this.name, required this.selectedOption});
+
+  CeremonyReading copyWith({String? name, String? selectedOption}) {
+    return CeremonyReading(
+      name: name ?? this.name,
+      selectedOption: selectedOption ?? this.selectedOption,
+    );
+  }
 }

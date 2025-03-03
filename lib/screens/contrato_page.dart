@@ -105,7 +105,7 @@ class _InicialFormState extends ConsumerState<InicialForm> {
                     // Background image
                     Positioned.fill(
                       child: Image.asset(
-                        'assets/images/background.png', // Replace with actual background image
+                        back2, // Replace with actual background image
                         fit: BoxFit.cover,
                       ),
                     ),
