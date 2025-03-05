@@ -1,4 +1,5 @@
 import 'package:bodas/routes/linkspaper.dart';
+import 'package:uuid/uuid.dart';
 
 // Proveedor de estado para cada botón
 final buttonStateProvider =
@@ -340,3 +341,102 @@ final registrationProvider =
     StateNotifierProvider<RegistrationNotifier, AsyncValue<void>>(
   (ref) => RegistrationNotifier(),
 );
+
+
+
+// State class for notes
+class NotesState {
+  final List<NoteModel> notes;
+  final int currentPage;
+  final int notesPerPage;
+
+  NotesState({
+    this.notes = const [],
+    this.currentPage = 1,
+    this.notesPerPage = 4,
+  });
+
+  int get totalPages {
+    if (notes.isEmpty) return 1;
+    return (notes.length / notesPerPage).ceil();
+  }
+
+  List<NoteModel> get currentPageNotes {
+    if (notes.isEmpty) return [];
+
+    final startIndex = (currentPage - 1) * notesPerPage;
+    final endIndex = startIndex + notesPerPage > notes.length
+        ? notes.length
+        : startIndex + notesPerPage;
+
+    if (startIndex >= notes.length) return [];
+    return notes.sublist(startIndex, endIndex);
+  }
+
+  NotesState copyWith({
+    List<NoteModel>? notes,
+    int? currentPage,
+    int? notesPerPage,
+  }) {
+    return NotesState(
+      notes: notes ?? this.notes,
+      currentPage: currentPage ?? this.currentPage,
+      notesPerPage: notesPerPage ?? this.notesPerPage,
+    );
+  }
+}
+
+// Notifier class
+class NotesNotifier extends StateNotifier<NotesState> {
+  NotesNotifier() : super(NotesState()) {
+    // Initialize with a sample note
+    addNote(
+      content: 'Deja aquí tus dudas.',
+      userName: 'Erika Rivas',
+      userAvatar: 'assets/images/user_avatar.png',
+    );
+  }
+
+  void addNote({
+    required String content,
+    required String userName,
+    required String userAvatar,
+    List<String> images = const [],
+  }) {
+    final newNote = NoteModel(
+      id: const Uuid().v4(),
+      userName: userName,
+      userAvatar: userAvatar,
+      date: DateTime.now(),
+      content: content,
+      images: images,
+    );
+
+    final updatedNotes = [...state.notes, newNote];
+    state = state.copyWith(notes: updatedNotes);
+  }
+
+  void changePage(int page) {
+    if (page < 1 || page > state.totalPages) return;
+    state = state.copyWith(currentPage: page);
+  }
+
+  void updateNotesPerPage(int count) {
+    state = state.copyWith(notesPerPage: count);
+  }
+
+  void deleteNote(String id) {
+    final updatedNotes = state.notes.where((note) => note.id != id).toList();
+    state = state.copyWith(notes: updatedNotes);
+  }
+}
+
+// Provider
+final notesProvider = StateNotifierProvider<NotesNotifier, NotesState>((ref) {
+  return NotesNotifier();
+});
+
+// Provider for responsive notes per page
+final responsiveNotesPerPageProvider = Provider.family<int, bool>((ref, isMobile) {
+  return isMobile ? 2 : 4;
+});

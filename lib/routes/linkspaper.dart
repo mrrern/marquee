@@ -23,6 +23,8 @@ export 'package:bodas/screens/form_1.dart';
 export 'package:bodas/screens/privavie_page.dart';
 export 'package:bodas/screens/cookies_page.dart';
 export 'package:bodas/screens/music_form.dart';
+export 'package:bodas/screens/pdf_upload_page.dart';
+export 'package:bodas/screens/note_page.dart';
 
 
 //routes
@@ -60,4 +62,7 @@ export 'package:bodas/widgets/registro_responsive.dart';
 export 'package:bodas/widgets/form_section.dart';
 export 'package:bodas/widgets/form_input_field.dart';
 export 'package:bodas/widgets/radio_options.dart';
+export 'package:bodas/widgets/contract_card.dart';
+export 'package:bodas/widgets/file_upload.dart';
+export 'package:bodas/widgets/note_card.dart';
 

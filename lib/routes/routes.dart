@@ -1,5 +1,6 @@
 import 'package:bodas/routes/linkspaper.dart';
 
+
 // Configuración de las rutas con go_router
 final GoRouter router = GoRouter(
   routes: [
@@ -16,6 +17,10 @@ final GoRouter router = GoRouter(
       builder: (context, state) => SignPage(),
     ),
     GoRoute(
+      path: '/contract',
+      builder: (context, state) => ContratoScreen(),
+    ),
+    GoRoute(
       path: '/form1',
       builder: (context, state) => WeddingRegistrationScreen(),
     ),
@@ -30,6 +35,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/cookies',
       builder: (context, state) => CookiesPage(),
+    ),
+    GoRoute(
+      path: '/notes',
+      builder: (context, state) => NotesScreen(),
     ),
   ],
 );

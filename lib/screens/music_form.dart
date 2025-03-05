@@ -102,13 +102,10 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Sidebar - 27% width
-            SizedBox(
-              width: 244,
-              child: SidebarMenu(
-                onMenuItemTap: (index) {
-                  // Handle menu item tap
-                },
-              ),
+            SidebarMenu(
+              onMenuItemTap: (index) {
+                // Handle menu item tap
+              },
             ),
 
             const SizedBox(width: 20),
@@ -120,6 +117,11 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
             ),
 
             const SizedBox(width: 20),
+
+            Image.asset(
+              port2,
+              fit: BoxFit.fitHeight,
+            ),
 
             // Image Section - 18% width
           ],
@@ -225,13 +227,7 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
               const SizedBox(height: 33),
 
               // Readings
-              _buildReadingRow('Lectura 1:'),
-              const SizedBox(height: 15),
-              _buildReadingRow('Lectura 2:'),
-              const SizedBox(height: 15),
-              _buildReadingRow('Lectura 3:'),
-              const SizedBox(height: 11),
-              _buildReadingRow('Lectura 4:'),
+              _buildReadingRow('Lectura'),
 
               const SizedBox(height: 35),
               Text(
@@ -257,7 +253,11 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
                 ),
               ),
               const SizedBox(height: 11),
-              const FormInputField(),
+              FormInputField(
+                cambio: (_) {
+                  formNotifier.updateKissAndSignatureMusic;
+                },
+              ),
 
               const SizedBox(height: 26),
               Text(
@@ -270,7 +270,11 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
                 ),
               ),
               const SizedBox(height: 13),
-              const FormInputField(),
+              FormInputField(
+                cambio: (_) {
+                  formNotifier.updateCeremonyEndMusic;
+                },
+              ),
             ],
           ),
 
@@ -289,7 +293,11 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
                 ),
               ),
               const SizedBox(height: 13),
-              const FormInputField(),
+              FormInputField(
+                cambio: (_) {
+                  formNotifier.updateCeremonyEndMusic;
+                },
+              ),
               const SizedBox(height: 29),
               Text(
                 'Música para el cóctel (chill out, flamenco chill, lounge, chill-jazz fussion, etc.) especificad aquí):',
@@ -357,7 +365,11 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
                 ),
               ),
               const SizedBox(height: 13),
-              const FormInputField(),
+              FormInputField(
+                cambio: (_) {
+                  formNotifier.updateDinnerMusic;
+                },
+              ),
               const SizedBox(height: 35),
               Text(
                 'Corte de la tarta:',
@@ -369,7 +381,11 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
                 ),
               ),
               const SizedBox(height: 14),
-              const FormInputField(),
+              FormInputField(
+                cambio: (_) {
+                  formNotifier.updateCakeCuttingMusic;
+                },
+              ),
               const SizedBox(height: 27),
               Text(
                 'Entrega de regalos/ramos:',
@@ -381,7 +397,11 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              const FormInputField(),
+              FormInputField(
+                cambio: (_) {
+                  formNotifier.updateGiftsMusic;
+                },
+              ),
               const SizedBox(height: 27),
               Text(
                 'Alguna sorpresa (Micrófono para discursos, cumpleaños, etc...)',
@@ -393,7 +413,11 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              const FormInputField(),
+              FormInputField(
+                cambio: (_) {
+                  formNotifier.updateRingExchangeMusic;
+                },
+              ),
             ],
           ),
 
@@ -412,7 +436,11 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
                 ),
               ),
               const SizedBox(height: 13),
-              const FormInputField(),
+              FormInputField(
+                cambio: (_) {
+                  formNotifier.updateCouplesDanceMusic;
+                },
+              ),
               const SizedBox(height: 27),
               Text(
                 'Primera canción Barra Libre (Opcional)',
@@ -424,7 +452,11 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
                 ),
               ),
               const SizedBox(height: 10),
-              const FormInputField(),
+              FormInputField(
+                cambio: (_) {
+                  formNotifier.updateFirstOpenBarSong;
+                },
+              ),
               const SizedBox(height: 32),
               Text(
                 'Música que queréis que suene: Aquí debéis aportar la música que no debe faltar para vosotros y vuestros invitados en este día tan especial. Recomiendo unas 20 o 25 canciones por cada uno como mínimo. (Opción de poner enlace obligatorio)',

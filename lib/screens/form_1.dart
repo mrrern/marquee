@@ -18,83 +18,75 @@ class WeddingRegistrationScreen extends StatelessWidget {
           ),
 
           //body
-          Column(
-            children: [
-              const FormHeader(),
-              Expanded(
-                child: Responsive(
-                  // Tablet View
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SidebarMenu(),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(width: 40),
-                              const Expanded(
-                                child: WeddingFormFields(),
-                              ),
-                              const SizedBox(width: 40),
-                              Image.asset(
-                                port1,
-                                fit: BoxFit.fitHeight,
-                              ),
-                            ],
+          Align(alignment: Alignment.topCenter, child: FormHeader()),
+          Expanded(
+            child: Responsive(
+              // Tablet View
+              Stack(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(width: 50),
+                          const Expanded(
+                            child: SingleChildScrollView(
+                                child: WeddingFormFields()),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  // Mobile View
-                  mobile: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Column(
-                          children: [
-                            const WeddingFormFields(),
-                          ],
-                        ),
-                      ),
-                      SidebarMenu(),
-                    ],
-                  ),
-                  // Web View
-                  web: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SidebarMenu(),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(width: 40),
-                              const Flexible(
-                                flex: 3,
-                                child: SingleChildScrollView(
-                                    child: WeddingFormFields()),
-                              ),
-                              const SizedBox(width: 40),
-                              Image.asset(
-                                port1,
-                                fit: BoxFit.fitHeight,
-                              ),
-                            ],
+                          const SizedBox(width: 30),
+                          Image.asset(
+                            port1,
+                            fit: BoxFit.fitHeight,
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
-            ],
+              // Mobile View
+              mobile: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: SingleChildScrollView(
+                      child: const WeddingFormFields(),
+                    ),
+                  ),
+                ],
+              ),
+              // Web View
+              web: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(width: 40),
+                          const Flexible(
+                            flex: 3,
+                            child: SingleChildScrollView(
+                                child: WeddingFormFields()),
+                          ),
+                          const SizedBox(width: 40),
+                          Image.asset(
+                            port1,
+                            fit: BoxFit.fitHeight,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
+          Align(alignment: Alignment.centerLeft, child: SidebarMenu()),
         ],
       ),
     );

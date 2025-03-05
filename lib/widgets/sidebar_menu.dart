@@ -18,8 +18,6 @@ class _SidebarMenuState extends State<SidebarMenu> {
   @override
   Widget build(BuildContext context) {
     bool isMobile = Responsive.isMobile(context);
-    bool isTablet = Responsive.isTablet(context);
-    bool isWeb = Responsive.isWeb(context);
 
     double sidebarWidth = isMobile
         ? 60
@@ -30,6 +28,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       width: sidebarWidth,
+      height: 400,
       decoration: BoxDecoration(
         color: const Color(0xFFD9D9D9),
         borderRadius: BorderRadius.circular(10),
@@ -38,23 +37,24 @@ class _SidebarMenuState extends State<SidebarMenu> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Expansion/retraction button
-          Align(
-            alignment: Alignment.centerRight,
-            child: IconButton(
-              icon: Icon(
-                isExpanded ? Icons.chevron_left : Icons.chevron_right,
-                size: 30,
+          if (!isMobile)
+            Align(
+              alignment: Alignment.centerRight,
+              child: IconButton(
+                icon: Icon(
+                  isExpanded ? Icons.chevron_left : Icons.chevron_right,
+                  size: 30,
+                ),
+                onPressed: () {
+                  setState(() {
+                    isExpanded = !isExpanded;
+                  });
+                },
               ),
-              onPressed: () {
-                setState(() {
-                  isExpanded = !isExpanded;
-                });
-              },
             ),
-          ),
 
           // Welcome text
-          if (isExpanded)
+          if (isExpanded && !isMobile)
             Padding(
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 20),
               child: Text(
@@ -73,16 +73,14 @@ class _SidebarMenuState extends State<SidebarMenu> {
             route: '/form1',
             icon: Icons.app_registration,
             label: 'Registro',
-            isActive: false,
             index: 0,
           ),
 
           const SizedBox(height: 20),
           _buildMenuItem(
-            route: '/cotiza',
+            route: '/contract',
             icon: Icons.request_quote,
             label: 'Cotización',
-            isActive: true,
             index: 1,
           ),
 
@@ -91,103 +89,14 @@ class _SidebarMenuState extends State<SidebarMenu> {
             route: '/music',
             icon: Icons.music_note,
             label: 'Ficha musical',
-            isActive: true,
             index: 2,
           ),
-
-          // Submenu items - only show when expanded
-          if (isExpanded) ...[
-            // Submenu items
-            Padding(
-              padding: const EdgeInsets.only(left: 40, top: 11),
-              child: Text(
-                'Entrada',
-                  textAlign: TextAlign.end,
-
-                style: GoogleFonts.inter(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xFF030000),
-                  height: 0.8,
-                ),
-              ),
-            ),
-
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 13, right: 15),
-                child: Text(
-                  'Ceremonia',
-                  textAlign: TextAlign.end,
-                  style: GoogleFonts.inter(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black,
-                    height: 0.8,
-                  ),
-                ),
-              ),
-            ),
-
-            Align(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 14),
-                child: Text(
-                  'Cóctel',
-                  textAlign: TextAlign.end,
-                  style: GoogleFonts.inter(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black,
-                    height: 0.8,
-                  ),
-                ),
-              ),
-            ),
-
-            Align(
-              alignment: Alignment.center,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 14),
-                child: Text(
-                  'Comida',
-                  textAlign: TextAlign.end,
-                  style: GoogleFonts.inter(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black,
-                    height: 0.8,
-                  ),
-                ),
-              ),
-            ),
-
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 14, right: 15),
-                child: Text(
-                  'Barra libre',
-                  textAlign: TextAlign.end,
-                  style: GoogleFonts.inter(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black,
-                    height: 0.8,
-                  ),
-                ),
-              ),
-            ),
-          ],
 
           const SizedBox(height: 20),
           _buildMenuItem(
             route: "/notes",
             icon: Icons.note_alt_outlined,
             label: 'Notas',
-            isActive: true,
             index: 3,
           ),
 
@@ -196,7 +105,6 @@ class _SidebarMenuState extends State<SidebarMenu> {
             route: '/notification',
             icon: Icons.notifications_outlined,
             label: 'Notificación',
-            isActive: true,
             index: 4,
           ),
         ],
@@ -207,12 +115,13 @@ class _SidebarMenuState extends State<SidebarMenu> {
   Widget _buildMenuItem({
     required IconData icon,
     required String label,
-    required bool isActive,
     required int index,
     required String route,
   }) {
     String currentRoute = GoRouter.of(context).state.path.toString();
     bool isActive = currentRoute == route; // Verifica si es la ruta actual
+    bool isTablet = Responsive.isTablet(context);
+    bool isWeb = Responsive.isWeb(context);
     return InkWell(
       onTap: () {
         if (widget.onMenuItemTap != null) {
@@ -229,7 +138,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
               size: 25,
               color: isActive ? Colors.black : const Color(0xFFC1C1C1),
             ),
-            if (isExpanded) ...[
+            if (isExpanded && isTablet && isWeb) ...[
               const SizedBox(width: 15),
               Expanded(
                 child: Text(

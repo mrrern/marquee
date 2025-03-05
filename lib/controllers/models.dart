@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bodas/routes/linkspaper.dart';
 
 // Modelo de estado para el botón
@@ -157,13 +159,12 @@ class WeddingMusicFormData {
     this.lastSong,
     this.additionalNotes,
     List<CeremonyReading>? readers,
-
-  }): readers = readers ?? [
-    CeremonyReading(name: "", selectedOption: "Nosotros nos encargamos"),
-    CeremonyReading(name: "", selectedOption: "Nosotros nos encargamos"),
-    CeremonyReading(name: "", selectedOption: "Nosotros nos encargamos"),
-    CeremonyReading(name: "", selectedOption: "Nosotros nos encargamos"),
-  ];
+  }) : readers = readers ??
+            List.generate(
+              4,
+              (index) => CeremonyReading(
+                  name: "", selectedOption: "Nosotros nos encargamos"),
+            );
 
   // Copy with method for immutability
   WeddingMusicFormData copyWith({
@@ -222,7 +223,7 @@ class WeddingMusicFormData {
       forbiddenSongs: forbiddenSongs ?? this.forbiddenSongs,
       lastSong: lastSong ?? this.lastSong,
       additionalNotes: additionalNotes ?? this.additionalNotes,
-      readers: readers ?? this.readers,
+      readers: readers ?? this.readers!.map((e) => e.copyWith()).toList(),
     );
   }
 }
@@ -239,5 +240,167 @@ class CeremonyReading {
       name: name ?? this.name,
       selectedOption: selectedOption ?? this.selectedOption,
     );
+  }
+}
+
+
+class ContractModel {
+  final String id;
+  final String title;
+  final DateTime date;
+  final ContractStatus status;
+  final String description;
+  final double amount;
+
+  ContractModel({
+    required this.id,
+    required this.title,
+    required this.date,
+    required this.status,
+    required this.description,
+    required this.amount,
+  });
+
+  // Sample data generator for demo purposes
+  static List<ContractModel> getSampleContracts() {
+    return [
+      ContractModel(
+        id: '001',
+        title: 'Boda Clásica',
+        date: DateTime.now().add(const Duration(days: 45)),
+        status: ContractStatus.pending,
+        description: 'Paquete de boda clásica con ceremonia y recepción',
+        amount: 25000.00,
+      ),
+      ContractModel(
+        id: '002',
+        title: 'Boda Premium',
+        date: DateTime.now().add(const Duration(days: 30)),
+        status: ContractStatus.approved,
+        description: 'Paquete premium con ceremonia, recepción y fotografía',
+        amount: 35000.00,
+      ),
+      ContractModel(
+        id: '003',
+        title: 'Boda Íntima',
+        date: DateTime.now().add(const Duration(days: 15)),
+        status: ContractStatus.actionRequired,
+        description: 'Paquete para boda íntima con 50 invitados',
+        amount: 15000.00,
+      ),
+      ContractModel(
+        id: '004',
+        title: 'Boda Destino',
+        date: DateTime.now().add(const Duration(days: 90)),
+        status: ContractStatus.pending,
+        description: 'Paquete de boda en playa con alojamiento',
+        amount: 45000.00,
+      ),
+      ContractModel(
+        id: '005',
+        title: 'Renovación de Votos',
+        date: DateTime.now().add(const Duration(days: 60)),
+        status: ContractStatus.approved,
+        description: 'Ceremonia de renovación de votos con cena',
+        amount: 18000.00,
+      ),
+    ];
+  }
+}
+
+enum ContractStatus {
+  pending,
+  approved,
+  actionRequired,
+}
+
+extension ContractStatusExtension on ContractStatus {
+  String get name {
+    switch (this) {
+      case ContractStatus.pending:
+        return 'Pendiente';
+      case ContractStatus.approved:
+        return 'Aprobado';
+      case ContractStatus.actionRequired:
+        return 'Acción Requerida';
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case ContractStatus.pending:
+        return const Color(0xFFFFA000);
+      case ContractStatus.approved:
+        return const Color(0xFF4CAF50);
+      case ContractStatus.actionRequired:
+        return const Color(0xFFF44336);
+    }
+  }
+}
+
+class NoteModel {
+  final String id;
+  final String userName;
+  final String userAvatar;
+  final DateTime date;
+  final String content;
+  final List<String> images;
+
+  NoteModel({
+    required this.id,
+    required this.userName,
+    required this.userAvatar,
+    required this.date,
+    required this.content,
+    this.images = const [],
+  });
+
+  NoteModel copyWith({
+    String? id,
+    String? userName,
+    String? userAvatar,
+    DateTime? date,
+    String? content,
+    List<String>? images,
+  }) {
+    return NoteModel(
+      id: id ?? this.id,
+      userName: userName ?? this.userName,
+      userAvatar: userAvatar ?? this.userAvatar,
+      date: date ?? this.date,
+      content: content ?? this.content,
+      images: images ?? this.images,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'userName': userName,
+      'userAvatar': userAvatar,
+      'date': date.millisecondsSinceEpoch,
+      'content': content,
+      'images': images,
+    };
+  }
+
+  factory NoteModel.fromMap(Map<String, dynamic> map) {
+    return NoteModel(
+      id: map['id'] ?? '',
+      userName: map['userName'] ?? '',
+      userAvatar: map['userAvatar'] ?? '',
+      date: DateTime.fromMillisecondsSinceEpoch(map['date']),
+      content: map['content'] ?? '',
+      images: List<String>.from(map['images'] ?? []),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory NoteModel.fromJson(String source) => NoteModel.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'NoteModel(id: $id, userName: $userName, userAvatar: $userAvatar, date: $date, content: $content, images: $images)';
   }
 }
