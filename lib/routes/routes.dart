@@ -40,5 +40,35 @@ final GoRouter router = GoRouter(
       path: '/notes',
       builder: (context, state) => NotesScreen(),
     ),
+
+    // Admin dashboard routes
+    GoRoute(
+      path: '/admin',
+      builder: (context, state) => MarqueeAdminDashboard(),
+    ),
+    GoRoute(
+      path: '/admin/cotizaciones',
+      builder: (context, state) => const QuotationRequestScreen(), 
+    ),
+    GoRoute(
+      path: '/admin/contratados',
+      builder: (context, state) => const Placeholder(), // Replace with actual screen
+    ),
+    GoRoute(
+      path: '/admin/notas',
+      builder: (context, state) => const Placeholder(), // Replace with actual screen
+    ),
+    GoRoute(
+      path: '/admin/remarketing',
+      builder: (context, state) => const Placeholder(), // Replace with actual screen
+    ),
+    GoRoute(
+      path: '/admin/usuarios',
+      builder: (context, state) => const Placeholder(), // Replace with actual screen
+    ),
+    GoRoute(
+      path: '/admin/estadisticas',
+      builder: (context, state) => const Placeholder(), // Replace with actual screen
+    ),
   ],
 );

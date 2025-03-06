@@ -13,7 +13,6 @@ export 'package:bodas/widgets/responsive_widget.dart';
 export 'package:webview_flutter/webview_flutter.dart';
 export 'package:file_picker/file_picker.dart';
 
-
 // Pantallas
 export 'package:bodas/app.dart';
 export 'package:bodas/screens/main_page.dart';
@@ -25,7 +24,8 @@ export 'package:bodas/screens/cookies_page.dart';
 export 'package:bodas/screens/music_form_page.dart';
 export 'package:bodas/screens/pdf_upload_page.dart';
 export 'package:bodas/screens/note_page.dart';
-
+export 'package:bodas/screens/admin_dashboard.dart';
+export 'package:bodas/screens/quotation_page.dart';
 
 //routes
 export 'package:bodas/routes/routes.dart';
@@ -65,4 +65,7 @@ export 'package:bodas/widgets/radio_options.dart';
 export 'package:bodas/widgets/contract_card.dart';
 export 'package:bodas/widgets/file_upload.dart';
 export 'package:bodas/widgets/note_card.dart';
-
+export 'package:bodas/widgets/blur_effect.dart';
+export 'package:bodas/widgets/marquee_card.dart';
+export 'package:bodas/widgets/quotation_table.dart';
+export 'package:bodas/widgets/quotation_card.dart';

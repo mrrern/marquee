@@ -478,3 +478,157 @@ class NoteModel {
     return 'NoteModel(id: $id, userName: $userName, userAvatar: $userAvatar, date: $date, content: $content, images: $images)';
   }
 }
+
+
+// Modelo para las solicitudes de cotización
+class QuotationRequest {
+  final String id;
+  final String name;
+  final String username;
+  final String avatarUrl;
+  final String date;
+  final int guests;
+  final String ceremonyType;
+  final String location;
+  final bool hasQuotation;
+  final bool hasSignedContract;
+  final bool isAccepted;
+  final bool isActive;
+
+  QuotationRequest({
+    required this.id,
+    required this.name,
+    required this.username,
+    required this.avatarUrl,
+    required this.date,
+    required this.guests,
+    required this.ceremonyType,
+    required this.location,
+    this.hasQuotation = false,
+    this.hasSignedContract = false,
+    this.isAccepted = false,
+    this.isActive = true,
+  });
+}
+
+/// Lista de datos de ejemplo para mostrar en la tabla y tarjetas
+List<QuotationRequest> mockQuotationRequests = [
+  QuotationRequest(
+    id: '1',
+    name: 'Olivia Rhye',
+    username: '@olivia',
+    avatarUrl: 'assets/images/avatars/olivia.png',
+    date: '15/01/25',
+    guests: 110,
+    ceremonyType: 'Civil',
+    location: 'Málaga Jardin de Palermo, España',
+    hasQuotation: true,
+    hasSignedContract: true,
+    isAccepted: true,
+    isActive: true,
+  ),
+  QuotationRequest(
+    id: '2',
+    name: 'Phoenix Baker',
+    username: '@phoenix',
+    avatarUrl: 'assets/images/avatars/phoenix.png',
+    date: '19/03/25',
+    guests: 102,
+    ceremonyType: 'Religiosa',
+    location: 'Catedral de San Pablo Madrid, España',
+    hasQuotation: true,
+    hasSignedContract: true,
+    isAccepted: true,
+  ),
+  QuotationRequest(
+    id: '3',
+    name: 'Erika Rivas',
+    username: '@Erika',
+    avatarUrl: 'assets/images/avatars/erika.png',
+    date: '29/03/25',
+    guests: 246,
+    ceremonyType: 'Civil',
+    location: 'Valencia Jardín del Turia, España',
+    hasQuotation: true,
+    hasSignedContract: false,
+    isAccepted: false,
+  ),
+  QuotationRequest(
+    id: '4',
+    name: 'Demi Wilkinson',
+    username: '@demi',
+    avatarUrl: 'assets/images/avatars/demi.png',
+    date: '04/04/25',
+    guests: 150,
+    ceremonyType: 'Civil',
+    location: 'Málaga Jardin de Palermo, España',
+    hasQuotation: true,
+    hasSignedContract: true,
+    isAccepted: true,
+  ),
+  QuotationRequest(
+    id: '5',
+    name: 'Candice Wu',
+    username: '@candice',
+    avatarUrl: '',
+    date: '14/04/25',
+    guests: 70,
+    ceremonyType: 'Civil',
+    location: 'Málaga Jardin de Palermo, España',
+    hasQuotation: true,
+    hasSignedContract: false,
+    isAccepted: false,
+  ),
+  QuotationRequest(
+    id: '6',
+    name: 'Natali Craig',
+    username: '@natali',
+    avatarUrl: 'assets/images/avatars/natali.png',
+    date: '19/04/25',
+    guests: 90,
+    ceremonyType: 'Civil',
+    location: 'Valencia Jardín del Turia, España',
+    hasQuotation: false,
+    hasSignedContract: true,
+    isAccepted: true,
+  ),
+  QuotationRequest(
+    id: '7',
+    name: 'Drew Cano',
+    username: '@drew',
+    avatarUrl: 'assets/images/avatars/drew.png',
+    date: '27/04/25',
+    guests: 300,
+    ceremonyType: 'Religiosa',
+    location: 'Catedral de San Pablo Madrid, España',
+    hasQuotation: true,
+    hasSignedContract: true,
+    isAccepted: true,
+  ),
+  QuotationRequest(
+    id: '8',
+    name: 'Orlando Diggs',
+    username: '@orlando',
+    avatarUrl: '',
+    date: '03/05/25',
+    guests: 280,
+    ceremonyType: 'Religiosa',
+    location: 'Catedral de San Pablo Madrid, España',
+    hasQuotation: true,
+    hasSignedContract: true,
+    isAccepted: true,
+  ),
+  QuotationRequest(
+    id: '9',
+    name: 'Andi Lane',
+    username: '@andi',
+    avatarUrl: 'assets/images/avatars/andi.png',
+    date: '10/06/25',
+    guests: 130,
+    ceremonyType: 'Civil',
+    location: 'Valencia Jardín del Turia, España',
+    hasQuotation: true,
+    hasSignedContract: true,
+    isAccepted: true,
+  ),
+];
