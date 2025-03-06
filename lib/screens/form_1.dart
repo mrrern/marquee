@@ -7,7 +7,21 @@ class WeddingRegistrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
+      body: Responsive(
+        // Tablet view
+        SingleChildScrollView(child: _buildContent(isTablet: true)),
+        // Mobile view
+        mobile: SingleChildScrollView(child: _buildContent(isMobile: true)),
+        // Web view
+        web: SingleChildScrollView(child: _buildContent()),
+      ),
+    );
+  }
+
+  Widget _buildContent({bool isMobile = false, bool isTablet = false}) {
+    return Container(
+      color: Colors.white,
+      child: Stack(
         children: [
           // Background image
           Positioned.fill(
@@ -17,78 +31,67 @@ class WeddingRegistrationScreen extends StatelessWidget {
             ),
           ),
 
-          //body
-          Align(alignment: Alignment.topCenter, child: FormHeader()),
-          Expanded(
-            child: Responsive(
-              // Tablet View
-              Stack(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(width: 50),
-                          const Expanded(
-                            child: SingleChildScrollView(
-                                child: WeddingFormFields()),
-                          ),
-                          const SizedBox(width: 30),
-                          Image.asset(
-                            port1,
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              // Mobile View
-              mobile: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: SingleChildScrollView(
-                      child: const WeddingFormFields(),
-                    ),
-                  ),
-                ],
-              ),
-              // Web View
-              web: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(width: 40),
-                          const Flexible(
-                            flex: 3,
-                            child: SingleChildScrollView(
-                                child: WeddingFormFields()),
-                          ),
-                          const SizedBox(width: 40),
-                          Image.asset(
-                            port1,
-                            fit: BoxFit.fitHeight,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+          // Main content
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: isMobile ? 20.0 : 40.0,
+              vertical: 20,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Sidebar Menu
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: SidebarMenu(),
+                ),
+
+                // Responsive content
+                _buildResponsiveContent(isMobile: isMobile, isTablet: isTablet),
+              ],
             ),
           ),
-          Align(alignment: Alignment.centerLeft, child: SidebarMenu()),
         ],
       ),
+    );
+  }
+
+  Widget _buildResponsiveContent(
+      {bool isMobile = false, bool isTablet = false}) {
+    if (isMobile) {
+      return _buildMobileContent();
+    }
+    return _buildDesktopContent(isTablet: isTablet);
+  }
+
+  Widget _buildDesktopContent({bool isTablet = false}) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(width: 30),
+        Expanded(
+          flex: isTablet ? 3 : 2,
+          child: const SingleChildScrollView(
+            child: WeddingFormFields(),
+          ),
+        ),
+        const SizedBox(width: 30),
+        if (!isTablet) // Solo mostrar imagen en versión web
+          Flexible(
+            flex: 2,
+            child: Image.asset(
+              port1,
+              fit: BoxFit.fitHeight,
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildMobileContent() {
+    return const SingleChildScrollView(
+      padding: EdgeInsets.only(top: 20),
+      child: WeddingFormFields(),
     );
   }
 }

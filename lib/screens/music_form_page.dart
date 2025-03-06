@@ -725,7 +725,7 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Image.asset(
-                      'assets/images/youtube_logo.png',
+                      youtube,
                       width: 72,
                       height: 90,
                       fit: BoxFit.contain,
@@ -758,7 +758,7 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.asset(
-                      'assets/images/spotify_logo.png',
+                      spotify,
                       width: 108,
                       height: 103,
                       fit: BoxFit.contain,
@@ -782,7 +782,7 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Image.asset(
-                      'assets/images/youtube_logo.png',
+                      youtube,
                       width: 72,
                       height: 90,
                       fit: BoxFit.contain,
