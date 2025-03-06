@@ -120,8 +120,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
   }) {
     String currentRoute = GoRouter.of(context).state.path.toString();
     bool isActive = currentRoute == route; // Verifica si es la ruta actual
-    bool isTablet = Responsive.isTablet(context);
-    bool isWeb = Responsive.isWeb(context);
+    
     return InkWell(
       onTap: () {
         if (widget.onMenuItemTap != null) {
@@ -138,18 +137,20 @@ class _SidebarMenuState extends State<SidebarMenu> {
               size: 25,
               color: isActive ? Colors.black : const Color(0xFFC1C1C1),
             ),
-            if (isExpanded) const SizedBox(width: 15),
-            Expanded(
-              child: Text(
-                label,
-                style: GoogleFonts.inter(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                  color: isActive ? Colors.black : const Color(0xFFA3A3A3),
-                  height: 0.8,
+            if (isExpanded == true) ...[
+              const SizedBox(width: 15),
+              Expanded(
+                child: Text(
+                  label,
+                  style: GoogleFonts.inter(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    color: isActive ? Colors.black : const Color(0xFFA3A3A3),
+                    height: 0.8,
+                  ),
                 ),
               ),
-            ),
+            ]
           ],
         ),
       ),

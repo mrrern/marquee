@@ -41,6 +41,12 @@ final currentRouteProvider =
   return CurrentRouteNotifier();
 });
 
+
+// Proveedor para el estado de expansión del sidebar
+final sidebarExpansionProvider = StateNotifierProvider.autoDispose<
+    SidebarExpansionNotifier, bool>((ref) => SidebarExpansionNotifier());
+
+    
 //Provider que maneja el scroll rpincipal
 final scrollOffsetProvider = StateNotifierProvider<ScrollOffsetNotifier, double>(
   (ref) => ScrollOffsetNotifier(ref),

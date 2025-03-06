@@ -75,6 +75,17 @@ class YoutubeControllerNotifier extends StateNotifier<YoutubeWebPlayerController
 }
 
 
+
+class SidebarExpansionNotifier extends StateNotifier<bool> {
+  SidebarExpansionNotifier() : super(true);
+
+  void toggle() => state = !state;
+  void expand() => state = true;
+  void collapse() => state = false;
+}
+
+
+
 // Notifier que maneja el estado del botón
 class ButtonStateNotifier extends StateNotifier<ButtonState> {
   ButtonStateNotifier()
