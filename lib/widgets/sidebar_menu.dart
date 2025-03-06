@@ -152,6 +152,9 @@ class _SidebarMenuState extends State<SidebarMenu> {
                 ),
               ),
             ],
+            if (!isExpanded) ...[
+              Container(),
+            ],
           ],
         ),
       ),
