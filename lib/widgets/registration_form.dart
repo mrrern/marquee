@@ -242,10 +242,10 @@ class RegistroForm extends ConsumerWidget {
                 ? Colors.red
                 : Colors.black,
           ),
-          const SizedBox(height: 36),
+          const SizedBox(height: 26),
 
           // Register button
-          SizedBox(height: Responsive.isWeb(context) ? 16 : 10),
+          SizedBox(height: Responsive.isWeb(context) ? 14 : 8),
           Center(
             child: InkWell(
               onTap: isFormValid ? () => _handleRegister(ref, context) : null,

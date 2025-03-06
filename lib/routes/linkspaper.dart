@@ -12,6 +12,9 @@ export 'package:youtube_web_player/youtube_web_player.dart';
 export 'package:bodas/widgets/responsive_widget.dart';
 export 'package:webview_flutter/webview_flutter.dart';
 export 'package:file_picker/file_picker.dart';
+export 'package:dropdown_button2/dropdown_button2.dart';
+
+
 
 // Pantallas
 export 'package:bodas/app.dart';

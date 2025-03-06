@@ -21,6 +21,9 @@ class _RegistroMobileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final size = MediaQuery.of(context).size.width;
+    final position = MediaQuery.of(context).size.height ;
+
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -31,6 +34,44 @@ class _RegistroMobileScreen extends ConsumerWidget {
               child: Image.asset(
                 back2, // Replace with actual image path
                 fit: BoxFit.cover,
+              ),
+            ),
+
+            Center(
+              child: SizedBox(
+                width: size,
+                height:
+                    Responsive.isWeb(context) ? position * .3 : position * .5,
+                child: CarouselSlider(
+                  items:
+                      [frame1, frame2, frame1, frame2, frame2, frame1].map((i) {
+                    return Container(
+                      width: size * .2,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(i),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  options: CarouselOptions(
+                    aspectRatio: 2.0,
+                    autoPlay: true,
+                    enlargeFactor: 0,
+                    pauseAutoPlayInFiniteScroll: false,
+                    autoPlayAnimationDuration: const Duration(seconds: 10),
+                    pauseAutoPlayOnManualNavigate: false,
+                    scrollDirection: Axis.horizontal,
+                    pageSnapping: false,
+                    disableCenter: true,
+                    viewportFraction: 0.8,
+                    enlargeCenterPage: true,
+                    autoPlayCurve: Curves.linear,
+                    autoPlayInterval: const Duration(seconds: 10),
+                    enableInfiniteScroll: true,
+                  ),
+                ),
               ),
             ),
 

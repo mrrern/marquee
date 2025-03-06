@@ -67,10 +67,10 @@ class WeddingRegistrationScreen extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(width: 30),
+        const SizedBox(width: 300 ),
         Expanded(
           flex: isTablet ? 3 : 2,
-          child: const SingleChildScrollView(
+          child: SingleChildScrollView(
             child: WeddingFormFields(),
           ),
         ),
@@ -88,8 +88,8 @@ class WeddingRegistrationScreen extends StatelessWidget {
   }
 
   Widget _buildMobileContent() {
-    return const SingleChildScrollView(
-      padding: EdgeInsets.only(top: 20),
+    return SingleChildScrollView(
+      padding: const EdgeInsets.only(top: 20),
       child: WeddingFormFields(),
     );
   }
