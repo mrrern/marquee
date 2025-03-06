@@ -47108,7 +47108,7 @@ m.toString
 q=A.ab(m,n,t.w).w.a.a>=1100
 m=t.p
 p=A.a([A.n3(a,s?B.j:B.Iy,n,25)],m)
-if(o.d&&r&&q)B.b.F(p,A.a([B.Xo,A.eE(A.aA(c,n,n,n,A.aJ().$4$color$fontSize$fontWeight$height(s?B.j:B.jf,15,B.q,0.8),n,n),1)],m))
+if(o.d||r||q)B.b.F(p,A.a([B.Xo,A.eE(A.aA(c,n,n,n,A.aJ().$4$color$fontSize$fontWeight$height(s?B.j:B.jf,15,B.q,0.8),n,n),1)],m))
 return A.tm(!1,n,!0,new A.ba(B.L3,A.c1(p,B.y,B.r,B.p),n),n,!0,n,n,n,n,n,n,n,n,n,new A.aCr(o,b,d),n,n,n,n)}}
 A.aCt.prototype={
 $0(){var s=this.a
