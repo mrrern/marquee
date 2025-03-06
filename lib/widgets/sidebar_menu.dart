@@ -138,7 +138,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
               size: 25,
               color: isActive ? Colors.black : const Color(0xFFC1C1C1),
             ),
-            if (isExpanded && isTablet && isWeb) ...[
+            if (isExpanded || isTablet || isWeb) ...[
               const SizedBox(width: 15),
               Expanded(
                 child: Text(
