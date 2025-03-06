@@ -40,16 +40,15 @@ class WeddingRegistrationScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Sidebar Menu
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: SidebarMenu(),
-                ),
-
                 // Responsive content
                 _buildResponsiveContent(isMobile: isMobile, isTablet: isTablet),
               ],
             ),
+          ),
+          // Sidebar Menu
+          Align(
+            alignment: Alignment.centerLeft,
+            child: SidebarMenu(),
           ),
         ],
       ),
