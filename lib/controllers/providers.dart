@@ -41,10 +41,28 @@ final currentRouteProvider =
   return CurrentRouteNotifier();
 });
 
+//Provider que maneja el scroll rpincipal
+final scrollOffsetProvider = StateNotifierProvider<ScrollOffsetNotifier, double>(
+  (ref) => ScrollOffsetNotifier(ref),
+);
+
 //banner dinamico
 final imageIndexProvider = StateProvider.autoDispose<int>((ref) => 0);
 
-final imageBannerIndexProvider = StateProvider<int>((ref) => 0);
+//provider video principal
+final youtubeControllerProvider = StateNotifierProvider.autoDispose<YoutubeControllerNotifier, YoutubeWebPlayerController?>(
+  (ref) => YoutubeControllerNotifier(),
+);
+
+// Proveedor para las imágenes del banner
+final bannerImagesProvider = Provider<List<String>>((ref) => [img1, img2, img3]);
+
+// Proveedor para el índice del banner
+final bannerIndexProvider =
+    StateNotifierProvider.autoDispose<BannerIndexNotifier, int>((ref) {
+  final images = ref.watch(bannerImagesProvider);
+  return BannerIndexNotifier(images);
+});
 
 //Maneja el carrusel del final
 final carouselProvider = StateNotifierProvider<CarouselNotifier, int>((ref) {

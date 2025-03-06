@@ -1,94 +1,42 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-class MainScreen extends ConsumerStatefulWidget {
+class MainScreen extends ConsumerWidget {
   const MainScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends ConsumerState<MainScreen> {
-  double scrollOffset = 0;
-  final YoutubeWebPlayerController _controller = YoutubeWebPlayerController();
-
-  @override
-  void initState() {
-    super.initState();
-    // fetchOpiniones();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return; // Verifica si el widget sigue activo
-      final scrollController = ref.read(scrollControllerProvider);
-      scrollController.initialScrollOffset;
-      scrollController.addListener(() {
-        setState(() {
-          if (!mounted) return;
-          scrollOffset = scrollController.offset * 0.2;
-          //Controla la velocidad del efecto
-        });
-      });
-    });
-
-    _controller.addListener(() {
-      if (_controller.isReady == true) {
-        _controller.play();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose(); // Limpia el reproductor de YouTube
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final scrollController = ref.watch(scrollControllerProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final scrollOffset = ref.watch(scrollOffsetProvider);
     final size = MediaQuery.of(context).size.width;
     final position = MediaQuery.of(context).size.height;
+    final youtubeController = ref.watch(youtubeControllerProvider);
 
     return Scaffold(
       body: SizedBox.expand(
         child: Stack(
           children: [
             Positioned(
-                top: -scrollOffset,
-                child: SizedBox(
-                    width: size,
-                    child: Image.asset(
-                      background,
-                      fit: BoxFit.fitWidth,
-                    ))),
-
-            //NavBar
-            Positioned(child: NavBar()),
-            //Body
+              top: -scrollOffset,
+              child: SizedBox(
+                width: size,
+                child: Image.asset(
+                  background,
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+            ),
+            const Positioned(child: NavBar()),
             Positioned(
               top: position * .07,
               child: SizedBox(
                 width: size,
                 height: position,
                 child: SingleChildScrollView(
-                  controller: scrollController,
+                  controller: ref.read(scrollControllerProvider),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      //
-                      //
-                      //Initial Banner
-                      SizedBox(
-                        width: size,
-                        child: BannerInitial(),
-                      ),
-                      //
-                      //
-                      //Quienes Somos
-                      ButtonTitle(
-                        title: title2,
-                      ),
-                      //
-                      //
+                      SizedBox(width: size, child: const BannerInitial()),
+                      const ButtonTitle(title: title2),
                       SizedBox(
                         width: size,
                         height: position * .3,
@@ -97,7 +45,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                             left: size * .1,
                             right: size * .1,
                           ),
-                          child: WhoWidget(),
+                          child: const WhoWidget(),
                         ),
                       ),
                       SizedBox(
@@ -115,11 +63,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           ),
                         ),
                       ),
-                      ////
-                      /////
-                      ///Raiting
                       Padding(
-                        padding: EdgeInsets.only(top: 21),
+                        padding: const EdgeInsets.only(top: 21),
                         child: Container(
                           width: size * .8,
                           height: position,
@@ -138,21 +83,17 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                               itemCount: 10,
                               itemBuilder: (BuildContext context, int index) {
                                 return CardRated(
-                                    author: "Richard Brito",
-                                    img: bod1,
-                                    date: "25/02/2025",
-                                    rate: "4.5",
-                                    description: review);
+                                  author: "Richard Brito",
+                                  img: bod1,
+                                  date: "25/02/2025",
+                                  rate: "4.5",
+                                  description: review,
+                                );
                               },
                             ),
                           ),
                         ),
                       ),
-                      ////////
-                      ///
-                      ///Conocenos}
-                      ///
-                      ////////
                       Padding(
                         padding: EdgeInsets.only(
                           top: position * .1,
@@ -168,21 +109,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                           ),
                         ),
                       ),
-
-                      ///
-                      ///
-                      ///
-                      SocialBanners(),
-                      //////
-                      ///
-                      ///
-                      ///FINAL
-                      ///
-                      ///
-                      ///////
-                      SizedBox(
-                        height: position * .2,
-                      ),
+                      const SocialBanners(),
+                      SizedBox(height: position * .2),
                       SizedBox(
                         width: size,
                         height: position * .6,
@@ -196,45 +124,50 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                                     ? position * .3
                                     : position * .5,
                                 child: CarouselSlider(
-                                    items: [
-                                      frame1,
-                                      frame2,
-                                      frame1,
-                                      frame2,
-                                      frame2,
-                                      frame1
-                                    ].map((i) {
-                                      return Container(
-                                        width: size * .2,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: AssetImage(i),
-                                                fit: BoxFit.cover)),
-                                      );
-                                    }).toList(),
-                                    options: CarouselOptions(
-                                        aspectRatio: 2.0,
-                                        autoPlay: true,
-                                        enlargeFactor: 0,
-                                        pauseAutoPlayInFiniteScroll: false,
-                                        autoPlayAnimationDuration:
-                                            Duration(seconds: 10),
-                                        pauseAutoPlayOnManualNavigate: false,
-                                        scrollDirection: Axis.horizontal,
-                                        pageSnapping: false,
-                                        disableCenter: true,
-                                        viewportFraction: 0.8,
-                                        enlargeCenterPage: true,
-                                        autoPlayCurve: Curves.linear,
-                                        autoPlayInterval: Duration(seconds: 10),
-                                        enableInfiniteScroll: true)),
+                                  items: [
+                                    frame1,
+                                    frame2,
+                                    frame1,
+                                    frame2,
+                                    frame2,
+                                    frame1
+                                  ].map((i) {
+                                    return Container(
+                                      width: size * .2,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(i),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  options: CarouselOptions(
+                                    aspectRatio: 2.0,
+                                    autoPlay: true,
+                                    enlargeFactor: 0,
+                                    pauseAutoPlayInFiniteScroll: false,
+                                    autoPlayAnimationDuration:
+                                        const Duration(seconds: 10),
+                                    pauseAutoPlayOnManualNavigate: false,
+                                    scrollDirection: Axis.horizontal,
+                                    pageSnapping: false,
+                                    disableCenter: true,
+                                    viewportFraction: 0.8,
+                                    enlargeCenterPage: true,
+                                    autoPlayCurve: Curves.linear,
+                                    autoPlayInterval:
+                                        const Duration(seconds: 10),
+                                    enableInfiniteScroll: true,
+                                  ),
+                                ),
                               ),
                             ),
                             Center(
                               child: Container(
                                 width: size * .3,
                                 height: position * .6,
-                                padding: EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(12),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFFFFFFF),
                                   borderRadius: BorderRadius.circular(25),
@@ -243,25 +176,16 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                                   videoId: 'HmIdaxtQL9w',
                                   isAutoPlay: true,
                                   background: white,
-                                  controller: _controller,
+                                  controller: youtubeController!,
                                 ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      //////
-                      /////
-                      ///Marcas
-                      ///
-                      //////
-                      SizedBox(
-                        height: position * .2,
-                      ),
-                      FooterWidget(),
-                      SizedBox(
-                        height: position * .2,
-                      ),
+                      SizedBox(height: position * .2),
+                      const FooterWidget(),
+                      SizedBox(height: position * .2),
                     ],
                   ),
                 ),

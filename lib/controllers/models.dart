@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:bodas/routes/linkspaper.dart';
@@ -33,6 +34,46 @@ class Opinion {
     required this.descripcion,
   });
 }
+
+//Manejo de estado del ScrollOfset
+class ScrollOffsetNotifier extends StateNotifier<double> {
+  final Ref ref;
+  ScrollOffsetNotifier(this.ref) : super(0) {
+    _init();
+  }
+
+  void _init() {
+    final scrollController = ref.read(scrollControllerProvider);
+    scrollController.addListener(() {
+      state = scrollController.offset * 0.2;
+    });
+  }
+}
+
+//Controllador del video principal
+class YoutubeControllerNotifier extends StateNotifier<YoutubeWebPlayerController?> {
+  YoutubeControllerNotifier() : super(null) {
+    _init();
+  }
+
+  void _init() {
+    state = YoutubeWebPlayerController();
+    state?.addListener(_listener);
+  }
+
+  void _listener() {
+    if (state?.isReady == true) {
+      state?.play();
+    }
+  }
+
+  @override
+  void dispose() {
+    state?.dispose();
+    super.dispose();
+  }
+}
+
 
 // Notifier que maneja el estado del botón
 class ButtonStateNotifier extends StateNotifier<ButtonState> {
@@ -86,6 +127,28 @@ class RegistrationNotifier extends StateNotifier<AsyncValue<void>> {
     } catch (e) {
       state = AsyncError(e, StackTrace.current);
     }
+  }
+}
+
+// StateNotifier para manejar el índice y el timer
+class BannerIndexNotifier extends StateNotifier<int> {
+  BannerIndexNotifier(this.images) : super(0) {
+    _startTimer();
+  }
+
+  final List<String> images;
+  late Timer _timer;
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 8), (_) {
+      state = (state + 1) % images.length;
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 }
 

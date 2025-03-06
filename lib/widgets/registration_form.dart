@@ -6,7 +6,7 @@ class RegistroForm extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+  
 
     // Get form field values
     final email = ref.watch(emailProvider);
