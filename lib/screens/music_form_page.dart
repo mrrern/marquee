@@ -46,7 +46,10 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
 
           // Content
           Padding(
-            padding: EdgeInsets.fromLTRB(5, 7, isMobile ? 20 : 38, 22),
+            padding: EdgeInsets.symmetric(
+              horizontal: isMobile ? 20.0 : 40.0,
+              vertical: 20,
+              ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

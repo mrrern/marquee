@@ -72,3 +72,6 @@ export 'package:bodas/widgets/blur_effect.dart';
 export 'package:bodas/widgets/marquee_card.dart';
 export 'package:bodas/widgets/quotation_table.dart';
 export 'package:bodas/widgets/quotation_card.dart';
+export 'package:bodas/widgets/notification_item.dart';
+export 'package:bodas/widgets/notification_filter.dart';
+export 'package:bodas/widgets/notification_list.dart';

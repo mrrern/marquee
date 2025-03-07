@@ -1,6 +1,10 @@
 import 'package:bodas/routes/linkspaper.dart';
 import 'package:uuid/uuid.dart';
 
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'providers.g.dart';
+
 // Proveedor de estado para cada botón
 final buttonStateProvider =
     StateNotifierProvider.family<ButtonStateNotifier, ButtonState, String>(
@@ -464,3 +468,162 @@ final notesProvider = StateNotifierProvider<NotesNotifier, NotesState>((ref) {
 final responsiveNotesPerPageProvider = Provider.family<int, bool>((ref, isMobile) {
   return isMobile ? 2 : 4;
 });
+
+/// Enumeración para los tipos de filtro de notificaciones
+enum NotificationFilter {
+  all,
+  unread,
+  important,
+}
+
+/// Enumeración para el orden de las notificaciones
+enum NotificationOrder {
+  newest,
+  oldest,
+}
+
+/// Provider para el filtro actual de notificaciones
+@riverpod
+class CurrentFilter extends _$CurrentFilter {
+  @override
+  NotificationFilter build() {
+    return NotificationFilter.all;
+  }
+
+  void setFilter(NotificationFilter filter) {
+    state = filter;
+  }
+}
+
+/// Provider para el orden actual de notificaciones
+@riverpod
+class CurrentOrder extends _$CurrentOrder {
+  @override
+  NotificationOrder build() {
+    return NotificationOrder.newest;
+  }
+
+  void setOrder(NotificationOrder order) {
+    state = order;
+  }
+}
+
+/// Provider para la lista de notificaciones
+@riverpod
+class NotificationList extends _$NotificationList {
+  @override
+  List<NotificationModel> build() {
+    // Datos de ejemplo para las notificaciones
+    return [
+      NotificationModel(
+        id: '1',
+        title: 'Notificación, archivo de contrato adjunto',
+        content: '¡Enhorabuena! Has completado el proceso de contratación. Hemos adjuntado el contrato para que lo revises y firmes digitalmente. Una vez firmado, recibirás una copia en tu correo electrónico.',
+        date: DateTime.now().subtract(const Duration(minutes: 2)),
+        isRead: false,
+        filterType: 'Todos',
+      ),
+      NotificationModel(
+        id: '2',
+        title: 'Notificación, segundo paso completado',
+        content: 'Felicidades has completado el segundo paso, ahora puedes continuar con la selección de música para tu evento. Recuerda que puedes modificar tus selecciones en cualquier momento antes de la fecha límite.',
+        date: DateTime.now().subtract(const Duration(days: 1)),
+        isRead: true,
+        filterType: 'Todos',
+      ),
+      NotificationModel(
+        id: '3',
+        title: 'Notificación, archivo de contrato adjunto',
+        content: 'Gracias por completar el primer paso, a continuación hemos adjuntado el contrato preliminar para tu revisión. Por favor, revisa los detalles y comunícate con nosotros si tienes alguna pregunta o requieres modificaciones.',
+        date: DateTime.now().subtract(const Duration(days: 1)),
+        isRead: true,
+        filterType: 'Todos',
+      ),
+      NotificationModel(
+        id: '4',
+        title: 'Notificación, primer paso completado',
+        content: 'Felicidades has completado el primer paso, En las próximas 2 horas recibirás un correo electrónico con la confirmación y los siguientes pasos a seguir. Recuerda revisar tu bandeja de entrada y carpeta de spam.',
+        date: DateTime.now().subtract(const Duration(days: 2)),
+        isRead: true,
+        filterType: 'Todos',
+      ),
+      NotificationModel(
+        id: '5',
+        title: 'Notificación, archivo de cotización adjunto',
+        content: 'Gracias por su paciencia hemos adjuntado la cotización según la información proporcionada. Esta cotización es válida por 15 días. Si deseas proceder, por favor completa el formulario de confirmación adjunto.',
+        date: DateTime.now().subtract(const Duration(days: 2)),
+        isRead: true,
+        filterType: 'Todos',
+      ),
+    ];
+  }
+
+  /// Marca una notificación como leída
+  void markAsRead(String id) {
+    state = state.map((notification) {
+      if (notification.id == id) {
+        return notification.copyWith(isRead: true);
+      }
+      return notification;
+    }).toList();
+  }
+
+  /// Marca todas las notificaciones como leídas
+  void markAllAsRead() {
+    state = state.map((notification) => notification.copyWith(isRead: true)).toList();
+  }
+
+  /// Filtra las notificaciones según el filtro actual
+  List<NotificationModel> getFilteredNotifications(NotificationFilter filter) {
+    switch (filter) {
+      case NotificationFilter.all:
+        return state;
+      case NotificationFilter.unread:
+        return state.where((notification) => !notification.isRead).toList();
+      case NotificationFilter.important:
+        return state.where((notification) => notification.filterType == 'Importante').toList();
+    }
+  }
+
+  /// Ordena las notificaciones según el orden actual
+  List<NotificationModel> getSortedNotifications(
+      NotificationOrder order, List<NotificationModel> notifications) {
+    final sortedList = List<NotificationModel>.from(notifications);
+
+    switch (order) {
+      case NotificationOrder.newest:
+        sortedList.sort((a, b) => b.date.compareTo(a.date));
+        break;
+      case NotificationOrder.oldest:
+        sortedList.sort((a, b) => a.date.compareTo(b.date));
+        break;
+    }
+
+    return sortedList;
+  }
+}
+
+/// Provider para obtener notificaciones filtradas y ordenadas
+@riverpod
+List<NotificationModel> filteredAndSortedNotifications(Ref ref) {
+  final notifications = ref.watch(notificationListProvider);
+  final filter = ref.watch(currentFilterProvider);
+  final order = ref.watch(currentOrderProvider);
+
+  final filtered = ref.read(notificationListProvider.notifier).getFilteredNotifications(filter);
+  return ref.read(notificationListProvider.notifier).getSortedNotifications(order, filtered);
+}
+
+/// Provider para verificar si hay notificaciones no leídas
+@riverpod
+bool hasUnreadNotifications(Ref ref) {
+  final notifications = ref.watch(notificationListProvider);
+  return notifications.any((notification) => !notification.isRead);
+}
+
+/// Provider para contar las notificaciones no leídas
+@riverpod
+int unreadNotificationsCount(Ref ref) {
+  final notifications = ref.watch(notificationListProvider);
+  return notifications.where((notification) => !notification.isRead).length;
+}

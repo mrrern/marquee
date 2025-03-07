@@ -43,7 +43,7 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
     return Row(
       children: [
         // Sidebar
-        _buildSidebar(isMobile),
+        SidebarMenu(),
 
         // Main content
         Expanded(
@@ -86,103 +86,7 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
     );
   }
 
-  Widget _buildSidebar(bool isMobile) {
-    return Container(
-      width: isMobile ? 60 : 215,
-      padding: EdgeInsets.symmetric(vertical: isMobile ? 10 : 20),
-      decoration: BoxDecoration(
-        color: const Color(0xFFD9D9D9),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        children: [
-          // Logo
-          if (!isMobile) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Image.asset(
-                'assets/images/logo.png',
-                width: 216,
-                height: 46,
-              ),
-            ),
-            const SizedBox(height: 30),
-          ],
-
-          // Welcome text
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              "Bienvenido",
-              style: TextStyle(
-                color: const Color(0xFF4E4C4C),
-                fontFamily: 'Inter',
-                fontSize: isMobile ? 18 : 25,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 40),
-
-          // Navigation links
-          _buildNavItem(isMobile, 'ti-user', 'Registro'),
-          _buildNavItem(isMobile, 'ti-calculator', 'Cotización'),
-          _buildNavItem(isMobile, 'ti-music', 'Ficha musical'),
-          _buildNavItem(isMobile, 'ti-notes', 'Notas', isActive: true),
-          _buildNavItem(isMobile, 'ti-bell', 'Notificación'),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNavItem(bool isMobile, String icon, String label, {bool isActive = false}) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: 10,
-        horizontal: isMobile ? 0 : 20,
-      ),
-      margin: const EdgeInsets.only(bottom: 20),
-      child: Row(
-        mainAxisAlignment: isMobile ? MainAxisAlignment.center : MainAxisAlignment.start,
-        children: [
-          Icon(
-            _getIconData(icon),
-            size: 25,
-            color: isActive ? Colors.black : const Color(0xFFA3A3A3),
-          ),
-          if (!isMobile) ...[
-            const SizedBox(width: 10),
-            Text(
-              label,
-              style: TextStyle(
-                color: isActive ? Colors.black : const Color(0xFFA3A3A3),
-                fontFamily: 'Inter',
-                fontSize: 15,
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  IconData _getIconData(String icon) {
-    switch (icon) {
-      case 'ti-user':
-        return Icons.person;
-      case 'ti-calculator':
-        return Icons.calculate;
-      case 'ti-music':
-        return Icons.music_note;
-      case 'ti-notes':
-        return Icons.note;
-      case 'ti-bell':
-        return Icons.notifications;
-      default:
-        return Icons.circle;
-    }
-  }
+  
 
   Widget _buildHeader(bool isMobile) {
     return Padding(
@@ -270,7 +174,7 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
       padding: EdgeInsets.all(isMobile ? 10 : 20),
       decoration: BoxDecoration(
         image: const DecorationImage(
-          image: AssetImage('assets/images/cork_board.png'),
+          image: AssetImage(pizarra),
           fit: BoxFit.cover,
         ),
         borderRadius: BorderRadius.circular(10),

@@ -48,7 +48,10 @@ class WeddingRegistrationScreen extends StatelessWidget {
           // Sidebar Menu
           Align(
             alignment: Alignment.centerLeft,
-            child: SidebarMenu(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: SidebarMenu(),
+            ),
           ),
         ],
       ),
@@ -67,7 +70,7 @@ class WeddingRegistrationScreen extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(width: 300 ),
+        const SizedBox(width: 300),
         Expanded(
           flex: isTablet ? 3 : 2,
           child: SingleChildScrollView(

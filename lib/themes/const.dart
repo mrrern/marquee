@@ -31,6 +31,7 @@ const bod1 = 'assets/images/bod1.png';
 const bod2 = 'assets/images/bod2.png';
 const bod3 = 'assets/images/bod3.png';
 const bod4 = 'assets/images/bod4.png';
+const pizarra = 'assets/images/pizarra.png';
 
 //social media
 const insta = 'assets/images/inst.svg';

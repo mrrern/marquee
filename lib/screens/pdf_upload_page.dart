@@ -13,14 +13,11 @@ class ContratoScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buildHeader(),
-              _buildMainContent(context),
-            ],
-          ),
-        ),
+        child: Stack(
+          children: [
+            
+          ],
+        )
       ),
     );
   }
@@ -98,6 +95,7 @@ class ContratoScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             _buildContentWithSidebar(context, isTablet: false),
+            const SidebarMenu(),
           ],
         ),
       ),
@@ -113,7 +111,6 @@ class ContratoScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Sidebar menu - 24% width
-          const SidebarMenu(),
           const SizedBox(width: 20),
           // Main content - 76% width
           Expanded(
