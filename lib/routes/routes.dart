@@ -40,6 +40,10 @@ final GoRouter router = GoRouter(
       path: '/notes',
       builder: (context, state) => NotesScreen(),
     ),
+    GoRoute(
+      path: '/notificacion',
+      builder: (context, state) => NotificationScreen(),
+    ),
 
     // Admin dashboard routes
     GoRoute(

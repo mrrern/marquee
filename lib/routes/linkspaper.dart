@@ -14,8 +14,6 @@ export 'package:webview_flutter/webview_flutter.dart';
 export 'package:file_picker/file_picker.dart';
 export 'package:dropdown_button2/dropdown_button2.dart';
 
-
-
 // Pantallas
 export 'package:bodas/app.dart';
 export 'package:bodas/screens/main_page.dart';
@@ -29,6 +27,7 @@ export 'package:bodas/screens/pdf_upload_page.dart';
 export 'package:bodas/screens/note_page.dart';
 export 'package:bodas/screens/admin_dashboard.dart';
 export 'package:bodas/screens/quotation_page.dart';
+export 'package:bodas/screens/notification_page.dart';
 
 //routes
 export 'package:bodas/routes/routes.dart';
