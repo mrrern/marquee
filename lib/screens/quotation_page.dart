@@ -42,7 +42,7 @@ class QuotationRequestScreen extends StatelessWidget {
                       children: [
                         ...mockQuotationRequests.take(4).map((quotation) =>
                           QuotationCard(quotation: quotation)
-                        ).toList(),
+                        ),
                         _buildPagination(),
                       ],
                     ),

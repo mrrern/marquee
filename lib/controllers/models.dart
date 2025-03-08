@@ -35,6 +35,9 @@ class Opinion {
   });
 }
 
+
+
+
 //Manejo de estado del ScrollOfset
 class ScrollOffsetNotifier extends StateNotifier<double> {
   final Ref ref;

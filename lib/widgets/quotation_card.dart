@@ -5,10 +5,10 @@ class QuotationCard extends StatelessWidget {
   final VoidCallback? onTap;
 
   const QuotationCard({
-    Key? key,
+    super.key,
     required this.quotation,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

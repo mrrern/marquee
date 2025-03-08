@@ -17,7 +17,7 @@ class NotificationScreen extends ConsumerWidget {
       // Tablet layout
       Column(
         children: [
-          _buildHeader(context),
+          HeaderWidget(),
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,7 +50,7 @@ class NotificationScreen extends ConsumerWidget {
       // Mobile layout
       mobile: Column(
         children: [
-          _buildHeader(context),
+          HeaderWidget(),
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(10),
@@ -71,7 +71,7 @@ class NotificationScreen extends ConsumerWidget {
       // Web layout
       web: Column(
         children: [
-          _buildHeader(context),
+          HeaderWidget(),
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,34 +111,6 @@ class NotificationScreen extends ConsumerWidget {
             ),
           ),
           FooterWidget(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Image.asset(
-            'assets/images/logo.png',
-            width: 216,
-            height: 46,
-          ),
-          InkWell(
-            onTap: () {
-              context.go('/');
-            },
-            child: Text(
-              'Salir',
-              style: GoogleFonts.inter(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -200,5 +172,4 @@ class NotificationScreen extends ConsumerWidget {
       ),
     );
   }
-
 }

@@ -5,10 +5,10 @@ class QuotationTable extends StatelessWidget {
   final Function(QuotationRequest)? onSelect;
 
   const QuotationTable({
-    Key? key,
+    super.key,
     required this.quotations,
     this.onSelect,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,3 @@
-
 import 'package:bodas/routes/linkspaper.dart';
 
 class FormSection extends StatelessWidget {
@@ -15,6 +14,7 @@ class FormSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isMobile = Responsive.isMobile(context);
     return Padding(
       padding: padding,
       child: Column(
@@ -23,12 +23,13 @@ class FormSection extends StatelessWidget {
           Text(
             title,
             style: GoogleFonts.inter(
-              fontSize: 40,
+              fontSize: isMobile ? 30 : 40,
               fontWeight: FontWeight.w700,
               color: const Color(0xFF888888),
               height: 0.5,
               letterSpacing: 0.4,
-            ),
+            ).copyWith(
+                leadingDistribution: TextLeadingDistribution.proportional),
           ),
           const SizedBox(height: 20),
           ...children,

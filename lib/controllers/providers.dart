@@ -627,3 +627,4 @@ int unreadNotificationsCount(Ref ref) {
   final notifications = ref.watch(notificationListProvider);
   return notifications.where((notification) => !notification.isRead).length;
 }
+

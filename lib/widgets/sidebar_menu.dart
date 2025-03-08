@@ -20,11 +20,15 @@ class _SidebarMenuState extends State<SidebarMenu> {
     bool isMobile = Responsive.isMobile(context);
 
     double sidebarWidth = isMobile
-        ? 60
+        ? 55
         : isExpanded
             ? 200
             : 70;
-
+    setState(() {
+      if (isMobile == true) {
+        isExpanded == false;
+      }
+    });
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       width: sidebarWidth,
@@ -102,7 +106,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
 
           const SizedBox(height: 20),
           _buildMenuItem(
-            route: '/notification',
+            route: '/notificacion',
             icon: Icons.notifications_outlined,
             label: 'Notificación',
             index: 4,
@@ -120,7 +124,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
   }) {
     String currentRoute = GoRouter.of(context).state.path.toString();
     bool isActive = currentRoute == route; // Verifica si es la ruta actual
-    
+    bool isMobile = Responsive.isMobile(context);
     return InkWell(
       onTap: () {
         if (widget.onMenuItemTap != null) {
@@ -137,7 +141,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
               size: 25,
               color: isActive ? Colors.black : const Color(0xFFC1C1C1),
             ),
-            if (isExpanded == true) ...[
+            if (isExpanded == true && !isMobile) ...[
               const SizedBox(width: 15),
               Expanded(
                 child: Text(

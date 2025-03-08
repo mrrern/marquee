@@ -78,7 +78,8 @@ class WeddingRegistrationScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 30),
-        if (!isTablet) // Solo mostrar imagen en versión web
+        // Solo mostrar imagen en versión web
+        if (!isTablet) 
           Flexible(
             flex: 2,
             child: Image.asset(
