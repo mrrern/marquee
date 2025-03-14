@@ -8,19 +8,23 @@ class MusicFormContent extends ConsumerWidget {
     final formState = ref.watch(weddingMusicFormProvider);
     final formNotifier = ref.read(weddingMusicFormProvider.notifier);
     final isMobile = MediaQuery.of(context).size.width < 640;
+    final formKeyMusic = GlobalKey<FormState>();
 
     return Container(
       constraints: const BoxConstraints(maxWidth: 655),
       margin: isMobile ? const EdgeInsets.only(left: 34) : EdgeInsets.zero,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildEntranceSection(formNotifier),
-          _buildCeremonySection(formNotifier, formState, context),
-          _buildCocktailSection(formNotifier),
-          _buildMealTimeSection(formNotifier),
-          _buildOpenBarSection(formNotifier, context),
-        ],
+      child: Form(
+        key: formKeyMusic,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildEntranceSection(formNotifier),
+            _buildCeremonySection(formNotifier, formState, context),
+            _buildCocktailSection(formNotifier),
+            _buildMealTimeSection(formNotifier),
+            _buildOpenBarSection(formNotifier, context, ref),
+          ],
+        ),
       ),
     );
   }
@@ -127,8 +131,10 @@ class MusicFormContent extends ConsumerWidget {
     );
   }
 
-  Widget _buildOpenBarSection(
-      WeddingMusicFormNotifier formNotifier, BuildContext context) {
+  Widget _buildOpenBarSection(WeddingMusicFormNotifier formNotifier,
+      BuildContext context, WidgetRef ref) {
+    final formKeyMusic = GlobalKey<FormState>();
+
     return _buildFormSection(
       title: 'Barra Libre',
       children: [
@@ -184,24 +190,13 @@ class MusicFormContent extends ConsumerWidget {
         ),
         const SizedBox(height: 29),
         Center(
-          child: Container(
-            width: 208,
-            height: 41,
-            decoration: BoxDecoration(
-              color: const Color(0xFFD9D9D9),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Center(
-              child: Text(
-                'GUARDAR',
-                style: GoogleFonts.inter(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
+          child: HoverButton(press: () {
+            if (formKeyMusic.currentState!.validate()) {
+              final success =
+                  ref.read(weddingMusicFormProvider.notifier).saveForm();
+              context.go('/contract');
+            }
+          }, "GUARDAR"),
         ),
       ],
     );

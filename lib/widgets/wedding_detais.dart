@@ -1,9 +1,15 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-class WeddingFormFields extends StatelessWidget {
-  WeddingFormFields({super.key});
+class WeddingFormFields extends StatefulWidget {
+  const WeddingFormFields({super.key});
 
-  final List<String> ceremonyTypes = ['Civil', ''];
+  @override
+  State<WeddingFormFields> createState() => _WeddingFormFieldsState();
+}
+
+class _WeddingFormFieldsState extends State<WeddingFormFields> {
+  final List<String> ceremonyTypes = ['Civil', 'Religiosa'];
+  final _formKey = GlobalKey<FormState>();
   String? selectedCeremonyType;
 
   @override
@@ -13,122 +19,114 @@ class WeddingFormFields extends StatelessWidget {
     return Container(
       constraints: const BoxConstraints(maxWidth: 655),
       margin: isMobile ? const EdgeInsets.only(left: 34) : EdgeInsets.zero,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              child: Text(
-                'Aquí empieza todo:',
-                style: GoogleFonts.inter(
-                  fontSize: isMobile ? 30 : 40,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF888888),
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ),
-         const SizedBox(height: 10),
-
-          // Names field group
-          _buildFieldGroup(
-            context: context,
-            label: 'Nombres y apellidos de los novios',
-            child: _buildDualInputRow(
-              context: context,
-              firstHint: 'Carlos Rodriguez',
-              secondHint: 'Erika Rivas',
-            ),
-          ),
-
-          // Phone field group
-          _buildFieldGroup(
-            context: context,
-            label: 'Teléfonos',
-            child: _buildDualInputRow(
-              context: context,
-              firstHint: 'Teléfono 1',
-              secondHint: 'Teléfono 2',
-            ),
-          ),
-
-          // Birth date field group
-          _buildFieldGroup(
-            context: context,
-            label: 'Fecha de Nacimiento',
-            child: isMobile
-                ? const SizedBox()
-                : _buildDualInputRow(
-                    context: context,
-                    firstHint: 'Fecha 1',
-                    secondHint: 'Fecha 2',
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                child: Text(
+                  'Aquí empieza todo:',
+                  style: GoogleFonts.inter(
+                    fontSize: isMobile ? 30 : 40,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF888888),
                   ),
-          ),
-
-          // Email field group
-          _buildFieldGroup(
-            context: context,
-            label: 'Correo Electrónico',
-            child: _buildDualInputRow(
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+        
+            // Names field group
+            _buildFieldGroup(
               context: context,
-              firstHint: 'Correo 1',
-              secondHint: 'Correo 2',
+              label: 'Nombres y apellidos de los novios',
+              child: _buildDualInputRow(
+                context: context,
+                firstHint: 'Carlos Rodriguez',
+                secondHint: 'Erika Rivas',
+              ),
             ),
-          ),
-
-          // Ceremony type and guests
-          _buildFieldGroup(
-            context: context,
-            label: '',
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: _buildCeremonyDropdown(context),
-                ),
-                if (!isMobile) const SizedBox(width: 40),
-                Expanded(
-                  child: FormInputField(
-                    hintText: 'Número de invitados',
-                    height: 38,
+        
+            // Phone field group
+            _buildFieldGroup(
+              context: context,
+              label: 'Teléfonos',
+              child: _buildDualInputRow(
+                context: context,
+                firstHint: 'Teléfono 1',
+                secondHint: 'Teléfono 2',
+              ),
+            ),
+        
+            // Birth date field group
+            _buildFieldGroup(
+              context: context,
+              label: 'Fecha de Nacimiento',
+              child: isMobile
+                  ? const SizedBox()
+                  : _buildDualInputRow(
+                      context: context,
+                      firstHint: 'Fecha 1',
+                      secondHint: 'Fecha 2',
+                    ),
+            ),
+        
+            // Email field group
+            _buildFieldGroup(
+              context: context,
+              label: 'Correo Electrónico',
+              child: _buildDualInputRow(
+                context: context,
+                firstHint: 'Correo 1',
+                secondHint: 'Correo 2',
+              ),
+            ),
+        
+            // Ceremony type and guests
+            _buildFieldGroup(
+              context: context,
+              label: '',
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: _buildCeremonyDropdown(context),
                   ),
-                ),
-              ],
-            ),
-          ),
-
-          // Ceremony location
-          _buildFieldGroup(
-            context: context,
-            label: 'Lugar de la ceremonia',
-            child: FormInputField(
-              hintText: 'Ingrese ubicación',
-              height: 38,
-            ),
-          ),
-
-          // Submit button
-          Center(
-            child: Container(
-              width: 208,
-              margin: const EdgeInsets.symmetric(vertical: 30),
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: const Color(0xFFD9D9D9),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                'SOLICITAR COTIZACION',
-                style: GoogleFonts.inter(
-                  fontWeight: FontWeight.w500,
-                ),
+                  if (!isMobile) const SizedBox(width: 40),
+                  Expanded(
+                    child: FormInputField(
+                      hintText: 'Número de invitados',
+                      height: 38,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+        
+            // Ceremony location
+            _buildFieldGroup(
+              context: context,
+              label: 'Lugar de la ceremonia',
+              child: FormInputField(
+                hintText: 'Ingrese ubicación',
+                height: 38,
+              ),
+            ),
+        
+            // Submit button
+            Center(
+              child: HoverButton(press: () {
+                if (_formKey.currentState!.validate()) {
+                  context.go('/music');
+                }
+              }, "SOLICITAR COTIZACION"),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -659,3 +659,8 @@ final remarketingProvider = StateNotifierProvider<RemarketingProvider, Remarketi
     ],
   );
 });
+
+
+
+final textHoverProvider = StateProvider<bool>((ref) => false);
+final text2HoverProvider = StateProvider<bool>((ref) => false);

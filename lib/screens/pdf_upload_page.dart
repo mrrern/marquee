@@ -19,35 +19,6 @@ class ContratoScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 7.0),
-      child: Container(
-        width: double.infinity,
-        constraints: const BoxConstraints(maxWidth: 1397),
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image.asset(
-              logo,
-              width: 216,
-              fit: BoxFit.contain,
-            ),
-            Text(
-              'Salir',
-              style: GoogleFonts.inter(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildMainContent(BuildContext context) {
     return Responsive(
       // Tablet view
@@ -77,6 +48,10 @@ class ContratoScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             _buildMobileContent(context),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: SidebarMenu(),
+            ),
           ],
         ),
       ),
@@ -120,7 +95,17 @@ class ContratoScreen extends StatelessWidget {
 
   Widget _buildMobileContent(BuildContext context) {
     return SafeArea(
-      child: _buildRightContent(context),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Sidebar menu - 24% width
+          const SizedBox(width: 20),
+          // Main content - 76% width
+          Expanded(
+            child: _buildRightContent(context),
+          ),
+        ],
+      ),
     );
   }
 
@@ -151,23 +136,9 @@ class ContratoScreen extends StatelessWidget {
         const FileUploadWidget(),
         const SizedBox(height: 93),
         Center(
-          child: Container(
-            width: 208,
-            height: 41,
-            decoration: BoxDecoration(
-              color: const Color(0xFFD9D9D9),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              'LLENAR FICHA MUSICAL',
-              style: GoogleFonts.inter(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-            ),
-          ),
+          child: HoverButton("GUARDAR FICHA", press: () {
+            context.go('/notificacion');
+          }),
         ),
       ],
     );
