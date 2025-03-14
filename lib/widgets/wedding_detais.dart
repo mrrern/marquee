@@ -3,7 +3,7 @@ import 'package:bodas/routes/linkspaper.dart';
 class WeddingFormFields extends StatelessWidget {
   WeddingFormFields({super.key});
 
-  final List<String> ceremonyTypes = ['1', '2'];
+  final List<String> ceremonyTypes = ['Civil', ''];
   String? selectedCeremonyType;
 
   @override
@@ -30,7 +30,7 @@ class WeddingFormFields extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 10),
+         const SizedBox(height: 10),
 
           // Names field group
           _buildFieldGroup(

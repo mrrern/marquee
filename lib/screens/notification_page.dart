@@ -144,7 +144,7 @@ class NotificationScreen extends ConsumerWidget {
                   width: 15,
                 ),
                 image: const DecorationImage(
-                  image: AssetImage('assets/images/decorative1.jpg'),
+                  image: AssetImage(port1),
                   fit: BoxFit.cover,
                 ),
               ),

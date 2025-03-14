@@ -711,3 +711,118 @@ class NotificationModel {
     );
   }
 }
+
+
+// quotation_provider.dart
+class QuotationState {
+  final int currentPage;
+  final int itemsPerPage;
+  final List<QuotationRequest> quotations;
+
+  QuotationState({
+    this.currentPage = 1,
+    this.itemsPerPage = 4,
+    required this.quotations,
+  });
+
+  QuotationState copyWith({
+    int? currentPage,
+    int? itemsPerPage,
+    List<QuotationRequest>? quotations,
+  }) {
+    return QuotationState(
+      currentPage: currentPage ?? this.currentPage,
+      itemsPerPage: itemsPerPage ?? this.itemsPerPage,
+      quotations: quotations ?? this.quotations,
+    );
+  }
+
+  int get totalPages => (quotations.length / itemsPerPage).ceil();
+}
+
+class QuotationProvider extends StateNotifier<QuotationState> {
+  QuotationProvider({required List<QuotationRequest> quotations})
+      : super(QuotationState(quotations: quotations));
+
+  void updateItemsPerPage(int itemsPerPage) {
+    state = state.copyWith(
+      itemsPerPage: itemsPerPage,
+      currentPage: 1,
+    );
+  }
+
+  void changePage(int page) {
+    state = state.copyWith(currentPage: page);
+  }
+}
+
+
+
+// Modelo Remarketing
+class RemarketingUser {
+  final String name;
+  final String status;
+  final String date;
+  final String email;
+  bool isSelected;
+
+  RemarketingUser({
+    required this.name,
+    required this.status,
+    required this.date,
+    required this.email,
+    this.isSelected = false,
+  });
+}
+
+
+// Estado y Provider Remarketing
+class RemarketingState {
+  final int currentPage;
+  final int itemsPerPage;
+  final List<RemarketingUser> users;
+
+  RemarketingState({
+    this.currentPage = 1,
+    this.itemsPerPage = 4,
+    required this.users,
+  });
+
+  RemarketingState copyWith({
+    int? currentPage,
+    int? itemsPerPage,
+    List<RemarketingUser>? users,
+  }) {
+    return RemarketingState(
+      currentPage: currentPage ?? this.currentPage,
+      itemsPerPage: itemsPerPage ?? this.itemsPerPage,
+      users: users ?? this.users,
+    );
+  }
+
+  int get totalPages => (users.length / itemsPerPage).ceil();
+}
+
+
+
+class RemarketingProvider extends StateNotifier<RemarketingState> {
+  RemarketingProvider({required List<RemarketingUser> users})
+      : super(RemarketingState(users: users));
+
+  void updateItemsPerPage(int itemsPerPage) {
+    state = state.copyWith(
+      itemsPerPage: itemsPerPage,
+      currentPage: 1,
+    );
+  }
+
+  void changePage(int page) {
+    state = state.copyWith(currentPage: page);
+  }
+
+  void toggleUserSelection(int index) {
+    final updatedUsers = state.users.toList();
+    updatedUsers[index].isSelected = !updatedUsers[index].isSelected;
+    state = state.copyWith(users: updatedUsers);
+  }
+}

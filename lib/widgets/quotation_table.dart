@@ -26,6 +26,7 @@ class QuotationTable extends StatelessWidget {
             headingRowColor: WidgetStateProperty.all(const Color(0xFFECECEC)),
             dataRowMinHeight: 70,
             dataRowMaxHeight: 70,
+            
             columns: [
               DataColumn(
                 label: Checkbox(
@@ -200,20 +201,12 @@ class QuotationTable extends StatelessWidget {
                   ),
                   DataCell(
                     quotation.hasQuotation
-                        ? Image.asset(
-                            'assets/images/pdf_icon.png',
-                            width: 55,
-                            height: 54,
-                          )
+                        ? Icon(Icons.picture_as_pdf, size: 54,)
                         : const SizedBox(),
                   ),
                   DataCell(
                     quotation.hasSignedContract
-                        ? Image.asset(
-                            'assets/images/pdf_icon.png',
-                            width: 55,
-                            height: 54,
-                          )
+                        ? Icon(Icons.picture_as_pdf, size: 54,)
                         : const SizedBox(),
                   ),
                   DataCell(
@@ -222,13 +215,13 @@ class QuotationTable extends StatelessWidget {
                         Icon(
                           Icons.phone,
                           size: 20,
-                          color: Colors.black.withOpacity(0.59),
+                          color: Colors.black.withValues(alpha: 0.59),
                         ),
                         const SizedBox(width: 10),
                         Icon(
                           Icons.message,
                           size: 20,
-                          color: Colors.black.withOpacity(0.59),
+                          color: Colors.black.withValues(alpha: 0.59),
                         ),
                       ],
                     ),

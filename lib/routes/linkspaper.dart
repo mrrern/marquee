@@ -28,6 +28,8 @@ export 'package:bodas/screens/note_page.dart';
 export 'package:bodas/screens/admin_dashboard.dart';
 export 'package:bodas/screens/quotation_page.dart';
 export 'package:bodas/screens/notification_page.dart';
+export 'package:bodas/screens/remarketing_page.dart';
+
 
 //routes
 export 'package:bodas/routes/routes.dart';
@@ -75,3 +77,4 @@ export 'package:bodas/widgets/notification_item.dart';
 export 'package:bodas/widgets/notification_filter.dart';
 export 'package:bodas/widgets/notification_list.dart';
 export 'package:bodas/widgets/music_form.dart';
+export 'package:bodas/widgets/remarketing_table.dart';

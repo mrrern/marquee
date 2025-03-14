@@ -60,11 +60,11 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/admin/notas',
-      builder: (context, state) => const Placeholder(), // Replace with actual screen
+      builder: (context, state) => const NotesScreen(), // Replace with actual screen
     ),
     GoRoute(
       path: '/admin/remarketing',
-      builder: (context, state) => const Placeholder(), // Replace with actual screen
+      builder: (context, state) => const RemarketingScreen(), // Replace with actual screen
     ),
     GoRoute(
       path: '/admin/usuarios',

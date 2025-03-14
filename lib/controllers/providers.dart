@@ -628,3 +628,34 @@ int unreadNotificationsCount(Ref ref) {
   return notifications.where((notification) => !notification.isRead).length;
 }
 
+//Provider de paginacion de Contrataciones
+final quotationProvider = StateNotifierProvider.autoDispose<QuotationProvider, QuotationState>(
+  (ref) => QuotationProvider(quotations: mockQuotationRequests),
+);
+
+// Agrega esto en tu archivo de providers (ej: remarketing_provider.dart)
+final remarketingProvider = StateNotifierProvider<RemarketingProvider, RemarketingState>((ref) {
+  return RemarketingProvider(
+    users: [
+      RemarketingUser(
+        name: 'Emily Bryce @Emily',
+        status: 'Active',
+        date: '15/01/25',
+        email: 'Emily@unfittedul.com',
+      ),
+      RemarketingUser(
+        name: 'Phoenix Baker @photrix',
+        status: 'Active',
+        date: '10/02/25',
+        email: 'phoenigunfittedul.com',
+      ),
+      RemarketingUser(
+        name: 'Erica Rivas @Erica',
+        status: 'Imprison',
+        date: '29/03/25',
+        email: 'Erika@unfittedul.com',
+      ),
+      // Agrega los demás usuarios de la tabla aquí
+    ],
+  );
+});
