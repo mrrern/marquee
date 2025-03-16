@@ -9,10 +9,11 @@ class SocialBanners extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size.width;
     final position = MediaQuery.of(context).size.height;
+    final isWeb = Responsive.isWeb(context);
     return Padding(
       padding: EdgeInsets.all(8),
       child: SizedBox(
-        width: size * .3,
+        width: isWeb ? size * .3 : size * .64,
         height: position * .13,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,

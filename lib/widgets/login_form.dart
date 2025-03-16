@@ -237,7 +237,6 @@ class LoginForm extends ConsumerWidget {
       builder: (context) => const Center(
         child: CircularProgressIndicator(),
       ),
-    
     );
 
     // Simulate authentication delay
@@ -256,5 +255,7 @@ class LoginForm extends ConsumerWidget {
       // Navigate to home or dashboard
       // context.go('/dashboard');
     });
+
+    context.go('/notificacion');
   }
 }

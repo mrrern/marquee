@@ -46,7 +46,7 @@ class _CarruselFState extends ConsumerState<CarruselF> {
     final size = MediaQuery.of(context).size.width;
     final position = MediaQuery.of(context).size.height;
     final indexImage = ref.watch(imageIndexProvider);
-
+    final isWeb = Responsive.isWeb(context);
     return AnimatedSwitcher(
       duration: Duration(seconds: 1),
       transitionBuilder: (Widget child, Animation<double> animation) {
@@ -54,8 +54,8 @@ class _CarruselFState extends ConsumerState<CarruselF> {
       },
       child: Container(
         key: ValueKey<int>(indexImage),
-        width: size * .35,
-        height: position * .9,
+        width: isWeb ? size * .35 : size * .85,
+        height: isWeb ? position * .3 : position * .4,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
