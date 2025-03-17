@@ -31,7 +31,7 @@ class _InicialFormState extends ConsumerState<InicialForm> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Header with logo and exit button
+                HeaderWidget(),
                 Padding(
                   padding:
                       const EdgeInsets.only(top: 7.0, left: 16.0, right: 16.0),

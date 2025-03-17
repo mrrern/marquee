@@ -55,7 +55,7 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
             child: Column(
               children: [
                 // Header
-                _buildHeader(isMobile),
+                HeaderWidget(),
 
                 // Notes container
                 Expanded(
@@ -87,35 +87,6 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
   }
 
   
-
-  Widget _buildHeader(bool isMobile) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 30),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "Notas",
-            style: TextStyle(
-              color: const Color(0xFF888888),
-              fontFamily: 'Inter',
-              fontSize: isMobile ? 30 : 45,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          Text(
-            "Salir",
-            style: TextStyle(
-              color: Colors.black,
-              fontFamily: 'Inter',
-              fontSize: isMobile ? 16 : 20,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildNotesHeader(bool isMobile) {
     return Container(

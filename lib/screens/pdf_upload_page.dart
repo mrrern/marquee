@@ -13,9 +13,26 @@ class ContratoScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: _buildMainContent(context),
-      )),
+          child: Stack(
+
+            children: [
+              Positioned.fill(
+                child: Image.asset(
+                back2,
+                width: double.infinity,
+                height: 686,
+                fit: BoxFit.cover,
+                            ),
+              ),
+              SingleChildScrollView(
+                      child: _buildMainContent(context),
+                    ),
+              Align(
+              alignment: Alignment.centerLeft,
+              child: SidebarMenu(),
+            ),
+            ],
+          )),
     );
   }
 
@@ -24,52 +41,17 @@ class ContratoScreen extends StatelessWidget {
       // Tablet view
       SizedBox(
         width: MediaQuery.of(context).size.width,
-        child: Stack(
-          children: [
-            Image.asset(
-              back2,
-              width: double.infinity,
-              height: 686,
-              fit: BoxFit.cover,
-            ),
-            _buildContentWithSidebar(context, isTablet: true),
-          ],
-        ),
+        child: _buildContentWithSidebar(context, isTablet: true),
       ),
       // Mobile view
       mobile: Container(
         margin: const EdgeInsets.only(top: 40),
-        child: Stack(
-          children: [
-            Image.asset(
-              back2,
-              width: double.infinity,
-              height: 686,
-              fit: BoxFit.cover,
-            ),
-            _buildMobileContent(context),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: SidebarMenu(),
-            ),
-          ],
-        ),
+        child: _buildMobileContent(context),
       ),
       // Web view
       web: SizedBox(
         width: 1100,
-        child: Stack(
-          children: [
-            Image.asset(
-              back2,
-              width: double.infinity,
-              height: 686,
-              fit: BoxFit.cover,
-            ),
-            _buildContentWithSidebar(context, isTablet: false),
-            const SidebarMenu(),
-          ],
-        ),
+        child: _buildContentWithSidebar(context, isTablet: false),
       ),
     );
   }
@@ -83,7 +65,7 @@ class ContratoScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Sidebar menu - 24% width
-          const SizedBox(width: 20),
+           SizedBox( width: isTablet ? 200 : 180),
           // Main content - 76% width
           Expanded(
             child: _buildRightContent(context),
@@ -99,7 +81,7 @@ class ContratoScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Sidebar menu - 24% width
-          const SizedBox(width: 20),
+          const SizedBox(width: 25),
           // Main content - 76% width
           Expanded(
             child: _buildRightContent(context),

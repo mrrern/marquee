@@ -76,10 +76,8 @@ class NotificationScreen extends ConsumerWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 6, top: 10),
-                  child: SidebarMenu(),
-                ),
+                SidebarMenu(),
+                SizedBox(width: 20,),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(20),
@@ -162,7 +160,7 @@ class NotificationScreen extends ConsumerWidget {
                   width: 15,
                 ),
                 image: const DecorationImage(
-                  image: AssetImage('assets/images/decorative2.jpg'),
+                  image: AssetImage(port2),
                   fit: BoxFit.cover,
                 ),
               ),

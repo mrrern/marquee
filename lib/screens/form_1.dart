@@ -7,13 +7,28 @@ class WeddingRegistrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Responsive(
-        // Tablet view
-        SingleChildScrollView(child: _buildContent(isTablet: true)),
-        // Mobile view
-        mobile: SingleChildScrollView(child: _buildContent(isMobile: true)),
-        // Web view
-        web: SingleChildScrollView(child: _buildContent()),
+      body: Stack(
+        children: [
+          // Background image
+          Positioned.fill(
+            child: Image.asset(
+              background,
+              fit: BoxFit.cover,
+            ),
+          ),
+          Responsive(
+            // Tablet view
+            SingleChildScrollView(child: _buildContent(isTablet: true)),
+            // Mobile view
+            mobile: SingleChildScrollView(child: _buildContent(isMobile: true)),
+            // Web view
+            web: SingleChildScrollView(child: _buildContent()),
+          ),
+          Align(
+            alignment: Alignment(-1, 0),
+            child: SidebarMenu(),
+          )
+        ],
       ),
     );
   }
@@ -23,34 +38,30 @@ class WeddingRegistrationScreen extends StatelessWidget {
       color: Colors.white,
       child: Stack(
         children: [
-          // Background image
-          Positioned.fill(
-            child: Image.asset(
-              background,
-              fit: BoxFit.cover,
-            ),
-          ),
-
           // Main content
           Padding(
             padding: EdgeInsets.symmetric(
               horizontal: isMobile ? 20.0 : 40.0,
               vertical: 20,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Responsive content
-                _buildResponsiveContent(isMobile: isMobile, isTablet: isTablet),
-              ],
+            child: Expanded(
+              flex: isTablet ? 2 : 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Responsive content
+                  _buildResponsiveContent(
+                      isMobile: isMobile, isTablet: isTablet),
+                ],
+              ),
             ),
           ),
-          // Sidebar Menu
+
           Align(
-            alignment: Alignment.centerLeft,
+            alignment: Alignment(0, -1),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: SidebarMenu(),
+              child: HeaderWidget(),
             ),
           ),
         ],
@@ -72,14 +83,13 @@ class WeddingRegistrationScreen extends StatelessWidget {
       children: [
         const SizedBox(width: 300),
         Expanded(
-          flex: isTablet ? 3 : 2,
           child: SingleChildScrollView(
             child: WeddingFormFields(),
           ),
         ),
         const SizedBox(width: 30),
         // Solo mostrar imagen en versión web
-        if (!isTablet) 
+        if (!isTablet)
           Flexible(
             flex: 2,
             child: Image.asset(

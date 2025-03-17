@@ -20,24 +20,15 @@ class HeaderWidget extends StatelessWidget {
               onTap: () => context.go('/'),
               child: Image.asset(
                 logo,
-                width: 216,
+                width: isMobile ? 190 : 216,
                 fit: BoxFit.contain,
               ),
             ),
 
             // Exit button
-            Container(
-              margin: const EdgeInsets.only(top: 21),
-              child: Text(
-                'Salir',
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: isMobile? 20 : 30,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                  height: 0.6,
-                ),
-              ),
+            ButtonItem(
+              title: "Salir",
+              route: '/',
             ),
           ],
         ),

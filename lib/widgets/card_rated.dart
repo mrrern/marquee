@@ -364,7 +364,7 @@ class CardRatedWeb extends StatelessWidget {
       padding: const EdgeInsets.only(top: 15),
       child: Container(
         width: size.width * 0.5,
-        height: size.height * 0.18,
+        height: size.height * 0.25,
         decoration: BoxDecoration(
           color: const Color(0xE1FFFFFF),
           borderRadius: BorderRadius.circular(10),
@@ -380,7 +380,7 @@ class CardRatedWeb extends StatelessWidget {
               ),
               const SizedBox(width: 30),
               Expanded(
-                child: Column(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

@@ -13,10 +13,20 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Responsive(
-        SingleChildScrollView(child: _buildContent(isTablet: true)),
-        mobile: SingleChildScrollView(child: _buildContent(isMobile: true)),
-        web: SingleChildScrollView(child: _buildContent()),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Responsive(
+              SingleChildScrollView(child: _buildContent(isTablet: true)),
+              mobile: SingleChildScrollView(child: _buildContent(isMobile: true)),
+              web: SingleChildScrollView(child: _buildContent()),
+            ),
+            Align(
+              alignment: Alignment(-1, 0),
+              child: SidebarMenu(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -60,20 +70,22 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
   }
 
   Widget _buildDesktopContent({bool isTablet = false}) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SidebarMenu(),
-        const SizedBox(width: 20),
-        Expanded(
-          flex: isTablet ? 3 : 2,
-          child: MusicFormContent(),
-        ),
-        if (!isTablet) ...[
-          const SizedBox(width: 20),
-          Flexible(flex: 2, child: Image.asset(port2, fit: BoxFit.fitHeight)),
-        ]
-      ],
+    return Padding(
+      padding:  EdgeInsets.symmetric(horizontal: isTablet ? 20.0 :
+      40.0, vertical: 10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: isTablet ? 3 : 2,
+            child: MusicFormContent(),
+          ),
+          if (!isTablet) ...[
+            const SizedBox(width: 20),
+            Flexible(flex: 2, child: Image.asset(port2, fit: BoxFit.fitHeight)),
+          ]
+        ],
+      ),
     );
   }
 
