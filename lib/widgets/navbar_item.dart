@@ -14,10 +14,15 @@ class ButtonItem extends ConsumerWidget {
     final buttonState = ref.watch(buttonStateProvider(route));
     final buttonNotifier = ref.read(buttonStateProvider(route).notifier);
     final size = MediaQuery.of(context).size.width;
-
+    final isWeb = Responsive.isWeb(context);
+    final isTablet = Responsive.isTablet(context);
     return Container(
       padding: EdgeInsets.only(right: Responsive.isWeb(context) ? 17 : 5),
-      width: Responsive.isWeb(context) ? size * .08 : size * .23,
+      width: isTablet
+          ? size * .19
+          : isWeb
+              ? size * .08
+              : size * .23,
       child: MouseRegion(
         onEnter: (_) => buttonNotifier.hover(true),
         onExit: (_) => buttonNotifier.hover(false),
@@ -29,8 +34,11 @@ class ButtonItem extends ConsumerWidget {
             child: Text(
               title,
               style: GoogleFonts.inter(
-                  fontSize:
-                      Responsive.isWeb(context) ? size * .016 : size * .05,
+                  fontSize: isTablet
+                      ? size * .03
+                      : isWeb
+                          ? size * .016
+                          : size * .05,
                   fontWeight: FontWeight.w500,
                   color: buttonState.isSelected || buttonState.isHovered
                       ? grey

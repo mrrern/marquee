@@ -27,18 +27,25 @@ class WebNavBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    final isTablet = Responsive.isTablet(context);
+    final isWeb = Responsive.isWeb(context);
     return Container(
         color: Colors.white,
-        padding: EdgeInsets.only(top: 10, right: 4, left: 4),
+        padding:
+            EdgeInsets.only(top: 4, right: 2, left: 2, bottom: isWeb ? 8 : 18),
         width: width,
-        height: Responsive.isWeb(context) ? height * .07 : height * .1,
+        height: isWeb ? height * .07 : height * .1,
         child: Row(
           children: [
             SizedBox(
                 child: GestureDetector(
                     onTap: () => context.go('/'), child: Image.asset(logo))),
             SizedBox(
-              width: Responsive.isWeb(context) ? width * .7 : width * .4,
+              width: isTablet
+                  ? width * .35
+                  : isWeb
+                      ? width * .7
+                      : width * .44,
             ),
             ButtonItem(
               route: '/access',
@@ -58,34 +65,39 @@ class MovilNavbar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          // Logo
-          GestureDetector(
-            onTap: () => context.go('/'),
-            child: Image.asset(
-              logo,
-              width: 150,
-              fit: BoxFit.contain,
+    return Container(
+      color: Colors.white,
+      width: width,
+      height: 70,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10, bottom: 30),
+        child: Row(
+          children: [
+            // Logo
+            GestureDetector(
+              onTap: () => context.go('/'),
+              child: Image.asset(
+                logo,
+                width: 150,
+                fit: BoxFit.contain,
+              ),
             ),
-          ),
 
-          SizedBox(
-            width: width * .1,
-          ),
+            SizedBox(
+              width: width * .1,
+            ),
 
-          // Navigation buttons
-          ButtonItem(
-            title: "acceso",
-            route: '/access',
-          ),
-          ButtonItem(
-            title: "registro",
-            route: '/sign',
-          ),
-        ],
+            // Navigation buttons
+            ButtonItem(
+              title: "acceso",
+              route: '/access',
+            ),
+            ButtonItem(
+              title: "registro",
+              route: '/sign',
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -96,16 +108,21 @@ class FormHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Container(
+      color: Colors.white,
       padding: EdgeInsets.symmetric(
         horizontal: MediaQuery.of(context).size.width < 640 ? 10 : 6,
-        vertical: MediaQuery.of(context).size.width < 640 ? 10 : 7,
+        vertical: MediaQuery.of(context).size.width < 640 ? 15 : 7,
       ),
+      width: width,
+      height: height * .1,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Image.asset(
-            logo, // Replace with actual logo path
+            logo,
             width: MediaQuery.of(context).size.width < 640 ? 160 : 216,
             height: 46,
             fit: BoxFit.contain,

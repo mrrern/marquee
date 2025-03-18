@@ -380,7 +380,7 @@ class CardRatedWeb extends StatelessWidget {
               ),
               const SizedBox(width: 30),
               Expanded(
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

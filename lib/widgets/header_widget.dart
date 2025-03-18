@@ -10,6 +10,9 @@ class HeaderWidget extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(top: 7),
+      width: screenWidth,
+      height: isMobile ? 70 : 60,
+      color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Row(

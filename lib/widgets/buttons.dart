@@ -3,7 +3,7 @@ import 'package:bodas/routes/linkspaper.dart';
 class HoverButton extends ConsumerStatefulWidget {
   final Function() press;
   final String text;
-  const HoverButton( this.text, {required this.press, super.key});
+  const HoverButton(this.text, {required this.press, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _HoverButtonState();
@@ -24,7 +24,7 @@ class _HoverButtonState extends ConsumerState<HoverButton> {
           margin: const EdgeInsets.symmetric(vertical: 30),
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: isHover ? AppColors.mediumGrey : AppColors.darkGrey,
+            color: !isHover ? AppColors.mediumGrey : AppColors.darkGrey,
             borderRadius: BorderRadius.circular(4),
           ),
           alignment: Alignment.center,
@@ -32,7 +32,7 @@ class _HoverButtonState extends ConsumerState<HoverButton> {
             widget.text,
             style: GoogleFonts.inter(
                 color:
-                    isHover ? AppColors.primaryText : AppColors.secondaryText,
+                    !isHover ? AppColors.primaryText : AppColors.secondaryText,
                 fontSize: 12,
                 fontWeight: FontWeight.w500),
             textAlign: TextAlign.center,
