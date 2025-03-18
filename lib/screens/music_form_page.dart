@@ -11,21 +11,40 @@ class MusicFormScreen extends ConsumerStatefulWidget {
 class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Stack(
-          children: [
-            Responsive(
-              SingleChildScrollView(child: _buildContent(isTablet: true)),
-              mobile: SingleChildScrollView(child: _buildContent(isMobile: true)),
-              web: SingleChildScrollView(child: _buildContent()),
-            ),
-            Align(
-              alignment: Alignment(-1, 0),
-              child: SidebarMenu(),
-            ),
-          ],
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: Image.asset(
+                  background,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Center(
+                child: SizedBox(
+                  width: width,
+                  height: height,
+                  child: Responsive(
+                    SingleChildScrollView(child: _buildContent(isTablet: true)),
+                    mobile: SingleChildScrollView(
+                        child: _buildContent(isMobile: true)),
+                    web: SingleChildScrollView(child: _buildContent()),
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment(-1, 0),
+                child: SidebarMenu(),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -35,28 +54,18 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.only(bottom: 40),
-      child: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              background,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: isMobile ? 20.0 : 40.0,
-              vertical: 20,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const HeaderWidget(),
-                _buildResponsiveContent(isMobile: isMobile, isTablet: isTablet),
-              ],
-            ),
-          ),
-        ],
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 20.0 : 40.0,
+          vertical: 20,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const HeaderWidget(),
+            _buildResponsiveContent(isMobile: isMobile, isTablet: isTablet),
+          ],
+        ),
       ),
     );
   }
@@ -71,14 +80,13 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
 
   Widget _buildDesktopContent({bool isTablet = false}) {
     return Padding(
-      padding:  EdgeInsets.symmetric(horizontal: isTablet ? 20.0 :
-      40.0, vertical: 10),
+      padding: EdgeInsets.symmetric(
+          horizontal: isTablet ? 20.0 : 40.0, vertical: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(width: 50),
           Expanded(
-            flex: isTablet ? 3 : 2,
+            flex: 3,
             child: MusicFormContent(),
           ),
           if (!isTablet) ...[

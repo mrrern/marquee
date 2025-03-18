@@ -9,7 +9,9 @@ class WeddingRegistrationScreen extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(
+      body: SizedBox(
+        width: width,
+        height: height,
         child: Stack(
           children: [
             // Background image
@@ -36,6 +38,13 @@ class WeddingRegistrationScreen extends StatelessWidget {
               ),
             ),
             Align(
+              alignment: Alignment(0, -1),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: HeaderWidget(),
+              ),
+            ),
+            Align(
               alignment: Alignment(-1, 0),
               child: SidebarMenu(),
             )
@@ -48,35 +57,21 @@ class WeddingRegistrationScreen extends StatelessWidget {
   Widget _buildContent({bool isMobile = false, bool isTablet = false}) {
     return Container(
       color: Colors.white,
-      child: Stack(
-        children: [
-          // Main content
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: isMobile ? 20.0 : 40.0,
-              vertical: 20,
-            ),
-            child: Expanded(
-              flex: isTablet ? 2 : 1,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Responsive content
-                  _buildResponsiveContent(
-                      isMobile: isMobile, isTablet: isTablet),
-                ],
-              ),
-            ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 20.0 : 40.0,
+          vertical: 20,
+        ),
+        child: Expanded(
+          flex: isTablet ? 2 : 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Responsive content
+              _buildResponsiveContent(isMobile: isMobile, isTablet: isTablet),
+            ],
           ),
-
-          Align(
-            alignment: Alignment(0, -1),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: HeaderWidget(),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
