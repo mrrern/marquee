@@ -39,7 +39,7 @@ class _FooterWidgetState extends ConsumerState<FooterWidget> {
                 }).toList(),
                 options: CarouselOptions(
                     height: Responsive.isWeb(context)
-                        ? position * .08
+                        ? position * .1
                         : position * .4,
                     aspectRatio: 2.0,
                     autoPlay: true,
@@ -66,7 +66,7 @@ class _FooterWidgetState extends ConsumerState<FooterWidget> {
         ),
         SizedBox(
           width: Responsive.isWeb(context) ? size : size / .5,
-          height: position * .1,
+          height: position * .05,
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

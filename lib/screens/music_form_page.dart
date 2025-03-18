@@ -76,6 +76,7 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(width: 50),
           Expanded(
             flex: isTablet ? 3 : 2,
             child: MusicFormContent(),
