@@ -7,28 +7,31 @@ class WeddingRegistrationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          // Background image
-          Positioned.fill(
-            child: Image.asset(
-              background,
-              fit: BoxFit.cover,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            // Background image
+            Positioned.fill(
+              child: Image.asset(
+                background,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          Responsive(
-            // Tablet view
-            SingleChildScrollView(child: _buildContent(isTablet: true)),
-            // Mobile view
-            mobile: SingleChildScrollView(child: _buildContent(isMobile: true)),
-            // Web view
-            web: SingleChildScrollView(child: _buildContent()),
-          ),
-          Align(
-            alignment: Alignment(-1, 0),
-            child: SidebarMenu(),
-          )
-        ],
+            Responsive(
+              // Tablet view
+              SingleChildScrollView(child: _buildContent(isTablet: true)),
+              // Mobile view
+              mobile:
+                  SingleChildScrollView(child: _buildContent(isMobile: true)),
+              // Web view
+              web: SingleChildScrollView(child: _buildContent(isTablet: true)),
+            ),
+            Align(
+              alignment: Alignment(-1, 0),
+              child: SidebarMenu(),
+            )
+          ],
+        ),
       ),
     );
   }
