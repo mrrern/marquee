@@ -5,6 +5,8 @@ class WeddingRegistrationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -17,14 +19,21 @@ class WeddingRegistrationScreen extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            Responsive(
-              // Tablet view
-              SingleChildScrollView(child: _buildContent(isTablet: true)),
-              // Mobile view
-              mobile:
-                  SingleChildScrollView(child: _buildContent(isMobile: true)),
-              // Web view
-              web: SingleChildScrollView(child: _buildContent(isTablet: true)),
+            Center(
+              child: SizedBox(
+                width: width,
+                height: height,
+                child: Responsive(
+                  // Tablet view
+                  SingleChildScrollView(child: _buildContent(isTablet: true)),
+                  // Mobile view
+                  mobile: SingleChildScrollView(
+                      child: _buildContent(isMobile: true)),
+                  // Web view
+                  web: SingleChildScrollView(
+                      child: _buildContent(isTablet: true)),
+                ),
+              ),
             ),
             Align(
               alignment: Alignment(-1, 0),
