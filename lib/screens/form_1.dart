@@ -21,22 +21,17 @@ class WeddingRegistrationScreen extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            Center(
-              child: SizedBox(
-                width: width,
-                height: height,
-                child: Responsive(
-                  // Tablet view
-                  SingleChildScrollView(child: _buildContent(isTablet: true)),
-                  // Mobile view
-                  mobile: SingleChildScrollView(
-                      child: _buildContent(isMobile: true)),
-                  // Web view
-                  web: SingleChildScrollView(
-                      child: _buildContent(isTablet: true)),
-                ),
-              ),
+
+            Responsive(
+              // Tablet view
+              SingleChildScrollView(child: _buildContent(isTablet: true)),
+              // Mobile view
+              mobile:
+                  SingleChildScrollView(child: _buildContent(isMobile: true)),
+              // Web view
+              web: SingleChildScrollView(child: _buildContent(isTablet: true)),
             ),
+
             Align(
               alignment: Alignment(0, -1),
               child: Padding(
@@ -55,8 +50,7 @@ class WeddingRegistrationScreen extends StatelessWidget {
   }
 
   Widget _buildContent({bool isMobile = false, bool isTablet = false}) {
-    return Container(
-      color: Colors.white,
+    return SizedBox(
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: isMobile ? 20.0 : 40.0,
@@ -88,7 +82,6 @@ class WeddingRegistrationScreen extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(width: 300),
         Expanded(
           child: SingleChildScrollView(
             child: WeddingFormFields(),
