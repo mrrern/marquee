@@ -9,58 +9,60 @@ class WeddingRegistrationScreen extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SizedBox(
-        width: width,
-        height: height,
-        child: Stack(
-          children: [
-            // Background image
-            Positioned.fill(
-              child: Image.asset(
-                background,
-                fit: BoxFit.cover,
-              ),
-            ),
-
-            if (Responsive.isMobile(context))
-              Positioned(
-                top: 0,
-                child: SizedBox(
-                    width: width,
-                    height: height,
-                    child: SingleChildScrollView(
-                        child: _buildContent(isMobile: true))),
-              ),
-            if (Responsive.isTablet(context))
-              Positioned(
-                top: 0,
-                child: SizedBox(
-                    width: width,
-                    height: height,
-                    child: SingleChildScrollView(
-                        child: _buildContent(isTablet: true))),
-              ),
-            if (Responsive.isWeb(context))
-              Positioned(
-                top: 0,
-                child: SizedBox(
-                    width: width,
-                    height: height,
-                    child: SingleChildScrollView(child: _buildContent())),
+      body: SafeArea(
+        child: SizedBox(
+          width: width,
+          height: height,
+          child: Stack(
+            children: [
+              // Background image
+              Positioned.fill(
+                child: Image.asset(
+                  background,
+                  fit: BoxFit.cover,
+                ),
               ),
 
-            Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 20.0),
-                child: HeaderWidget(),
+              if (Responsive.isMobile(context))
+                Positioned(
+                  top: 0,
+                  child: SizedBox(
+                      width: width,
+                      height: height,
+                      child: SingleChildScrollView(
+                          child: _buildContent(isMobile: true))),
+                ),
+              if (Responsive.isTablet(context))
+                Positioned(
+                  top: 0,
+                  child: SizedBox(
+                      width: width,
+                      height: height,
+                      child: SingleChildScrollView(
+                          child: _buildContent(isTablet: true))),
+                ),
+              if (Responsive.isWeb(context))
+                Positioned(
+                  top: 0,
+                  child: SizedBox(
+                      width: width,
+                      height: height,
+                      child: SingleChildScrollView(child: _buildContent())),
+                ),
+
+              Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: HeaderWidget(),
+                ),
               ),
-            ),
-            Align(
-              alignment: Alignment(-1, 0),
-              child: SidebarMenu(),
-            )
-          ],
+              Align(
+                alignment: Alignment(-1, 0),
+                child: SidebarMenu(),
+              )
+            ],
+          ),
         ),
       ),
     );
