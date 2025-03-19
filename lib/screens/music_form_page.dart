@@ -56,7 +56,7 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
       padding: const EdgeInsets.only(bottom: 40),
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 20.0 : 40.0,
+          horizontal: isMobile ? 20.0 : 200.0,
           vertical: 20,
         ),
         child: Column(
@@ -80,8 +80,8 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
 
   Widget _buildDesktopContent({bool isTablet = false}) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: isTablet ? 20.0 : 40.0, vertical: 10),
+      padding: EdgeInsets.only(
+          left: isTablet ? 200.0 : 250, top: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -99,17 +99,15 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
   }
 
   Widget _buildMobileContent() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SidebarMenu(
-          onMenuItemTap: (index) {
-            // Handle menu item tap
-          },
-        ),
-        const SizedBox(height: 20),
-        MusicFormContent(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 20),
+          MusicFormContent(),
+        ],
+      ),
     );
   }
 }

@@ -14,25 +14,31 @@ class ContratoScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
           child: Stack(
-
-            children: [
-              Positioned.fill(
-                child: Image.asset(
-                back2,
-                width: double.infinity,
-                height: 686,
-                fit: BoxFit.cover,
-                            ),
-              ),
-              SingleChildScrollView(
-                      child: _buildMainContent(context),
-                    ),
-              Align(
-              alignment: Alignment.centerLeft,
-              child: SidebarMenu(),
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              back2,
+              width: double.infinity,
+              height: 686,
+              fit: BoxFit.cover,
             ),
-            ],
-          )),
+          ),
+          SingleChildScrollView(
+            child: _buildMainContent(context),
+          ),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: SidebarMenu(),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: HeaderWidget(),
+            ),
+          ),
+        ],
+      )),
     );
   }
 
@@ -59,17 +65,21 @@ class ContratoScreen extends StatelessWidget {
   Widget _buildContentWithSidebar(BuildContext context,
       {required bool isTablet}) {
     return Container(
-      width: 941,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.only(left: isTablet ? 180 : 250),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Sidebar menu - 24% width
-           SizedBox( width: isTablet ? 200 : 180),
-          // Main content - 76% width
           Expanded(
+            flex: isTablet ? 2 : 3,
             child: _buildRightContent(context),
           ),
+          SizedBox(width: isTablet ? 40 : 50),
+          Expanded(
+              flex: 2,
+              child: Image.asset(
+                port1,
+                fit: BoxFit.fitHeight,
+              ))
         ],
       ),
     );
