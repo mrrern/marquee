@@ -51,7 +51,7 @@ class ContratoScreen extends StatelessWidget {
       ),
       // Mobile view
       mobile: Container(
-        padding: const EdgeInsets.only(top: 40, left: 22),
+        padding: const EdgeInsets.only(top: 80, left: 60, right: 5),
         child: _buildMobileContent(context),
       ),
       // Web view
@@ -90,9 +90,6 @@ class ContratoScreen extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Sidebar menu - 24% width
-          const SizedBox(width: 25),
-          // Main content - 76% width
           Expanded(
             child: _buildRightContent(context),
           ),

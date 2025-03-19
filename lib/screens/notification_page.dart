@@ -48,23 +48,24 @@ class NotificationScreen extends ConsumerWidget {
         ],
       ),
       // Mobile layout
-      mobile: Row(
+      mobile: Stack(
         children: [
-          Center(child: SidebarMenu()),
           Column(
             children: [
               HeaderWidget(),
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(10),
+                  padding:
+                      const EdgeInsets.only(right: 8, left: 60, bottom: 20),
                   child: Column(
                     children: [
+                      const SizedBox(height: 50),
                       _buildTitle(),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       const NotificationFilterWidget(),
                       const SizedBox(height: 20),
                       const NotificationListWidget(),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 10),
                       FooterWidget(),
                     ],
                   ),
@@ -72,6 +73,7 @@ class NotificationScreen extends ConsumerWidget {
               ),
             ],
           ),
+          Align(alignment: Alignment(-1, 0), child: SidebarMenu()),
         ],
       ),
       // Web layout
@@ -97,6 +99,7 @@ class NotificationScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
+                              flex: 3,
                               child: Column(
                                 children: [
                                   const NotificationFilterWidget(),
@@ -107,6 +110,7 @@ class NotificationScreen extends ConsumerWidget {
                             ),
                             const SizedBox(width: 20),
                             Expanded(
+                                flex: 1,
                                 child:
                                     Image.asset(port1, fit: BoxFit.fitHeight)),
                           ],

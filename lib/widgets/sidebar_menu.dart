@@ -24,6 +24,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
         : isExpanded
             ? 200
             : 70;
+    double sidebarHeight = isMobile ? 300 : 400;
     setState(() {
       if (isMobile == true) {
         isExpanded == false;
@@ -32,7 +33,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       width: sidebarWidth,
-      height: 400,
+      height: sidebarHeight,
       decoration: BoxDecoration(
         color: const Color(0xFFD9D9D9),
         borderRadius: BorderRadius.circular(10),
