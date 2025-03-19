@@ -194,8 +194,8 @@ class MusicFormContent extends ConsumerWidget {
             if (formKeyMusic.currentState!.validate()) {
               final success =
                   ref.read(weddingMusicFormProvider.notifier).saveForm();
-              context.go('/contract');
             }
+            context.go('/contract');
           }, "GUARDAR"),
         ),
       ],
