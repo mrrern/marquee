@@ -1,8 +1,15 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-class WeddingRegistrationScreen extends StatelessWidget {
+class WeddingRegistrationScreen extends ConsumerStatefulWidget {
   const WeddingRegistrationScreen({super.key});
 
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _WeddingRegistrationScreenState();
+}
+
+class _WeddingRegistrationScreenState
+    extends ConsumerState<WeddingRegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
