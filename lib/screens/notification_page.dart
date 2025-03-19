@@ -37,6 +37,7 @@ class NotificationScreen extends ConsumerWidget {
                         const SizedBox(height: 20),
                         NotificationListWidget(),
                         const SizedBox(height: 40),
+                        FooterWidget(),
                       ],
                     ),
                   ),
@@ -44,27 +45,32 @@ class NotificationScreen extends ConsumerWidget {
               ],
             ),
           ),
-          FooterWidget(),
         ],
       ),
       // Mobile layout
-      mobile: Column(
+      mobile: Row(
         children: [
-          HeaderWidget(),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  _buildTitle(),
-                  const SizedBox(height: 20),
-                  const NotificationFilterWidget(),
-                  const SizedBox(height: 20),
-                  const NotificationListWidget(),
-                  const SizedBox(height: 40),
-                ],
+          Center(child: SidebarMenu()),
+          Column(
+            children: [
+              HeaderWidget(),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      _buildTitle(),
+                      const SizedBox(height: 20),
+                      const NotificationFilterWidget(),
+                      const SizedBox(height: 20),
+                      const NotificationListWidget(),
+                      const SizedBox(height: 40),
+                      FooterWidget(),
+                    ],
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ],
       ),
@@ -77,7 +83,9 @@ class NotificationScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SidebarMenu(),
-                SizedBox(width: 20,),
+                SizedBox(
+                  width: 20,
+                ),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: const EdgeInsets.all(20),
@@ -98,9 +106,12 @@ class NotificationScreen extends ConsumerWidget {
                               ),
                             ),
                             const SizedBox(width: 20),
-                            _buildDecorativeImages(),
+                            Expanded(
+                                child:
+                                    Image.asset(port1, fit: BoxFit.fitHeight)),
                           ],
                         ),
+                        FooterWidget(),
                       ],
                     ),
                   ),
@@ -108,7 +119,6 @@ class NotificationScreen extends ConsumerWidget {
               ],
             ),
           ),
-          FooterWidget(),
         ],
       ),
     );
@@ -126,48 +136,48 @@ class NotificationScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildDecorativeImages() {
-    return SizedBox(
-      width: 345,
-      child: Column(
-        children: [
-          Transform.rotate(
-            angle: 10.042 * (3.14159 / 180),
-            child: Container(
-              width: 323,
-              height: 295,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: const Color(0xFFE8E8E8),
-                  width: 15,
-                ),
-                image: const DecorationImage(
-                  image: AssetImage(port1),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 50),
-          Transform.rotate(
-            angle: 9.517 * (3.14159 / 180),
-            child: Container(
-              width: 345,
-              height: 319,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: const Color(0xFFE8E8E8),
-                  width: 15,
-                ),
-                image: const DecorationImage(
-                  image: AssetImage(port2),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildDecorativeImages() {
+  //   return SizedBox(
+  //     width: 345,
+  //     child: Column(
+  //       children: [
+  //         Transform.rotate(
+  //           angle: 10.042 * (3.14159 / 180),
+  //           child: Container(
+  //             width: 323,
+  //             height: 295,
+  //             decoration: BoxDecoration(
+  //               border: Border.all(
+  //                 color: const Color(0xFFE8E8E8),
+  //                 width: 15,
+  //               ),
+  //               image: const DecorationImage(
+  //                 image: AssetImage(port1),
+  //                 fit: BoxFit.cover,
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //         const SizedBox(height: 50),
+  //         Transform.rotate(
+  //           angle: 9.517 * (3.14159 / 180),
+  //           child: Container(
+  //             width: 345,
+  //             height: 319,
+  //             decoration: BoxDecoration(
+  //               border: Border.all(
+  //                 color: const Color(0xFFE8E8E8),
+  //                 width: 15,
+  //               ),
+  //               image: const DecorationImage(
+  //                 image: AssetImage(port2),
+  //                 fit: BoxFit.cover,
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

@@ -82,15 +82,12 @@ class _WeddingRegistrationScreenState
           horizontal: isMobile ? 20.0 : 40.0,
           vertical: 20,
         ),
-        child: Expanded(
-          flex: isTablet ? 2 : 1,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Responsive content
-              _buildResponsiveContent(isMobile: isMobile, isTablet: isTablet),
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Responsive content
+            _buildResponsiveContent(isMobile: isMobile, isTablet: isTablet),
+          ],
         ),
       ),
     );
