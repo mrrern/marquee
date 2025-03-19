@@ -47687,8 +47687,8 @@ A.amS.prototype={
 $1(a){return this.a.gazO()},
 $S:7}
 A.amT.prototype={
-$0(){if(this.a.gO().N4()){this.b.bL(0,$.aP1().gcz(),t.eH).Ek()
-A.hg(this.c).i2(0,"/contract",null)}},
+$0(){if(this.a.gO().N4())this.b.bL(0,$.aP1().gcz(),t.eH).Ek()
+A.hg(this.c).i2(0,"/contract",null)},
 $S:12}
 A.amV.prototype={
 $2(a,b){var s=null,r=A.b2(A.a1(this.a,s,s,s,A.a8().$3$color$fontSize$fontWeight(B.n,15,B.q),B.dn,s),s,60),q=A.bO(4),p=t.p
