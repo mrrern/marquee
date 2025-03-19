@@ -51,7 +51,7 @@ class ContratoScreen extends StatelessWidget {
       ),
       // Mobile view
       mobile: Container(
-        margin: const EdgeInsets.only(top: 40),
+        padding: const EdgeInsets.only(top: 40, left: 22),
         child: _buildMobileContent(context),
       ),
       // Web view
