@@ -40,6 +40,13 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
                 ),
               ),
               Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0),
+                  child: HeaderWidget(),
+                ),
+              ),
+              Align(
                 alignment: Alignment(-1, 0),
                 child: SidebarMenu(),
               ),
@@ -62,7 +69,6 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const HeaderWidget(),
             _buildResponsiveContent(isMobile: isMobile, isTablet: isTablet),
           ],
         ),
@@ -80,8 +86,7 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
 
   Widget _buildDesktopContent({bool isTablet = false}) {
     return Padding(
-      padding: EdgeInsets.only(
-          left: isTablet ? 200.0 : 250, top: 10),
+      padding: EdgeInsets.only(left: isTablet ? 180.0 : 200, top: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -91,7 +96,7 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
           ),
           if (!isTablet) ...[
             const SizedBox(width: 20),
-            Flexible(flex: 2, child: Image.asset(port2, fit: BoxFit.fitHeight)),
+            Flexible(flex: 1, child: Image.asset(port2, fit: BoxFit.fitHeight)),
           ]
         ],
       ),
@@ -100,7 +105,7 @@ class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
 
   Widget _buildMobileContent() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(left: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

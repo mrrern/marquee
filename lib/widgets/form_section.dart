@@ -23,7 +23,7 @@ class FormSection extends StatelessWidget {
           Text(
             title,
             style: GoogleFonts.inter(
-              fontSize: isMobile ? 30 : 40,
+              fontSize: isMobile ? 25 : 35,
               fontWeight: FontWeight.w700,
               color: const Color(0xFF888888),
               height: 0.5,
