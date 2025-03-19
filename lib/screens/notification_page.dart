@@ -84,7 +84,7 @@ class NotificationScreen extends ConsumerWidget {
               children: [
                 SidebarMenu(),
                 SizedBox(
-                  width: 20,
+                  width: 5,
                 ),
                 Expanded(
                   child: SingleChildScrollView(
