@@ -86,7 +86,17 @@ class MarqueeAdminDashboard extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: isMobile ? 250 : 356,
+                height: isMobile ? 250 : 100,
+              ),
+              Center(
+                child: Image.asset(
+                  logo,
+                  width: isMobile ? screenSize.width * 0.9 : 380,
+                  fit: BoxFit.contain,
+                ),
+              ),
+              SizedBox(
+                height: isMobile ? 250 : 100,
               ),
               // Grid of cards
               Padding(
@@ -146,103 +156,14 @@ class MarqueeAdminDashboard extends StatelessWidget {
           ),
         ),
 
-        // Blur effects
-        const Positioned(
-          left: 200,
-          top: 494,
-          child: BlurEffect(width: 429, height: 65),
-        ),
-        const Positioned(
-          left: 796,
-          top: 494,
-          child: BlurEffect(width: 429, height: 65),
-        ),
-        const Positioned(
-          left: 763,
-          top: 716,
-          child: BlurEffect(width: 429, height: 65),
-        ),
-        const Positioned(
-          left: 790,
-          top: 896,
-          child: BlurEffect(width: 429, height: 65),
-        ),
-        const Positioned(
-          left: 194,
-          top: 716,
-          child: BlurEffect(width: 429, height: 65),
-        ),
-        const Positioned(
-          left: 221,
-          top: 896,
-          child: BlurEffect(width: 429, height: 65),
-        ),
-
-        // Main logo
-        Positioned(
-          top: isMobile ? 120 : 189,
-          left: screenSize.width / 2,
-          child: Transform.translate(
-            offset: const Offset(50, 0),
-            child: SizedBox(
-              width: isMobile ? screenSize.width * 0.9 : 542,
-              height: 106,
-              child: Center(
-                child: Image.asset(
-                  logo,
-                  width: isMobile ? screenSize.width * 0.9 : 542,
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-          ),
-        ),
-
         // Header
         Positioned(
           top: 0,
           left: 0,
           right: 0,
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Logo
-                Image.asset(
-                  logo, // Replace with actual asset path
-                  width: isMobile ? 156 : 309,
-                  height: isMobile ? null : 65,
-                  fit: BoxFit.contain,
-                  colorBlendMode: BlendMode.difference,
-                ),
-
-                // Nav links
-                Row(
-                  children: [
-                    _buildNavItem('Usuario', isMobile),
-                    SizedBox(width: isMobile ? 7 : 24),
-                    _buildNavItem('Menú', isMobile),
-                    SizedBox(width: isMobile ? 7 : 24),
-                    _buildNavItem('Salir', isMobile),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          child: AdminNavBar(),
         ),
       ],
-    );
-  }
-
-  Widget _buildNavItem(String text, bool isMobile) {
-    return Text(
-      text,
-      style: GoogleFonts.inter(
-        fontSize: isMobile ? 16 : 20,
-        fontWeight: FontWeight.w700,
-        color: Colors.white,
-      ),
     );
   }
 }

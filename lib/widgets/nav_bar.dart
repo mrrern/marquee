@@ -140,3 +140,50 @@ class FormHeader extends StatelessWidget {
     );
   }
 }
+
+class AdminNavBar extends StatelessWidget {
+  const AdminNavBar({super.key});
+
+  @override
+  Widget build(BuildContext context,
+      {bool isWeb = false, bool isTablet = false, bool isMobile = false}) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Logo
+          Image.asset(
+            logo, // Replace with actual asset path
+            width: isMobile ? 156 : 309,
+            height: isMobile ? null : 65,
+            fit: BoxFit.contain,
+            colorBlendMode: BlendMode.colorDodge,
+          ),
+
+          // Nav links
+          Row(
+            children: [
+              _buildNavItem('Usuario', isMobile),
+              SizedBox(width: isMobile ? 7 : 24),
+              _buildNavItem('Menú', isMobile),
+              SizedBox(width: isMobile ? 7 : 24),
+              _buildNavItem('Salir', isMobile),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNavItem(String text, bool isMobile) {
+    return Text(
+      text,
+      style: GoogleFonts.inter(
+        fontSize: isMobile ? 16 : 20,
+        fontWeight: FontWeight.w700,
+        color: Colors.white,
+      ),
+    );
+  }
+}
