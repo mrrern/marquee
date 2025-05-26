@@ -45,27 +45,29 @@ final currentRouteProvider =
   return CurrentRouteNotifier();
 });
 
-
 // Proveedor para el estado de expansión del sidebar
-final sidebarExpansionProvider = StateNotifierProvider.autoDispose<
-    SidebarExpansionNotifier, bool>((ref) => SidebarExpansionNotifier());
+final sidebarExpansionProvider =
+    StateNotifierProvider.autoDispose<SidebarExpansionNotifier, bool>(
+        (ref) => SidebarExpansionNotifier());
 
-    
 //Provider que maneja el scroll rpincipal
-final scrollOffsetProvider = StateNotifierProvider<ScrollOffsetNotifier, double>(
+final scrollOffsetProvider =
+    StateNotifierProvider<ScrollOffsetNotifier, double>(
   (ref) => ScrollOffsetNotifier(ref),
 );
 
 //banner dinamico
-final imageIndexProvider = StateProvider.autoDispose<int>((ref) => 0);
-
-//provider video principal
-final youtubeControllerProvider = StateNotifierProvider.autoDispose<YoutubeControllerNotifier, YoutubeWebPlayerController?>(
-  (ref) => YoutubeControllerNotifier(),
-);
+final imageIndexProvider = StateProvider.autoDispose<int>((ref) {
+  // Initialize with 0 and ensure it's disposed properly
+  ref.onDispose(() {
+    // Cleanup if needed
+  });
+  return 0;
+});
 
 // Proveedor para las imágenes del banner
-final bannerImagesProvider = Provider<List<String>>((ref) => [img1, img2, img3]);
+final bannerImagesProvider =
+    Provider<List<String>>((ref) => [img1, img2, img3]);
 
 // Proveedor para el índice del banner
 final bannerIndexProvider =
@@ -291,6 +293,7 @@ class WeddingMusicFormNotifier extends StateNotifier<WeddingMusicFormData> {
 }
 
 // State providers for form fields
+final nameProvider = StateProvider<String>((ref) => '');
 final emailProvider = StateProvider<String>((ref) => '');
 final passwordProvider = StateProvider<String>((ref) => '');
 final confirmPasswordProvider = StateProvider<String>((ref) => '');
@@ -298,34 +301,33 @@ final isPasswordVisibleProvider = StateProvider<bool>((ref) => false);
 final isPasswordConfirmVisibleProvider = StateProvider<bool>((ref) => false);
 
 // Validation providers
-final emailErrorProvider = StateProvider<String?>((ref) {
-  final email = ref.watch(emailProvider);
+final nameErrorProvider = StateProvider<String?>((ref) {
+  final name = ref.watch(nameProvider);
 
-  if (email.isEmpty) {
-    return 'El email es requerido';
+  if (name.isEmpty) {
+    return 'El nombre es requerido';
   }
 
-  // Simple email validation regex
-  final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-  if (!emailRegex.hasMatch(email)) {
-    return 'Ingrese un email válido';
+  if (name.length < 3) {
+    return 'El nombre debe tener al menos 3 caracteres';
   }
 
   return null; // No error
 });
 
-final passwordErrorProvider = StateProvider<String?>((ref) {
+final emailErrorProvider = Provider<String?>((ref) {
+  final email = ref.watch(emailProvider);
+  if (email.isEmpty) return null;
+  if (!email.contains('@')) return 'Email inválido';
+  return null;
+});
+
+final passwordErrorProvider = Provider<String?>((ref) {
   final password = ref.watch(passwordProvider);
-
-  if (password.isEmpty) {
-    return 'La contraseña es requerida';
-  }
-
-  if (password.length < 6) {
+  if (password.isEmpty) return null;
+  if (password.length < 6)
     return 'La contraseña debe tener al menos 6 caracteres';
-  }
-
-  return null; // No error
+  return null;
 });
 
 final passwordConfirmErrorProvider = StateProvider<String?>((ref) {
@@ -348,20 +350,37 @@ final passwordConfirmErrorProvider = StateProvider<String?>((ref) {
 
 // Form validity provider
 final isFormValidProvider = Provider<bool>((ref) {
+  final nameError = ref.watch(nameErrorProvider);
+  final emailError = ref.watch(emailErrorProvider);
+  final passwordError = ref.watch(passwordErrorProvider);
+  final confirmPasswordError = ref.watch(passwordConfirmErrorProvider);
+
+  // Form is valid when there are no errors
+  return nameError == null &&
+      emailError == null &&
+      passwordError == null &&
+      confirmPasswordError == null;
+});
+
+final isFormValidLoginProvider = Provider<bool>((ref) {
   final emailError = ref.watch(emailErrorProvider);
   final passwordError = ref.watch(passwordErrorProvider);
 
-  // Form is valid when there are no errors
   return emailError == null && passwordError == null;
 });
 
 // Form validity Register provider
 final isFormValidRegisterProvider = Provider<bool>((ref) {
+  final nameError = ref.watch(nameErrorProvider);
   final emailError = ref.watch(emailErrorProvider);
   final passwordError = ref.watch(passwordErrorProvider);
+  final confirmPasswordError = ref.watch(passwordConfirmErrorProvider);
 
   // Form is valid when there are no errors
-  return emailError == null && passwordError == null;
+  return nameError == null &&
+      emailError == null &&
+      passwordError == null &&
+      confirmPasswordError == null;
 });
 
 // Proveedor de estado para el formulario de registro
@@ -369,8 +388,6 @@ final registrationProvider =
     StateNotifierProvider<RegistrationNotifier, AsyncValue<void>>(
   (ref) => RegistrationNotifier(),
 );
-
-
 
 // State class for notes
 class NotesState {
@@ -465,7 +482,8 @@ final notesProvider = StateNotifierProvider<NotesNotifier, NotesState>((ref) {
 });
 
 // Provider for responsive notes per page
-final responsiveNotesPerPageProvider = Provider.family<int, bool>((ref, isMobile) {
+final responsiveNotesPerPageProvider =
+    Provider.family<int, bool>((ref, isMobile) {
   return isMobile ? 2 : 4;
 });
 
@@ -518,7 +536,8 @@ class NotificationList extends _$NotificationList {
       NotificationModel(
         id: '1',
         title: 'Notificación, archivo de contrato adjunto',
-        content: '¡Enhorabuena! Has completado el proceso de contratación. Hemos adjuntado el contrato para que lo revises y firmes digitalmente. Una vez firmado, recibirás una copia en tu correo electrónico.',
+        content:
+            '¡Enhorabuena! Has completado el proceso de contratación. Hemos adjuntado el contrato para que lo revises y firmes digitalmente. Una vez firmado, recibirás una copia en tu correo electrónico.',
         date: DateTime.now().subtract(const Duration(minutes: 2)),
         isRead: false,
         filterType: 'Todos',
@@ -526,7 +545,8 @@ class NotificationList extends _$NotificationList {
       NotificationModel(
         id: '2',
         title: 'Notificación, segundo paso completado',
-        content: 'Felicidades has completado el segundo paso, ahora puedes continuar con la selección de música para tu evento. Recuerda que puedes modificar tus selecciones en cualquier momento antes de la fecha límite.',
+        content:
+            'Felicidades has completado el segundo paso, ahora puedes continuar con la selección de música para tu evento. Recuerda que puedes modificar tus selecciones en cualquier momento antes de la fecha límite.',
         date: DateTime.now().subtract(const Duration(days: 1)),
         isRead: true,
         filterType: 'Todos',
@@ -534,7 +554,8 @@ class NotificationList extends _$NotificationList {
       NotificationModel(
         id: '3',
         title: 'Notificación, archivo de contrato adjunto',
-        content: 'Gracias por completar el primer paso, a continuación hemos adjuntado el contrato preliminar para tu revisión. Por favor, revisa los detalles y comunícate con nosotros si tienes alguna pregunta o requieres modificaciones.',
+        content:
+            'Gracias por completar el primer paso, a continuación hemos adjuntado el contrato preliminar para tu revisión. Por favor, revisa los detalles y comunícate con nosotros si tienes alguna pregunta o requieres modificaciones.',
         date: DateTime.now().subtract(const Duration(days: 1)),
         isRead: true,
         filterType: 'Todos',
@@ -542,7 +563,8 @@ class NotificationList extends _$NotificationList {
       NotificationModel(
         id: '4',
         title: 'Notificación, primer paso completado',
-        content: 'Felicidades has completado el primer paso, En las próximas 2 horas recibirás un correo electrónico con la confirmación y los siguientes pasos a seguir. Recuerda revisar tu bandeja de entrada y carpeta de spam.',
+        content:
+            'Felicidades has completado el primer paso, En las próximas 2 horas recibirás un correo electrónico con la confirmación y los siguientes pasos a seguir. Recuerda revisar tu bandeja de entrada y carpeta de spam.',
         date: DateTime.now().subtract(const Duration(days: 2)),
         isRead: true,
         filterType: 'Todos',
@@ -550,7 +572,8 @@ class NotificationList extends _$NotificationList {
       NotificationModel(
         id: '5',
         title: 'Notificación, archivo de cotización adjunto',
-        content: 'Gracias por su paciencia hemos adjuntado la cotización según la información proporcionada. Esta cotización es válida por 15 días. Si deseas proceder, por favor completa el formulario de confirmación adjunto.',
+        content:
+            'Gracias por su paciencia hemos adjuntado la cotización según la información proporcionada. Esta cotización es válida por 15 días. Si deseas proceder, por favor completa el formulario de confirmación adjunto.',
         date: DateTime.now().subtract(const Duration(days: 2)),
         isRead: true,
         filterType: 'Todos',
@@ -570,7 +593,9 @@ class NotificationList extends _$NotificationList {
 
   /// Marca todas las notificaciones como leídas
   void markAllAsRead() {
-    state = state.map((notification) => notification.copyWith(isRead: true)).toList();
+    state = state
+        .map((notification) => notification.copyWith(isRead: true))
+        .toList();
   }
 
   /// Filtra las notificaciones según el filtro actual
@@ -581,7 +606,9 @@ class NotificationList extends _$NotificationList {
       case NotificationFilter.unread:
         return state.where((notification) => !notification.isRead).toList();
       case NotificationFilter.important:
-        return state.where((notification) => notification.filterType == 'Importante').toList();
+        return state
+            .where((notification) => notification.filterType == 'Importante')
+            .toList();
     }
   }
 
@@ -606,12 +633,15 @@ class NotificationList extends _$NotificationList {
 /// Provider para obtener notificaciones filtradas y ordenadas
 @riverpod
 List<NotificationModel> filteredAndSortedNotifications(Ref ref) {
-  final notifications = ref.watch(notificationListProvider);
   final filter = ref.watch(currentFilterProvider);
   final order = ref.watch(currentOrderProvider);
 
-  final filtered = ref.read(notificationListProvider.notifier).getFilteredNotifications(filter);
-  return ref.read(notificationListProvider.notifier).getSortedNotifications(order, filtered);
+  final filtered = ref
+      .read(notificationListProvider.notifier)
+      .getFilteredNotifications(filter);
+  return ref
+      .read(notificationListProvider.notifier)
+      .getSortedNotifications(order, filtered);
 }
 
 /// Provider para verificar si hay notificaciones no leídas
@@ -629,12 +659,14 @@ int unreadNotificationsCount(Ref ref) {
 }
 
 //Provider de paginacion de Contrataciones
-final quotationProvider = StateNotifierProvider.autoDispose<QuotationProvider, QuotationState>(
+final quotationProvider =
+    StateNotifierProvider.autoDispose<QuotationProvider, QuotationState>(
   (ref) => QuotationProvider(quotations: mockQuotationRequests),
 );
 
 // Agrega esto en tu archivo de providers (ej: remarketing_provider.dart)
-final remarketingProvider = StateNotifierProvider<RemarketingProvider, RemarketingState>((ref) {
+final remarketingProvider =
+    StateNotifierProvider<RemarketingProvider, RemarketingState>((ref) {
   return RemarketingProvider(
     users: [
       RemarketingUser(
@@ -660,7 +692,17 @@ final remarketingProvider = StateNotifierProvider<RemarketingProvider, Remarketi
   );
 });
 
-
-
 final textHoverProvider = StateProvider<bool>((ref) => false);
 final text2HoverProvider = StateProvider<bool>((ref) => false);
+
+final authServiceProvider = Provider((ref) => AuthService());
+
+final authProvider =
+    StateNotifierProvider<AuthNotifier, AsyncValue<UserModel?>>((ref) {
+  return AuthNotifier(ref);
+});
+
+final authInfoProvider =
+    StateNotifierProvider<AuthInfoNotifier, AsyncValue<UserInfo?>>(
+  (ref) => AuthInfoNotifier(ref),
+);

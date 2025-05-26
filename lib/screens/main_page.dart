@@ -8,7 +8,7 @@ class MainScreen extends ConsumerWidget {
     final scrollOffset = ref.watch(scrollOffsetProvider);
     final size = MediaQuery.of(context).size.width;
     final position = MediaQuery.of(context).size.height;
-    final youtubeController = ref.watch(youtubeControllerProvider);
+
 
     return Scaffold(
       body: SizedBox.expand(
@@ -96,15 +96,9 @@ class MainScreen extends ConsumerWidget {
                               bottom: 8,
                             ),
                             child: ListView.builder(
-                              itemCount: 10,
+                              itemCount: reviews.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return CardRated(
-                                  author: "Richard Brito",
-                                  img: bod1,
-                                  date: "25/02/2025",
-                                  rate: "4.5",
-                                  description: review,
-                                );
+                                return reviews[index];
                               },
                             ),
                           ),
@@ -138,44 +132,7 @@ class MainScreen extends ConsumerWidget {
                                 height: Responsive.isWeb(context)
                                     ? position * .3
                                     : position * .5,
-                                child: CarouselSlider(
-                                  items: [
-                                    frame1,
-                                    frame2,
-                                    frame1,
-                                    frame2,
-                                    frame2,
-                                    frame1
-                                  ].map((i) {
-                                    return Container(
-                                      width: size * .2,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage(i),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    );
-                                  }).toList(),
-                                  options: CarouselOptions(
-                                    aspectRatio: 2.0,
-                                    autoPlay: true,
-                                    enlargeFactor: 0,
-                                    pauseAutoPlayInFiniteScroll: false,
-                                    autoPlayAnimationDuration:
-                                        const Duration(seconds: 10),
-                                    pauseAutoPlayOnManualNavigate: false,
-                                    scrollDirection: Axis.horizontal,
-                                    pageSnapping: false,
-                                    disableCenter: true,
-                                    viewportFraction: 0.8,
-                                    enlargeCenterPage: true,
-                                    autoPlayCurve: Curves.linear,
-                                    autoPlayInterval:
-                                        const Duration(seconds: 10),
-                                    enableInfiniteScroll: true,
-                                  ),
-                                ),
+                                child: CustomCarousel(size: size),
                               ),
                             ),
                             Center(
@@ -189,15 +146,7 @@ class MainScreen extends ConsumerWidget {
                                   color: const Color(0xFFFFFFFF),
                                   borderRadius: BorderRadius.circular(25),
                                 ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: YoutubeWebPlayer(
-                                    videoId: 'HmIdaxtQL9w',
-                                    isAutoPlay: true,
-                                    background: white,
-                                    controller: youtubeController!,
-                                  ),
-                                ),
+                                child: PlayerVideo(),
                               ),
                             ),
                           ],

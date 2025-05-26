@@ -39,7 +39,7 @@ class WebNavBar extends ConsumerWidget {
           children: [
             SizedBox(
                 child: GestureDetector(
-                    onTap: () => context.go('/'), child: Image.asset(logo))),
+                    onTap: () => context.pushNamed('/'), child: Image.asset(logo))),
             SizedBox(
               width: isTablet
                   ? width * .35
@@ -75,7 +75,7 @@ class MovilNavbar extends ConsumerWidget {
           children: [
             // Logo
             GestureDetector(
-              onTap: () => context.go('/'),
+              onTap: () => context.pushNamed('/'),
               child: Image.asset(
                 logo,
                 width: 150,
@@ -153,12 +153,15 @@ class AdminNavBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // Logo
-          Image.asset(
-            logo, // Replace with actual asset path
-            width: isMobile ? 156 : 309,
-            height: isMobile ? null : 65,
-            fit: BoxFit.contain,
-            colorBlendMode: BlendMode.colorDodge,
+          GestureDetector(
+            onTap: () => context.pushNamed('/'),
+            child: Image.asset(
+              logo, // Replace with actual asset path
+              width: isMobile ? 156 : 309,
+              height: isMobile ? null : 65,
+              fit: BoxFit.contain,
+              colorBlendMode: BlendMode.colorDodge,
+            ),
           ),
 
           // Nav links

@@ -7,7 +7,7 @@ part of 'providers.dart';
 // **************************************************************************
 
 String _$filteredAndSortedNotificationsHash() =>
-    r'44a3259f9f659d080589644c367791dcb1bf958f';
+    r'b21a2aa8d327bcd44c2dd4efd4a1d09d21f6e3a1';
 
 /// Provider para obtener notificaciones filtradas y ordenadas
 ///

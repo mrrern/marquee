@@ -13,6 +13,8 @@ export 'package:bodas/widgets/responsive_widget.dart';
 export 'package:webview_flutter/webview_flutter.dart';
 export 'package:file_picker/file_picker.dart';
 export 'package:dropdown_button2/dropdown_button2.dart';
+export 'package:shared_preferences/shared_preferences.dart';
+export 'package:supabase_flutter/supabase_flutter.dart';
 
 // Pantallas
 export 'package:bodas/app.dart';
@@ -30,7 +32,6 @@ export 'package:bodas/screens/quotation_page.dart';
 export 'package:bodas/screens/notification_page.dart';
 export 'package:bodas/screens/remarketing_page.dart';
 
-
 //routes
 export 'package:bodas/routes/routes.dart';
 
@@ -42,6 +43,8 @@ export '../themes/const.dart';
 export 'package:bodas/controllers/models.dart';
 export 'package:bodas/controllers/providers.dart';
 export 'package:bodas/logic/webview_scrap.dart';
+export 'package:bodas/controllers/auth_services.dart';
+export 'package:bodas/controllers/user/user_model.dart';
 
 //widgets
 export 'package:bodas/widgets/navbar_item.dart';
@@ -79,3 +82,5 @@ export 'package:bodas/widgets/notification_list.dart';
 export 'package:bodas/widgets/music_form.dart';
 export 'package:bodas/widgets/remarketing_table.dart';
 export 'package:bodas/widgets/buttons.dart';
+export 'package:bodas/widgets/custom_carousel.dart';
+export 'package:bodas/widgets/player_video.dart';

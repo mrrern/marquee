@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:bodas/routes/linkspaper.dart';
 
-
 // Modelo de estado para el botón
 class ButtonState {
   final bool isHovered;
@@ -35,9 +34,6 @@ class Opinion {
   });
 }
 
-
-
-
 //Manejo de estado del ScrollOfset
 class ScrollOffsetNotifier extends StateNotifier<double> {
   final Ref ref;
@@ -53,32 +49,6 @@ class ScrollOffsetNotifier extends StateNotifier<double> {
   }
 }
 
-//Controllador del video principal
-class YoutubeControllerNotifier extends StateNotifier<YoutubeWebPlayerController?> {
-  YoutubeControllerNotifier() : super(null) {
-    _init();
-  }
-
-  void _init() {
-    state = YoutubeWebPlayerController();
-    state?.addListener(_listener);
-  }
-
-  void _listener() {
-    if (state?.isReady == true) {
-      state?.play();
-    }
-  }
-
-  @override
-  void dispose() {
-    state?.dispose();
-    super.dispose();
-  }
-}
-
-
-
 class SidebarExpansionNotifier extends StateNotifier<bool> {
   SidebarExpansionNotifier() : super(true);
 
@@ -86,8 +56,6 @@ class SidebarExpansionNotifier extends StateNotifier<bool> {
   void expand() => state = true;
   void collapse() => state = false;
 }
-
-
 
 // Notifier que maneja el estado del botón
 class ButtonStateNotifier extends StateNotifier<ButtonState> {
@@ -320,7 +288,6 @@ class CeremonyReading {
   }
 }
 
-
 class ContractModel {
   final String id;
   final String title;
@@ -474,14 +441,14 @@ class NoteModel {
 
   String toJson() => json.encode(toMap());
 
-  factory NoteModel.fromJson(String source) => NoteModel.fromMap(json.decode(source));
+  factory NoteModel.fromJson(String source) =>
+      NoteModel.fromMap(json.decode(source));
 
   @override
   String toString() {
     return 'NoteModel(id: $id, userName: $userName, userAvatar: $userAvatar, date: $date, content: $content, images: $images)';
   }
 }
-
 
 // Modelo para las solicitudes de cotización
 class QuotationRequest {
@@ -712,7 +679,6 @@ class NotificationModel {
   }
 }
 
-
 // quotation_provider.dart
 class QuotationState {
   final int currentPage;
@@ -756,8 +722,6 @@ class QuotationProvider extends StateNotifier<QuotationState> {
   }
 }
 
-
-
 // Modelo Remarketing
 class RemarketingUser {
   final String name;
@@ -774,7 +738,6 @@ class RemarketingUser {
     this.isSelected = false,
   });
 }
-
 
 // Estado y Provider Remarketing
 class RemarketingState {
@@ -802,8 +765,6 @@ class RemarketingState {
 
   int get totalPages => (users.length / itemsPerPage).ceil();
 }
-
-
 
 class RemarketingProvider extends StateNotifier<RemarketingState> {
   RemarketingProvider({required List<RemarketingUser> users})

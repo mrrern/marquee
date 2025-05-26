@@ -14,7 +14,7 @@ class LoginForm extends ConsumerWidget {
 
     final emailError = ref.watch(emailErrorProvider);
     final passwordError = ref.watch(passwordErrorProvider);
-    final isFormValid = ref.watch(isFormValidProvider);
+    final isFormValid = ref.watch(isFormValidLoginProvider);
 
     return Container(
       width: Responsive.isWeb(context) ? 469 : width * 0.85,
@@ -65,7 +65,7 @@ class LoginForm extends ConsumerWidget {
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.zero,
-              errorText: emailError,
+              errorText: null,
               errorStyle: GoogleFonts.inter(
                 fontSize: 12,
                 color: Colors.red,
@@ -80,6 +80,11 @@ class LoginForm extends ConsumerWidget {
             ),
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
+            onSubmitted: isFormValid
+                ? (_) {
+                    _handleLogin(ref, context);
+                  }
+                : null,
           ),
 
           // Only show the error if there is one and the field has been touched
@@ -221,41 +226,67 @@ class LoginForm extends ConsumerWidget {
       ),
     );
   }
+}
 
-  void _handleLogin(WidgetRef ref, BuildContext context) {
-    final email = ref.read(emailProvider);
-    final password = ref.read(passwordProvider);
+Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
+  final email = ref.read(emailProvider);
+  final password = ref.read(passwordProvider);
 
-    // Here you would implement your authentication logic
-    print('Login attempt with: $email');
-    print('Login attempt with: $password');
+  // Example of showing a loading indicator and handling success/failure
 
-    // Example of showing a loading indicator and handling success/failure
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
+  try {
+    // Primero actualizar el estado del provider
+    await ref.read(authInfoProvider.notifier).signIn(email, password);
+
+    // Esperar a que el estado se actualice
+    final userState = ref.read(authInfoProvider);
+
+    // Manejar los diferentes estados
+    userState.when(
+      data: (user) {
+        if (user == null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Error al iniciar sesión'),
+              backgroundColor: Colors.red,
+            ),
+          );
+          return;
+        }
+
+        if (user.rol == 'Administrador') {
+          context.pushNamed('/admin');
+        } else if (user.bodas.isNotEmpty) {
+          context.pushNamed('/notificacion');
+        } else {
+          context.pushNamed('/boda');
+        }
+      },
+      loading: () {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => const Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
+      error: (error, stack) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: ${error.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      },
+    );
+  } catch (e) {
+    context.pop(); // Close the loading dialog
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Error: ${e.toString()}'),
+        backgroundColor: Colors.red,
       ),
     );
-
-    // Simulate authentication delay
-    Future.delayed(const Duration(seconds: 2), () {
-      context.pop(); // Close loading dialog
-
-      // Here you would check if authentication was successful
-      // For now, we'll just show a success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Inicio de sesión exitoso'),
-          backgroundColor: Colors.green,
-        ),
-      );
-
-      // Navigate to home or dashboard
-      // context.go('/dashboard');
-    });
-
-    context.go('/notificacion');
   }
 }

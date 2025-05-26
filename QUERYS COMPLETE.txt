@@ -1,0 +1,258 @@
+-- Crear tabla users_rol
+CREATE TABLE IF NOT EXISTS public.users_rol (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100),
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    is_deleted BOOLEAN DEFAULT FALSE
+);
+
+-- Crear tabla users
+CREATE TABLE IF NOT EXISTS public.users (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100),
+    email VARCHAR(100),
+    password VARCHAR(200),
+    rol_id INTEGER DEFAULT 2,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    CONSTRAINT users_rol_id_fkey FOREIGN KEY (rol_id) REFERENCES public.users_rol(id)
+);
+
+-- Tabla boda_estado
+CREATE TABLE IF NOT EXISTS public.boda_estado (
+    id SERIAL PRIMARY KEY,
+    descripcion VARCHAR(100),
+    is_deleted BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
+);
+
+-- Tabla boda_tipo
+CREATE TABLE IF NOT EXISTS public.boda_tipo (
+    id SERIAL PRIMARY KEY,
+    descripcion VARCHAR(200),
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    is_deleted BOOLEAN DEFAULT FALSE
+);
+
+-- Tabla boda
+CREATE TABLE IF NOT EXISTS public.boda (
+    id SERIAL PRIMARY KEY,
+    usuario_id INTEGER,
+    fecha TIMESTAMP,
+    ubicacion TEXT,
+    invitados NUMERIC,
+    estado_id INTEGER DEFAULT 1,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    novio_nombre VARCHAR(500),
+    novia_nombre VARCHAR(500),
+    phone_novio VARCHAR(200),
+    phone_novia VARCHAR(200),
+    novio_birthday TIMESTAMP,
+    novia_birthday TIMESTAMP,
+    novio_email VARCHAR(200),
+    novia_email VARCHAR(200),
+    boda_tipo INTEGER DEFAULT 1,
+    CONSTRAINT rel_bod_user FOREIGN KEY (usuario_id) REFERENCES public.users(id),
+    CONSTRAINT rel_bod_status FOREIGN KEY (estado_id) REFERENCES public.boda_estado(id),
+    CONSTRAINT rel_bod_type FOREIGN KEY (boda_tipo) REFERENCES public.boda_tipo(id)
+);
+
+-- Tabla cotizacion
+CREATE TABLE IF NOT EXISTS public.cotizacion (
+    id SERIAL PRIMARY KEY,
+    boda_id INTEGER,
+    descripcion TEXT,
+    file_admin VARCHAR(100),
+    file_user VARCHAR(100),
+    estado VARCHAR(50),
+    created_at TIMESTAMPTZ,
+    updated_at TIMESTAMPTZ,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    CONSTRAINT rel_bod_doc FOREIGN KEY (boda_id) REFERENCES public.boda(id) ON DELETE CASCADE
+);
+
+-- Tabla notas
+CREATE TABLE IF NOT EXISTS public.notas (
+    id SERIAL PRIMARY KEY,
+    boda_id INTEGER,
+    title VARCHAR(200),
+    description TEXT,
+    images JSONB,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    CONSTRAINT notas_boda_id_fkey FOREIGN KEY (boda_id) REFERENCES public.boda(id) ON DELETE CASCADE
+);
+
+-- Tabla nota_archivo
+CREATE TABLE IF NOT EXISTS public.nota_archivo (
+    id SERIAL PRIMARY KEY,
+    nota_id INTEGER NOT NULL,
+    file VARCHAR(300) NOT NULL,
+    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_deleted BOOLEAN,
+    created_at TIMESTAMPTZ,
+    CONSTRAINT nota_archivo_nota_id_fkey FOREIGN KEY (nota_id) REFERENCES public.notas(id) ON DELETE CASCADE
+);
+
+-- Tabla music
+CREATE TABLE IF NOT EXISTS public.music (
+    id SERIAL PRIMARY KEY,
+    boda_id INTEGER,
+    music_reception VARCHAR(600),
+    music_entrada_novio VARCHAR(600),
+    music_entrada_novia VARCHAR(600),
+    music_lect_1 VARCHAR(600),
+    music_lect_2 VARCHAR(600),
+    music_lect_3 VARCHAR(600),
+    music_lect_4 VARCHAR(600),
+    music_alianza VARCHAR(600),
+    music_firma VARCHAR(600),
+    music_end_ceremony VARCHAR(600),
+    music_coctel VARCHAR(600),
+    music_entrance_salon VARCHAR(600),
+    music_dinner VARCHAR(600),
+    music_cake VARCHAR(600),
+    music_ramos VARCHAR(600),
+    music_surpise VARCHAR(600),
+    music_barra_novios VARCHAR(600),
+    music_barra_opcional VARCHAR(600),
+    music_novio JSONB,
+    music_novia JSONB,
+    inv_ext BOOLEAN DEFAULT FALSE,
+    inv_ext_music BOOLEAN DEFAULT FALSE,
+    music_ext VARCHAR(600),
+    inv_petition BOOLEAN DEFAULT FALSE,
+    forbiden_music BOOLEAN DEFAULT FALSE,
+    music_forbiden VARCHAR(600),
+    music_final VARCHAR(600),
+    music_coments TEXT,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    CONSTRAINT rel_bod_music FOREIGN KEY (boda_id) REFERENCES public.boda(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+-- ==============================================
+-- VIEW: listar_boda
+-- ==============================================
+CREATE OR REPLACE VIEW public.listar_boda AS
+SELECT 
+    b.id,
+    u.id AS user_id,
+    u.nombre AS name_user,
+    b.fecha,
+    b.ubicacion,
+    b.invitados,
+    b.novio_nombre,
+    b.novia_nombre,
+    b.phone_novio,
+    b.phone_novia,
+    b.novio_birthday,
+    b.novia_birthday,
+    b.novio_email,
+    b.novia_email,
+    be.descripcion AS estado_boda,
+    bt.descripcion AS tipo_boda,
+    b.created_at,
+    b.updated_at,
+    b.is_deleted
+FROM boda b
+JOIN boda_estado be ON b.estado_id = be.id
+JOIN boda_tipo bt ON b.boda_tipo = bt.id
+JOIN users u ON b.usuario_id = u.id;
+
+-- ==============================================
+-- VIEW: musica_por_boda
+-- ==============================================
+CREATE OR REPLACE VIEW public.musica_por_boda AS
+SELECT 
+    m.id AS musica_id,
+    m.boda_id,
+    b.novio_nombre,
+    b.novia_nombre,
+    m.music_reception,
+    m.music_entrada_novio,
+    m.music_entrada_novia,
+    m.music_lect_1,
+    m.music_lect_2,
+    m.music_lect_3,
+    m.music_lect_4,
+    m.music_alianza,
+    m.music_firma,
+    m.music_end_ceremony,
+    m.music_coctel,
+    m.music_entrance_salon,
+    m.music_dinner,
+    m.music_cake,
+    m.music_ramos,
+    m.music_surpise,
+    m.music_barra_novios,
+    m.music_barra_opcional,
+    m.music_novio,
+    m.music_novia,
+    m.inv_ext,
+    m.inv_ext_music,
+    m.music_ext,
+    m.inv_petition,
+    m.forbiden_music,
+    m.music_forbiden,
+    m.music_final,
+    m.music_coments,
+    m.created_at,
+    m.updated_at
+FROM music m
+JOIN boda b ON m.boda_id = b.id
+WHERE m.is_deleted = FALSE;
+
+-- ==============================================
+-- VIEW: nota_con_archivo
+-- ==============================================
+CREATE OR REPLACE VIEW public.nota_con_archivo AS
+SELECT 
+    n.id AS nota_id,
+    n.title,
+    n.description,
+    n.images,
+    COALESCE(
+        json_agg(
+            jsonb_build_object(
+                'archivo_id', na.id,
+                'file', na.file,
+                'uploaded_at', na.uploaded_at
+            )
+        ) FILTER (WHERE na.id IS NOT NULL),
+        '[]'::json
+    ) AS archivos,
+    n.created_at AS nota_creada
+FROM notas n
+LEFT JOIN nota_archivo na 
+    ON na.nota_id = n.id AND na.is_deleted = FALSE
+WHERE n.is_deleted = FALSE
+GROUP BY n.id
+ORDER BY n.id;
+
+-- ==============================================
+-- VIEW: user_info
+-- ==============================================
+CREATE OR REPLACE VIEW public.user_info AS
+SELECT 
+    u.id,
+    u.nombre,
+    u.email,
+    u.password,
+    ur.nombre AS user_rol,
+    u.created_at,
+    u.updated_at,
+    u.is_deleted
+FROM users u
+JOIN users_rol ur ON u.rol_id = ur.id;
+
+

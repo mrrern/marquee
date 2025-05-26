@@ -6,28 +6,12 @@ class CarruselF extends ConsumerStatefulWidget {
   const CarruselF({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CarruselFState();
+  ConsumerState<CarruselF> createState() => _CarruselFState();
 }
 
 class _CarruselFState extends ConsumerState<CarruselF> {
-  Timer? timer; // Timer para cambiar la imagen automáticamente
-
-  final List<String> images = [
-    bod1,
-    bod2,
-    bod3,
-    bod4,
-  ];
-
-  void _startImageSwitcher() async {
-    timer = Timer.periodic(const Duration(seconds: 10), (timer) {
-      if (!mounted) {
-        return; // Evita acceso a `ref` después de que el widget se descarte
-      }
-      ref.read(imageIndexProvider.notifier).state =
-          (ref.read(imageIndexProvider) + 1) % images.length;
-    });
-  }
+  Timer? _timer;
+  final List<String> _images = [bod1, bod2, bod3, bod4];
 
   @override
   void initState() {
@@ -37,8 +21,18 @@ class _CarruselFState extends ConsumerState<CarruselF> {
 
   @override
   void dispose() {
-    timer?.cancel();
+    _timer?.cancel();
     super.dispose();
+  }
+
+  void _startImageSwitcher() {
+    _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
+      if (!mounted) return;
+
+      final currentIndex = ref.read(imageIndexProvider);
+      final nextIndex = (currentIndex + 1) % _images.length;
+      ref.read(imageIndexProvider.notifier).state = nextIndex;
+    });
   }
 
   @override
@@ -47,8 +41,9 @@ class _CarruselFState extends ConsumerState<CarruselF> {
     final position = MediaQuery.of(context).size.height;
     final indexImage = ref.watch(imageIndexProvider);
     final isWeb = Responsive.isWeb(context);
+
     return AnimatedSwitcher(
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       transitionBuilder: (Widget child, Animation<double> animation) {
         return FadeTransition(opacity: animation, child: child);
       },
@@ -60,7 +55,9 @@ class _CarruselFState extends ConsumerState<CarruselF> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           image: DecorationImage(
-              image: AssetImage(images[indexImage]), fit: BoxFit.cover),
+            image: AssetImage(_images[indexImage]),
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );

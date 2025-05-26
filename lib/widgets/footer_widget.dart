@@ -22,47 +22,46 @@ class _FooterWidgetState extends ConsumerState<FooterWidget> {
             width: size,
             height: Responsive.isWeb(context) ? position * .2 : position * .4,
             child: CarouselSlider(
-                items: [
-                  spons,
-                  spons,
-                  spons,
-                  spons,
-                  spons,
-                ].map((i) {
-                  return Container(
-                    width: 1440,
-                    decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        image: DecorationImage(
-                            image: AssetImage(i), fit: BoxFit.contain)),
-                  );
-                }).toList(),
-                options: CarouselOptions(
-                    height: Responsive.isWeb(context)
-                        ? position * .1
-                        : position * .4,
-                    aspectRatio: 2.0,
-                    autoPlay: true,
-                    enlargeFactor: 0,
-                    pauseAutoPlayInFiniteScroll: false,
-                    autoPlayAnimationDuration: Duration(seconds: 10),
-                    pauseAutoPlayOnManualNavigate: false,
-                    scrollDirection: Axis.horizontal,
-                    pageSnapping: false,
-                    disableCenter: false,
-                    viewportFraction: 0.8,
-                    enlargeCenterPage: true,
-                    autoPlayCurve: Curves.linear,
-                    autoPlayInterval: Duration(seconds: 10),
-                    enableInfiniteScroll: true)),
+              items: [spons, spons, spons, spons, spons].map((i) {
+                return Container(
+                  width: 1440,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    image: DecorationImage(
+                      image: AssetImage(i),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                );
+              }).toList(),
+              options: CarouselOptions(
+                height:
+                    Responsive.isWeb(context) ? position * .1 : position * .4,
+                aspectRatio: 2.0,
+                autoPlay: true,
+                enlargeFactor: 0,
+                pauseAutoPlayInFiniteScroll: false,
+                autoPlayAnimationDuration: const Duration(seconds: 10),
+                pauseAutoPlayOnManualNavigate: false,
+                scrollDirection: Axis.horizontal,
+                pageSnapping: false,
+                disableCenter: false,
+                viewportFraction: 0.8,
+                enlargeCenterPage: true,
+                autoPlayCurve: Curves.linear,
+                autoPlayInterval: const Duration(seconds: 10),
+                enableInfiniteScroll: true,
+              ),
+            ),
           ),
         ),
         Padding(
           padding: EdgeInsets.fromLTRB(
-              Responsive.isWeb(context) ? position * .1 : position * .07,
-              0,
-              0,
-              0),
+            Responsive.isWeb(context) ? position * .1 : position * .07,
+            0,
+            0,
+            0,
+          ),
         ),
         SizedBox(
           width: Responsive.isWeb(context) ? size : size / .5,
