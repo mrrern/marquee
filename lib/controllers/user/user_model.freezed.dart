@@ -711,7 +711,7 @@ class _$BodaCopyWithImpl<$Res> implements $BodaCopyWith<$Res> {
 
 /// @nodoc
 @JsonSerializable()
-class _Boda implements Boda {
+class _Boda extends Boda {
   const _Boda(
       {required this.id,
       required this.usuarioId,
@@ -730,7 +730,8 @@ class _Boda implements Boda {
       required this.novioBirthday,
       required this.noviaBirthday,
       required this.novioEmail,
-      required this.noviaEmail});
+      required this.noviaEmail})
+      : super._();
   factory _Boda.fromJson(Map<String, dynamic> json) => _$BodaFromJson(json);
 
   @override

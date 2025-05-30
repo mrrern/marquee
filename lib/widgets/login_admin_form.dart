@@ -1,7 +1,7 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-class LoginForm extends ConsumerWidget {
-  const LoginForm({super.key});
+class LoginAdminForm extends ConsumerWidget {
+  const LoginAdminForm({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -70,7 +70,6 @@ class LoginForm extends ConsumerWidget {
                 fontSize: 12,
                 color: Colors.red,
               ),
-              // Hide the error container to maintain design
               errorBorder: InputBorder.none,
               focusedErrorBorder: InputBorder.none,
             ),
@@ -87,7 +86,6 @@ class LoginForm extends ConsumerWidget {
                 : null,
           ),
 
-          // Only show the error if there is one and the field has been touched
           if (emailError != null && email.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(top: 4, bottom: 4),
@@ -125,12 +123,11 @@ class LoginForm extends ConsumerWidget {
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.zero,
-              errorText: null, // Hide default error to maintain design
+              errorText: null,
               errorStyle: GoogleFonts.inter(
                 fontSize: 12,
                 color: Colors.red,
               ),
-              // Hide the error container to maintain design
               errorBorder: InputBorder.none,
               focusedErrorBorder: InputBorder.none,
               suffixIcon: IconButton(
@@ -151,12 +148,10 @@ class LoginForm extends ConsumerWidget {
             textInputAction: TextInputAction.done,
             onSubmitted: isFormValid
                 ? (_) {
-                    // Handle login when Enter is pressed and form is valid
                     _handleLogin(ref, context);
                   }
                 : null,
           ),
-          // Only show the error if there is one and the field has been touched
           if (passwordError != null && password.isNotEmpty)
             Padding(
               padding: const EdgeInsets.only(top: 4, bottom: 4),
@@ -187,37 +182,18 @@ class LoginForm extends ConsumerWidget {
                 decoration: BoxDecoration(
                   color: isFormValid
                       ? const Color.fromRGBO(2, 0, 0, 0.58)
-                      : const Color.fromRGBO(
-                          2, 0, 0, 0.3), // Lighter color when disabled
+                      : const Color.fromRGBO(2, 0, 0, 0.3),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Center(
                   child: Text(
-                    'Acceso',
+                    'Acceso Admin',
                     style: GoogleFonts.inter(
                       fontSize: 20,
                       fontWeight: FontWeight.w400,
                       color: Colors.white,
                     ),
                   ),
-                ),
-              ),
-            ),
-          ),
-
-          // Forgot Password Link
-          SizedBox(height: 9),
-          Center(
-            child: InkWell(
-              onTap: () {
-                // Handle forgot password logic
-              },
-              child: Text(
-                'Olvidaste tu contraseña?',
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black,
                 ),
               ),
             ),
@@ -252,11 +228,25 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
         ),
       );
       return;
-    } else if (user.bodas.isNotEmpty &&
-        user.bodas.any((boda) => boda.hasInformation())) {
-      context.pushNamed('/notes');
+    }
+
+    if (user.rol == 'Administrador') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Login Exitoso'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 4),
+        ),
+      );
+      context.pushNamed('/admin');
     } else {
-      context.pushNamed('/boda');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No tienes permisos de administrador'),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 4),
+        ),
+      );
     }
   } catch (e) {
     context.pop(); // Remove loading dialog

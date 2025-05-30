@@ -1,4 +1,5 @@
 import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/screens/access_admin_page.dart';
 
 // Configuración de las rutas con go_router
 GoRouter createRouter(Ref ref) => GoRouter(
@@ -6,7 +7,8 @@ GoRouter createRouter(Ref ref) => GoRouter(
         final user = ref.watch(authProvider).value;
         final isPublicRoute = state.path == "/" ||
             state.path == "/access" ||
-            state.path == "/sign";
+            state.path == "/sign" ||
+            state.path == "access-admin";
 
         if (user == null && isPublicRoute) {
           return isPublicRoute ? state.path : '/access';
@@ -24,6 +26,10 @@ GoRouter createRouter(Ref ref) => GoRouter(
         GoRoute(
           path: '/access',
           builder: (context, state) => AccessScreenResponsive(),
+        ),
+        GoRoute(
+          path: 'access-admin',
+          builder: (context, state) => AccessAdminPage(),
         ),
         GoRoute(
           path: '/sign',
@@ -94,7 +100,6 @@ GoRouter createRouter(Ref ref) => GoRouter(
         ),
       ],
       initialLocation: '/',
-      
     );
 
 final routerProvider = Provider((ref) => createRouter(ref));

@@ -56,4 +56,15 @@ abstract class Boda with _$Boda {
   }) = _Boda;
 
   factory Boda.fromJson(Map<String, dynamic> json) => _$BodaFromJson(json);
+
+  const Boda._();
+
+  bool hasInformation() {
+    return novioNombre.isNotEmpty &&
+        noviaNombre.isNotEmpty &&
+        phoneNovio.isNotEmpty &&
+        phoneNovia.isNotEmpty &&
+        ubicacion.isNotEmpty &&
+        invitados > 0;
+  }
 }
