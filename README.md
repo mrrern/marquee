@@ -7,6 +7,7 @@ Plataforma integral para la gestión de servicios de bodas, especializada en la 
 | Componente          | Tecnología                                                                 |
 |---------------------|----------------------------------------------------------------------------|
 | Framework Principal | Flutter 3.13                                                               |
+| Backend usado       | Python, Django REST Framework                                              |
 | Gestión de Estado   | Riverpod 2.6                                                               |
 | Enrutamiento        | GoRouter 14.8                                                              |
 | Backend             | Firebase (Firestore, Auth, Storage)                                        |

@@ -113,25 +113,74 @@ class AuthService {
       );
 
       if (response.user != null) {
-        final userData = await _supabase
-            .from('user_info')
-            .select()
-            .eq('id', response.user!.id)
-            .single();
+        try {
+          // Get user info from user_info view
+          final userData = await _supabase
+              .from('user_info')
+              .select()
+              .eq('id', response.user!.id)
+              .single();
 
-        // Mapear los datos de la vista al modelo UserInfo
-        final userInfo = UserInfo(
-          id: userData['id'],
-          nombre: userData['nombre'],
-          email: userData['email'],
-          rol: userData['user_rol'], // Mapear user_rol a rol
-          bodas: [], // Inicialmente vacío
-        );
+          if (userData == null) {
+            throw Exception('User info not found');
+          }
 
-        return (response.session?.accessToken, userInfo);
+          // Get bodas from listar_boda view
+          final bodasData = await _supabase
+              .from('listar_boda')
+              .select()
+              .eq('user_id', response.user!.id)
+              .eq('is_deleted', false);
+
+          // Map the bodas data to Boda objects with null safety
+          final bodas = bodasData.map((bodaData) {
+            return Boda(
+              id: bodaData['id']?.toString() ?? '',
+              usuarioId: bodaData['user_id']?.toString() ?? '',
+              fecha:
+                  DateTime.tryParse(bodaData['fecha'] ?? '') ?? DateTime.now(),
+              ubicacion: bodaData['ubicacion'] ?? '',
+              invitados: (bodaData['invitados'] as num?)?.toDouble() ?? 0.0,
+              estadoId: bodaData['estado_boda'] ?? 0,
+              bodaTipo: bodaData['tipo_boda'] ?? '',
+              createdAt: DateTime.tryParse(bodaData['created_at'] ?? '') ??
+                  DateTime.now(),
+              updatedAt: DateTime.tryParse(bodaData['updated_at'] ?? '') ??
+                  DateTime.now(),
+              isDeleted: bodaData['is_deleted'] ?? false,
+              novioNombre: bodaData['novio_nombre'] ?? '',
+              noviaNombre: bodaData['novia_nombre'] ?? '',
+              phoneNovio: bodaData['phone_novio'] ?? '',
+              phoneNovia: bodaData['phone_novia'] ?? '',
+              novioBirthday:
+                  DateTime.tryParse(bodaData['novio_birthday'] ?? '') ??
+                      DateTime.now(),
+              noviaBirthday:
+                  DateTime.tryParse(bodaData['novia_birthday'] ?? '') ??
+                      DateTime.now(),
+              novioEmail: bodaData['novio_email'] ?? '',
+              noviaEmail: bodaData['novia_email'] ?? '',
+            );
+          }).toList();
+
+          // Create UserInfo with the bodas data
+          final userInfo = UserInfo(
+            id: userData['id'] ?? '',
+            nombre: userData['nombre'] ?? '',
+            email: userData['email'] ?? '',
+            rol: userData['user_rol'] ?? 'User',
+            bodas: bodas,
+          );
+
+          return (response.session?.accessToken, userInfo);
+        } catch (e) {
+          print('Error fetching user data: $e');
+          throw Exception('Error fetching user data: $e');
+        }
       }
       return (null, null);
     } catch (e) {
+      print('Error signing in: $e');
       throw Exception('Error signing in: $e');
     }
   }

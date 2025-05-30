@@ -1,4 +1,4 @@
-name: Flutter Web
+name: Flutter Web to Docker
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,7 +35,7 @@ jobs:
         # Cambiar <title></title> a <title>Marquee Audiovisuales</title>
         sed -i 's|<title>bodas</title>|<title>Marquee Audiovisuales</title>|' ./build/web/index.html
 
-    - name: Deploy
+    - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.token }}

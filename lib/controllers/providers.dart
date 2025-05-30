@@ -325,8 +325,9 @@ final emailErrorProvider = Provider<String?>((ref) {
 final passwordErrorProvider = Provider<String?>((ref) {
   final password = ref.watch(passwordProvider);
   if (password.isEmpty) return null;
-  if (password.length < 6)
+  if (password.length < 6) {
     return 'La contraseña debe tener al menos 6 caracteres';
+  }
   return null;
 });
 

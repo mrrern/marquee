@@ -233,59 +233,72 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
   final password = ref.read(passwordProvider);
 
   // Example of showing a loading indicator and handling success/failure
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => const Center(child: CircularProgressIndicator()),
+  );
 
   try {
-    // Primero actualizar el estado del provider
-    await ref.read(authInfoProvider.notifier).signIn(email, password);
+    await ref.read(authServiceProvider).signInWithInfo(email, password);
+    context.pop(); // Remove loading dialog
 
-    // Esperar a que el estado se actualice
-    final userState = ref.read(authInfoProvider);
+    final user = ref.read(authInfoProvider).value;
+    if (user == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error: No se pudo obtener la información del usuario'),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 4),
+        ),
+      );
+      return;
+    }
 
-    // Manejar los diferentes estados
-    userState.when(
-      data: (user) {
-        if (user == null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Error al iniciar sesión'),
-              backgroundColor: Colors.red,
-            ),
-          );
-          return;
-        }
-
-        if (user.rol == 'Administrador') {
-          context.pushNamed('/admin');
-        } else if (user.bodas.isNotEmpty) {
-          context.pushNamed('/notificacion');
-        } else {
-          context.pushNamed('/boda');
-        }
-      },
-      loading: () {
-        showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => const Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
-      },
-      error: (error, stack) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error: ${error.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      },
-    );
+    if (user.bodas.isEmpty && user.rol == 'User') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Login Exitoso'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 4),
+        ),
+      );
+      context.pushNamed('/boda');
+    } else if (user.rol == 'Administrador') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Login Exitoso'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 4),
+        ),
+      );
+      context.pushNamed('/admin');
+    } else if (user.bodas.isNotEmpty && user.rol == 'User') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Login Exitoso'),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 4),
+        ),
+      );
+      context.pushNamed('/notes');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Usuario no encontrado o sin permisos'),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 4),
+        ),
+      );
+    }
   } catch (e) {
-    context.pop(); // Close the loading dialog
+    context.pop(); // Remove loading dialog
+    print('Login error: $e');
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Error: ${e.toString()}'),
+        content: Text('Error al iniciar sesión: ${e.toString()}'),
         backgroundColor: Colors.red,
+        duration: const Duration(seconds: 4),
       ),
     );
   }
