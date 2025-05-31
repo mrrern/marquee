@@ -39,7 +39,7 @@ class WebNavBar extends ConsumerWidget {
           children: [
             SizedBox(
                 child: GestureDetector(
-                    onTap: () => context.pushNamed('/'), child: Image.asset(logo))),
+                    onTap: () => context.go('/'), child: Image.asset(logo))),
             SizedBox(
               width: isTablet
                   ? width * .35
@@ -75,7 +75,7 @@ class MovilNavbar extends ConsumerWidget {
           children: [
             // Logo
             GestureDetector(
-              onTap: () => context.pushNamed('/'),
+              onTap: () => context.go('/'),
               child: Image.asset(
                 logo,
                 width: 150,
@@ -103,11 +103,11 @@ class MovilNavbar extends ConsumerWidget {
   }
 }
 
-class FormHeader extends StatelessWidget {
+class FormHeader extends ConsumerWidget {
   const FormHeader({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Container(
@@ -121,18 +121,27 @@ class FormHeader extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Image.asset(
-            logo,
-            width: MediaQuery.of(context).size.width < 640 ? 160 : 216,
-            height: 46,
-            fit: BoxFit.contain,
+          GestureDetector(
+            onTap: () => context.go('/'),
+            child: Image.asset(
+              logo,
+              width: MediaQuery.of(context).size.width < 640 ? 160 : 216,
+              height: 46,
+              fit: BoxFit.contain,
+            ),
           ),
-          Text(
-            'Salir',
-            style: GoogleFonts.inter(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
+          GestureDetector(
+            onTap: () {
+              ref.read(authProvider.notifier).signOut();
+              context.go('/access');
+            },
+            child: Text(
+              'Salir',
+              style: GoogleFonts.inter(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
             ),
           ),
         ],
@@ -141,11 +150,11 @@ class FormHeader extends StatelessWidget {
   }
 }
 
-class AdminNavBar extends StatelessWidget {
+class AdminNavBar extends ConsumerWidget {
   const AdminNavBar({super.key});
 
   @override
-  Widget build(BuildContext context,
+  Widget build(BuildContext context, WidgetRef ref,
       {bool isWeb = false, bool isTablet = false, bool isMobile = false}) {
     return Container(
       padding: const EdgeInsets.all(20),
@@ -154,7 +163,7 @@ class AdminNavBar extends StatelessWidget {
         children: [
           // Logo
           GestureDetector(
-            onTap: () => context.pushNamed('/'),
+            onTap: () => context.goNamed('/'),
             child: Image.asset(
               logo, // Replace with actual asset path
               width: isMobile ? 156 : 309,
@@ -167,11 +176,15 @@ class AdminNavBar extends StatelessWidget {
           // Nav links
           Row(
             children: [
-              _buildNavItem('Usuario', isMobile),
+              _buildNavItem('Usuario', isMobile, '/admin/user', context),
+              SizedBox(
+                width: isMobile ? 7 : 24,
+              ),
+              _buildNavItem('Menú', isMobile, '/admin/menu', context),
               SizedBox(width: isMobile ? 7 : 24),
-              _buildNavItem('Menú', isMobile),
-              SizedBox(width: isMobile ? 7 : 24),
-              _buildNavItem('Salir', isMobile),
+              GestureDetector(
+                  onTap: () => ref.read(authProvider.notifier).signOut(),
+                  child: _buildNavItem('Salir', isMobile, '/access', context)),
             ],
           ),
         ],
@@ -179,13 +192,19 @@ class AdminNavBar extends StatelessWidget {
     );
   }
 
-  Widget _buildNavItem(String text, bool isMobile) {
-    return Text(
-      text,
-      style: GoogleFonts.inter(
-        fontSize: isMobile ? 16 : 20,
-        fontWeight: FontWeight.w700,
-        color: Colors.white,
+  Widget _buildNavItem(
+      String text, bool isMobile, String route, BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.go(route);
+      },
+      child: Text(
+        text,
+        style: GoogleFonts.inter(
+          fontSize: isMobile ? 16 : 20,
+          fontWeight: FontWeight.w700,
+          color: Colors.white,
+        ),
       ),
     );
   }

@@ -5,16 +5,41 @@ import 'package:bodas/screens/access_admin_page.dart';
 GoRouter createRouter(Ref ref) => GoRouter(
       redirect: (context, state) {
         final user = ref.watch(authProvider).value;
-        final isPublicRoute = state.path == "/" ||
-            state.path == "/access" ||
-            state.path == "/sign" ||
-            state.path == "access-admin";
+        final isPublicRoute = {
+          '/sign',
+          '/access',
+          'access-admin',
+        }.contains(state.path);
+
+        final isAdminRoute = {
+          '/admin',
+          '/admin/cotizaciones',
+          '/admin/contratados',
+          '/admin/notas',
+          '/admin/remarketing',
+          '/admin/usuarios',
+          '/admin/estadisticas',
+        }.contains(state.path);
+
+        final isUserRoute = {
+          '/contract',
+          '/boda',
+          '/music',
+          '/polities',
+          '/cookies',
+          '/notes',
+          '/notificacion',
+        }.contains(state.path);
+        
 
         if (user == null && isPublicRoute) {
           return isPublicRoute ? state.path : '/access';
         }
-        if (user != null && !isPublicRoute) {
-          return '/access';
+        if (user != null && isAdminRoute) {
+          return isAdminRoute ? state.path : '/admin';
+        }
+        if (user != null && isUserRoute) {
+          return isUserRoute ? state.path : '/boda';
         }
         return null;
       },
@@ -26,10 +51,6 @@ GoRouter createRouter(Ref ref) => GoRouter(
         GoRoute(
           path: '/access',
           builder: (context, state) => AccessScreenResponsive(),
-        ),
-        GoRoute(
-          path: 'access-admin',
-          builder: (context, state) => AccessAdminPage(),
         ),
         GoRoute(
           path: '/sign',
@@ -65,6 +86,10 @@ GoRouter createRouter(Ref ref) => GoRouter(
         ),
 
         // Admin dashboard routes
+        GoRoute(
+          path: 'access-admin',
+          builder: (context, state) => AccessAdminPage(),
+        ),
         GoRoute(
           path: '/admin',
           builder: (context, state) => MarqueeAdminDashboard(),

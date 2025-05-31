@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:bodas/widgets/login_admin_form.dart';
-import 'package:bodas/utils/responsive.dart';
+
+
+import 'package:bodas/routes/linkspaper.dart';
 
 class AccessAdminPage extends StatelessWidget {
   const AccessAdminPage({super.key});
