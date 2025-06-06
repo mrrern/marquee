@@ -239,11 +239,12 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
   );
 
   try {
-    await ref.read(authServiceProvider).signInWithInfo(email, password);
+    // Realiza el login y obtiene el userInfo actualizado
+    final (token, userInfo) =
+        await ref.read(authServiceProvider).signInWithInfo(email, password);
     context.pop(); // Remove loading dialog
 
-    final user = ref.read(authInfoProvider).value;
-    if (user == null) {
+    if (userInfo == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Error: No se pudo obtener la información del usuario'),
@@ -252,11 +253,17 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
         ),
       );
       return;
-    } else if (user.bodas.isNotEmpty &&
-        user.bodas.any((boda) => boda.hasInformation())) {
-      context.pushNamed('/notes');
+    }
+
+    // Actualiza el provider con la nueva información de usuario
+    ref.read(authInfoProvider.notifier).state = AsyncValue.data(userInfo);
+
+    // Navega según la información recabada
+    if (userInfo.bodas.isNotEmpty &&
+        userInfo.bodas.any((boda) => boda.hasInformation())) {
+      context.goNamed('notes'); // USAR goNamed con el nombre
     } else {
-      context.pushNamed('/boda');
+      context.goNamed('boda'); // USAR goNamed con el nombre
     }
   } catch (e) {
     context.pop(); // Remove loading dialog

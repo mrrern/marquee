@@ -107,8 +107,11 @@ class AuthService {
   Future<(String?, UserInfo?)> signInWithInfo(
       String email, String password) async {
     try {
+      // Convert email to lowercase to prevent case sensitivity issues
+      final lowercasedEmail = email.toLowerCase();
+
       final response = await _supabase.auth.signInWithPassword(
-        email: email,
+        email: lowercasedEmail,
         password: password,
       );
 
@@ -121,7 +124,11 @@ class AuthService {
               .eq('id', response.user!.id)
               .single();
 
+          // Log user_info data
+          print('User Info Data: $userData');
+
           if (userData == null) {
+            print('User info not found for user ID: ${response.user!.id}');
             throw Exception('User info not found');
           }
 
@@ -131,6 +138,10 @@ class AuthService {
               .select()
               .eq('user_id', response.user!.id)
               .eq('is_deleted', false);
+
+          // Log listar_boda data
+          print(
+              'Listar Boda Data for user ID ${response.user!.id}: $bodasData');
 
           // Map the bodas data to Boda objects with null safety
           final bodas = bodasData.map((bodaData) {
@@ -173,15 +184,28 @@ class AuthService {
           );
 
           return (response.session?.accessToken, userInfo);
+        } on PostgrestException catch (e) {
+          // Handle PostgrestException specifically if needed, e.g. logging
+          print('Database error while fetching user data: ${e.message}');
+          throw Exception(
+              'Failed to retrieve user information from the database.');
         } catch (e) {
+          // Catch any other errors during user data fetching
           print('Error fetching user data: $e');
-          throw Exception('Error fetching user data: $e');
+          throw Exception(
+              'An unexpected error occurred while fetching user data.');
         }
       }
-      return (null, null);
+      return (null, null); // User is null
+    } on AuthException catch (e) {
+      // Handle AuthException specifically
+      print('Authentication error: ${e.message}');
+      throw Exception(
+          'Sign in failed. Please check your credentials and try again.');
     } catch (e) {
+      // Catch any other errors during sign in
       print('Error signing in: $e');
-      throw Exception('Error signing in: $e');
+      throw Exception('An unexpected error occurred during sign in.');
     }
   }
 
