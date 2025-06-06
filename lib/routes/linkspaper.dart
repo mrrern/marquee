@@ -43,6 +43,7 @@ export '../themes/const.dart';
 export 'package:bodas/controllers/models.dart';
 export 'package:bodas/controllers/providers.dart';
 export 'package:bodas/logic/webview_scrap.dart';
+export 'package:bodas/logic/boda_logic.dart';
 export 'package:bodas/controllers/auth_services.dart';
 export 'package:bodas/controllers/user/user_model.dart';
 

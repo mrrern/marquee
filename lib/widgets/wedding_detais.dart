@@ -1,16 +1,96 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-class WeddingFormFields extends StatefulWidget {
+class WeddingFormFields extends ConsumerStatefulWidget {
   const WeddingFormFields({super.key});
 
   @override
-  State<WeddingFormFields> createState() => _WeddingFormFieldsState();
+  ConsumerState<WeddingFormFields> createState() => _WeddingFormFieldsState();
 }
 
-class _WeddingFormFieldsState extends State<WeddingFormFields> {
+class _WeddingFormFieldsState extends ConsumerState<WeddingFormFields> {
   final List<String> ceremonyTypes = ['Civil', 'Religiosa'];
   final _formKey = GlobalKey<FormState>();
   String? selectedCeremonyType;
+
+  // Controladores para los campos
+  final _novioNombreController = TextEditingController();
+  final _noviaNombreController = TextEditingController();
+  final _phoneNovioController = TextEditingController();
+  final _phoneNoviaController = TextEditingController();
+  final _novioEmailController = TextEditingController();
+  final _noviaEmailController = TextEditingController();
+  final _invitadosController = TextEditingController();
+  final _ubicacionController = TextEditingController();
+
+  DateTime? _novioBirthday;
+  DateTime? _noviaBirthday;
+
+  @override
+  void dispose() {
+    _novioNombreController.dispose();
+    _noviaNombreController.dispose();
+    _phoneNovioController.dispose();
+    _phoneNoviaController.dispose();
+    _novioEmailController.dispose();
+    _noviaEmailController.dispose();
+    _invitadosController.dispose();
+    _ubicacionController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _guardarBoda() async {
+    final userInfo = ref.read(authInfoProvider).value;
+    if (userInfo == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Usuario no autenticado')),
+      );
+      return;
+    }
+
+    final boda = Boda(
+      id: '',
+      usuarioId: userInfo.id,
+      fecha: DateTime.now(),
+      ubicacion: _ubicacionController.text,
+      invitados: double.tryParse(_invitadosController.text) ?? 0,
+      estadoId: '1',
+      bodaTipo: selectedCeremonyType ?? '',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      isDeleted: false,
+      novioNombre: _novioNombreController.text,
+      noviaNombre: _noviaNombreController.text,
+      phoneNovio: _phoneNovioController.text,
+      phoneNovia: _phoneNoviaController.text,
+      novioBirthday: _novioBirthday ?? DateTime.now(),
+      noviaBirthday: _noviaBirthday ?? DateTime.now(),
+      novioEmail: _novioEmailController.text,
+      noviaEmail: _noviaEmailController.text,
+    );
+
+    try {
+      await ref.read(weddingsProvider(userInfo.id).notifier).addWedding(boda);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Boda creada correctamente')),
+      );
+      _formKey.currentState?.reset();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    }
+  }
+
+  Future<void> _pickDate(
+      BuildContext context, ValueChanged<DateTime> onPicked) async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1950),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null) onPicked(picked);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +119,6 @@ class _WeddingFormFieldsState extends State<WeddingFormFields> {
               ),
             ),
             const SizedBox(height: 10),
-        
-            // Names field group
             _buildFieldGroup(
               context: context,
               label: 'Nombres y apellidos de los novios',
@@ -48,10 +126,10 @@ class _WeddingFormFieldsState extends State<WeddingFormFields> {
                 context: context,
                 firstHint: 'Carlos Rodriguez',
                 secondHint: 'Erika Rivas',
+                firstController: _novioNombreController,
+                secondController: _noviaNombreController,
               ),
             ),
-        
-            // Phone field group
             _buildFieldGroup(
               context: context,
               label: 'Teléfonos',
@@ -59,23 +137,47 @@ class _WeddingFormFieldsState extends State<WeddingFormFields> {
                 context: context,
                 firstHint: 'Teléfono 1',
                 secondHint: 'Teléfono 2',
+                firstController: _phoneNovioController,
+                secondController: _phoneNoviaController,
               ),
             ),
-        
-            // Birth date field group
             _buildFieldGroup(
               context: context,
               label: 'Fecha de Nacimiento',
               child: isMobile
                   ? const SizedBox()
-                  : _buildDualInputRow(
-                      context: context,
-                      firstHint: 'Fecha 1',
-                      secondHint: 'Fecha 2',
+                  : Row(
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () => _pickDate(context, (date) {
+                              setState(() => _novioBirthday = date);
+                            }),
+                            child: Text(_novioBirthday == null
+                                ? 'Fecha 1'
+                                : _novioBirthday!
+                                    .toLocal()
+                                    .toString()
+                                    .split(' ')[0]),
+                          ),
+                        ),
+                        const SizedBox(width: 40),
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () => _pickDate(context, (date) {
+                              setState(() => _noviaBirthday = date);
+                            }),
+                            child: Text(_noviaBirthday == null
+                                ? 'Fecha 2'
+                                : _noviaBirthday!
+                                    .toLocal()
+                                    .toString()
+                                    .split(' ')[0]),
+                          ),
+                        ),
+                      ],
                     ),
             ),
-        
-            // Email field group
             _buildFieldGroup(
               context: context,
               label: 'Correo Electrónico',
@@ -83,10 +185,10 @@ class _WeddingFormFieldsState extends State<WeddingFormFields> {
                 context: context,
                 firstHint: 'Correo 1',
                 secondHint: 'Correo 2',
+                firstController: _novioEmailController,
+                secondController: _noviaEmailController,
               ),
             ),
-        
-            // Ceremony type and guests
             _buildFieldGroup(
               context: context,
               label: '',
@@ -99,6 +201,7 @@ class _WeddingFormFieldsState extends State<WeddingFormFields> {
                   if (!isMobile) const SizedBox(width: 40),
                   Expanded(
                     child: FormInputField(
+                      controller: _invitadosController,
                       hintText: 'Número de invitados',
                       height: 38,
                     ),
@@ -106,24 +209,24 @@ class _WeddingFormFieldsState extends State<WeddingFormFields> {
                 ],
               ),
             ),
-        
-            // Ceremony location
             _buildFieldGroup(
               context: context,
               label: 'Lugar de la ceremonia',
               child: FormInputField(
+                controller: _ubicacionController,
                 hintText: 'Ingrese ubicación',
                 height: 38,
               ),
             ),
-        
-            // Submit button
             Center(
-              child: HoverButton(press: () {
-                if (_formKey.currentState!.validate()) {
-                  context.go('/music');
-                }
-              }, "SOLICITAR COTIZACION"),
+              child: HoverButton(
+                press: () {
+                  if (_formKey.currentState!.validate()) {
+                    _guardarBoda();
+                  }
+                },
+                "SOLICITAR COTIZACION",
+              ),
             ),
           ],
         ),
@@ -163,26 +266,38 @@ class _WeddingFormFieldsState extends State<WeddingFormFields> {
     required BuildContext context,
     String firstHint = '',
     String secondHint = '',
+    TextEditingController? firstController,
+    TextEditingController? secondController,
   }) {
     final isMobile = MediaQuery.of(context).size.width < 640;
 
     return isMobile
         ? Column(
             children: [
-              FormInputField(hintText: firstHint, height: 41),
+              FormInputField(
+                  hintText: firstHint, height: 41, controller: firstController),
               const SizedBox(height: 15),
-              FormInputField(hintText: secondHint, height: 41),
+              FormInputField(
+                  hintText: secondHint,
+                  height: 41,
+                  controller: secondController),
             ],
           )
         : Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: FormInputField(hintText: firstHint, height: 38),
+                child: FormInputField(
+                    hintText: firstHint,
+                    height: 38,
+                    controller: firstController),
               ),
               const SizedBox(width: 40),
               Expanded(
-                child: FormInputField(hintText: secondHint, height: 38),
+                child: FormInputField(
+                    hintText: secondHint,
+                    height: 38,
+                    controller: secondController),
               ),
             ],
           );
@@ -203,7 +318,7 @@ class _WeddingFormFieldsState extends State<WeddingFormFields> {
                 ))
             .toList(),
         value: selectedCeremonyType,
-        onChanged: (value) => selectedCeremonyType = value,
+        onChanged: (value) => setState(() => selectedCeremonyType = value),
         buttonStyleData: ButtonStyleData(
           height: 38,
           decoration: BoxDecoration(
