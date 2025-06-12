@@ -127,7 +127,7 @@ class AuthService {
           // Log user_info data
           print('User Info Data: $userData');
 
-          if (userData == null) {
+          if (userData.isEmpty) {
             print('User info not found for user ID: ${response.user!.id}');
             throw Exception('User info not found');
           }

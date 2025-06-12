@@ -46,6 +46,8 @@ export 'package:bodas/logic/webview_scrap.dart';
 export 'package:bodas/logic/boda_logic.dart';
 export 'package:bodas/controllers/auth_services.dart';
 export 'package:bodas/controllers/user/user_model.dart';
+export "package:bodas/controllers/boda/boda_model.dart";
+export 'package:bodas/controllers/musica/music_model.dart';
 
 //widgets
 export 'package:bodas/widgets/navbar_item.dart';

@@ -83,6 +83,24 @@ class WeddingLogic {
     final data = response;
     return data.map((json) => Boda.fromJson(json)).toList();
   }
+
+  // Obtener estados de boda
+  Future<List<BodaEstado>> fetchBodaEstados() async {
+    final response =
+        await supabase.from('boda_estado').select().eq('is_deleted', false);
+
+    final data = response;
+    return data.map((json) => BodaEstado.fromJson(json)).toList();
+  }
+
+  // Obtener tipos de boda
+  Future<List<BodaTipo>> fetchBodaTipos() async {
+    final response =
+        await supabase.from('boda_tipo').select().eq('is_deleted', false);
+
+    final data = response;
+    return data.map((json) => BodaTipo.fromJson(json)).toList();
+  }
 }
 
 // StateNotifier para manejar la lista de bodas
@@ -120,3 +138,15 @@ final weddingsProvider = StateNotifierProvider.family<WeddingsNotifier,
   (ref, usuarioId) =>
       WeddingsNotifier(ref.watch(weddingLogicProvider), usuarioId),
 );
+
+// Provider para los estados de boda
+final bodaEstadosProvider = FutureProvider<List<BodaEstado>>((ref) async {
+  final logic = ref.watch(weddingLogicProvider);
+  return logic.fetchBodaEstados();
+});
+
+// Provider para los tipos de boda
+final bodaTiposProvider = FutureProvider<List<BodaTipo>>((ref) async {
+  final logic = ref.watch(weddingLogicProvider);
+  return logic.fetchBodaTipos();
+});

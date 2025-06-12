@@ -54,7 +54,7 @@ _Boda _$BodaFromJson(Map<String, dynamic> json) => _Boda(
       ubicacion: json['ubicacion'] as String,
       invitados: (json['invitados'] as num).toDouble(),
       estadoId: json['estadoId'] as String,
-      bodaTipo: json['bodaTipo'] as String,
+      bodaTipo: (json['bodaTipo'] as num).toInt(),
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
       isDeleted: json['isDeleted'] as bool? ?? false,

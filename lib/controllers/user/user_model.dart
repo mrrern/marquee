@@ -41,7 +41,7 @@ abstract class Boda with _$Boda {
     required String ubicacion,
     required double invitados,
     required String estadoId,
-    required String bodaTipo,
+    required int bodaTipo,
     required DateTime createdAt,
     required DateTime updatedAt,
     @Default(false) bool isDeleted,

@@ -286,7 +286,7 @@ class RegistroForm extends ConsumerWidget {
                 : Colors.black,
           ),
 
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
 
           // Register button
           Center(

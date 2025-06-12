@@ -8,9 +8,8 @@ class WeddingFormFields extends ConsumerStatefulWidget {
 }
 
 class _WeddingFormFieldsState extends ConsumerState<WeddingFormFields> {
-  final List<String> ceremonyTypes = ['Civil', 'Religiosa'];
   final _formKey = GlobalKey<FormState>();
-  String? selectedCeremonyType;
+  late int selectedBodaTipo = 1;
 
   // Controladores para los campos
   final _novioNombreController = TextEditingController();
@@ -54,7 +53,7 @@ class _WeddingFormFieldsState extends ConsumerState<WeddingFormFields> {
       ubicacion: _ubicacionController.text,
       invitados: double.tryParse(_invitadosController.text) ?? 0,
       estadoId: '1',
-      bodaTipo: selectedCeremonyType ?? '',
+      bodaTipo: selectedBodaTipo,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       isDeleted: false,
@@ -95,6 +94,7 @@ class _WeddingFormFieldsState extends ConsumerState<WeddingFormFields> {
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 640;
+    final bodaTiposAsync = ref.watch(bodaTiposProvider);
 
     return Container(
       constraints: const BoxConstraints(maxWidth: 655),
@@ -196,7 +196,52 @@ class _WeddingFormFieldsState extends ConsumerState<WeddingFormFields> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: _buildCeremonyDropdown(context),
+                    child: bodaTiposAsync.when(
+                      data: (tipos) => DropdownButtonHideUnderline(
+                        child: DropdownButton2<int>(
+                          isExpanded: true,
+                          hint: Text(
+                            'Tipo de boda',
+                            style: GoogleFonts.inter(color: Colors.black),
+                          ),
+                          items: tipos.map((tipo) {
+                            return DropdownMenuItem<int>(
+                              value: tipo.id,
+                              child: Text(tipo.descripcion),
+                            );
+                          }).toList(),
+                          value: selectedBodaTipo,
+                          onChanged: (value) {
+                            if (value != null) {
+                              setState(() {
+                                selectedBodaTipo = value;
+                              });
+                            }
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            height: 38,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFD9D9D9),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                          ),
+                          iconStyleData: const IconStyleData(
+                            icon: Icon(Icons.keyboard_arrow_down),
+                            iconSize: 20,
+                          ),
+                          dropdownStyleData: const DropdownStyleData(
+                            maxHeight: 200,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(4)),
+                            ),
+                          ),
+                        ),
+                      ),
+                      loading: () => const CircularProgressIndicator(),
+                      error: (error, stack) => Text('Error: $error'),
+                    ),
                   ),
                   if (!isMobile) const SizedBox(width: 40),
                   Expanded(
@@ -301,43 +346,5 @@ class _WeddingFormFieldsState extends ConsumerState<WeddingFormFields> {
               ),
             ],
           );
-  }
-
-  Widget _buildCeremonyDropdown(BuildContext context) {
-    return DropdownButtonHideUnderline(
-      child: DropdownButton2<String>(
-        isExpanded: true,
-        hint: Text(
-          'Tipo de ceremonia',
-          style: GoogleFonts.inter(color: Colors.black),
-        ),
-        items: ceremonyTypes
-            .map((item) => DropdownMenuItem(
-                  value: item,
-                  child: Text(item),
-                ))
-            .toList(),
-        value: selectedCeremonyType,
-        onChanged: (value) => setState(() => selectedCeremonyType = value),
-        buttonStyleData: ButtonStyleData(
-          height: 38,
-          decoration: BoxDecoration(
-            color: const Color(0xFFD9D9D9),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-        ),
-        iconStyleData: const IconStyleData(
-          icon: Icon(Icons.keyboard_arrow_down),
-          iconSize: 20,
-        ),
-        dropdownStyleData: const DropdownStyleData(
-          maxHeight: 200,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(4)),
-          ),
-        ),
-      ),
-    );
   }
 }

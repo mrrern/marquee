@@ -482,7 +482,7 @@ mixin _$Boda {
   String get ubicacion;
   double get invitados;
   String get estadoId;
-  String get bodaTipo;
+  int get bodaTipo;
   DateTime get createdAt;
   DateTime get updatedAt;
   bool get isDeleted;
@@ -587,7 +587,7 @@ abstract mixin class $BodaCopyWith<$Res> {
       String ubicacion,
       double invitados,
       String estadoId,
-      String bodaTipo,
+      int bodaTipo,
       DateTime createdAt,
       DateTime updatedAt,
       bool isDeleted,
@@ -660,7 +660,7 @@ class _$BodaCopyWithImpl<$Res> implements $BodaCopyWith<$Res> {
       bodaTipo: null == bodaTipo
           ? _self.bodaTipo
           : bodaTipo // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -747,7 +747,7 @@ class _Boda extends Boda {
   @override
   final String estadoId;
   @override
-  final String bodaTipo;
+  final int bodaTipo;
   @override
   final DateTime createdAt;
   @override
@@ -870,7 +870,7 @@ abstract mixin class _$BodaCopyWith<$Res> implements $BodaCopyWith<$Res> {
       String ubicacion,
       double invitados,
       String estadoId,
-      String bodaTipo,
+      int bodaTipo,
       DateTime createdAt,
       DateTime updatedAt,
       bool isDeleted,
@@ -943,7 +943,7 @@ class __$BodaCopyWithImpl<$Res> implements _$BodaCopyWith<$Res> {
       bodaTipo: null == bodaTipo
           ? _self.bodaTipo
           : bodaTipo // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       createdAt: null == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable

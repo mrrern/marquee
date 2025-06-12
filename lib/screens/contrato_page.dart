@@ -8,8 +8,6 @@ class InicialForm extends ConsumerStatefulWidget {
 }
 
 class _InicialFormState extends ConsumerState<InicialForm> {
-  final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
