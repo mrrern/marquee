@@ -16,6 +16,7 @@ class ButtonItem extends ConsumerWidget {
     final size = MediaQuery.of(context).size.width;
     final isWeb = Responsive.isWeb(context);
     final isTablet = Responsive.isTablet(context);
+
     return Container(
       padding: EdgeInsets.only(right: Responsive.isWeb(context) ? 17 : 5),
       width: isTablet

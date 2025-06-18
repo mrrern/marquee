@@ -31,6 +31,7 @@ export 'package:bodas/screens/admin_dashboard.dart';
 export 'package:bodas/screens/quotation_page.dart';
 export 'package:bodas/screens/notification_page.dart';
 export 'package:bodas/screens/remarketing_page.dart';
+export 'package:bodas/screens/access_admin_page.dart';
 
 //routes
 export 'package:bodas/routes/routes.dart';
@@ -48,6 +49,8 @@ export 'package:bodas/controllers/auth_services.dart';
 export 'package:bodas/controllers/user/user_model.dart';
 export "package:bodas/controllers/boda/boda_model.dart";
 export 'package:bodas/controllers/musica/music_model.dart';
+export 'package:bodas/controllers/cotizacion/cotizacion_model.dart';
+export 'package:bodas/logic/music_logic.dart';
 
 //widgets
 export 'package:bodas/widgets/navbar_item.dart';

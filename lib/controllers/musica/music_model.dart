@@ -19,6 +19,7 @@ abstract class BodaMusic with _$BodaMusic {
     String? musicFirma,
     String? musicEndCeremony,
     String? musicCoctel,
+    int? musicType,
     String? musicEntranceSalon,
     String? musicDinner,
     String? musicCake,
@@ -43,4 +44,18 @@ abstract class BodaMusic with _$BodaMusic {
 
   factory BodaMusic.fromJson(Map<String, dynamic> json) =>
       _$BodaMusicFromJson(json);
+}
+
+@freezed
+abstract class MusicType with _$MusicType {
+  const factory MusicType({
+    @JsonKey(name: 'id') required int id,
+    @JsonKey(name: 'descripcion') required String descripcion,
+    @JsonKey(name: 'created_at') required DateTime? createdAt,
+    @JsonKey(name: 'updated_at') required DateTime? updatedAt,
+    @JsonKey(name: 'is_deleted') @Default(false) bool isDeleted,
+  }) = _MusicType;
+
+  factory MusicType.fromJson(Map<String, dynamic> json) =>
+      _$MusicTypeFromJson(json);
 }

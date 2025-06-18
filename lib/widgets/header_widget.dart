@@ -1,10 +1,11 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-class HeaderWidget extends StatelessWidget {
+class HeaderWidget extends ConsumerWidget {
   const HeaderWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final exit = ref.read(authProvider.notifier).signOut();
     final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = screenWidth < 991;
 
@@ -29,9 +30,12 @@ class HeaderWidget extends StatelessWidget {
             ),
 
             // Exit button
-            ButtonItem(
-              title: "Salir",
-              route: '/',
+            GestureDetector(
+              onTap: () => exit,
+              child: ButtonItem(
+                title: "Salir",
+                route: '/access',
+              ),
             ),
           ],
         ),

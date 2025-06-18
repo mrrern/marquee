@@ -1,157 +1,207 @@
+import 'dart:async';
+
 import 'package:bodas/routes/linkspaper.dart';
-import 'package:bodas/screens/access_admin_page.dart';
 
-// Configuración de las rutas con go_router
-GoRouter createRouter(Ref ref) => GoRouter(
-      redirect: (context, state) {
-        final userInfo = ref.read(authInfoProvider).value; // USAR ref.read
-        final isPublicRoute = {
-          '/',
-          '/sign',
-          '/access',
-          '/access-admin',
-        }.contains(state.path);
+// Provider para el router que depende del estado de autenticación
 
-        final isAdminRoute = {
-          '/admin',
-          '/admin/cotizaciones',
-          '/admin/contratados',
-          '/admin/notas',
-          '/admin/remarketing',
-          '/admin/usuarios',
-          '/admin/estadisticas',
-        }.contains(state.path);
+final routerProvider = Provider<GoRouter>((ref) {
+  return GoRouter(
+    refreshListenable:
+        GoRouterRefreshStream(ref.watch(authInfoProvider.notifier).stream),
+    redirect: (context, state) {
+      final authState = ref.read(authInfoProvider);
+      final userInfo = authState.value;
+      final isLoading = authState.isLoading;
 
-        final isUserRoute = {
-          '/contract',
-          '/boda',
-          '/music',
-          '/polities',
-          '/cookies',
-          '/notes',
-          '/notificacion',
-        }.contains(state.path);
+      // Si está cargando, mantener en la ruta actual
+      if (isLoading) return null;
 
-        // Si no está logueado, solo puede acceder a rutas públicas
-        if (userInfo == null) {
-          return isPublicRoute ? null : '/access';
+      final currentPath = state.fullPath;
+
+      // Rutas públicas (accesibles sin autenticación)
+      final publicRoutes = {
+        '/',
+        '/sign',
+        '/access',
+        '/access-admin',
+      };
+
+      // Rutas de administrador
+      final adminRoutes = {
+        '/admin',
+        '/admin/cotizaciones',
+        '/admin/contratados',
+        '/admin/notas',
+        '/admin/remarketing',
+        '/admin/usuarios',
+        '/admin/estadisticas',
+      };
+
+      // Rutas de usuario normal
+      final userRoutes = {
+        '/contract',
+        '/boda',
+        '/music',
+        '/polities',
+        '/cookies',
+        '/notes',
+        '/notificacion',
+      };
+
+      // Si no hay usuario (no está logueado)
+      if (userInfo == null) {
+        // Solo puede acceder a rutas públicas
+        if (publicRoutes.contains(currentPath)) {
+          return null; // Permitir acceso
         }
+        // Si intenta acceder a cualquier otra ruta, redirigir a home
+        return '/';
+      }
 
-        // Si es usuario normal
-        if (userInfo.rol == 'Usuario') {
-          if (isUserRoute) return null;
-          // Si intenta acceder a rutas de admin, redirige a /boda
-          if (isAdminRoute) return '/boda';
-          // Si intenta acceder a rutas públicas, redirige a /boda
-          if (isPublicRoute) return '/boda';
+      // Si el usuario está logueado
+      if (userInfo.rol == 'Usuario') {
+        // Si está en una ruta de usuario, permitir
+        if (userRoutes.contains(currentPath)) {
+          return null;
         }
-
-        // Si es admin
-        if (userInfo.rol == 'Admin') {
-          if (isAdminRoute) return null;
-          // Si intenta acceder a rutas de usuario, redirige a /admin
-          if (isUserRoute) return '/admin';
-          // Si intenta acceder a rutas públicas, redirige a /admin';
-          if (isPublicRoute) return '/admin';
+        // Si intenta acceder a rutas de admin, redirigir a /boda
+        if (adminRoutes.contains(currentPath)) {
+          return '/boda';
         }
+        // Si está en rutas públicas, redirigir a /boda
+        if (publicRoutes.contains(currentPath)) {
+          return '/boda';
+        }
+      }
 
-        return null;
+      // Si es administrador
+      if (userInfo.rol == 'Administrador') {
+        // Si está en una ruta de admin, permitir
+        if (adminRoutes.contains(currentPath)) {
+          return null;
+        }
+        // Si intenta acceder a rutas de usuario, redirigir a /admin
+        if (userRoutes.contains(currentPath)) {
+          return '/admin';
+        }
+        // Si está en rutas públicas, redirigir a /admin
+        if (publicRoutes.contains(currentPath)) {
+          return '/admin';
+        }
+      }
+
+      // Por defecto, no redirigir
+      return null;
+    },
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, state) => MainScreen(),
+      ),
+      GoRoute(
+        path: '/access',
+        builder: (context, state) => AccessScreenResponsive(),
+      ),
+      GoRoute(
+        path: '/sign',
+        builder: (context, state) => SignPage(),
+      ),
+      GoRoute(
+        path: '/contract',
+        name: 'contract',
+        builder: (context, state) => ContratoScreen(),
+      ),
+      GoRoute(
+        path: '/boda',
+        name: 'boda',
+        builder: (context, state) => WeddingRegistrationScreen(),
+      ),
+      GoRoute(
+        path: '/music',
+        name: 'music',
+        builder: (context, state) => MusicFormScreen(),
+      ),
+      GoRoute(
+        path: '/polities',
+        name: 'polities',
+        builder: (context, state) => PrivacyPage(),
+      ),
+      GoRoute(
+        path: '/cookies',
+        name: 'cookies',
+        builder: (context, state) => CookiesPage(),
+      ),
+      GoRoute(
+        path: '/notes',
+        name: 'notes',
+        builder: (context, state) => NotesScreen(),
+      ),
+      GoRoute(
+        path: '/notificacion',
+        name: 'notificacion',
+        builder: (context, state) => NotificationScreen(),
+      ),
+      // Admin routes
+      GoRoute(
+        path: '/access-admin',
+        builder: (context, state) => AccessAdminPage(),
+      ),
+      GoRoute(
+        path: '/admin',
+        name: 'admindashboard',
+        builder: (context, state) => MarqueeAdminDashboard(),
+      ),
+      GoRoute(
+        path: '/admin/cotizaciones',
+        name: 'cotizaciones',
+        builder: (context, state) => const QuotationRequestScreen(),
+      ),
+      GoRoute(
+        path: '/admin/contratados',
+        name: 'contratados',
+        builder: (context, state) => const Placeholder(),
+      ),
+      GoRoute(
+        path: '/admin/notas',
+        name: 'notas',
+        builder: (context, state) => const NotesScreen(),
+      ),
+      GoRoute(
+        path: '/admin/remarketing',
+        name: 'remarketing',
+        builder: (context, state) => const RemarketingScreen(),
+      ),
+      GoRoute(
+        path: '/admin/usuarios',
+        name: 'usuarios',
+        builder: (context, state) => const Placeholder(),
+      ),
+      GoRoute(
+        path: '/admin/estadisticas',
+        name: 'estadisticas',
+        builder: (context, state) => const Placeholder(),
+      ),
+    ],
+    initialLocation: '/',
+  );
+});
+
+// Helper class para manejar la actualización del router
+class GoRouterRefreshStream extends ChangeNotifier {
+  GoRouterRefreshStream(Stream<AsyncValue> stream) {
+    notifyListeners();
+    _subscription = stream.asBroadcastStream().listen(
+      (AsyncValue value) {
+        notifyListeners();
       },
-      routes: [
-        GoRoute(
-          path: '/',
-          builder: (context, state) => MainScreen(),
-        ),
-        GoRoute(
-          path: '/access',
-          builder: (context, state) => AccessScreenResponsive(),
-        ),
-        GoRoute(
-          path: '/sign',
-          builder: (context, state) => SignPage(),
-        ),
-        GoRoute(
-          path: '/contract',
-          name: 'contract', // Asegúrate de tener nombres
-          builder: (context, state) => ContratoScreen(),
-        ),
-        GoRoute(
-          path: '/boda',
-          name: 'boda', // Asegúrate de tener nombres
-          builder: (context, state) => WeddingRegistrationScreen(),
-        ),
-        GoRoute(
-          path: '/music',
-          name: 'music', // Asegúrate de tener nombres
-          builder: (context, state) => MusicFormScreen(),
-        ),
-        GoRoute(
-          path: '/polities',
-          name: 'polities', // Asegúrate de tener nombres
-          builder: (context, state) => PrivacyPage(),
-        ),
-        GoRoute(
-          path: '/cookies',
-          name: 'cookies', // Asegúrate de tener nombres
-          builder: (context, state) => CookiesPage(),
-        ),
-        GoRoute(
-          path: '/notes',
-          name: 'notes', // Asegúrate de tener nombres
-          builder: (context, state) => NotesScreen(),
-        ),
-        GoRoute(
-          path: '/notificacion',
-          name: 'notificacion', // Asegúrate de tener nombres
-          builder: (context, state) => NotificationScreen(),
-        ),
-        // Admin dashboard routes
-        GoRoute(
-          path: '/access-admin',
-          builder: (context, state) => AccessAdminPage(),
-        ),
-        GoRoute(
-          path: '/admin',
-          name: 'admindashboard', // Asegúrate de tener nombres
-          builder: (context, state) => MarqueeAdminDashboard(),
-        ),
-        GoRoute(
-          path: '/admin/cotizaciones',
-          name: 'cotizaciones', // Asegúrate de tener nombres
-          builder: (context, state) => const QuotationRequestScreen(),
-        ),
-        GoRoute(
-          path: '/admin/contratados',
-          name: 'contratados', // Asegúrate de tener nombres
-          builder: (context, state) =>
-              const Placeholder(), // Replace with actual screen
-        ),
-        GoRoute(
-          path: '/admin/notas',
-          name: 'notas', // Asegúrate de tener nombres
-          builder: (context, state) =>
-              const NotesScreen(), // Replace with actual screen
-        ),
-        GoRoute(
-          path: '/admin/remarketing',
-          name: 'remarketing', // Asegúrate de tener nombres
-          builder: (context, state) =>
-              const RemarketingScreen(), // Replace with actual screen
-        ),
-        GoRoute(
-          path: '/admin/usuarios',
-          name: 'usuarios', // Asegúrate de tener nombres
-          builder: (context, state) =>
-              const Placeholder(), // Replace with actual screen
-        ),
-        GoRoute(
-          path: '/admin/estadisticas',
-          name: 'estadisticas', // Asegúrate de tener nombres
-          builder: (context, state) =>
-              const Placeholder(), // Replace with actual screen
-        ),
-      ],
-      initialLocation: '/',
     );
+  }
 
-final routerProvider = Provider((ref) => createRouter(ref));
+  late final StreamSubscription<AsyncValue> _subscription;
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
+}

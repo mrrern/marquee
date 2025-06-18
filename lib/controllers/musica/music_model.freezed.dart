@@ -28,6 +28,7 @@ mixin _$BodaMusic {
   String? get musicFirma;
   String? get musicEndCeremony;
   String? get musicCoctel;
+  int? get musicType;
   String? get musicEntranceSalon;
   String? get musicDinner;
   String? get musicCake;
@@ -88,6 +89,8 @@ mixin _$BodaMusic {
                 other.musicEndCeremony == musicEndCeremony) &&
             (identical(other.musicCoctel, musicCoctel) ||
                 other.musicCoctel == musicCoctel) &&
+            (identical(other.musicType, musicType) ||
+                other.musicType == musicType) &&
             (identical(other.musicEntranceSalon, musicEntranceSalon) ||
                 other.musicEntranceSalon == musicEntranceSalon) &&
             (identical(other.musicDinner, musicDinner) ||
@@ -146,6 +149,7 @@ mixin _$BodaMusic {
         musicFirma,
         musicEndCeremony,
         musicCoctel,
+        musicType,
         musicEntranceSalon,
         musicDinner,
         musicCake,
@@ -170,7 +174,7 @@ mixin _$BodaMusic {
 
   @override
   String toString() {
-    return 'BodaMusic(id: $id, bodaId: $bodaId, musicReception: $musicReception, musicEntradaNovio: $musicEntradaNovio, musicEntradaNovia: $musicEntradaNovia, musicLect1: $musicLect1, musicLect2: $musicLect2, musicLect3: $musicLect3, musicLect4: $musicLect4, musicAlianza: $musicAlianza, musicFirma: $musicFirma, musicEndCeremony: $musicEndCeremony, musicCoctel: $musicCoctel, musicEntranceSalon: $musicEntranceSalon, musicDinner: $musicDinner, musicCake: $musicCake, musicRamos: $musicRamos, musicSurpise: $musicSurpise, musicBarraNovios: $musicBarraNovios, musicBarraOpcional: $musicBarraOpcional, musicNovio: $musicNovio, musicNovia: $musicNovia, invExt: $invExt, invExtMusic: $invExtMusic, musicExt: $musicExt, invPetition: $invPetition, forbidenMusic: $forbidenMusic, musicForbiden: $musicForbiden, musicFinal: $musicFinal, musicComents: $musicComents, createdAt: $createdAt, updatedAt: $updatedAt, isDeleted: $isDeleted)';
+    return 'BodaMusic(id: $id, bodaId: $bodaId, musicReception: $musicReception, musicEntradaNovio: $musicEntradaNovio, musicEntradaNovia: $musicEntradaNovia, musicLect1: $musicLect1, musicLect2: $musicLect2, musicLect3: $musicLect3, musicLect4: $musicLect4, musicAlianza: $musicAlianza, musicFirma: $musicFirma, musicEndCeremony: $musicEndCeremony, musicCoctel: $musicCoctel, musicType: $musicType, musicEntranceSalon: $musicEntranceSalon, musicDinner: $musicDinner, musicCake: $musicCake, musicRamos: $musicRamos, musicSurpise: $musicSurpise, musicBarraNovios: $musicBarraNovios, musicBarraOpcional: $musicBarraOpcional, musicNovio: $musicNovio, musicNovia: $musicNovia, invExt: $invExt, invExtMusic: $invExtMusic, musicExt: $musicExt, invPetition: $invPetition, forbidenMusic: $forbidenMusic, musicForbiden: $musicForbiden, musicFinal: $musicFinal, musicComents: $musicComents, createdAt: $createdAt, updatedAt: $updatedAt, isDeleted: $isDeleted)';
   }
 }
 
@@ -193,6 +197,7 @@ abstract mixin class $BodaMusicCopyWith<$Res> {
       String? musicFirma,
       String? musicEndCeremony,
       String? musicCoctel,
+      int? musicType,
       String? musicEntranceSalon,
       String? musicDinner,
       String? musicCake,
@@ -240,6 +245,7 @@ class _$BodaMusicCopyWithImpl<$Res> implements $BodaMusicCopyWith<$Res> {
     Object? musicFirma = freezed,
     Object? musicEndCeremony = freezed,
     Object? musicCoctel = freezed,
+    Object? musicType = freezed,
     Object? musicEntranceSalon = freezed,
     Object? musicDinner = freezed,
     Object? musicCake = freezed,
@@ -314,6 +320,10 @@ class _$BodaMusicCopyWithImpl<$Res> implements $BodaMusicCopyWith<$Res> {
           ? _self.musicCoctel
           : musicCoctel // ignore: cast_nullable_to_non_nullable
               as String?,
+      musicType: freezed == musicType
+          ? _self.musicType
+          : musicType // ignore: cast_nullable_to_non_nullable
+              as int?,
       musicEntranceSalon: freezed == musicEntranceSalon
           ? _self.musicEntranceSalon
           : musicEntranceSalon // ignore: cast_nullable_to_non_nullable
@@ -415,6 +425,7 @@ class _BodaMusic implements BodaMusic {
       this.musicFirma,
       this.musicEndCeremony,
       this.musicCoctel,
+      this.musicType,
       this.musicEntranceSalon,
       this.musicDinner,
       this.musicCake,
@@ -466,6 +477,8 @@ class _BodaMusic implements BodaMusic {
   final String? musicEndCeremony;
   @override
   final String? musicCoctel;
+  @override
+  final int? musicType;
   @override
   final String? musicEntranceSalon;
   @override
@@ -572,6 +585,8 @@ class _BodaMusic implements BodaMusic {
                 other.musicEndCeremony == musicEndCeremony) &&
             (identical(other.musicCoctel, musicCoctel) ||
                 other.musicCoctel == musicCoctel) &&
+            (identical(other.musicType, musicType) ||
+                other.musicType == musicType) &&
             (identical(other.musicEntranceSalon, musicEntranceSalon) ||
                 other.musicEntranceSalon == musicEntranceSalon) &&
             (identical(other.musicDinner, musicDinner) ||
@@ -630,6 +645,7 @@ class _BodaMusic implements BodaMusic {
         musicFirma,
         musicEndCeremony,
         musicCoctel,
+        musicType,
         musicEntranceSalon,
         musicDinner,
         musicCake,
@@ -654,7 +670,7 @@ class _BodaMusic implements BodaMusic {
 
   @override
   String toString() {
-    return 'BodaMusic(id: $id, bodaId: $bodaId, musicReception: $musicReception, musicEntradaNovio: $musicEntradaNovio, musicEntradaNovia: $musicEntradaNovia, musicLect1: $musicLect1, musicLect2: $musicLect2, musicLect3: $musicLect3, musicLect4: $musicLect4, musicAlianza: $musicAlianza, musicFirma: $musicFirma, musicEndCeremony: $musicEndCeremony, musicCoctel: $musicCoctel, musicEntranceSalon: $musicEntranceSalon, musicDinner: $musicDinner, musicCake: $musicCake, musicRamos: $musicRamos, musicSurpise: $musicSurpise, musicBarraNovios: $musicBarraNovios, musicBarraOpcional: $musicBarraOpcional, musicNovio: $musicNovio, musicNovia: $musicNovia, invExt: $invExt, invExtMusic: $invExtMusic, musicExt: $musicExt, invPetition: $invPetition, forbidenMusic: $forbidenMusic, musicForbiden: $musicForbiden, musicFinal: $musicFinal, musicComents: $musicComents, createdAt: $createdAt, updatedAt: $updatedAt, isDeleted: $isDeleted)';
+    return 'BodaMusic(id: $id, bodaId: $bodaId, musicReception: $musicReception, musicEntradaNovio: $musicEntradaNovio, musicEntradaNovia: $musicEntradaNovia, musicLect1: $musicLect1, musicLect2: $musicLect2, musicLect3: $musicLect3, musicLect4: $musicLect4, musicAlianza: $musicAlianza, musicFirma: $musicFirma, musicEndCeremony: $musicEndCeremony, musicCoctel: $musicCoctel, musicType: $musicType, musicEntranceSalon: $musicEntranceSalon, musicDinner: $musicDinner, musicCake: $musicCake, musicRamos: $musicRamos, musicSurpise: $musicSurpise, musicBarraNovios: $musicBarraNovios, musicBarraOpcional: $musicBarraOpcional, musicNovio: $musicNovio, musicNovia: $musicNovia, invExt: $invExt, invExtMusic: $invExtMusic, musicExt: $musicExt, invPetition: $invPetition, forbidenMusic: $forbidenMusic, musicForbiden: $musicForbiden, musicFinal: $musicFinal, musicComents: $musicComents, createdAt: $createdAt, updatedAt: $updatedAt, isDeleted: $isDeleted)';
   }
 }
 
@@ -680,6 +696,7 @@ abstract mixin class _$BodaMusicCopyWith<$Res>
       String? musicFirma,
       String? musicEndCeremony,
       String? musicCoctel,
+      int? musicType,
       String? musicEntranceSalon,
       String? musicDinner,
       String? musicCake,
@@ -727,6 +744,7 @@ class __$BodaMusicCopyWithImpl<$Res> implements _$BodaMusicCopyWith<$Res> {
     Object? musicFirma = freezed,
     Object? musicEndCeremony = freezed,
     Object? musicCoctel = freezed,
+    Object? musicType = freezed,
     Object? musicEntranceSalon = freezed,
     Object? musicDinner = freezed,
     Object? musicCake = freezed,
@@ -801,6 +819,10 @@ class __$BodaMusicCopyWithImpl<$Res> implements _$BodaMusicCopyWith<$Res> {
           ? _self.musicCoctel
           : musicCoctel // ignore: cast_nullable_to_non_nullable
               as String?,
+      musicType: freezed == musicType
+          ? _self.musicType
+          : musicType // ignore: cast_nullable_to_non_nullable
+              as int?,
       musicEntranceSalon: freezed == musicEntranceSalon
           ? _self.musicEntranceSalon
           : musicEntranceSalon // ignore: cast_nullable_to_non_nullable
@@ -869,6 +891,241 @@ class __$BodaMusicCopyWithImpl<$Res> implements _$BodaMusicCopyWith<$Res> {
           ? _self.musicComents
           : musicComents // ignore: cast_nullable_to_non_nullable
               as String?,
+      createdAt: freezed == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _self.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      isDeleted: null == isDeleted
+          ? _self.isDeleted
+          : isDeleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$MusicType {
+  @JsonKey(name: 'id')
+  int get id;
+  @JsonKey(name: 'descripcion')
+  String get descripcion;
+  @JsonKey(name: 'created_at')
+  DateTime? get createdAt;
+  @JsonKey(name: 'updated_at')
+  DateTime? get updatedAt;
+  @JsonKey(name: 'is_deleted')
+  bool get isDeleted;
+
+  /// Create a copy of MusicType
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $MusicTypeCopyWith<MusicType> get copyWith =>
+      _$MusicTypeCopyWithImpl<MusicType>(this as MusicType, _$identity);
+
+  /// Serializes this MusicType to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is MusicType &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.descripcion, descripcion) ||
+                other.descripcion == descripcion) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.isDeleted, isDeleted) ||
+                other.isDeleted == isDeleted));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, id, descripcion, createdAt, updatedAt, isDeleted);
+
+  @override
+  String toString() {
+    return 'MusicType(id: $id, descripcion: $descripcion, createdAt: $createdAt, updatedAt: $updatedAt, isDeleted: $isDeleted)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $MusicTypeCopyWith<$Res> {
+  factory $MusicTypeCopyWith(MusicType value, $Res Function(MusicType) _then) =
+      _$MusicTypeCopyWithImpl;
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'descripcion') String descripcion,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'updated_at') DateTime? updatedAt,
+      @JsonKey(name: 'is_deleted') bool isDeleted});
+}
+
+/// @nodoc
+class _$MusicTypeCopyWithImpl<$Res> implements $MusicTypeCopyWith<$Res> {
+  _$MusicTypeCopyWithImpl(this._self, this._then);
+
+  final MusicType _self;
+  final $Res Function(MusicType) _then;
+
+  /// Create a copy of MusicType
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? descripcion = null,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+    Object? isDeleted = null,
+  }) {
+    return _then(_self.copyWith(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      descripcion: null == descripcion
+          ? _self.descripcion
+          : descripcion // ignore: cast_nullable_to_non_nullable
+              as String,
+      createdAt: freezed == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _self.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      isDeleted: null == isDeleted
+          ? _self.isDeleted
+          : isDeleted // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _MusicType implements MusicType {
+  const _MusicType(
+      {@JsonKey(name: 'id') required this.id,
+      @JsonKey(name: 'descripcion') required this.descripcion,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'updated_at') required this.updatedAt,
+      @JsonKey(name: 'is_deleted') this.isDeleted = false});
+  factory _MusicType.fromJson(Map<String, dynamic> json) =>
+      _$MusicTypeFromJson(json);
+
+  @override
+  @JsonKey(name: 'id')
+  final int id;
+  @override
+  @JsonKey(name: 'descripcion')
+  final String descripcion;
+  @override
+  @JsonKey(name: 'created_at')
+  final DateTime? createdAt;
+  @override
+  @JsonKey(name: 'updated_at')
+  final DateTime? updatedAt;
+  @override
+  @JsonKey(name: 'is_deleted')
+  final bool isDeleted;
+
+  /// Create a copy of MusicType
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$MusicTypeCopyWith<_MusicType> get copyWith =>
+      __$MusicTypeCopyWithImpl<_MusicType>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$MusicTypeToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _MusicType &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.descripcion, descripcion) ||
+                other.descripcion == descripcion) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.isDeleted, isDeleted) ||
+                other.isDeleted == isDeleted));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, id, descripcion, createdAt, updatedAt, isDeleted);
+
+  @override
+  String toString() {
+    return 'MusicType(id: $id, descripcion: $descripcion, createdAt: $createdAt, updatedAt: $updatedAt, isDeleted: $isDeleted)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$MusicTypeCopyWith<$Res>
+    implements $MusicTypeCopyWith<$Res> {
+  factory _$MusicTypeCopyWith(
+          _MusicType value, $Res Function(_MusicType) _then) =
+      __$MusicTypeCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: 'id') int id,
+      @JsonKey(name: 'descripcion') String descripcion,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'updated_at') DateTime? updatedAt,
+      @JsonKey(name: 'is_deleted') bool isDeleted});
+}
+
+/// @nodoc
+class __$MusicTypeCopyWithImpl<$Res> implements _$MusicTypeCopyWith<$Res> {
+  __$MusicTypeCopyWithImpl(this._self, this._then);
+
+  final _MusicType _self;
+  final $Res Function(_MusicType) _then;
+
+  /// Create a copy of MusicType
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? id = null,
+    Object? descripcion = null,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+    Object? isDeleted = null,
+  }) {
+    return _then(_MusicType(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      descripcion: null == descripcion
+          ? _self.descripcion
+          : descripcion // ignore: cast_nullable_to_non_nullable
+              as String,
       createdAt: freezed == createdAt
           ? _self.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable

@@ -108,6 +108,8 @@ class FormHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool state = true;
+
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Container(
@@ -130,20 +132,7 @@ class FormHeader extends ConsumerWidget {
               fit: BoxFit.contain,
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              ref.read(authProvider.notifier).signOut();
-              context.go('/access');
-            },
-            child: Text(
-              'Salir',
-              style: GoogleFonts.inter(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-            ),
-          ),
+          ButtonItem(title: "Salir", route: "/access")
         ],
       ),
     );
@@ -163,7 +152,7 @@ class AdminNavBar extends ConsumerWidget {
         children: [
           // Logo
           GestureDetector(
-            onTap: () => context.goNamed('/'),
+            onTap: () => context.go('/'),
             child: Image.asset(
               logo, // Replace with actual asset path
               width: isMobile ? 156 : 309,

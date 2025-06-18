@@ -1,43 +1,9 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-class WeddingFormFields extends ConsumerStatefulWidget {
+class WeddingFormFields extends ConsumerWidget {
   const WeddingFormFields({super.key});
 
-  @override
-  ConsumerState<WeddingFormFields> createState() => _WeddingFormFieldsState();
-}
-
-class _WeddingFormFieldsState extends ConsumerState<WeddingFormFields> {
-  final _formKey = GlobalKey<FormState>();
-  late int selectedBodaTipo = 1;
-
-  // Controladores para los campos
-  final _novioNombreController = TextEditingController();
-  final _noviaNombreController = TextEditingController();
-  final _phoneNovioController = TextEditingController();
-  final _phoneNoviaController = TextEditingController();
-  final _novioEmailController = TextEditingController();
-  final _noviaEmailController = TextEditingController();
-  final _invitadosController = TextEditingController();
-  final _ubicacionController = TextEditingController();
-
-  DateTime? _novioBirthday;
-  DateTime? _noviaBirthday;
-
-  @override
-  void dispose() {
-    _novioNombreController.dispose();
-    _noviaNombreController.dispose();
-    _phoneNovioController.dispose();
-    _phoneNoviaController.dispose();
-    _novioEmailController.dispose();
-    _noviaEmailController.dispose();
-    _invitadosController.dispose();
-    _ubicacionController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _guardarBoda() async {
+  Future<void> _guardarBoda(BuildContext context, WidgetRef ref) async {
     final userInfo = ref.read(authInfoProvider).value;
     if (userInfo == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -46,25 +12,26 @@ class _WeddingFormFieldsState extends ConsumerState<WeddingFormFields> {
       return;
     }
 
+    final formState = ref.read(weddingFormProvider);
     final boda = Boda(
       id: '',
       usuarioId: userInfo.id,
       fecha: DateTime.now(),
-      ubicacion: _ubicacionController.text,
-      invitados: double.tryParse(_invitadosController.text) ?? 0,
+      ubicacion: formState.ubicacion,
+      invitados: double.tryParse(formState.invitados) ?? 0,
       estadoId: '1',
-      bodaTipo: selectedBodaTipo,
+      bodaTipo: formState.selectedBodaTipo,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
       isDeleted: false,
-      novioNombre: _novioNombreController.text,
-      noviaNombre: _noviaNombreController.text,
-      phoneNovio: _phoneNovioController.text,
-      phoneNovia: _phoneNoviaController.text,
-      novioBirthday: _novioBirthday ?? DateTime.now(),
-      noviaBirthday: _noviaBirthday ?? DateTime.now(),
-      novioEmail: _novioEmailController.text,
-      noviaEmail: _noviaEmailController.text,
+      novioNombre: formState.novioNombre,
+      noviaNombre: formState.noviaNombre,
+      phoneNovio: formState.phoneNovio,
+      phoneNovia: formState.phoneNovia,
+      novioBirthday: formState.novioBirthday ?? DateTime.now(),
+      noviaBirthday: formState.noviaBirthday ?? DateTime.now(),
+      novioEmail: formState.novioEmail,
+      noviaEmail: formState.noviaEmail,
     );
 
     try {
@@ -72,7 +39,7 @@ class _WeddingFormFieldsState extends ConsumerState<WeddingFormFields> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Boda creada correctamente')),
       );
-      _formKey.currentState?.reset();
+      ref.read(weddingFormProvider.notifier).reset();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
@@ -81,26 +48,33 @@ class _WeddingFormFieldsState extends ConsumerState<WeddingFormFields> {
   }
 
   Future<void> _pickDate(
-      BuildContext context, ValueChanged<DateTime> onPicked) async {
+      BuildContext context, WidgetRef ref, bool isNovio) async {
     final picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(1950),
       lastDate: DateTime(2100),
     );
-    if (picked != null) onPicked(picked);
+    if (picked != null) {
+      if (isNovio) {
+        ref.read(weddingFormProvider.notifier).updateNovioBirthday(picked);
+      } else {
+        ref.read(weddingFormProvider.notifier).updateNoviaBirthday(picked);
+      }
+    }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isMobile = MediaQuery.of(context).size.width < 640;
     final bodaTiposAsync = ref.watch(bodaTiposProvider);
+    final formState = ref.watch(weddingFormProvider);
+    final formNotifier = ref.read(weddingFormProvider.notifier);
 
     return Container(
       constraints: const BoxConstraints(maxWidth: 655),
       margin: isMobile ? const EdgeInsets.only(left: 34) : EdgeInsets.zero,
       child: Form(
-        key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -126,8 +100,10 @@ class _WeddingFormFieldsState extends ConsumerState<WeddingFormFields> {
                 context: context,
                 firstHint: 'Carlos Rodriguez',
                 secondHint: 'Erika Rivas',
-                firstController: _novioNombreController,
-                secondController: _noviaNombreController,
+                firstValue: formState.novioNombre,
+                secondValue: formState.noviaNombre,
+                onFirstChanged: formNotifier.updateNovioNombre,
+                onSecondChanged: formNotifier.updateNoviaNombre,
               ),
             ),
             _buildFieldGroup(
@@ -137,8 +113,10 @@ class _WeddingFormFieldsState extends ConsumerState<WeddingFormFields> {
                 context: context,
                 firstHint: 'Teléfono 1',
                 secondHint: 'Teléfono 2',
-                firstController: _phoneNovioController,
-                secondController: _phoneNoviaController,
+                firstValue: formState.phoneNovio,
+                secondValue: formState.phoneNovia,
+                onFirstChanged: formNotifier.updatePhoneNovio,
+                onSecondChanged: formNotifier.updatePhoneNovia,
               ),
             ),
             _buildFieldGroup(
@@ -149,30 +127,44 @@ class _WeddingFormFieldsState extends ConsumerState<WeddingFormFields> {
                   : Row(
                       children: [
                         Expanded(
-                          child: TextButton(
-                            onPressed: () => _pickDate(context, (date) {
-                              setState(() => _novioBirthday = date);
-                            }),
-                            child: Text(_novioBirthday == null
-                                ? 'Fecha 1'
-                                : _novioBirthday!
-                                    .toLocal()
-                                    .toString()
-                                    .split(' ')[0]),
+                          child: GestureDetector(
+                            onTap: () => _pickDate(context, ref, true),
+                            child: Container(
+                              padding: const EdgeInsets.all(13),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFD9D9D9),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                formState.novioBirthday == null
+                                    ? 'Fecha del Novio'
+                                    : formState.novioBirthday!
+                                        .toLocal()
+                                        .toString()
+                                        .split(' ')[0],
+                              ),
+                            ),
                           ),
                         ),
                         const SizedBox(width: 40),
                         Expanded(
-                          child: TextButton(
-                            onPressed: () => _pickDate(context, (date) {
-                              setState(() => _noviaBirthday = date);
-                            }),
-                            child: Text(_noviaBirthday == null
-                                ? 'Fecha 2'
-                                : _noviaBirthday!
-                                    .toLocal()
-                                    .toString()
-                                    .split(' ')[0]),
+                          child: GestureDetector(
+                            onTap: () => _pickDate(context, ref, false),
+                            child: Container(
+                              padding: const EdgeInsets.all(13),
+                              decoration: BoxDecoration(
+                                color: Color(0xFFD9D9D9),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                formState.noviaBirthday == null
+                                    ? 'Fecha de la novia'
+                                    : formState.noviaBirthday!
+                                        .toLocal()
+                                        .toString()
+                                        .split(' ')[0],
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -185,92 +177,92 @@ class _WeddingFormFieldsState extends ConsumerState<WeddingFormFields> {
                 context: context,
                 firstHint: 'Correo 1',
                 secondHint: 'Correo 2',
-                firstController: _novioEmailController,
-                secondController: _noviaEmailController,
+                firstValue: formState.novioEmail,
+                secondValue: formState.noviaEmail,
+                onFirstChanged: formNotifier.updateNovioEmail,
+                onSecondChanged: formNotifier.updateNoviaEmail,
               ),
             ),
             _buildFieldGroup(
               context: context,
-              label: '',
+              label: 'Tipo de Ceremonia',
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     child: bodaTiposAsync.when(
-                      data: (tipos) => DropdownButtonHideUnderline(
-                        child: DropdownButton2<int>(
-                          isExpanded: true,
-                          hint: Text(
-                            'Tipo de boda',
-                            style: GoogleFonts.inter(color: Colors.black),
-                          ),
-                          items: tipos.map((tipo) {
-                            return DropdownMenuItem<int>(
-                              value: tipo.id,
-                              child: Text(tipo.descripcion),
-                            );
-                          }).toList(),
-                          value: selectedBodaTipo,
-                          onChanged: (value) {
-                            if (value != null) {
-                              setState(() {
-                                selectedBodaTipo = value;
-                              });
-                            }
-                          },
-                          buttonStyleData: ButtonStyleData(
-                            height: 38,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFD9D9D9),
-                              borderRadius: BorderRadius.circular(4),
+                      data: (tipos) {
+                        print('Tipos de música: $tipos');
+                        print(
+                            'Tipo seleccionado: ${formState.selectedBodaTipo}');
+                        return Padding(
+                          padding: const EdgeInsets.all(13),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton2<int>(
+                              isExpanded: true,
+                              hint: Text(
+                                'Tipo de boda',
+                                style: GoogleFonts.inter(color: Colors.black),
+                              ),
+                              items: tipos.map((tipo) {
+                                return DropdownMenuItem<int>(
+                                  value: tipo.id,
+                                  child: Text(tipo.descripcion),
+                                );
+                              }).toList(),
+                              value: formState.selectedBodaTipo,
+                              onChanged: (value) {
+                                if (value != null) {
+                                  formNotifier.updateSelectedBodaTipo(value);
+                                }
+                              },
+                              buttonStyleData: ButtonStyleData(
+                                height: 38,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFD9D9D9),
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 15),
+                              ),
+                              iconStyleData: const IconStyleData(
+                                icon: Icon(Icons.keyboard_arrow_down),
+                                iconSize: 20,
+                              ),
+                              dropdownStyleData: const DropdownStyleData(
+                                maxHeight: 200,
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(4)),
+                                ),
+                              ),
                             ),
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
                           ),
-                          iconStyleData: const IconStyleData(
-                            icon: Icon(Icons.keyboard_arrow_down),
-                            iconSize: 20,
-                          ),
-                          dropdownStyleData: const DropdownStyleData(
-                            maxHeight: 200,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(4)),
-                            ),
-                          ),
-                        ),
-                      ),
+                        );
+                      },
                       loading: () => const CircularProgressIndicator(),
                       error: (error, stack) => Text('Error: $error'),
-                    ),
-                  ),
-                  if (!isMobile) const SizedBox(width: 40),
-                  Expanded(
-                    child: FormInputField(
-                      controller: _invitadosController,
-                      hintText: 'Número de invitados',
-                      height: 38,
                     ),
                   ),
                 ],
               ),
             ),
             _buildFieldGroup(
-              context: context,
-              label: 'Lugar de la ceremonia',
-              child: FormInputField(
-                controller: _ubicacionController,
-                hintText: 'Ingrese ubicación',
-                height: 38,
-              ),
-            ),
+                context: context,
+                label: 'Ubicación - Numero de Invitados',
+                child: _buildDualInputRow(
+                    context: context,
+                    firstHint: 'Ubicacion',
+                    secondHint: "Numero de Invitados",
+                    firstValue: formState.ubicacion,
+                    secondValue: formState.invitados,
+                    onFirstChanged: formNotifier.updateUbicacion,
+                    onSecondChanged: formNotifier.updateInvitados)),
+            const SizedBox(height: 20),
             Center(
               child: HoverButton(
-                press: () {
-                  if (_formKey.currentState!.validate()) {
-                    _guardarBoda();
-                  }
-                },
-                "SOLICITAR COTIZACION",
+                press: () => _guardarBoda(context, ref),
+                "GUARDAR",
               ),
             ),
           ],
@@ -284,67 +276,88 @@ class _WeddingFormFieldsState extends ConsumerState<WeddingFormFields> {
     required String label,
     required Widget child,
   }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (label.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Text(
-                label,
-                style: GoogleFonts.inter(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
-                ),
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (label.isNotEmpty) ...[
+          Text(
+            label,
+            style: GoogleFonts.inter(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+              height: 1,
             ),
-          child,
+          ),
+          const SizedBox(height: 10),
         ],
-      ),
+        child,
+        const SizedBox(height: 20),
+      ],
     );
   }
 
   Widget _buildDualInputRow({
     required BuildContext context,
-    String firstHint = '',
-    String secondHint = '',
-    TextEditingController? firstController,
-    TextEditingController? secondController,
+    required String firstHint,
+    required String secondHint,
+    required String firstValue,
+    required String secondValue,
+    required ValueChanged<String> onFirstChanged,
+    required ValueChanged<String> onSecondChanged,
   }) {
-    final isMobile = MediaQuery.of(context).size.width < 640;
-
-    return isMobile
-        ? Column(
-            children: [
-              FormInputField(
-                  hintText: firstHint, height: 41, controller: firstController),
-              const SizedBox(height: 15),
-              FormInputField(
-                  hintText: secondHint,
-                  height: 41,
-                  controller: secondController),
-            ],
-          )
-        : Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: FormInputField(
-                    hintText: firstHint,
-                    height: 38,
-                    controller: firstController),
+    return Row(
+      children: [
+        Expanded(
+          child: TextFormField(
+            decoration: InputDecoration(
+              hintText: firstHint,
+              hintStyle: GoogleFonts.inter(
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xFFACACAC),
               ),
-              const SizedBox(width: 40),
-              Expanded(
-                child: FormInputField(
-                    hintText: secondHint,
-                    height: 38,
-                    controller: secondController),
+              filled: true,
+              fillColor: const Color(0xFFD9D9D9),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+                borderSide: BorderSide.none,
               ),
-            ],
-          );
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 10,
+              ),
+            ),
+            onChanged: onFirstChanged,
+            initialValue: firstValue,
+          ),
+        ),
+        const SizedBox(width: 40),
+        Expanded(
+          child: TextFormField(
+            decoration: InputDecoration(
+              hintText: secondHint,
+              hintStyle: GoogleFonts.inter(
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xFFACACAC),
+              ),
+              filled: true,
+              fillColor: const Color(0xFFD9D9D9),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(4),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 10,
+              ),
+            ),
+            onChanged: onSecondChanged,
+            initialValue: secondValue,
+          ),
+        ),
+      ],
+    );
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:bodas/routes/linkspaper.dart';
 
 class FormInputField extends StatelessWidget {
@@ -27,13 +26,13 @@ class FormInputField extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
-        
         maxLines: multiline ? null : 1,
         onChanged: cambio,
         decoration: InputDecoration(
           hintText: hintText,
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         ),
         style: const TextStyle(
           fontSize: 15,

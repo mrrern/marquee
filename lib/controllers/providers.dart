@@ -1,5 +1,6 @@
 import 'package:bodas/routes/linkspaper.dart';
 import 'package:uuid/uuid.dart';
+import 'package:video_player/video_player.dart';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -167,7 +168,7 @@ class WeddingMusicFormNotifier extends StateNotifier<WeddingMusicFormData> {
   }
 
   //Select type
-  void updateSelectedMusicType(String value) {
+  void updateSelectedMusicType(int value) {
     state = state.copyWith(selectecMusicType: value);
   }
 
@@ -272,16 +273,16 @@ class WeddingMusicFormNotifier extends StateNotifier<WeddingMusicFormData> {
   }
 
   void updateReadingName(int index, String newName) {
-    final updatedReadings = [...?state.readers];
+    final updatedReadings = [...?state.lectures];
     updatedReadings[index] = updatedReadings[index].copyWith(name: newName);
-    state = state.copyWith(readers: updatedReadings);
+    state = state.copyWith(lectures: updatedReadings);
   }
 
   void updateReadingOption(int index, String newOption) {
-    final updatedReadings = [...?state.readers];
+    final updatedReadings = [...?state.lectures];
     updatedReadings[index] =
         updatedReadings[index].copyWith(selectedOption: newOption);
-    state = state.copyWith(readers: updatedReadings);
+    state = state.copyWith(lectures: updatedReadings);
   }
 
   /// Save form data
@@ -707,3 +708,27 @@ final authInfoProvider =
     StateNotifierProvider<AuthInfoNotifier, AsyncValue<UserInfo?>>(
   (ref) => AuthInfoNotifier(ref),
 );
+
+// Provider para el controlador de video
+final videoControllerProvider = StateNotifierProvider.autoDispose<
+    VideoControllerNotifier, VideoPlayerController?>((ref) {
+  return VideoControllerNotifier();
+});
+
+class VideoControllerNotifier extends StateNotifier<VideoPlayerController?> {
+  VideoControllerNotifier() : super(null);
+
+  Future<void> initializeVideo(String videoUrl) async {
+    final controller = VideoPlayerController.networkUrl(Uri.parse(videoUrl));
+    await controller.initialize();
+    controller.play;
+    controller.setLooping(true);
+    state = controller;
+  }
+
+  @override
+  void dispose() {
+    state?.dispose();
+    super.dispose();
+  }
+}

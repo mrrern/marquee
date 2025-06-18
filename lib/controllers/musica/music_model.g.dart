@@ -20,6 +20,7 @@ _BodaMusic _$BodaMusicFromJson(Map<String, dynamic> json) => _BodaMusic(
       musicFirma: json['musicFirma'] as String?,
       musicEndCeremony: json['musicEndCeremony'] as String?,
       musicCoctel: json['musicCoctel'] as String?,
+      musicType: (json['musicType'] as num?)?.toInt(),
       musicEntranceSalon: json['musicEntranceSalon'] as String?,
       musicDinner: json['musicDinner'] as String?,
       musicCake: json['musicCake'] as String?,
@@ -61,6 +62,7 @@ Map<String, dynamic> _$BodaMusicToJson(_BodaMusic instance) =>
       'musicFirma': instance.musicFirma,
       'musicEndCeremony': instance.musicEndCeremony,
       'musicCoctel': instance.musicCoctel,
+      'musicType': instance.musicType,
       'musicEntranceSalon': instance.musicEntranceSalon,
       'musicDinner': instance.musicDinner,
       'musicCake': instance.musicCake,
@@ -81,4 +83,25 @@ Map<String, dynamic> _$BodaMusicToJson(_BodaMusic instance) =>
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'isDeleted': instance.isDeleted,
+    };
+
+_MusicType _$MusicTypeFromJson(Map<String, dynamic> json) => _MusicType(
+      id: (json['id'] as num).toInt(),
+      descripcion: json['descripcion'] as String,
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
+      isDeleted: json['is_deleted'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$MusicTypeToJson(_MusicType instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'descripcion': instance.descripcion,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
+      'is_deleted': instance.isDeleted,
     };

@@ -141,12 +141,13 @@ class WeddingMusicFormData {
   String? groomEntranceMusic;
 
   // Ceremony
-  final List<CeremonyReading>? readers;
+  final List<CeremonyReading>? lectures;
   String? ringExchangeMusic;
   String? kissAndSignatureMusic;
   String? ceremonyEndMusic;
 
   // Cocktail
+  int? selectecMusicType;
   String? cocktailMusic;
   String? cocktailMusicStyle;
 
@@ -184,6 +185,7 @@ class WeddingMusicFormData {
     this.ringExchangeMusic,
     this.kissAndSignatureMusic,
     this.ceremonyEndMusic,
+    this.selectecMusicType,
     this.cocktailMusic,
     this.cocktailMusicStyle,
     this.entranceToHallMusic,
@@ -203,8 +205,8 @@ class WeddingMusicFormData {
     this.forbiddenSongs,
     this.lastSong,
     this.additionalNotes,
-    List<CeremonyReading>? readers,
-  }) : readers = readers ??
+    List<CeremonyReading>? lectures,
+  }) : lectures = lectures ??
             List.generate(
               4,
               (index) => CeremonyReading(
@@ -216,7 +218,7 @@ class WeddingMusicFormData {
     String? entranceMusic,
     String? brideEntranceMusic,
     String? groomEntranceMusic,
-    List<CeremonyReading>? readers,
+    List<CeremonyReading>? lectures,
     String? ringExchangeMusic,
     String? kissAndSignatureMusic,
     String? ceremonyEndMusic,
@@ -239,7 +241,7 @@ class WeddingMusicFormData {
     String? forbiddenSongs,
     String? lastSong,
     String? additionalNotes,
-    String? selectecMusicType,
+    int? selectecMusicType,
   }) {
     return WeddingMusicFormData(
       entranceMusic: entranceMusic ?? this.entranceMusic,
@@ -268,7 +270,8 @@ class WeddingMusicFormData {
       forbiddenSongs: forbiddenSongs ?? this.forbiddenSongs,
       lastSong: lastSong ?? this.lastSong,
       additionalNotes: additionalNotes ?? this.additionalNotes,
-      readers: readers ?? this.readers!.map((e) => e.copyWith()).toList(),
+      selectecMusicType: selectecMusicType ?? this.selectecMusicType,
+      lectures: lectures ?? this.lectures?.map((e) => e.copyWith()).toList(),
     );
   }
 }

@@ -1,7 +1,5 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-import 'package:bodas/logic/boda_logic.dart';
-
 class WeddingRegistrationScreen extends ConsumerStatefulWidget {
   const WeddingRegistrationScreen({super.key});
 

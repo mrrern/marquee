@@ -75,7 +75,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
 
           // Menu items
           _buildMenuItem(
-            route: '/form1',
+            route: '/boda',
             icon: Icons.app_registration,
             label: 'Registro',
             index: 0,

@@ -14,29 +14,30 @@ part of 'cotizacion_model.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$Cotizacion {
+mixin _$CotizacionModel {
   int get id;
   int get bodaId;
-  String get archivoAdmin;
+  String? get archivoAdmin;
   String? get archivoCliente;
   DateTime get createdAt;
   bool? get firmado;
 
-  /// Create a copy of Cotizacion
+  /// Create a copy of CotizacionModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $CotizacionCopyWith<Cotizacion> get copyWith =>
-      _$CotizacionCopyWithImpl<Cotizacion>(this as Cotizacion, _$identity);
+  $CotizacionModelCopyWith<CotizacionModel> get copyWith =>
+      _$CotizacionModelCopyWithImpl<CotizacionModel>(
+          this as CotizacionModel, _$identity);
 
-  /// Serializes this Cotizacion to a JSON map.
+  /// Serializes this CotizacionModel to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Cotizacion &&
+            other is CotizacionModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.bodaId, bodaId) || other.bodaId == bodaId) &&
             (identical(other.archivoAdmin, archivoAdmin) ||
@@ -55,40 +56,41 @@ mixin _$Cotizacion {
 
   @override
   String toString() {
-    return 'Cotizacion(id: $id, bodaId: $bodaId, archivoAdmin: $archivoAdmin, archivoCliente: $archivoCliente, createdAt: $createdAt, firmado: $firmado)';
+    return 'CotizacionModel(id: $id, bodaId: $bodaId, archivoAdmin: $archivoAdmin, archivoCliente: $archivoCliente, createdAt: $createdAt, firmado: $firmado)';
   }
 }
 
 /// @nodoc
-abstract mixin class $CotizacionCopyWith<$Res> {
-  factory $CotizacionCopyWith(
-          Cotizacion value, $Res Function(Cotizacion) _then) =
-      _$CotizacionCopyWithImpl;
+abstract mixin class $CotizacionModelCopyWith<$Res> {
+  factory $CotizacionModelCopyWith(
+          CotizacionModel value, $Res Function(CotizacionModel) _then) =
+      _$CotizacionModelCopyWithImpl;
   @useResult
   $Res call(
       {int id,
       int bodaId,
-      String archivoAdmin,
+      String? archivoAdmin,
       String? archivoCliente,
       DateTime createdAt,
       bool? firmado});
 }
 
 /// @nodoc
-class _$CotizacionCopyWithImpl<$Res> implements $CotizacionCopyWith<$Res> {
-  _$CotizacionCopyWithImpl(this._self, this._then);
+class _$CotizacionModelCopyWithImpl<$Res>
+    implements $CotizacionModelCopyWith<$Res> {
+  _$CotizacionModelCopyWithImpl(this._self, this._then);
 
-  final Cotizacion _self;
-  final $Res Function(Cotizacion) _then;
+  final CotizacionModel _self;
+  final $Res Function(CotizacionModel) _then;
 
-  /// Create a copy of Cotizacion
+  /// Create a copy of CotizacionModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? id = null,
     Object? bodaId = null,
-    Object? archivoAdmin = null,
+    Object? archivoAdmin = freezed,
     Object? archivoCliente = freezed,
     Object? createdAt = null,
     Object? firmado = freezed,
@@ -102,10 +104,10 @@ class _$CotizacionCopyWithImpl<$Res> implements $CotizacionCopyWith<$Res> {
           ? _self.bodaId
           : bodaId // ignore: cast_nullable_to_non_nullable
               as int,
-      archivoAdmin: null == archivoAdmin
+      archivoAdmin: freezed == archivoAdmin
           ? _self.archivoAdmin
           : archivoAdmin // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       archivoCliente: freezed == archivoCliente
           ? _self.archivoCliente
           : archivoCliente // ignore: cast_nullable_to_non_nullable
@@ -124,24 +126,24 @@ class _$CotizacionCopyWithImpl<$Res> implements $CotizacionCopyWith<$Res> {
 
 /// @nodoc
 @JsonSerializable()
-class _Cotizacion extends Cotizacion {
-  const _Cotizacion(
+class _CotizacionModel extends CotizacionModel {
+  const _CotizacionModel(
       {required this.id,
       required this.bodaId,
-      required this.archivoAdmin,
+      this.archivoAdmin,
       this.archivoCliente,
       required this.createdAt,
       this.firmado})
       : super._();
-  factory _Cotizacion.fromJson(Map<String, dynamic> json) =>
-      _$CotizacionFromJson(json);
+  factory _CotizacionModel.fromJson(Map<String, dynamic> json) =>
+      _$CotizacionModelFromJson(json);
 
   @override
   final int id;
   @override
   final int bodaId;
   @override
-  final String archivoAdmin;
+  final String? archivoAdmin;
   @override
   final String? archivoCliente;
   @override
@@ -149,17 +151,17 @@ class _Cotizacion extends Cotizacion {
   @override
   final bool? firmado;
 
-  /// Create a copy of Cotizacion
+  /// Create a copy of CotizacionModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$CotizacionCopyWith<_Cotizacion> get copyWith =>
-      __$CotizacionCopyWithImpl<_Cotizacion>(this, _$identity);
+  _$CotizacionModelCopyWith<_CotizacionModel> get copyWith =>
+      __$CotizacionModelCopyWithImpl<_CotizacionModel>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$CotizacionToJson(
+    return _$CotizacionModelToJson(
       this,
     );
   }
@@ -168,7 +170,7 @@ class _Cotizacion extends Cotizacion {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Cotizacion &&
+            other is _CotizacionModel &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.bodaId, bodaId) || other.bodaId == bodaId) &&
             (identical(other.archivoAdmin, archivoAdmin) ||
@@ -187,47 +189,48 @@ class _Cotizacion extends Cotizacion {
 
   @override
   String toString() {
-    return 'Cotizacion(id: $id, bodaId: $bodaId, archivoAdmin: $archivoAdmin, archivoCliente: $archivoCliente, createdAt: $createdAt, firmado: $firmado)';
+    return 'CotizacionModel(id: $id, bodaId: $bodaId, archivoAdmin: $archivoAdmin, archivoCliente: $archivoCliente, createdAt: $createdAt, firmado: $firmado)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$CotizacionCopyWith<$Res>
-    implements $CotizacionCopyWith<$Res> {
-  factory _$CotizacionCopyWith(
-          _Cotizacion value, $Res Function(_Cotizacion) _then) =
-      __$CotizacionCopyWithImpl;
+abstract mixin class _$CotizacionModelCopyWith<$Res>
+    implements $CotizacionModelCopyWith<$Res> {
+  factory _$CotizacionModelCopyWith(
+          _CotizacionModel value, $Res Function(_CotizacionModel) _then) =
+      __$CotizacionModelCopyWithImpl;
   @override
   @useResult
   $Res call(
       {int id,
       int bodaId,
-      String archivoAdmin,
+      String? archivoAdmin,
       String? archivoCliente,
       DateTime createdAt,
       bool? firmado});
 }
 
 /// @nodoc
-class __$CotizacionCopyWithImpl<$Res> implements _$CotizacionCopyWith<$Res> {
-  __$CotizacionCopyWithImpl(this._self, this._then);
+class __$CotizacionModelCopyWithImpl<$Res>
+    implements _$CotizacionModelCopyWith<$Res> {
+  __$CotizacionModelCopyWithImpl(this._self, this._then);
 
-  final _Cotizacion _self;
-  final $Res Function(_Cotizacion) _then;
+  final _CotizacionModel _self;
+  final $Res Function(_CotizacionModel) _then;
 
-  /// Create a copy of Cotizacion
+  /// Create a copy of CotizacionModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $Res call({
     Object? id = null,
     Object? bodaId = null,
-    Object? archivoAdmin = null,
+    Object? archivoAdmin = freezed,
     Object? archivoCliente = freezed,
     Object? createdAt = null,
     Object? firmado = freezed,
   }) {
-    return _then(_Cotizacion(
+    return _then(_CotizacionModel(
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -236,10 +239,10 @@ class __$CotizacionCopyWithImpl<$Res> implements _$CotizacionCopyWith<$Res> {
           ? _self.bodaId
           : bodaId // ignore: cast_nullable_to_non_nullable
               as int,
-      archivoAdmin: null == archivoAdmin
+      archivoAdmin: freezed == archivoAdmin
           ? _self.archivoAdmin
           : archivoAdmin // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       archivoCliente: freezed == archivoCliente
           ? _self.archivoCliente
           : archivoCliente // ignore: cast_nullable_to_non_nullable

@@ -9,6 +9,7 @@ class MusicFormContent extends ConsumerWidget {
     final formNotifier = ref.read(weddingMusicFormProvider.notifier);
     final isMobile = MediaQuery.of(context).size.width < 640;
     final formKeyMusic = GlobalKey<FormState>();
+    final musicValueAsync = ref.watch(musicaTipoProvider);
 
     return Container(
       constraints: const BoxConstraints(maxWidth: 655),
@@ -20,7 +21,66 @@ class MusicFormContent extends ConsumerWidget {
           children: [
             _buildEntranceSection(formNotifier),
             _buildCeremonySection(formNotifier, formState, context),
-            _buildCocktailSection(formNotifier),
+            _buildCocktailSection(
+                formNotifier,
+                musicValueAsync.when(
+                    data: (tipos) {
+                      print('Tipos de música disponibles: ${tipos.length}');
+                      print(
+                          'Tipo seleccionado actual: ${formState.selectecMusicType}');
+                      return Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton2<int>(
+                            isExpanded: true,
+                            hint: Text(
+                              'Música Para el Coctel...',
+                              style: GoogleFonts.inter(color: Colors.black),
+                            ),
+                            items: tipos.map((tipo) {
+                              return DropdownMenuItem<int>(
+                                value: tipo.id,
+                                child: Text(tipo.descripcion),
+                              );
+                            }).toList(),
+                            value: formState.selectecMusicType,
+                            onChanged: (value) {
+                              print('Valor seleccionado: $value');
+                              if (value != null) {
+                                formNotifier.updateSelectedMusicType(value);
+                              }
+                            },
+                            buttonStyleData: ButtonStyleData(
+                              height: 38,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFD9D9D9),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                            ),
+                            iconStyleData: const IconStyleData(
+                              icon: Icon(Icons.keyboard_arrow_down),
+                              iconSize: 20,
+                            ),
+                            dropdownStyleData: const DropdownStyleData(
+                              maxHeight: 200,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(4)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    error: (error, stack) {
+                      print('Error al cargar tipos de música: $error');
+                      return Text('Error: $error');
+                    },
+                    loading: () => const CircularProgressIndicator(
+                          color: Color(0xFFD9D9D9),
+                        ))),
             _buildMealTimeSection(formNotifier),
             _buildOpenBarSection(formNotifier, context, ref),
           ],
@@ -72,33 +132,16 @@ class MusicFormContent extends ConsumerWidget {
     );
   }
 
-  Widget _buildCocktailSection(WeddingMusicFormNotifier formNotifier) {
+  Widget _buildCocktailSection(
+      WeddingMusicFormNotifier formNotifier, Widget child) {
     return _buildFormSection(
       title: 'Coctel de Bienvenida',
       children: [
         const SizedBox(height: 10),
-        _buildSectionText('Música para el cóctel...'),
+        _buildSectionText(
+            'Selecciona la Musica para el coctel (chill-out, flamenco, fusion, latino, etc...)'),
         const SizedBox(height: 12),
-        Container(
-          decoration: BoxDecoration(
-            color: const Color(0xFFD9D9D9),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 9),
-          child: Row(
-            children: [
-              Text(
-                'Seleccione a continuación',
-                style: GoogleFonts.inter(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xFFACACAC),
-                ),
-              ),
-              const Icon(Icons.arrow_drop_down, color: Color(0xFFACACAC)),
-            ],
-          ),
-        ),
+        child
       ],
     );
   }
@@ -225,21 +268,18 @@ class MusicFormContent extends ConsumerWidget {
 
   Widget _buildReadingRow(String label, WeddingMusicFormData formState,
       WeddingMusicFormNotifier formNotifier, context) {
-    bool isMobile = Responsive.isMobile(context);
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: formState.readers?.length ?? 0,
-      padding: EdgeInsets.only(bottom: isMobile ? 25 : 20),
-      itemBuilder: (context, index) {
+    return Column(
+      children: List.generate(4, (index) {
+        final reading = formState.lectures?[index];
         return Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                width: 60,
+                width: 80,
                 child: Text(
-                  label,
+                  'Lectura ${index + 1}',
                   textAlign: TextAlign.left,
                   style: GoogleFonts.inter(
                     fontSize: 15,
@@ -250,29 +290,22 @@ class MusicFormContent extends ConsumerWidget {
               ),
               const SizedBox(width: 20),
               Expanded(
-                child: Column(
-                  children: [
-                    Container(
-                      height: 35,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 7),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFD9D9D9),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: FormInputField(
-                        hintText: "Nombre y Apellido",
-                        cambio: (value) =>
-                            formNotifier.updateReadingName(index, value),
-                      ),
-                    ),
-                  ],
+                child: Container(
+                  height: 55,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+                  child: FormInputField(
+                    hintText: "Enlaces",
+                    controller: TextEditingController(text: reading?.name),
+                    cambio: (value) =>
+                        formNotifier.updateReadingName(index, value),
+                  ),
                 ),
               ),
             ],
           ),
         );
-      },
+      }),
     );
   }
 

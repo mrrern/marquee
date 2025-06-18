@@ -150,3 +150,9 @@ final bodaTiposProvider = FutureProvider<List<BodaTipo>>((ref) async {
   final logic = ref.watch(weddingLogicProvider);
   return logic.fetchBodaTipos();
 });
+
+/// Provider para el estado del formulario de boda
+final weddingFormProvider =
+    StateNotifierProvider<WeddingFormNotifier, WeddingFormState>((ref) {
+  return WeddingFormNotifier();
+});
