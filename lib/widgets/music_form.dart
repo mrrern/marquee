@@ -9,7 +9,6 @@ class MusicFormContent extends ConsumerWidget {
     final formNotifier = ref.read(weddingMusicFormProvider.notifier);
     final isMobile = MediaQuery.of(context).size.width < 640;
     final formKeyMusic = GlobalKey<FormState>();
-    final musicValueAsync = ref.watch(musicaTipoProvider);
 
     return Container(
       constraints: const BoxConstraints(maxWidth: 655),
@@ -21,66 +20,7 @@ class MusicFormContent extends ConsumerWidget {
           children: [
             _buildEntranceSection(formNotifier),
             _buildCeremonySection(formNotifier, formState, context),
-            _buildCocktailSection(
-                formNotifier,
-                musicValueAsync.when(
-                    data: (tipos) {
-                      print('Tipos de música disponibles: ${tipos.length}');
-                      print(
-                          'Tipo seleccionado actual: ${formState.selectecMusicType}');
-                      return Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton2<int>(
-                            isExpanded: true,
-                            hint: Text(
-                              'Música Para el Coctel...',
-                              style: GoogleFonts.inter(color: Colors.black),
-                            ),
-                            items: tipos.map((tipo) {
-                              return DropdownMenuItem<int>(
-                                value: tipo.id,
-                                child: Text(tipo.descripcion),
-                              );
-                            }).toList(),
-                            value: formState.selectecMusicType,
-                            onChanged: (value) {
-                              print('Valor seleccionado: $value');
-                              if (value != null) {
-                                formNotifier.updateSelectedMusicType(value);
-                              }
-                            },
-                            buttonStyleData: ButtonStyleData(
-                              height: 38,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFD9D9D9),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                            ),
-                            iconStyleData: const IconStyleData(
-                              icon: Icon(Icons.keyboard_arrow_down),
-                              iconSize: 20,
-                            ),
-                            dropdownStyleData: const DropdownStyleData(
-                              maxHeight: 200,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(4)),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    error: (error, stack) {
-                      print('Error al cargar tipos de música: $error');
-                      return Text('Error: $error');
-                    },
-                    loading: () => const CircularProgressIndicator(
-                          color: Color(0xFFD9D9D9),
-                        ))),
+            _buildCocktailSection(formNotifier, formState, ref),
             _buildMealTimeSection(formNotifier),
             _buildOpenBarSection(formNotifier, context, ref),
           ],
@@ -93,8 +33,9 @@ class MusicFormContent extends ConsumerWidget {
     return _buildFormSection(
       title: 'Entrada y Recepción',
       children: [
-        _buildSectionText('Música durante la recepción de invitados...'),
-        const SizedBox(height: 15),
+        _buildSectionText(
+            'Música durante la recepción de invitados (música clásica, guitarra instrumental…) de 15 a 20 minutos de duración total'),
+        const SizedBox(height: 25),
         FormInputField(cambio: (_) => formNotifier.updateEntranceMusic),
         const SizedBox(height: 15),
         _buildSectionText('Canción de entrada del novio:'),
@@ -113,7 +54,8 @@ class MusicFormContent extends ConsumerWidget {
     return _buildFormSection(
       title: 'Inicio de la Ceremonia',
       children: [
-        _buildSectionText('Música de fondo para la lectura de invitados...'),
+        _buildSectionText(
+            'Música de fondo para la lectura de invitados evita, si es posible piezas vocales'),
         const SizedBox(height: 33),
         _buildReadingRow('Lectura', formState, formNotifier, context),
         const SizedBox(height: 35),
@@ -132,8 +74,10 @@ class MusicFormContent extends ConsumerWidget {
     );
   }
 
-  Widget _buildCocktailSection(
-      WeddingMusicFormNotifier formNotifier, Widget child) {
+  Widget _buildCocktailSection(WeddingMusicFormNotifier formNotifier,
+      WeddingMusicFormData formState, WidgetRef ref) {
+    final musicValueAsync = ref.watch(musicaTipoProvider);
+
     return _buildFormSection(
       title: 'Coctel de Bienvenida',
       children: [
@@ -141,7 +85,57 @@ class MusicFormContent extends ConsumerWidget {
         _buildSectionText(
             'Selecciona la Musica para el coctel (chill-out, flamenco, fusion, latino, etc...)'),
         const SizedBox(height: 12),
-        child
+        musicValueAsync.when(
+            data: (tipos) {
+              return Padding(
+                padding: const EdgeInsets.all(12),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton2<int>(
+                    isExpanded: true,
+                    hint: Text(
+                      'Música Para el Coctel...',
+                      style: GoogleFonts.inter(color: Colors.black),
+                    ),
+                    items: tipos.map((tipo) {
+                      return DropdownMenuItem<int>(
+                        value: tipo.id,
+                        child: Text(tipo.descripcion),
+                      );
+                    }).toList(),
+                    value: formState.selectecMusicType,
+                    onChanged: (value) {
+                      if (value != null) {
+                        formNotifier.updateSelectedMusicType(value);
+                      }
+                    },
+                    buttonStyleData: ButtonStyleData(
+                      height: 38,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFD9D9D9),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                    ),
+                    iconStyleData: const IconStyleData(
+                      icon: Icon(Icons.keyboard_arrow_down),
+                      iconSize: 20,
+                    ),
+                    dropdownStyleData: const DropdownStyleData(
+                      maxHeight: 200,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(4)),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+            error: (error, stack) {
+              return Text('Error: $error');
+            },
+            loading: () => const CircularProgressIndicator(
+                  color: Color(0xFFD9D9D9),
+                ))
       ],
     );
   }
@@ -153,9 +147,12 @@ class MusicFormContent extends ConsumerWidget {
         const SizedBox(height: 10),
         _buildSectionText('Entrada al salón:'),
         const SizedBox(height: 13),
-        const FormInputField(),
+        FormInputField(
+          cambio: (_) => formNotifier.updateEntranceToHallMusic,
+        ),
         const SizedBox(height: 24),
-        _buildSectionText('Música durante la cena...'),
+        _buildSectionText(
+            'Música durante la cena: (baladas, bossa nova, jazz, versiones cover grandes éxitos, música años 20/50…)'),
         const SizedBox(height: 13),
         FormInputField(cambio: (_) => formNotifier.updateDinnerMusic),
         const SizedBox(height: 35),
@@ -167,7 +164,8 @@ class MusicFormContent extends ConsumerWidget {
         const SizedBox(height: 10),
         FormInputField(cambio: (_) => formNotifier.updateGiftsMusic),
         const SizedBox(height: 27),
-        _buildSectionText('Alguna sorpresa...'),
+        _buildSectionText(
+            'Alguna sorpresa (Micrófono para discursos, cumpleaños, etc...)'),
         const SizedBox(height: 10),
         FormInputField(cambio: (_) => formNotifier.updateRingExchangeMusic),
       ],
@@ -198,7 +196,7 @@ class MusicFormContent extends ConsumerWidget {
         const SizedBox(height: 12),
         _buildSectionText('Aquí puedes dejar los enlaces...'),
         const SizedBox(height: 14),
-        _buildLinkInputRow(),
+        _buildLinkInputSection(ref),
         const SizedBox(height: 22),
         _buildRadioQuestion('¿Hay invitados de nacionalidad distinta?'),
         const SizedBox(height: 16),
@@ -240,6 +238,42 @@ class MusicFormContent extends ConsumerWidget {
             }
             context.go('/contract');
           }, "GUARDAR"),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLinkInputSection(WidgetRef ref) {
+    final groomLinks = ref.watch(groomLinksProvider);
+    final brideLinks = ref.watch(brideLinksProvider);
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Column(
+            children: List.generate(
+              groomLinks.length,
+              (index) => DynamicTextFieldRowWithValue(
+                provider: groomLinksProvider,
+                index: index,
+                height: 35,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 25),
+        Expanded(
+          child: Column(
+            children: List.generate(
+              brideLinks.length,
+              (index) => DynamicTextFieldRowWithValue(
+                provider: brideLinksProvider,
+                index: index,
+                height: 35,
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -295,7 +329,7 @@ class MusicFormContent extends ConsumerWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
                   child: FormInputField(
-                    hintText: "Enlaces",
+                    hintText: "Enlace",
                     controller: TextEditingController(text: reading?.name),
                     cambio: (value) =>
                         formNotifier.updateReadingName(index, value),
@@ -361,42 +395,6 @@ class MusicFormContent extends ConsumerWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildLinkInputRow() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildLinkInput(),
-        const SizedBox(width: 25),
-        _buildLinkInput(),
-      ],
-    );
-  }
-
-  Widget _buildLinkInput() {
-    return Expanded(
-      child: Container(
-        height: 41,
-        decoration: BoxDecoration(
-          color: const Color(0xFFD9D9D9),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              width: 25,
-              height: 25,
-              decoration: const BoxDecoration(
-                  color: Colors.white, shape: BoxShape.circle),
-              child: Icon(Icons.add),
-            ),
-            const SizedBox(width: 9),
-          ],
-        ),
-      ),
     );
   }
 

@@ -20,16 +20,20 @@ class FormSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: GoogleFonts.inter(
-              fontSize: isMobile ? 25 : 35,
-              fontWeight: FontWeight.w700,
-              color: const Color(0xFF888888),
-              height: 0.5,
-              letterSpacing: 0.4,
-            ).copyWith(
-                leadingDistribution: TextLeadingDistribution.proportional),
+          SizedBox(
+            width: isMobile ? 500 : 800,
+            height: isMobile ? 50 : 40,
+            child: Text(
+              title,
+              style: GoogleFonts.inter(
+                fontSize: isMobile ? 25 : 35,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF888888),
+                height: 0.5,
+                letterSpacing: 0.4,
+              ).copyWith(
+                  leadingDistribution: TextLeadingDistribution.proportional),
+            ),
           ),
           const SizedBox(height: 20),
           ...children,

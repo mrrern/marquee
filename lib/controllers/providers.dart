@@ -732,3 +732,41 @@ class VideoControllerNotifier extends StateNotifier<VideoPlayerController?> {
     super.dispose();
   }
 }
+
+class TextFieldValueNotifier extends StateNotifier<List<String>> {
+  TextFieldValueNotifier() : super([""]);
+
+  void addField() {
+    state = [...state, ""];
+  }
+
+  void removeField(int index) {
+    if (index >= 0 && index < state.length) {
+      final updated = [...state]..removeAt(index);
+      state = updated;
+    }
+  }
+
+  void updateValue(int index, String value) {
+    if (index >= 0 && index < state.length) {
+      final updated = [...state];
+      updated[index] = value;
+      state = updated;
+    }
+  }
+}
+
+final textFieldValueProvider =
+    StateNotifierProvider<TextFieldValueNotifier, List<String>>(
+  (ref) => TextFieldValueNotifier(),
+);
+
+final groomLinksProvider =
+    StateNotifierProvider<TextFieldValueNotifier, List<String>>(
+  (ref) => TextFieldValueNotifier(),
+);
+
+final brideLinksProvider =
+    StateNotifierProvider<TextFieldValueNotifier, List<String>>(
+  (ref) => TextFieldValueNotifier(),
+);

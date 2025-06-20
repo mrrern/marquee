@@ -3,6 +3,7 @@ import 'package:bodas/routes/linkspaper.dart';
 class FormInputField extends StatelessWidget {
   final String? hintText;
   final TextEditingController? controller;
+  final Widget? icon;
   final double height;
   final bool multiline;
   final void Function(String)? cambio;
@@ -14,6 +15,7 @@ class FormInputField extends StatelessWidget {
     this.cambio,
     this.height = 35,
     this.multiline = false,
+    this.icon,
   });
 
   @override
@@ -24,13 +26,15 @@ class FormInputField extends StatelessWidget {
         color: const Color(0xFFD9D9D9),
         borderRadius: BorderRadius.circular(4),
       ),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
         maxLines: multiline ? null : 1,
         onChanged: cambio,
         decoration: InputDecoration(
           hintText: hintText,
+          filled: true,
           border: InputBorder.none,
+          suffixIcon: icon,
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         ),

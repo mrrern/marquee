@@ -53,6 +53,8 @@ dependencies:
   webview_flutter: ^4.10.0
   youtube_web_player: ^1.2.2
   supabase_flutter: ^2.9.0
+  flutter_hooks: ^0.21.2
+  
 dev_dependencies:
   build_runner: ^2.4.14
   custom_lint: ^0.7.3
