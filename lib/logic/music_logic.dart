@@ -105,11 +105,6 @@ class MusicLogic {
 
       print('Respuesta de Supabase: $response');
 
-      if (response == null) {
-        print('La respuesta de Supabase es null');
-        return [];
-      }
-
       final data = response as List;
       print('Número de tipos de música encontrados: ${data.length}');
 

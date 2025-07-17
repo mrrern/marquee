@@ -146,7 +146,7 @@ class AuthService {
           // Map the bodas data to Boda objects with null safety
           final bodas = bodasData.map((bodaData) {
             return Boda(
-              id: bodaData['id']?.toString() ?? '',
+              id: bodaData['id'],
               usuarioId: bodaData['user_id']?.toString() ?? '',
               fecha:
                   DateTime.tryParse(bodaData['fecha'] ?? '') ?? DateTime.now(),

@@ -1,5 +1,4 @@
 import 'package:bodas/routes/linkspaper.dart';
-import 'package:uuid/uuid.dart';
 import 'package:video_player/video_player.dart';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -287,8 +286,6 @@ class WeddingMusicFormNotifier extends StateNotifier<WeddingMusicFormData> {
 
   /// Save form data
   Future<bool> saveForm() async {
-    // Here you would typically send the data to a backend service
-    // For now, we'll just return true to simulate a successful save
     return true;
   }
 }
@@ -393,7 +390,7 @@ final registrationProvider =
 
 // State class for notes
 class NotesState {
-  final List<NoteModel> notes;
+  final List<NotesModel> notes;
   final int currentPage;
   final int notesPerPage;
 
@@ -408,7 +405,7 @@ class NotesState {
     return (notes.length / notesPerPage).ceil();
   }
 
-  List<NoteModel> get currentPageNotes {
+  List<NotesModel> get currentPageNotes {
     if (notes.isEmpty) return [];
 
     final startIndex = (currentPage - 1) * notesPerPage;
@@ -421,7 +418,7 @@ class NotesState {
   }
 
   NotesState copyWith({
-    List<NoteModel>? notes,
+    List<NotesModel>? notes,
     int? currentPage,
     int? notesPerPage,
   }) {
@@ -435,32 +432,31 @@ class NotesState {
 
 // Notifier class
 class NotesNotifier extends StateNotifier<NotesState> {
-  NotesNotifier() : super(NotesState()) {
-    // Initialize with a sample note
-    addNote(
-      content: 'Deja aquí tus dudas.',
-      userName: 'Erika Rivas',
-      userAvatar: 'assets/images/user_avatar.png',
-    );
-  }
+  final NotesLogic _logic = NotesLogic();
 
-  void addNote({
-    required String content,
-    required String userName,
-    required String userAvatar,
-    List<String> images = const [],
-  }) {
-    final newNote = NoteModel(
-      id: const Uuid().v4(),
-      userName: userName,
-      userAvatar: userAvatar,
-      date: DateTime.now(),
-      content: content,
+  NotesNotifier() : super(NotesState());
+
+  Future<void> addNote({
+    required int bodaId,
+    required String title,
+    required String description,
+    String? file,
+    Map<String, dynamic>? images = const {},
+  }) async {
+    final note = await _logic.createNote(
+      bodaId: bodaId,
+      title: title,
+      description: description,
+      file: file,
       images: images,
     );
+    // Agrega la nueva nota al principio de la lista
+    state = state.copyWith(notes: [note, ...state.notes]);
+  }
 
-    final updatedNotes = [...state.notes, newNote];
-    state = state.copyWith(notes: updatedNotes);
+  Future<void> loadNotes({required int bodaId}) async {
+    final notes = await _logic.getNotesByBodaId(bodaId);
+    state = state.copyWith(notes: notes);
   }
 
   void changePage(int page) {
@@ -472,9 +468,10 @@ class NotesNotifier extends StateNotifier<NotesState> {
     state = state.copyWith(notesPerPage: count);
   }
 
-  void deleteNote(String id) {
-    final updatedNotes = state.notes.where((note) => note.id != id).toList();
-    state = state.copyWith(notes: updatedNotes);
+  Future<void> deleteNote(int id) async {
+    await _logic.deleteNote(id);
+    state =
+        state.copyWith(notes: state.notes.where((n) => n.id != id).toList());
   }
 }
 
@@ -732,41 +729,3 @@ class VideoControllerNotifier extends StateNotifier<VideoPlayerController?> {
     super.dispose();
   }
 }
-
-class TextFieldValueNotifier extends StateNotifier<List<String>> {
-  TextFieldValueNotifier() : super([""]);
-
-  void addField() {
-    state = [...state, ""];
-  }
-
-  void removeField(int index) {
-    if (index >= 0 && index < state.length) {
-      final updated = [...state]..removeAt(index);
-      state = updated;
-    }
-  }
-
-  void updateValue(int index, String value) {
-    if (index >= 0 && index < state.length) {
-      final updated = [...state];
-      updated[index] = value;
-      state = updated;
-    }
-  }
-}
-
-final textFieldValueProvider =
-    StateNotifierProvider<TextFieldValueNotifier, List<String>>(
-  (ref) => TextFieldValueNotifier(),
-);
-
-final groomLinksProvider =
-    StateNotifierProvider<TextFieldValueNotifier, List<String>>(
-  (ref) => TextFieldValueNotifier(),
-);
-
-final brideLinksProvider =
-    StateNotifierProvider<TextFieldValueNotifier, List<String>>(
-  (ref) => TextFieldValueNotifier(),
-);

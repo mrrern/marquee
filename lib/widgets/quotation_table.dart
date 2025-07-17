@@ -26,7 +26,6 @@ class QuotationTable extends StatelessWidget {
             headingRowColor: WidgetStateProperty.all(const Color(0xFFECECEC)),
             dataRowMinHeight: 70,
             dataRowMaxHeight: 70,
-            
             columns: [
               DataColumn(
                 label: Checkbox(
@@ -38,7 +37,7 @@ class QuotationTable extends StatelessWidget {
                 label: Text(
                   'Nombre',
                   style: GoogleFonts.inter(
-                    fontSize: 20,
+                    fontSize: 17, // 20 * 0.85
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF667085),
                   ),
@@ -48,7 +47,7 @@ class QuotationTable extends StatelessWidget {
                 label: Text(
                   'Fecha',
                   style: GoogleFonts.inter(
-                    fontSize: 20,
+                    fontSize: 17, // 20 * 0.85
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF667085),
                   ),
@@ -58,7 +57,7 @@ class QuotationTable extends StatelessWidget {
                 label: Text(
                   'Invitados',
                   style: GoogleFonts.inter(
-                    fontSize: 20,
+                    fontSize: 17, // 20 * 0.85
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF667085),
                   ),
@@ -68,7 +67,7 @@ class QuotationTable extends StatelessWidget {
                 label: Text(
                   'Ceremonia',
                   style: GoogleFonts.inter(
-                    fontSize: 20,
+                    fontSize: 17, // 20 * 0.85
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF667085),
                   ),
@@ -78,7 +77,7 @@ class QuotationTable extends StatelessWidget {
                 label: Text(
                   'Lugar',
                   style: GoogleFonts.inter(
-                    fontSize: 20,
+                    fontSize: 17, // 20 * 0.85
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF667085),
                   ),
@@ -88,7 +87,7 @@ class QuotationTable extends StatelessWidget {
                 label: Text(
                   'Cotización',
                   style: GoogleFonts.inter(
-                    fontSize: 20,
+                    fontSize: 17, // 20 * 0.85
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF667085),
                   ),
@@ -98,7 +97,7 @@ class QuotationTable extends StatelessWidget {
                 label: Text(
                   'Contrato firmado',
                   style: GoogleFonts.inter(
-                    fontSize: 20,
+                    fontSize: 17, // 20 * 0.85
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF667085),
                   ),
@@ -108,7 +107,7 @@ class QuotationTable extends StatelessWidget {
                 label: Text(
                   'Contactar',
                   style: GoogleFonts.inter(
-                    fontSize: 20,
+                    fontSize: 17, // 20 * 0.85
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF667085),
                   ),
@@ -118,7 +117,7 @@ class QuotationTable extends StatelessWidget {
                 label: Text(
                   'Contratados',
                   style: GoogleFonts.inter(
-                    fontSize: 20,
+                    fontSize: 17, // 20 * 0.85
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF667085),
                   ),
@@ -138,7 +137,7 @@ class QuotationTable extends StatelessWidget {
                     Row(
                       children: [
                         _buildAvatar(quotation),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: 10), // 12 * 0.85
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +145,7 @@ class QuotationTable extends StatelessWidget {
                             Text(
                               quotation.name,
                               style: GoogleFonts.inter(
-                                fontSize: 14,
+                                fontSize: 12, // 14 * 0.85
                                 fontWeight: FontWeight.w500,
                                 color: const Color(0xFF101828),
                               ),
@@ -154,7 +153,7 @@ class QuotationTable extends StatelessWidget {
                             Text(
                               quotation.username,
                               style: GoogleFonts.inter(
-                                fontSize: 14,
+                                fontSize: 12, // 14 * 0.85
                                 color: const Color(0xFF667085),
                               ),
                             ),
@@ -167,7 +166,7 @@ class QuotationTable extends StatelessWidget {
                     Text(
                       quotation.date,
                       style: GoogleFonts.inter(
-                        fontSize: 14,
+                        fontSize: 12, // 14 * 0.85
                         color: const Color(0xFF667085),
                       ),
                     ),
@@ -176,7 +175,7 @@ class QuotationTable extends StatelessWidget {
                     Text(
                       quotation.guests.toString(),
                       style: GoogleFonts.inter(
-                        fontSize: 14,
+                        fontSize: 12, // 14 * 0.85
                         color: const Color(0xFF667085),
                       ),
                     ),
@@ -185,7 +184,7 @@ class QuotationTable extends StatelessWidget {
                     Text(
                       quotation.ceremonyType,
                       style: GoogleFonts.inter(
-                        fontSize: 14,
+                        fontSize: 12, // 14 * 0.85
                         color: const Color(0xFF667085),
                       ),
                     ),
@@ -194,19 +193,25 @@ class QuotationTable extends StatelessWidget {
                     Text(
                       quotation.location,
                       style: GoogleFonts.inter(
-                        fontSize: 14,
+                        fontSize: 12, // 14 * 0.85
                         color: const Color(0xFF667085),
                       ),
                     ),
                   ),
                   DataCell(
                     quotation.hasQuotation
-                        ? Icon(Icons.picture_as_pdf, size: 54,)
+                        ? Icon(
+                            Icons.picture_as_pdf,
+                            size: 46,
+                          ) // 54 * 0.85
                         : const SizedBox(),
                   ),
                   DataCell(
                     quotation.hasSignedContract
-                        ? Icon(Icons.picture_as_pdf, size: 54,)
+                        ? Icon(
+                            Icons.picture_as_pdf,
+                            size: 46,
+                          ) // 54 * 0.85
                         : const SizedBox(),
                   ),
                   DataCell(
@@ -214,13 +219,13 @@ class QuotationTable extends StatelessWidget {
                       children: [
                         Icon(
                           Icons.phone,
-                          size: 20,
+                          size: 17, // 20 * 0.85
                           color: Colors.black.withValues(alpha: 0.59),
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: 8), // 10 * 0.85
                         Icon(
                           Icons.message,
-                          size: 20,
+                          size: 17, // 20 * 0.85
                           color: Colors.black.withValues(alpha: 0.59),
                         ),
                       ],
@@ -230,7 +235,7 @@ class QuotationTable extends StatelessWidget {
                     quotation.isAccepted
                         ? Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
+                              horizontal: 7, // 8 * 0.85
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
@@ -240,7 +245,7 @@ class QuotationTable extends StatelessWidget {
                             child: Text(
                               'Aceptar',
                               style: GoogleFonts.inter(
-                                fontSize: 12,
+                                fontSize: 10, // 12 * 0.85
                                 fontWeight: FontWeight.w500,
                                 color: const Color(0xFF027A48),
                               ),
@@ -260,7 +265,7 @@ class QuotationTable extends StatelessWidget {
   Widget _buildAvatar(QuotationRequest quotation) {
     if (quotation.avatarUrl.isNotEmpty) {
       return CircleAvatar(
-        radius: 20,
+        radius: 17, // 20 * 0.85
         backgroundImage: AssetImage(quotation.avatarUrl),
       );
     } else {
@@ -272,12 +277,12 @@ class QuotationTable extends StatelessWidget {
           .join();
 
       return CircleAvatar(
-        radius: 20,
+        radius: 17, // 20 * 0.85
         backgroundColor: const Color(0xFFF9F5FF),
         child: Text(
           initials,
           style: GoogleFonts.inter(
-            fontSize: 16,
+            fontSize: 13, // 16 * 0.85
             color: const Color(0xFF7F56D9),
           ),
         ),

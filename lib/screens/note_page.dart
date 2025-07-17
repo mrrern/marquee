@@ -8,38 +8,64 @@ class NotesScreen extends ConsumerStatefulWidget {
 }
 
 class _NotesScreenState extends ConsumerState<NotesScreen> {
-  @override
-  void initState() {
-    super.initState();
-    // Update notes per page based on screen size
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final size = MediaQuery.of(context).size;
-      final isMobile = size.width < 850;
-      ref.read(notesProvider.notifier).updateNotesPerPage(isMobile ? 2 : 4);
-    });
-  }
+  Future<int?> _getBodaIdForUser() async {
+    final prefs = await SharedPreferences.getInstance();
+    final usuarioId = prefs.getString('usuarioId');
+    if (usuarioId == null) return null;
 
-  void _showAddNoteDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => const AddNoteDialog(),
-    );
+    // Suponiendo que tienes un método para obtener bodas por usuarioId
+    final bodas = await ref.read(weddingLogicProvider).fetchWeddings(usuarioId);
+    if (bodas.isEmpty) return null;
+    return bodas.first.id; // O la lógica que prefieras
   }
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<int?>(
+      future: _getBodaIdForUser(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        final bodaId = snapshot.data;
+        if (bodaId == null) {
+          return const Center(child: Text('No tienes bodas registradas.'));
+        }
+
+        // Cargar notas y mostrar la UI normal
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final size = MediaQuery.of(context).size;
+          final isMobile = size.width < 850;
+          ref.read(notesProvider.notifier).updateNotesPerPage(isMobile ? 2 : 4);
+          ref.read(notesProvider.notifier).loadNotes(bodaId: bodaId);
+        });
+
+        return _NotesScreenBody(bodaId: bodaId);
+      },
+    );
+  }
+}
+
+// Extrae la lógica de la UI a un widget aparte para recibir el bodaId
+class _NotesScreenBody extends ConsumerWidget {
+  final int bodaId;
+  const _NotesScreenBody({required this.bodaId});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
     final isMobile = size.width < 850;
 
-    // Listen to notes state
+    // Escucha el estado de las notas
     final notesState = ref.watch(notesProvider);
 
     return Scaffold(
-      body: _buildResponsiveLayout(context, isMobile, notesState),
+      body: _buildResponsiveLayout(context, isMobile, notesState, ref),
     );
   }
 
-  Widget _buildResponsiveLayout(BuildContext context, bool isMobile, NotesState notesState) {
+  Widget _buildResponsiveLayout(BuildContext context, bool isMobile,
+      NotesState notesState, WidgetRef ref) {
     return Row(
       children: [
         // Sidebar
@@ -63,7 +89,7 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
                     child: Column(
                       children: [
                         // Notes header with description
-                        _buildNotesHeader(isMobile),
+                        _buildNotesHeader(isMobile, context, ref),
 
                         const SizedBox(height: 20),
 
@@ -73,7 +99,7 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
                         const SizedBox(height: 20),
 
                         // Pagination
-                        _buildPagination(notesState),
+                        _buildPagination(notesState, ref),
                       ],
                     ),
                   ),
@@ -86,9 +112,7 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
     );
   }
 
-  
-
-  Widget _buildNotesHeader(bool isMobile) {
+  Widget _buildNotesHeader(bool isMobile, BuildContext context, WidgetRef ref) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -112,7 +136,17 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
           ),
           const SizedBox(width: 20),
           GestureDetector(
-            onTap: _showAddNoteDialog,
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AddNoteDialog(
+                  bodaId: bodaId,
+                  onNoteAdded: () {
+                    ref.read(notesProvider.notifier).loadNotes(bodaId: bodaId);
+                  },
+                ),
+              );
+            },
             child: Container(
               width: 56,
               height: 52,
@@ -139,7 +173,8 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
     );
   }
 
-  Widget _buildCorkBoard(BuildContext context, NotesState notesState, bool isMobile) {
+  Widget _buildCorkBoard(
+      BuildContext context, NotesState notesState, bool isMobile) {
     return Container(
       constraints: const BoxConstraints(minHeight: 570),
       padding: EdgeInsets.all(isMobile ? 10 : 20),
@@ -180,7 +215,7 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
     );
   }
 
-  Widget _buildPagination(NotesState notesState) {
+  Widget _buildPagination(NotesState notesState, WidgetRef ref) {
     return Container(
       width: 194,
       height: 39,
@@ -199,7 +234,9 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
                 child: Text(
                   i == notesState.currentPage ? 'Pag $i' : '$i',
                   style: TextStyle(
-                    color: i == notesState.currentPage ? Colors.black : const Color(0xFF999999),
+                    color: i == notesState.currentPage
+                        ? Colors.black
+                        : const Color(0xFF999999),
                     fontFamily: 'Inter',
                     fontSize: 15,
                   ),

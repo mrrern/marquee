@@ -1,5 +1,4 @@
 import 'package:bodas/routes/linkspaper.dart';
-import 'package:bodas/controllers/notas/notes_model.dart';
 
 class NotesLogic {
   final SupabaseClient _supabase = Supabase.instance.client;

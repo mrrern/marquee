@@ -476,7 +476,7 @@ class __$UserInfoCopyWithImpl<$Res> implements _$UserInfoCopyWith<$Res> {
 
 /// @nodoc
 mixin _$Boda {
-  String get id;
+  int get id;
   String get usuarioId;
   DateTime get fecha;
   String get ubicacion;
@@ -581,7 +581,7 @@ abstract mixin class $BodaCopyWith<$Res> {
       _$BodaCopyWithImpl;
   @useResult
   $Res call(
-      {String id,
+      {int id,
       String usuarioId,
       DateTime fecha,
       String ubicacion,
@@ -636,7 +636,7 @@ class _$BodaCopyWithImpl<$Res> implements $BodaCopyWith<$Res> {
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       usuarioId: null == usuarioId
           ? _self.usuarioId
           : usuarioId // ignore: cast_nullable_to_non_nullable
@@ -735,7 +735,7 @@ class _Boda extends Boda {
   factory _Boda.fromJson(Map<String, dynamic> json) => _$BodaFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
   final String usuarioId;
   @override
@@ -864,7 +864,7 @@ abstract mixin class _$BodaCopyWith<$Res> implements $BodaCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
+      {int id,
       String usuarioId,
       DateTime fecha,
       String ubicacion,
@@ -919,7 +919,7 @@ class __$BodaCopyWithImpl<$Res> implements _$BodaCopyWith<$Res> {
       id: null == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       usuarioId: null == usuarioId
           ? _self.usuarioId
           : usuarioId // ignore: cast_nullable_to_non_nullable

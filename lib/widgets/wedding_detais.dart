@@ -14,7 +14,7 @@ class WeddingFormFields extends ConsumerWidget {
 
     final formState = ref.read(weddingFormProvider);
     final boda = Boda(
-      id: '',
+      id: userInfo.bodas.first.id,
       usuarioId: userInfo.id,
       fecha: DateTime.now(),
       ubicacion: formState.ubicacion,
@@ -192,9 +192,6 @@ class WeddingFormFields extends ConsumerWidget {
                   Expanded(
                     child: bodaTiposAsync.when(
                       data: (tipos) {
-                        print('Tipos de música: $tipos');
-                        print(
-                            'Tipo seleccionado: ${formState.selectedBodaTipo}');
                         return Padding(
                           padding: const EdgeInsets.all(13),
                           child: DropdownButtonHideUnderline(

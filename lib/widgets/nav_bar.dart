@@ -165,6 +165,10 @@ class AdminNavBar extends ConsumerWidget {
           // Nav links
           Row(
             children: [
+              _buildNavItem('Menu', isMobile, '/admin', context),
+              SizedBox(
+                width: isMobile ? 7 : 24,
+              ),
               _buildNavItem('Usuario', isMobile, '/admin/user', context),
               SizedBox(
                 width: isMobile ? 7 : 24,
@@ -172,8 +176,20 @@ class AdminNavBar extends ConsumerWidget {
               _buildNavItem('Menú', isMobile, '/admin/menu', context),
               SizedBox(width: isMobile ? 7 : 24),
               GestureDetector(
-                  onTap: () => ref.read(authProvider.notifier).signOut(),
-                  child: _buildNavItem('Salir', isMobile, '/access', context)),
+                  onTap: () {
+                    Future.microtask(() {
+                      ref.read(authProvider.notifier).signOut();
+                      context.go('/');
+                    });
+                  },
+                  child: Text(
+                    'Salir',
+                    style: GoogleFonts.inter(
+                      fontSize: isMobile ? 16 : 20,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  )),
             ],
           ),
         ],

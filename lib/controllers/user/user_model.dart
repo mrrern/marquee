@@ -35,7 +35,7 @@ abstract class UserInfo with _$UserInfo {
 @freezed
 abstract class Boda with _$Boda {
   const factory Boda({
-    required String id,
+    required int id,
     required String usuarioId,
     required DateTime fecha,
     required String ubicacion,

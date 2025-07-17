@@ -222,19 +222,28 @@ class MusicFormContent extends ConsumerWidget {
         const SizedBox(height: 14),
         _buildSectionText('SI CONSIDERAS ALGO DE INTERES...'),
         const SizedBox(height: 14),
-        Container(
+        FormInputField(
           height: 148,
-          decoration: BoxDecoration(
-            color: const Color(0xFFD9D9D9),
-            borderRadius: BorderRadius.circular(4),
-          ),
+          multiline: true,
         ),
         const SizedBox(height: 29),
         Center(
           child: HoverButton(press: () {
             if (formKeyMusic.currentState!.validate()) {
-              final success =
-                  ref.read(weddingMusicFormProvider.notifier).saveForm();
+              final esposo = ref.watch(groomLinksProvider.notifier);
+              final esposa = ref.watch(groomLinksProvider.notifier);
+
+              print(esposa);
+              ref
+                  .read(weddingMusicFormProvider.notifier)
+                  .addBrideSong(esposa.toString());
+
+              print(esposo);
+              ref
+                  .read(weddingMusicFormProvider.notifier)
+                  .addGroomSong(esposo.toString());
+
+              ref.read(weddingMusicFormProvider.notifier).saveForm();
             }
             context.go('/contract');
           }, "GUARDAR"),
@@ -244,37 +253,68 @@ class MusicFormContent extends ConsumerWidget {
   }
 
   Widget _buildLinkInputSection(WidgetRef ref) {
-    final groomLinks = ref.watch(groomLinksProvider);
-    final brideLinks = ref.watch(brideLinksProvider);
-
+    final List<String> esposo = ref.watch(groomLinksProvider);
+    final List<String> esposa = ref.watch(brideLinksProvider);
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
-          child: Column(
-            children: List.generate(
-              groomLinks.length,
-              (index) => DynamicTextFieldRowWithValue(
-                provider: groomLinksProvider,
-                index: index,
-                height: 35,
-              ),
-            ),
-          ),
-        ),
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            DynamicTextFieldEsposo(),
+            Padding(padding: EdgeInsetsGeometry.directional(top: 8.0)),
+            if (esposo.isEmpty) Text('Aqui aparecerán tus links'),
+            if (esposo.isNotEmpty)
+              ...esposo.asMap().entries.map((e) {
+                final link = e.value;
+                final index = e.key;
+                return GestureDetector(
+                  onTap: () {
+                    ref.read(groomLinksProvider.notifier).removeSong(index);
+                  },
+                  child: Container(
+                    height: 35,
+                    padding: EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFD9D9D9),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(link),
+                  ),
+                );
+              }).toList(),
+          ],
+        )),
         const SizedBox(width: 25),
         Expanded(
-          child: Column(
-            children: List.generate(
-              brideLinks.length,
-              (index) => DynamicTextFieldRowWithValue(
-                provider: brideLinksProvider,
-                index: index,
-                height: 35,
-              ),
-            ),
-          ),
-        ),
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            DynamicTextFieldEsposa(),
+            Padding(padding: EdgeInsetsGeometry.directional(top: 8.0)),
+            if (esposa.isEmpty) Text('Aqui aparecerán tus links'),
+            if (esposa.isNotEmpty)
+              ...esposa.asMap().entries.map((e) {
+                final link = e.value;
+                final index = e.key;
+                return GestureDetector(
+                  onTap: () {
+                    ref.read(brideLinksProvider.notifier).removeSong(index);
+                  },
+                  child: Container(
+                    height: 35,
+                    padding: EdgeInsets.all(3),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFD9D9D9),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(link),
+                  ),
+                );
+              }).toList(),
+          ],
+        )),
       ],
     );
   }

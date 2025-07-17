@@ -51,6 +51,8 @@ export "package:bodas/controllers/boda/boda_model.dart";
 export 'package:bodas/controllers/musica/music_model.dart';
 export 'package:bodas/controllers/cotizacion/cotizacion_model.dart';
 export 'package:bodas/logic/music_logic.dart';
+export 'package:bodas/logic/notes_logic.dart';
+export 'package:bodas/controllers/notas/notes_model.dart';
 
 //widgets
 export 'package:bodas/widgets/navbar_item.dart';

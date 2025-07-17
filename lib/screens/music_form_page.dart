@@ -10,9 +10,11 @@ class MusicFormScreen extends ConsumerStatefulWidget {
 
 class _MusicFormScreenState extends ConsumerState<MusicFormScreen> {
   @override
+  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(

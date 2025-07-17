@@ -48,7 +48,7 @@ Map<String, dynamic> _$UserInfoToJson(_UserInfo instance) => <String, dynamic>{
     };
 
 _Boda _$BodaFromJson(Map<String, dynamic> json) => _Boda(
-      id: json['id'] as String,
+      id: (json['id'] as num).toInt(),
       usuarioId: json['usuarioId'] as String,
       fecha: DateTime.parse(json['fecha'] as String),
       ubicacion: json['ubicacion'] as String,
