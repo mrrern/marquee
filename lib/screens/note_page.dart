@@ -29,7 +29,7 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
         }
         final bodaId = snapshot.data;
         if (bodaId == null) {
-          return const Center(child: Text('No tienes bodas registradas.'));
+          return _NotesEmptyScreen();
         }
 
         // Cargar notas y mostrar la UI normal
@@ -243,6 +243,149 @@ class _NotesScreenBody extends ConsumerWidget {
                 ),
               ),
             ),
+        ],
+      ),
+    );
+  }
+}
+
+// Widget para pantalla vacía de notas
+class _NotesEmptyScreen extends StatelessWidget {
+  const _NotesEmptyScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final isMobile = size.width < 850;
+    const emptyText = 'No tienes bodas registradas.';
+
+    return Scaffold(
+      body: Row(
+        children: [
+          // Sidebar
+          SidebarMenu(),
+
+          // Main content
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? 10 : 40,
+                vertical: isMobile ? 10 : 20,
+              ),
+              child: Column(
+                children: [
+                  // Header
+                  HeaderWidget(),
+
+                  // Notes container
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          // Notes header with description
+                          Container(
+                            padding: const EdgeInsets.all(20),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFD9D9D9),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    emptyText,
+                                    style: TextStyle(
+                                      color: const Color(0xFF797979),
+                                      fontFamily: 'Inter',
+                                      fontSize: isMobile ? 12 : 15,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.3,
+                                    ),
+                                    textAlign: isMobile
+                                        ? TextAlign.left
+                                        : TextAlign.center,
+                                  ),
+                                ),
+                                const SizedBox(width: 20),
+                                Container(
+                                  width: 56,
+                                  height: 52,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(5),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Color.fromRGBO(0, 0, 0, 0.25),
+                                        offset: Offset(0, 7),
+                                        blurRadius: 0,
+                                      ),
+                                    ],
+                                  ),
+                                  child: const Icon(
+                                    Icons.add,
+                                    size: 30,
+                                    color: Color(0xFF667085),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          // Cork board con mensaje vacío
+                          Container(
+                            constraints: const BoxConstraints(minHeight: 570),
+                            padding: EdgeInsets.all(isMobile ? 10 : 20),
+                            decoration: BoxDecoration(
+                              image: const DecorationImage(
+                                image: AssetImage(pizarra),
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                emptyText,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Inter',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          // Paginación con mensaje vacío
+                          Container(
+                            width: 194,
+                            height: 39,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFD9D9D9),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: const Center(
+                              child: Text(
+                                emptyText,
+                                style: TextStyle(
+                                  color: Color(0xFF999999),
+                                  fontFamily: 'Inter',
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
