@@ -8,8 +8,8 @@ FROM debian:latest AS build-env
 RUN mkdir /usr/local/flutter
 
 # Install Flutter
-RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
-ENV PATH="/usr/local/flutter/bin:/usr/local/flutter/bin/cache/dart-sdk/bin:${PATH}"
+RUN git clone https://github.com/flutter/flutter.git 
+ENV PATH="/flutter/bin:${PATH}"
 RUN flutter doctor -v
 RUN flutter channel stable
 RUN flutter upgrade
