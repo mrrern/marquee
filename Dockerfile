@@ -26,7 +26,7 @@ COPY . .
 RUN flutter pub get
 
 # Build the app for the web
-RUN flutter build web
+RUN flutter build web --wasm
 
 # Production stage
 FROM nginx:1.21.1-alpine
