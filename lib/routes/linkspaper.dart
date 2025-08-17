@@ -34,6 +34,7 @@ export 'package:bodas/screens/remarketing_page.dart';
 export 'package:bodas/screens/access_admin_page.dart';
 export 'package:bodas/logic/marketing_logic.dart';
 export 'package:bodas/controllers/cotizacion/cotizacion_request.dart';
+export 'package:bodas/screens/admin_note_page.dart';
 
 //routes
 export 'package:bodas/routes/routes.dart';

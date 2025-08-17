@@ -13,7 +13,7 @@ class MarqueeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: isMobile ? 120 : 160,
+      height: isMobile ? 80 : 120,
       decoration: BoxDecoration(
         color: const Color(0xFFECECEC),
         borderRadius: BorderRadius.circular(20),
@@ -32,7 +32,7 @@ class MarqueeCard extends StatelessWidget {
             title,
             textAlign: TextAlign.center,
             style: GoogleFonts.inter(
-              fontSize: isMobile ? 22 : 32,
+              fontSize: isMobile ? 18 : 28,
               fontWeight: FontWeight.w700,
               color: const Color(0xFF0C0C0C),
             ),

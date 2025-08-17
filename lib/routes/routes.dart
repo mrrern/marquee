@@ -163,8 +163,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/admin/notas',
-        name: 'notas',
-        builder: (context, state) => const NotesScreen(),
+        name: 'admin_notas',
+        builder: (context, state) => const NotesAdminScreen(),
       ),
       GoRoute(
         path: '/admin/remarketing',

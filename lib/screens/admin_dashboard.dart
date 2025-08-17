@@ -88,13 +88,6 @@ class MarqueeAdminDashboard extends StatelessWidget {
               SizedBox(
                 height: isMobile ? 250 : 100,
               ),
-              Center(
-                child: Image.asset(
-                  logo,
-                  width: isMobile ? screenSize.width * 0.9 : 380,
-                  fit: BoxFit.contain,
-                ),
-              ),
               SizedBox(
                 height: isMobile ? 250 : 100,
               ),
