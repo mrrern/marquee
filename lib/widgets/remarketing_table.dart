@@ -2,7 +2,7 @@
 import 'package:bodas/routes/linkspaper.dart';
 
 class RemarketingTable extends ConsumerWidget {
-  final List<RemarketingUser> users;
+  final List<RemarketingUserModel> users;
 
   const RemarketingTable({super.key, required this.users});
 
@@ -43,7 +43,7 @@ class RemarketingTable extends ConsumerWidget {
               final user = entry.value;
               return DataRow(
                 cells: [
-                  DataCell(Text(user.name)),
+                  DataCell(Text(user.nombre)),
                   DataCell(
                     Row(
                       children: [
@@ -51,23 +51,23 @@ class RemarketingTable extends ConsumerWidget {
                           width: 10,
                           height: 10,
                           decoration: BoxDecoration(
-                            color: getStatusColor(user.status),
+                            color: getStatusColor(user.tieneBodaActiva),
                             shape: BoxShape.circle,
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Text(user.status),
+                        Text(user.tieneBodaActiva ? "Si" : "No"),
                       ],
                     ),
                   ),
-                  DataCell(Text(user.date)),
+                  DataCell(Text(user.fechaCreacion.toIso8601String())),
                   DataCell(Text(user.email)),
                   DataCell(
                     Checkbox(
                       value: user.isSelected,
                       onChanged: (value) => ref
-                          .read(remarketingProvider.notifier)
-                          .toggleUserSelection(index),
+                          .read(selectedRemarketingUserProvider.notifier)
+                          .state = user,
                     ),
                   ),
                 ],
@@ -90,7 +90,7 @@ class RemarketingTable extends ConsumerWidget {
 
 // Tarjeta para versión móvil
 class RemarketingCard extends ConsumerWidget {
-  final RemarketingUser user;
+  final RemarketingUserModel user;
 
   const RemarketingCard({super.key, required this.user});
 
@@ -103,7 +103,7 @@ class RemarketingCard extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(user.name,
+            Text(user.nombre,
                 style: GoogleFonts.inter(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Row(
@@ -112,23 +112,23 @@ class RemarketingCard extends ConsumerWidget {
                   width: 10,
                   height: 10,
                   decoration: BoxDecoration(
-                    color: getStatusColor(user.status),
+                    color: getStatusColor(user.tieneBodaActiva),
                     shape: BoxShape.circle,
                   ),
                 ),
                 const SizedBox(width: 8),
-                Text(user.status),
+                Text(user.tieneBodaActiva ? "Si" : "No"),
               ],
             ),
             const SizedBox(height: 8),
-            Text(user.date),
+            Text(user.fechaCreacion.toIso8601String()),
             const SizedBox(height: 8),
             Text(user.email),
             Checkbox(
               value: user.isSelected,
               onChanged: (value) => ref
-                  .read(remarketingProvider.notifier)
-                  .toggleUserSelection(user.hashCode),
+                  .read(selectedRemarketingUserProvider.notifier)
+                  .state = user,
             ),
           ],
         ),
@@ -137,15 +137,11 @@ class RemarketingCard extends ConsumerWidget {
   }
 }
 
-Color getStatusColor(String status) {
-  switch (status.toLowerCase()) {
-    case 'active':
+Color getStatusColor(bool status) {
+  switch (status) {
+    case true:
       return Colors.green;
-    case 'imprison':
+    case false:
       return Colors.red;
-    case 'interlifed':
-      return Colors.orange;
-    default:
-      return Colors.grey;
   }
 }

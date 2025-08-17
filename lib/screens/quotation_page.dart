@@ -1,32 +1,31 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-
-
 class QuotationRequestScreen extends ConsumerStatefulWidget {
   const QuotationRequestScreen({super.key});
 
   @override
-  ConsumerState<QuotationRequestScreen> createState() => _QuotationRequestScreenState();
+  ConsumerState<QuotationRequestScreen> createState() =>
+      _QuotationRequestScreenState();
 }
 
-class _QuotationRequestScreenState extends ConsumerState<QuotationRequestScreen> {
+class _QuotationRequestScreenState
+    extends ConsumerState<QuotationRequestScreen> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final size = MediaQuery.of(context).size;
       final isMobile = size.width < 850;
-      ref.read(quotationProvider.notifier).updateItemsPerPage(isMobile ? 4 : 6);
+      ref
+          .read(cotizacionRequestPaginationProvider.notifier)
+          .updateItemsPerPage(isMobile ? 4 : 6);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(quotationProvider);
-    final currentQuotations = state.quotations
-        .skip((state.currentPage - 1) * state.itemsPerPage)
-        .take(state.itemsPerPage)
-        .toList();
+    final state = ref.watch(cotizacionRequestPaginationProvider);
+    final currentQuotations = state.currentPageRequests;
 
     return Scaffold(
       body: Container(
@@ -63,7 +62,8 @@ class _QuotationRequestScreenState extends ConsumerState<QuotationRequestScreen>
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: [
-                        ...currentQuotations.map((quotation) => QuotationCard(quotation: quotation)),
+                        ...currentQuotations.map(
+                            (quotation) => QuotationCard(quotation: quotation)),
                         _buildPagination(state),
                       ],
                     ),
@@ -97,7 +97,7 @@ class _QuotationRequestScreenState extends ConsumerState<QuotationRequestScreen>
     );
   }
 
-   Widget _buildHeader(BuildContext context) {
+  Widget _buildHeader(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: const BoxDecoration(
@@ -186,9 +186,7 @@ class _QuotationRequestScreenState extends ConsumerState<QuotationRequestScreen>
     );
   }
 
-
-
-  Widget _buildPagination(QuotationState state) {
+  Widget _buildPagination(CotizacionRequestPaginationState state) {
     return Container(
       margin: const EdgeInsets.only(top: 20, bottom: 40),
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -201,14 +199,18 @@ class _QuotationRequestScreenState extends ConsumerState<QuotationRequestScreen>
         children: [
           for (int i = 1; i <= state.totalPages; i++)
             GestureDetector(
-              onTap: () => ref.read(quotationProvider.notifier).changePage(i),
+              onTap: () => ref
+                  .read(cotizacionRequestPaginationProvider.notifier)
+                  .changePage(i),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Text(
                   i == state.currentPage ? 'Pag $i' : '$i',
                   style: GoogleFonts.inter(
                     fontSize: 15,
-                    color: i == state.currentPage ? Colors.black : const Color(0xFF999999),
+                    color: i == state.currentPage
+                        ? Colors.black
+                        : const Color(0xFF999999),
                   ),
                 ),
               ),

@@ -18,3 +18,14 @@ abstract class CotizacionModel with _$CotizacionModel {
   factory CotizacionModel.fromJson(Map<String, dynamic> json) =>
       _$CotizacionModelFromJson(json);
 }
+
+@freezed
+abstract class CotizacionState with _$CotizacionState {
+  const factory CotizacionState({
+    @Default([]) List<CotizacionModel> cotizaciones,
+    @Default(false) bool isLoading,
+    @Default(false) bool hasNextPage,
+    @Default(1) int currentPage,
+    String? errorMessage,
+  }) = _CotizacionState;
+}

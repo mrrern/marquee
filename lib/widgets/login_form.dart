@@ -267,7 +267,6 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
     }
   } catch (e) {
     context.pop(); // Remove loading dialog
-    print('Login error: $e');
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Error al iniciar sesión: ${e.toString()}'),

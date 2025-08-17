@@ -283,7 +283,7 @@ class MusicFormContent extends ConsumerWidget {
                     child: Text(link),
                   ),
                 );
-              }).toList(),
+              }),
           ],
         )),
         const SizedBox(width: 25),
@@ -312,7 +312,7 @@ class MusicFormContent extends ConsumerWidget {
                     child: Text(link),
                   ),
                 );
-              }).toList(),
+              }),
           ],
         )),
       ],

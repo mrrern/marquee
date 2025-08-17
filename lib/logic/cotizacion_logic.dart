@@ -1,6 +1,8 @@
 import 'package:bodas/routes/linkspaper.dart';
-
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:io';
+
+part 'cotizacion_logic.freezed.dart';
 
 class CotizacionLogic {
   final SupabaseClient _supabase = Supabase.instance.client;
@@ -71,4 +73,85 @@ class CotizacionLogic {
       throw Exception('Error al eliminar el archivo: $e');
     }
   }
+
+  /// Obtiene todas las solicitudes de cotización (mock, reemplaza con lógica real)
+  Future<List<CotizacionRequest>> getAllCotizacionRequests() async {
+    // Aquí deberías consultar Supabase y armar la lista real
+    // Ejemplo mock:
+    return _supabase.from('bodas_lista').select().then(
+          (data) => (data as List)
+              .map((json) => CotizacionRequest.fromJson(json))
+              .toList(),
+        );
+  }
 }
+
+@freezed
+abstract class CotizacionRequestPaginationState
+    with _$CotizacionRequestPaginationState {
+  const factory CotizacionRequestPaginationState({
+    @Default([]) List<CotizacionRequest> allRequests,
+    @Default([]) List<CotizacionRequest> currentPageRequests,
+    @Default(1) int currentPage,
+    @Default(1) int totalPages,
+    @Default(10) int itemsPerPage,
+    @Default(false) bool isLoading,
+    String? errorMessage,
+  }) = _CotizacionRequestPaginationState;
+}
+
+class CotizacionRequestPaginationNotifier
+    extends StateNotifier<CotizacionRequestPaginationState> {
+  CotizacionRequestPaginationNotifier(this._logic)
+      : super(const CotizacionRequestPaginationState()) {
+    loadRequests();
+  }
+
+  final CotizacionLogic _logic;
+
+  Future<void> loadRequests() async {
+    state = state.copyWith(isLoading: true, errorMessage: null);
+    try {
+      final all = await _logic.getAllCotizacionRequests();
+      final totalPages =
+          (all.length / state.itemsPerPage).ceil().clamp(1, 9999);
+      final currentPageRequests = all.take(state.itemsPerPage).toList();
+      state = state.copyWith(
+        allRequests: all,
+        currentPage: 1,
+        totalPages: totalPages,
+        currentPageRequests: currentPageRequests,
+        isLoading: false,
+      );
+    } catch (e) {
+      state = state.copyWith(isLoading: false, errorMessage: e.toString());
+    }
+  }
+
+  void changePage(int page) {
+    if (page < 1 || page > state.totalPages) return;
+    final start = (page - 1) * state.itemsPerPage;
+    final end = (start + state.itemsPerPage).clamp(0, state.allRequests.length);
+    final currentPageRequests = state.allRequests.sublist(start, end);
+    state = state.copyWith(
+        currentPage: page, currentPageRequests: currentPageRequests);
+  }
+
+  void updateItemsPerPage(int count) {
+    final totalPages = (state.allRequests.length / count).ceil().clamp(1, 9999);
+    final currentPageRequests = state.allRequests.take(count).toList();
+    state = state.copyWith(
+      itemsPerPage: count,
+      totalPages: totalPages,
+      currentPage: 1,
+      currentPageRequests: currentPageRequests,
+    );
+  }
+}
+
+final cotizacionRequestPaginationProvider = StateNotifierProvider<
+    CotizacionRequestPaginationNotifier,
+    CotizacionRequestPaginationState>((ref) {
+  final logic = CotizacionLogic();
+  return CotizacionRequestPaginationNotifier(logic);
+});

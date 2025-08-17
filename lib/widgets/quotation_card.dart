@@ -1,7 +1,7 @@
 import 'package:bodas/routes/linkspaper.dart';
 
 class QuotationCard extends StatelessWidget {
-  final QuotationRequest quotation;
+  final CotizacionRequest quotation;
   final VoidCallback? onTap;
 
   const QuotationCard({
@@ -20,7 +20,7 @@ class QuotationCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.25),
+            color: Colors.black.withValues(alpha: 0.25),
             blurRadius: 4,
             offset: const Offset(0, 4),
           ),
@@ -92,18 +92,11 @@ class QuotationCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          quotation.name,
+                          quotation.nombre,
                           style: GoogleFonts.inter(
                             fontSize: 10,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xFF101828),
-                          ),
-                        ),
-                        Text(
-                          quotation.username,
-                          style: GoogleFonts.inter(
-                            fontSize: 10,
-                            color: const Color(0xFF667085),
                           ),
                         ),
                       ],
@@ -121,7 +114,7 @@ class QuotationCard extends StatelessWidget {
                       height: 8,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: quotation.isActive
+                        color: quotation.isSumitedBoda
                             ? const Color(0xFF12B76A)
                             : Colors.grey,
                       ),
@@ -142,7 +135,7 @@ class QuotationCard extends StatelessWidget {
 
                 // Date
                 Text(
-                  quotation.date,
+                  quotation.fechaUltimaBoda.toString(),
                   style: GoogleFonts.inter(
                     fontSize: 10,
                     color: const Color(0xFF667085),
@@ -200,7 +193,7 @@ class QuotationCard extends StatelessWidget {
                 SizedBox(
                   width: 73,
                   child: Text(
-                    quotation.ceremonyType,
+                    quotation.tipoCeremonia,
                     style: GoogleFonts.inter(
                       fontSize: 10,
                       color: const Color(0xFF667085),
@@ -209,7 +202,7 @@ class QuotationCard extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    quotation.location,
+                    quotation.lugarCeremonia,
                     style: GoogleFonts.inter(
                       fontSize: 10,
                       color: const Color(0xFF667085),
@@ -273,7 +266,7 @@ class QuotationCard extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  quotation.guests.toString(),
+                  quotation.invitados.toString(),
                   style: GoogleFonts.inter(
                     fontSize: 10,
                     color: const Color(0xFF667085),
@@ -312,31 +305,24 @@ class QuotationCard extends StatelessWidget {
     );
   }
 
-  Widget _buildAvatar(QuotationRequest quotation) {
-    if (quotation.avatarUrl.isNotEmpty) {
-      return CircleAvatar(
-        radius: 20,
-        backgroundImage: AssetImage(quotation.avatarUrl),
-      );
-    } else {
-      // Placeholder with initials
-      final initials = quotation.name
-          .split(' ')
-          .take(2)
-          .map((name) => name.isNotEmpty ? name[0] : '')
-          .join();
+  Widget _buildAvatar(CotizacionRequest quotation) {
+    // Placeholder with initials
+    final initials = quotation.nombre
+        .split(' ')
+        .take(2)
+        .map((name) => name.isNotEmpty ? name[0] : '')
+        .join();
 
-      return CircleAvatar(
-        radius: 20,
-        backgroundColor: const Color(0xFFF9F5FF),
-        child: Text(
-          initials,
-          style: GoogleFonts.inter(
-            fontSize: 16,
-            color: const Color(0xFF7F56D9),
-          ),
+    return CircleAvatar(
+      radius: 17, // 20 * 0.85
+      backgroundColor: const Color(0xFFF9F5FF),
+      child: Text(
+        initials,
+        style: GoogleFonts.inter(
+          fontSize: 13, // 16 * 0.85
+          color: const Color(0xFF7F56D9),
         ),
-      );
-    }
+      ),
+    );
   }
 }

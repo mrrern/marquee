@@ -1,8 +1,9 @@
+import 'package:bodas/logic/cotizacion_logic.dart';
 import 'package:bodas/routes/linkspaper.dart';
 
 class QuotationTable extends StatelessWidget {
-  final List<QuotationRequest> quotations;
-  final Function(QuotationRequest)? onSelect;
+  final List<CotizacionRequest> quotations;
+  final Function(CotizacionLogic)? onSelect;
 
   const QuotationTable({
     super.key,
@@ -138,33 +139,20 @@ class QuotationTable extends StatelessWidget {
                       children: [
                         _buildAvatar(quotation),
                         const SizedBox(width: 10), // 12 * 0.85
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              quotation.name,
-                              style: GoogleFonts.inter(
-                                fontSize: 12, // 14 * 0.85
-                                fontWeight: FontWeight.w500,
-                                color: const Color(0xFF101828),
-                              ),
-                            ),
-                            Text(
-                              quotation.username,
-                              style: GoogleFonts.inter(
-                                fontSize: 12, // 14 * 0.85
-                                color: const Color(0xFF667085),
-                              ),
-                            ),
-                          ],
+                        Text(
+                          quotation.nombre,
+                          style: GoogleFonts.inter(
+                            fontSize: 12, // 14 * 0.85
+                            fontWeight: FontWeight.w500,
+                            color: const Color(0xFF101828),
+                          ),
                         ),
                       ],
                     ),
                   ),
                   DataCell(
                     Text(
-                      quotation.date,
+                      quotation.fechaUltimaBoda.toString(),
                       style: GoogleFonts.inter(
                         fontSize: 12, // 14 * 0.85
                         color: const Color(0xFF667085),
@@ -173,7 +161,7 @@ class QuotationTable extends StatelessWidget {
                   ),
                   DataCell(
                     Text(
-                      quotation.guests.toString(),
+                      quotation.invitados.toString(),
                       style: GoogleFonts.inter(
                         fontSize: 12, // 14 * 0.85
                         color: const Color(0xFF667085),
@@ -182,7 +170,7 @@ class QuotationTable extends StatelessWidget {
                   ),
                   DataCell(
                     Text(
-                      quotation.ceremonyType,
+                      quotation.tipoCeremonia,
                       style: GoogleFonts.inter(
                         fontSize: 12, // 14 * 0.85
                         color: const Color(0xFF667085),
@@ -191,7 +179,7 @@ class QuotationTable extends StatelessWidget {
                   ),
                   DataCell(
                     Text(
-                      quotation.location,
+                      quotation.lugarCeremonia,
                       style: GoogleFonts.inter(
                         fontSize: 12, // 14 * 0.85
                         color: const Color(0xFF667085),
@@ -199,7 +187,7 @@ class QuotationTable extends StatelessWidget {
                     ),
                   ),
                   DataCell(
-                    quotation.hasQuotation
+                    quotation.isSumitedBoda
                         ? Icon(
                             Icons.picture_as_pdf,
                             size: 46,
@@ -207,7 +195,7 @@ class QuotationTable extends StatelessWidget {
                         : const SizedBox(),
                   ),
                   DataCell(
-                    quotation.hasSignedContract
+                    quotation.isSumitedBoda
                         ? Icon(
                             Icons.picture_as_pdf,
                             size: 46,
@@ -232,7 +220,7 @@ class QuotationTable extends StatelessWidget {
                     ),
                   ),
                   DataCell(
-                    quotation.isAccepted
+                    quotation.isSumitedBoda
                         ? Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 7, // 8 * 0.85
@@ -262,31 +250,24 @@ class QuotationTable extends StatelessWidget {
     );
   }
 
-  Widget _buildAvatar(QuotationRequest quotation) {
-    if (quotation.avatarUrl.isNotEmpty) {
-      return CircleAvatar(
-        radius: 17, // 20 * 0.85
-        backgroundImage: AssetImage(quotation.avatarUrl),
-      );
-    } else {
-      // Placeholder with initials
-      final initials = quotation.name
-          .split(' ')
-          .take(2)
-          .map((name) => name.isNotEmpty ? name[0] : '')
-          .join();
+  Widget _buildAvatar(CotizacionRequest quotation) {
+    // Placeholder with initials
+    final initials = quotation.nombre
+        .split(' ')
+        .take(2)
+        .map((name) => name.isNotEmpty ? name[0] : '')
+        .join();
 
-      return CircleAvatar(
-        radius: 17, // 20 * 0.85
-        backgroundColor: const Color(0xFFF9F5FF),
-        child: Text(
-          initials,
-          style: GoogleFonts.inter(
-            fontSize: 13, // 16 * 0.85
-            color: const Color(0xFF7F56D9),
-          ),
+    return CircleAvatar(
+      radius: 17, // 20 * 0.85
+      backgroundColor: const Color(0xFFF9F5FF),
+      child: Text(
+        initials,
+        style: GoogleFonts.inter(
+          fontSize: 13, // 16 * 0.85
+          color: const Color(0xFF7F56D9),
         ),
-      );
-    }
+      ),
+    );
   }
 }

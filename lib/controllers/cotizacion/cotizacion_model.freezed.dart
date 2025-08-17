@@ -259,4 +259,242 @@ class __$CotizacionModelCopyWithImpl<$Res>
   }
 }
 
+/// @nodoc
+mixin _$CotizacionState {
+  List<CotizacionModel> get cotizaciones;
+  bool get isLoading;
+  bool get hasNextPage;
+  int get currentPage;
+  String? get errorMessage;
+
+  /// Create a copy of CotizacionState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $CotizacionStateCopyWith<CotizacionState> get copyWith =>
+      _$CotizacionStateCopyWithImpl<CotizacionState>(
+          this as CotizacionState, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is CotizacionState &&
+            const DeepCollectionEquality()
+                .equals(other.cotizaciones, cotizaciones) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.hasNextPage, hasNextPage) ||
+                other.hasNextPage == hasNextPage) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(cotizaciones),
+      isLoading,
+      hasNextPage,
+      currentPage,
+      errorMessage);
+
+  @override
+  String toString() {
+    return 'CotizacionState(cotizaciones: $cotizaciones, isLoading: $isLoading, hasNextPage: $hasNextPage, currentPage: $currentPage, errorMessage: $errorMessage)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $CotizacionStateCopyWith<$Res> {
+  factory $CotizacionStateCopyWith(
+          CotizacionState value, $Res Function(CotizacionState) _then) =
+      _$CotizacionStateCopyWithImpl;
+  @useResult
+  $Res call(
+      {List<CotizacionModel> cotizaciones,
+      bool isLoading,
+      bool hasNextPage,
+      int currentPage,
+      String? errorMessage});
+}
+
+/// @nodoc
+class _$CotizacionStateCopyWithImpl<$Res>
+    implements $CotizacionStateCopyWith<$Res> {
+  _$CotizacionStateCopyWithImpl(this._self, this._then);
+
+  final CotizacionState _self;
+  final $Res Function(CotizacionState) _then;
+
+  /// Create a copy of CotizacionState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? cotizaciones = null,
+    Object? isLoading = null,
+    Object? hasNextPage = null,
+    Object? currentPage = null,
+    Object? errorMessage = freezed,
+  }) {
+    return _then(_self.copyWith(
+      cotizaciones: null == cotizaciones
+          ? _self.cotizaciones
+          : cotizaciones // ignore: cast_nullable_to_non_nullable
+              as List<CotizacionModel>,
+      isLoading: null == isLoading
+          ? _self.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasNextPage: null == hasNextPage
+          ? _self.hasNextPage
+          : hasNextPage // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentPage: null == currentPage
+          ? _self.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      errorMessage: freezed == errorMessage
+          ? _self.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _CotizacionState implements CotizacionState {
+  const _CotizacionState(
+      {final List<CotizacionModel> cotizaciones = const [],
+      this.isLoading = false,
+      this.hasNextPage = false,
+      this.currentPage = 1,
+      this.errorMessage})
+      : _cotizaciones = cotizaciones;
+
+  final List<CotizacionModel> _cotizaciones;
+  @override
+  @JsonKey()
+  List<CotizacionModel> get cotizaciones {
+    if (_cotizaciones is EqualUnmodifiableListView) return _cotizaciones;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_cotizaciones);
+  }
+
+  @override
+  @JsonKey()
+  final bool isLoading;
+  @override
+  @JsonKey()
+  final bool hasNextPage;
+  @override
+  @JsonKey()
+  final int currentPage;
+  @override
+  final String? errorMessage;
+
+  /// Create a copy of CotizacionState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$CotizacionStateCopyWith<_CotizacionState> get copyWith =>
+      __$CotizacionStateCopyWithImpl<_CotizacionState>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _CotizacionState &&
+            const DeepCollectionEquality()
+                .equals(other._cotizaciones, _cotizaciones) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.hasNextPage, hasNextPage) ||
+                other.hasNextPage == hasNextPage) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_cotizaciones),
+      isLoading,
+      hasNextPage,
+      currentPage,
+      errorMessage);
+
+  @override
+  String toString() {
+    return 'CotizacionState(cotizaciones: $cotizaciones, isLoading: $isLoading, hasNextPage: $hasNextPage, currentPage: $currentPage, errorMessage: $errorMessage)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$CotizacionStateCopyWith<$Res>
+    implements $CotizacionStateCopyWith<$Res> {
+  factory _$CotizacionStateCopyWith(
+          _CotizacionState value, $Res Function(_CotizacionState) _then) =
+      __$CotizacionStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {List<CotizacionModel> cotizaciones,
+      bool isLoading,
+      bool hasNextPage,
+      int currentPage,
+      String? errorMessage});
+}
+
+/// @nodoc
+class __$CotizacionStateCopyWithImpl<$Res>
+    implements _$CotizacionStateCopyWith<$Res> {
+  __$CotizacionStateCopyWithImpl(this._self, this._then);
+
+  final _CotizacionState _self;
+  final $Res Function(_CotizacionState) _then;
+
+  /// Create a copy of CotizacionState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? cotizaciones = null,
+    Object? isLoading = null,
+    Object? hasNextPage = null,
+    Object? currentPage = null,
+    Object? errorMessage = freezed,
+  }) {
+    return _then(_CotizacionState(
+      cotizaciones: null == cotizaciones
+          ? _self._cotizaciones
+          : cotizaciones // ignore: cast_nullable_to_non_nullable
+              as List<CotizacionModel>,
+      isLoading: null == isLoading
+          ? _self.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      hasNextPage: null == hasNextPage
+          ? _self.hasNextPage
+          : hasNextPage // ignore: cast_nullable_to_non_nullable
+              as bool,
+      currentPage: null == currentPage
+          ? _self.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      errorMessage: freezed == errorMessage
+          ? _self.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
 // dart format on

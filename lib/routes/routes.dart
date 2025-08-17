@@ -169,7 +169,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/admin/remarketing',
         name: 'remarketing',
-        builder: (context, state) => const RemarketingScreen(),
+        builder: (context, state) => const RemarketingPage(),
       ),
       GoRoute(
         path: '/admin/usuarios',
