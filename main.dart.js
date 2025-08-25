@@ -53435,7 +53435,7 @@ A.auj.prototype={
 $0(){return A.eG(this.a).hJ(0,"/",null)},
 $S:0}
 A.uS.prototype={
-cl(a,b){var s=null,r=A.dh(s,A.e4("assets/logo.png",B.oU,B.cE,65,s,309),B.z,!1,s,s,s,s,s,s,s,s,s,s,s,s,s,new A.aew(a),s,s,s,s,s,s),q=this.JB("Menu",!1,"/admin",a),p=A.aQ(s,s,24),o=this.JB("Usuario",!1,"/admin/user",a),n=A.aQ(s,s,24),m=this.JB("Men\xfa",!1,"/admin/menu",a),l=A.aQ(s,s,24),k=t.p
+cl(a,b){var s=null,r=A.dh(s,A.e4("assets/logo.png",B.oU,B.cE,65,s,309),B.z,!1,s,s,s,s,s,s,s,s,s,s,s,s,s,new A.aew(a),s,s,s,s,s,s),q=this.JB("Menu",!1,"/admin",a),p=A.aQ(s,s,24),o=this.JB("Usuario",!1,"/admin/usuarios",a),n=A.aQ(s,s,24),m=this.JB("Notas",!1,"/admin/notas",a),l=A.aQ(s,s,24),k=t.p
 return A.ar(s,A.aX(A.b([r,A.aX(A.b([q,p,o,n,m,l,A.dh(s,A.a0("Salir",s,s,s,A.ad().$3$color$fontSize$fontWeight(B.n,20,B.aq),s,s,s),B.z,!1,s,s,s,s,s,s,s,s,s,s,s,s,s,new A.aex(b,a),s,s,s,s,s,s)],k),B.o,B.l,B.i,0,s)],k),B.o,B.bw,B.i,0,s),B.h,s,s,s,s,s,s,s,B.ab,s,s,s)},
 JB(a,b,c,d){var s=null
 return A.dh(s,A.a0(a,s,s,s,A.ad().$3$color$fontSize$fontWeight(B.n,20,B.aq),s,s,s),B.z,!1,s,s,s,s,s,s,s,s,s,s,s,s,s,new A.aeu(d,c),s,s,s,s,s,s)}}
