@@ -169,11 +169,11 @@ class AdminNavBar extends ConsumerWidget {
               SizedBox(
                 width: isMobile ? 7 : 24,
               ),
-              _buildNavItem('Usuario', isMobile, '/admin/user', context),
+              _buildNavItem('Usuario', isMobile, '/admin/usuarios', context),
               SizedBox(
                 width: isMobile ? 7 : 24,
               ),
-              _buildNavItem('Menú', isMobile, '/admin/menu', context),
+              _buildNavItem('Notas', isMobile, '/admin/notas', context),
               SizedBox(width: isMobile ? 7 : 24),
               GestureDetector(
                   onTap: () {
