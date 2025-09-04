@@ -1,4 +1,3 @@
-import 'package:bodas/controllers/user/user_model.dart';
 import 'package:bodas/routes/linkspaper.dart';
 
 class UserLogic {

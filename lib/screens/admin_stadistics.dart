@@ -36,113 +36,110 @@ class AdminStadisticsScreen extends ConsumerWidget {
         },
         child: const Icon(Icons.download),
       ),
-      body: Row(
-        children: [
-          const SidebarMenu(),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                  horizontal: isMobile ? 12 : 40, vertical: isMobile ? 12 : 20),
-              child: statsAsync.when(
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (e, st) => Center(child: Text('Error: $e')),
-                data: (stats) {
-                  final data = stats.monthlyWeddings
-                      .map((m) => ChartData(m.month, m.count))
-                      .toList();
+      body: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: Container(
+          padding: EdgeInsets.symmetric(
+              horizontal: isMobile ? 12 : 40, vertical: isMobile ? 12 : 20),
+          child: statsAsync.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (e, st) => Center(child: Text('Error: $e')),
+            data: (stats) {
+              final data = stats.monthlyWeddings
+                  .map((m) => ChartData(m.month, m.count))
+                  .toList();
 
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
+                  AdminNavBar(),
+                  const SizedBox(height: 10),
+                  Center(
+                    child: Text('Estadística',
+                        style: GoogleFonts.inter(
+                            fontSize: 32, fontWeight: FontWeight.w700)),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Summary cards
+                  Row(
                     children: [
-                      const SizedBox(height: 10),
-                      Center(
-                        child: Text('Estadística',
-                            style: GoogleFonts.inter(
-                                fontSize: 32, fontWeight: FontWeight.w700)),
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Summary cards
-                      Row(
-                        children: [
-                          _SummaryCard(
-                              title: 'Numero de Usuarios registrados',
-                              value: stats.totalUsers.toString()),
-                          const SizedBox(width: 16),
-                          _SummaryCard(
-                              title: 'Numero de usuario contratados',
-                              value: stats.contractedUsers.toString()),
-                          const SizedBox(width: 16),
-                          _SummaryCard(
-                              title: 'Numero de usuarios no contratados',
-                              value: stats.nonContractedUsers.toString()),
-                          const Spacer(),
-                          // Year selector placeholder
-                          DropdownButton<int>(
-                            value: year,
-                            items: [
-                              for (int y = year - 3; y <= year; y++)
-                                DropdownMenuItem(value: y, child: Text('$y'))
-                            ],
-                            onChanged: (v) {
-                              if (v != null)
-                                ref.invalidate(statisticsProvider(v));
-                            },
-                          ),
+                      _SummaryCard(
+                          title: 'Numero de Usuarios registrados',
+                          value: stats.totalUsers.toString()),
+                      const SizedBox(width: 16),
+                      _SummaryCard(
+                          title: 'Numero de usuario contratados',
+                          value: stats.contractedUsers.toString()),
+                      const SizedBox(width: 16),
+                      _SummaryCard(
+                          title: 'Numero de usuarios no contratados',
+                          value: stats.nonContractedUsers.toString()),
+                      const Spacer(),
+                      // Year selector placeholder
+                      DropdownButton<int>(
+                        value: year,
+                        items: [
+                          for (int y = year - 3; y <= year; y++)
+                            DropdownMenuItem(value: y, child: Text('$y'))
                         ],
-                      ),
-
-                      const SizedBox(height: 20),
-
-                      // Chart
-                      Expanded(
-                        child: Card(
-                          elevation: 0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: SfCartesianChart(
-                              primaryXAxis: CategoryAxis(
-                                  majorGridLines:
-                                      const MajorGridLines(width: 0)),
-                              primaryYAxis: NumericAxis(
-                                majorGridLines: const MajorGridLines(
-                                    color: Color(0xFFECECEC)),
-                              ),
-                              series: <CartesianSeries<ChartData, String>>[
-                                ColumnSeries<ChartData, String>(
-                                  dataSource: data,
-                                  xValueMapper: (d, i) {
-                                    const months = [
-                                      'Ene',
-                                      'Feb',
-                                      'Mar',
-                                      'Abr',
-                                      'May',
-                                      'Jun',
-                                      'Jul',
-                                      'Ago',
-                                      'Sep',
-                                      'Oct',
-                                      'Nov',
-                                      'Dic'
-                                    ];
-                                    final idx = (d.month - 1).clamp(0, 11);
-                                    return months[idx];
-                                  },
-                                  yValueMapper: (d, i) => d.count,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        onChanged: (v) {
+                          if (v != null) ref.invalidate(statisticsProvider(v));
+                        },
                       ),
                     ],
-                  );
-                },
-              ),
-            ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Chart
+                  Expanded(
+                    child: Card(
+                      elevation: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: SfCartesianChart(
+                          primaryXAxis: CategoryAxis(
+                              majorGridLines: const MajorGridLines(width: 0)),
+                          primaryYAxis: NumericAxis(
+                            majorGridLines:
+                                const MajorGridLines(color: Color(0xFFECECEC)),
+                          ),
+                          series: <CartesianSeries<ChartData, String>>[
+                            ColumnSeries<ChartData, String>(
+                              dataSource: data,
+                              xValueMapper: (d, i) {
+                                const months = [
+                                  'Ene',
+                                  'Feb',
+                                  'Mar',
+                                  'Abr',
+                                  'May',
+                                  'Jun',
+                                  'Jul',
+                                  'Ago',
+                                  'Sep',
+                                  'Oct',
+                                  'Nov',
+                                  'Dic'
+                                ];
+                                final idx = (d.month - 1).clamp(0, 11);
+                                return months[idx];
+                              },
+                              yValueMapper: (d, i) => d.count,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
-        ],
+        ),
       ),
     );
   }
