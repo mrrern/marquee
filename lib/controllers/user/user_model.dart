@@ -68,3 +68,17 @@ abstract class Boda with _$Boda {
         invitados > 0;
   }
 }
+
+// Agregar estado de paginación para usuarios (Freezed)
+@freezed
+abstract class PaginateUserState with _$PaginateUserState {
+  const factory PaginateUserState({
+    @Default([]) List<UserInfo> allUsers,
+    @Default([]) List<UserInfo> currentPageUsers,
+    @Default(1) int currentPage,
+    @Default(1) int totalPages,
+    @Default(10) int itemsPerPage,
+    @Default(false) bool isLoading,
+    String? errorMessage,
+  }) = _PaginateUserState;
+}

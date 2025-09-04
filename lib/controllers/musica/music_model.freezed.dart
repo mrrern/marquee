@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -405,6 +404,370 @@ class _$BodaMusicCopyWithImpl<$Res> implements $BodaMusicCopyWith<$Res> {
           : isDeleted // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [BodaMusic].
+extension BodaMusicPatterns on BodaMusic {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_BodaMusic value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _BodaMusic() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_BodaMusic value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _BodaMusic():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_BodaMusic value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _BodaMusic() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            int id,
+            int bodaId,
+            String? musicReception,
+            String? musicEntradaNovio,
+            String? musicEntradaNovia,
+            String? musicLect1,
+            String? musicLect2,
+            String? musicLect3,
+            String? musicLect4,
+            String? musicAlianza,
+            String? musicFirma,
+            String? musicEndCeremony,
+            String? musicCoctel,
+            int? musicType,
+            String? musicEntranceSalon,
+            String? musicDinner,
+            String? musicCake,
+            String? musicRamos,
+            String? musicSurpise,
+            String? musicBarraNovios,
+            String? musicBarraOpcional,
+            Map<String, dynamic>? musicNovio,
+            Map<String, dynamic>? musicNovia,
+            bool invExt,
+            bool invExtMusic,
+            String? musicExt,
+            bool invPetition,
+            bool forbidenMusic,
+            String? musicForbiden,
+            String? musicFinal,
+            String? musicComents,
+            DateTime? createdAt,
+            DateTime? updatedAt,
+            bool isDeleted)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _BodaMusic() when $default != null:
+        return $default(
+            _that.id,
+            _that.bodaId,
+            _that.musicReception,
+            _that.musicEntradaNovio,
+            _that.musicEntradaNovia,
+            _that.musicLect1,
+            _that.musicLect2,
+            _that.musicLect3,
+            _that.musicLect4,
+            _that.musicAlianza,
+            _that.musicFirma,
+            _that.musicEndCeremony,
+            _that.musicCoctel,
+            _that.musicType,
+            _that.musicEntranceSalon,
+            _that.musicDinner,
+            _that.musicCake,
+            _that.musicRamos,
+            _that.musicSurpise,
+            _that.musicBarraNovios,
+            _that.musicBarraOpcional,
+            _that.musicNovio,
+            _that.musicNovia,
+            _that.invExt,
+            _that.invExtMusic,
+            _that.musicExt,
+            _that.invPetition,
+            _that.forbidenMusic,
+            _that.musicForbiden,
+            _that.musicFinal,
+            _that.musicComents,
+            _that.createdAt,
+            _that.updatedAt,
+            _that.isDeleted);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            int id,
+            int bodaId,
+            String? musicReception,
+            String? musicEntradaNovio,
+            String? musicEntradaNovia,
+            String? musicLect1,
+            String? musicLect2,
+            String? musicLect3,
+            String? musicLect4,
+            String? musicAlianza,
+            String? musicFirma,
+            String? musicEndCeremony,
+            String? musicCoctel,
+            int? musicType,
+            String? musicEntranceSalon,
+            String? musicDinner,
+            String? musicCake,
+            String? musicRamos,
+            String? musicSurpise,
+            String? musicBarraNovios,
+            String? musicBarraOpcional,
+            Map<String, dynamic>? musicNovio,
+            Map<String, dynamic>? musicNovia,
+            bool invExt,
+            bool invExtMusic,
+            String? musicExt,
+            bool invPetition,
+            bool forbidenMusic,
+            String? musicForbiden,
+            String? musicFinal,
+            String? musicComents,
+            DateTime? createdAt,
+            DateTime? updatedAt,
+            bool isDeleted)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _BodaMusic():
+        return $default(
+            _that.id,
+            _that.bodaId,
+            _that.musicReception,
+            _that.musicEntradaNovio,
+            _that.musicEntradaNovia,
+            _that.musicLect1,
+            _that.musicLect2,
+            _that.musicLect3,
+            _that.musicLect4,
+            _that.musicAlianza,
+            _that.musicFirma,
+            _that.musicEndCeremony,
+            _that.musicCoctel,
+            _that.musicType,
+            _that.musicEntranceSalon,
+            _that.musicDinner,
+            _that.musicCake,
+            _that.musicRamos,
+            _that.musicSurpise,
+            _that.musicBarraNovios,
+            _that.musicBarraOpcional,
+            _that.musicNovio,
+            _that.musicNovia,
+            _that.invExt,
+            _that.invExtMusic,
+            _that.musicExt,
+            _that.invPetition,
+            _that.forbidenMusic,
+            _that.musicForbiden,
+            _that.musicFinal,
+            _that.musicComents,
+            _that.createdAt,
+            _that.updatedAt,
+            _that.isDeleted);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            int id,
+            int bodaId,
+            String? musicReception,
+            String? musicEntradaNovio,
+            String? musicEntradaNovia,
+            String? musicLect1,
+            String? musicLect2,
+            String? musicLect3,
+            String? musicLect4,
+            String? musicAlianza,
+            String? musicFirma,
+            String? musicEndCeremony,
+            String? musicCoctel,
+            int? musicType,
+            String? musicEntranceSalon,
+            String? musicDinner,
+            String? musicCake,
+            String? musicRamos,
+            String? musicSurpise,
+            String? musicBarraNovios,
+            String? musicBarraOpcional,
+            Map<String, dynamic>? musicNovio,
+            Map<String, dynamic>? musicNovia,
+            bool invExt,
+            bool invExtMusic,
+            String? musicExt,
+            bool invPetition,
+            bool forbidenMusic,
+            String? musicForbiden,
+            String? musicFinal,
+            String? musicComents,
+            DateTime? createdAt,
+            DateTime? updatedAt,
+            bool isDeleted)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _BodaMusic() when $default != null:
+        return $default(
+            _that.id,
+            _that.bodaId,
+            _that.musicReception,
+            _that.musicEntradaNovio,
+            _that.musicEntradaNovia,
+            _that.musicLect1,
+            _that.musicLect2,
+            _that.musicLect3,
+            _that.musicLect4,
+            _that.musicAlianza,
+            _that.musicFirma,
+            _that.musicEndCeremony,
+            _that.musicCoctel,
+            _that.musicType,
+            _that.musicEntranceSalon,
+            _that.musicDinner,
+            _that.musicCake,
+            _that.musicRamos,
+            _that.musicSurpise,
+            _that.musicBarraNovios,
+            _that.musicBarraOpcional,
+            _that.musicNovio,
+            _that.musicNovia,
+            _that.invExt,
+            _that.invExtMusic,
+            _that.musicExt,
+            _that.invPetition,
+            _that.forbidenMusic,
+            _that.musicForbiden,
+            _that.musicFinal,
+            _that.musicComents,
+            _that.createdAt,
+            _that.updatedAt,
+            _that.isDeleted);
+      case _:
+        return null;
+    }
   }
 }
 
@@ -1010,6 +1373,184 @@ class _$MusicTypeCopyWithImpl<$Res> implements $MusicTypeCopyWith<$Res> {
           : isDeleted // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [MusicType].
+extension MusicTypePatterns on MusicType {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_MusicType value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _MusicType() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_MusicType value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MusicType():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_MusicType value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MusicType() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(name: 'id') int id,
+            @JsonKey(name: 'descripcion') String descripcion,
+            @JsonKey(name: 'created_at') DateTime? createdAt,
+            @JsonKey(name: 'updated_at') DateTime? updatedAt,
+            @JsonKey(name: 'is_deleted') bool isDeleted)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _MusicType() when $default != null:
+        return $default(_that.id, _that.descripcion, _that.createdAt,
+            _that.updatedAt, _that.isDeleted);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(name: 'id') int id,
+            @JsonKey(name: 'descripcion') String descripcion,
+            @JsonKey(name: 'created_at') DateTime? createdAt,
+            @JsonKey(name: 'updated_at') DateTime? updatedAt,
+            @JsonKey(name: 'is_deleted') bool isDeleted)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MusicType():
+        return $default(_that.id, _that.descripcion, _that.createdAt,
+            _that.updatedAt, _that.isDeleted);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            @JsonKey(name: 'id') int id,
+            @JsonKey(name: 'descripcion') String descripcion,
+            @JsonKey(name: 'created_at') DateTime? createdAt,
+            @JsonKey(name: 'updated_at') DateTime? updatedAt,
+            @JsonKey(name: 'is_deleted') bool isDeleted)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _MusicType() when $default != null:
+        return $default(_that.id, _that.descripcion, _that.createdAt,
+            _that.updatedAt, _that.isDeleted);
+      case _:
+        return null;
+    }
   }
 }
 

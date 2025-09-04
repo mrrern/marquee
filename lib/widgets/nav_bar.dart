@@ -154,7 +154,7 @@ class AdminNavBar extends ConsumerWidget {
           GestureDetector(
             onTap: () => context.go('/'),
             child: Image.asset(
-              logo, // Replace with actual asset path
+              'assets/mw.png', // Replace with actual asset path
               width: isMobile ? 156 : 309,
               height: isMobile ? null : 65,
               fit: BoxFit.contain,

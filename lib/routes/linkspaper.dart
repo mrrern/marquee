@@ -35,6 +35,7 @@ export 'package:bodas/screens/access_admin_page.dart';
 export 'package:bodas/logic/marketing_logic.dart';
 export 'package:bodas/controllers/cotizacion/cotizacion_request.dart';
 export 'package:bodas/screens/admin_note_page.dart';
+export 'package:bodas/screens/admin_users_page.dart';
 
 //routes
 export 'package:bodas/routes/routes.dart';
@@ -58,6 +59,7 @@ export 'package:bodas/logic/notes_logic.dart';
 export 'package:bodas/controllers/notas/notes_model.dart';
 export 'package:bodas/controllers/remarketing/remarketing_model.dart';
 export 'package:bodas/logic/cotizacion_logic.dart';
+export 'package:bodas/logic/user_logic.dart';
 
 //widgets
 export 'package:bodas/widgets/navbar_item.dart';

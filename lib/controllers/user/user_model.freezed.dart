@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -117,6 +116,172 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
           : bodas // ignore: cast_nullable_to_non_nullable
               as List<Boda>,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [UserModel].
+extension UserModelPatterns on UserModel {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_UserModel value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _UserModel() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_UserModel value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _UserModel():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_UserModel value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _UserModel() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(String id, String nombre, String email, String password,
+            @JsonKey(name: 'rol_id') int rolId, List<Boda> bodas)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _UserModel() when $default != null:
+        return $default(_that.id, _that.nombre, _that.email, _that.password,
+            _that.rolId, _that.bodas);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(String id, String nombre, String email, String password,
+            @JsonKey(name: 'rol_id') int rolId, List<Boda> bodas)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _UserModel():
+        return $default(_that.id, _that.nombre, _that.email, _that.password,
+            _that.rolId, _that.bodas);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(String id, String nombre, String email, String password,
+            @JsonKey(name: 'rol_id') int rolId, List<Boda> bodas)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _UserModel() when $default != null:
+        return $default(_that.id, _that.nombre, _that.email, _that.password,
+            _that.rolId, _that.bodas);
+      case _:
+        return null;
+    }
   }
 }
 
@@ -349,6 +514,172 @@ class _$UserInfoCopyWithImpl<$Res> implements $UserInfoCopyWith<$Res> {
           : bodas // ignore: cast_nullable_to_non_nullable
               as List<Boda>,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [UserInfo].
+extension UserInfoPatterns on UserInfo {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_UserInfo value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _UserInfo() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_UserInfo value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _UserInfo():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_UserInfo value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _UserInfo() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(String id, String nombre, String email, String rol,
+            List<Boda> bodas)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _UserInfo() when $default != null:
+        return $default(
+            _that.id, _that.nombre, _that.email, _that.rol, _that.bodas);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(String id, String nombre, String email, String rol,
+            List<Boda> bodas)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _UserInfo():
+        return $default(
+            _that.id, _that.nombre, _that.email, _that.rol, _that.bodas);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(String id, String nombre, String email, String rol,
+            List<Boda> bodas)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _UserInfo() when $default != null:
+        return $default(
+            _that.id, _that.nombre, _that.email, _that.rol, _that.bodas);
+      case _:
+        return null;
+    }
   }
 }
 
@@ -709,6 +1040,274 @@ class _$BodaCopyWithImpl<$Res> implements $BodaCopyWith<$Res> {
   }
 }
 
+/// Adds pattern-matching-related methods to [Boda].
+extension BodaPatterns on Boda {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_Boda value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Boda() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_Boda value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Boda():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_Boda value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Boda() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            int id,
+            String usuarioId,
+            DateTime fecha,
+            String ubicacion,
+            double invitados,
+            String estadoId,
+            int bodaTipo,
+            DateTime createdAt,
+            DateTime updatedAt,
+            bool isDeleted,
+            String novioNombre,
+            String noviaNombre,
+            String phoneNovio,
+            String phoneNovia,
+            DateTime novioBirthday,
+            DateTime noviaBirthday,
+            String novioEmail,
+            String noviaEmail)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Boda() when $default != null:
+        return $default(
+            _that.id,
+            _that.usuarioId,
+            _that.fecha,
+            _that.ubicacion,
+            _that.invitados,
+            _that.estadoId,
+            _that.bodaTipo,
+            _that.createdAt,
+            _that.updatedAt,
+            _that.isDeleted,
+            _that.novioNombre,
+            _that.noviaNombre,
+            _that.phoneNovio,
+            _that.phoneNovia,
+            _that.novioBirthday,
+            _that.noviaBirthday,
+            _that.novioEmail,
+            _that.noviaEmail);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            int id,
+            String usuarioId,
+            DateTime fecha,
+            String ubicacion,
+            double invitados,
+            String estadoId,
+            int bodaTipo,
+            DateTime createdAt,
+            DateTime updatedAt,
+            bool isDeleted,
+            String novioNombre,
+            String noviaNombre,
+            String phoneNovio,
+            String phoneNovia,
+            DateTime novioBirthday,
+            DateTime noviaBirthday,
+            String novioEmail,
+            String noviaEmail)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Boda():
+        return $default(
+            _that.id,
+            _that.usuarioId,
+            _that.fecha,
+            _that.ubicacion,
+            _that.invitados,
+            _that.estadoId,
+            _that.bodaTipo,
+            _that.createdAt,
+            _that.updatedAt,
+            _that.isDeleted,
+            _that.novioNombre,
+            _that.noviaNombre,
+            _that.phoneNovio,
+            _that.phoneNovia,
+            _that.novioBirthday,
+            _that.noviaBirthday,
+            _that.novioEmail,
+            _that.noviaEmail);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            int id,
+            String usuarioId,
+            DateTime fecha,
+            String ubicacion,
+            double invitados,
+            String estadoId,
+            int bodaTipo,
+            DateTime createdAt,
+            DateTime updatedAt,
+            bool isDeleted,
+            String novioNombre,
+            String noviaNombre,
+            String phoneNovio,
+            String phoneNovia,
+            DateTime novioBirthday,
+            DateTime noviaBirthday,
+            String novioEmail,
+            String noviaEmail)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Boda() when $default != null:
+        return $default(
+            _that.id,
+            _that.usuarioId,
+            _that.fecha,
+            _that.ubicacion,
+            _that.invitados,
+            _that.estadoId,
+            _that.bodaTipo,
+            _that.createdAt,
+            _that.updatedAt,
+            _that.isDeleted,
+            _that.novioNombre,
+            _that.noviaNombre,
+            _that.phoneNovio,
+            _that.phoneNovia,
+            _that.novioBirthday,
+            _that.noviaBirthday,
+            _that.novioEmail,
+            _that.noviaEmail);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 @JsonSerializable()
 class _Boda extends Boda {
@@ -988,6 +1587,498 @@ class __$BodaCopyWithImpl<$Res> implements _$BodaCopyWith<$Res> {
           ? _self.noviaEmail
           : noviaEmail // ignore: cast_nullable_to_non_nullable
               as String,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$PaginateUserState {
+  List<UserInfo> get allUsers;
+  List<UserInfo> get currentPageUsers;
+  int get currentPage;
+  int get totalPages;
+  int get itemsPerPage;
+  bool get isLoading;
+  String? get errorMessage;
+
+  /// Create a copy of PaginateUserState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $PaginateUserStateCopyWith<PaginateUserState> get copyWith =>
+      _$PaginateUserStateCopyWithImpl<PaginateUserState>(
+          this as PaginateUserState, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is PaginateUserState &&
+            const DeepCollectionEquality().equals(other.allUsers, allUsers) &&
+            const DeepCollectionEquality()
+                .equals(other.currentPageUsers, currentPageUsers) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage) &&
+            (identical(other.totalPages, totalPages) ||
+                other.totalPages == totalPages) &&
+            (identical(other.itemsPerPage, itemsPerPage) ||
+                other.itemsPerPage == itemsPerPage) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(allUsers),
+      const DeepCollectionEquality().hash(currentPageUsers),
+      currentPage,
+      totalPages,
+      itemsPerPage,
+      isLoading,
+      errorMessage);
+
+  @override
+  String toString() {
+    return 'PaginateUserState(allUsers: $allUsers, currentPageUsers: $currentPageUsers, currentPage: $currentPage, totalPages: $totalPages, itemsPerPage: $itemsPerPage, isLoading: $isLoading, errorMessage: $errorMessage)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $PaginateUserStateCopyWith<$Res> {
+  factory $PaginateUserStateCopyWith(
+          PaginateUserState value, $Res Function(PaginateUserState) _then) =
+      _$PaginateUserStateCopyWithImpl;
+  @useResult
+  $Res call(
+      {List<UserInfo> allUsers,
+      List<UserInfo> currentPageUsers,
+      int currentPage,
+      int totalPages,
+      int itemsPerPage,
+      bool isLoading,
+      String? errorMessage});
+}
+
+/// @nodoc
+class _$PaginateUserStateCopyWithImpl<$Res>
+    implements $PaginateUserStateCopyWith<$Res> {
+  _$PaginateUserStateCopyWithImpl(this._self, this._then);
+
+  final PaginateUserState _self;
+  final $Res Function(PaginateUserState) _then;
+
+  /// Create a copy of PaginateUserState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? allUsers = null,
+    Object? currentPageUsers = null,
+    Object? currentPage = null,
+    Object? totalPages = null,
+    Object? itemsPerPage = null,
+    Object? isLoading = null,
+    Object? errorMessage = freezed,
+  }) {
+    return _then(_self.copyWith(
+      allUsers: null == allUsers
+          ? _self.allUsers
+          : allUsers // ignore: cast_nullable_to_non_nullable
+              as List<UserInfo>,
+      currentPageUsers: null == currentPageUsers
+          ? _self.currentPageUsers
+          : currentPageUsers // ignore: cast_nullable_to_non_nullable
+              as List<UserInfo>,
+      currentPage: null == currentPage
+          ? _self.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _self.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
+      itemsPerPage: null == itemsPerPage
+          ? _self.itemsPerPage
+          : itemsPerPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLoading: null == isLoading
+          ? _self.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      errorMessage: freezed == errorMessage
+          ? _self.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [PaginateUserState].
+extension PaginateUserStatePatterns on PaginateUserState {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_PaginateUserState value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _PaginateUserState() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_PaginateUserState value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _PaginateUserState():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_PaginateUserState value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _PaginateUserState() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            List<UserInfo> allUsers,
+            List<UserInfo> currentPageUsers,
+            int currentPage,
+            int totalPages,
+            int itemsPerPage,
+            bool isLoading,
+            String? errorMessage)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _PaginateUserState() when $default != null:
+        return $default(
+            _that.allUsers,
+            _that.currentPageUsers,
+            _that.currentPage,
+            _that.totalPages,
+            _that.itemsPerPage,
+            _that.isLoading,
+            _that.errorMessage);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            List<UserInfo> allUsers,
+            List<UserInfo> currentPageUsers,
+            int currentPage,
+            int totalPages,
+            int itemsPerPage,
+            bool isLoading,
+            String? errorMessage)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _PaginateUserState():
+        return $default(
+            _that.allUsers,
+            _that.currentPageUsers,
+            _that.currentPage,
+            _that.totalPages,
+            _that.itemsPerPage,
+            _that.isLoading,
+            _that.errorMessage);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            List<UserInfo> allUsers,
+            List<UserInfo> currentPageUsers,
+            int currentPage,
+            int totalPages,
+            int itemsPerPage,
+            bool isLoading,
+            String? errorMessage)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _PaginateUserState() when $default != null:
+        return $default(
+            _that.allUsers,
+            _that.currentPageUsers,
+            _that.currentPage,
+            _that.totalPages,
+            _that.itemsPerPage,
+            _that.isLoading,
+            _that.errorMessage);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+
+class _PaginateUserState implements PaginateUserState {
+  const _PaginateUserState(
+      {final List<UserInfo> allUsers = const [],
+      final List<UserInfo> currentPageUsers = const [],
+      this.currentPage = 1,
+      this.totalPages = 1,
+      this.itemsPerPage = 10,
+      this.isLoading = false,
+      this.errorMessage})
+      : _allUsers = allUsers,
+        _currentPageUsers = currentPageUsers;
+
+  final List<UserInfo> _allUsers;
+  @override
+  @JsonKey()
+  List<UserInfo> get allUsers {
+    if (_allUsers is EqualUnmodifiableListView) return _allUsers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_allUsers);
+  }
+
+  final List<UserInfo> _currentPageUsers;
+  @override
+  @JsonKey()
+  List<UserInfo> get currentPageUsers {
+    if (_currentPageUsers is EqualUnmodifiableListView)
+      return _currentPageUsers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_currentPageUsers);
+  }
+
+  @override
+  @JsonKey()
+  final int currentPage;
+  @override
+  @JsonKey()
+  final int totalPages;
+  @override
+  @JsonKey()
+  final int itemsPerPage;
+  @override
+  @JsonKey()
+  final bool isLoading;
+  @override
+  final String? errorMessage;
+
+  /// Create a copy of PaginateUserState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$PaginateUserStateCopyWith<_PaginateUserState> get copyWith =>
+      __$PaginateUserStateCopyWithImpl<_PaginateUserState>(this, _$identity);
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _PaginateUserState &&
+            const DeepCollectionEquality().equals(other._allUsers, _allUsers) &&
+            const DeepCollectionEquality()
+                .equals(other._currentPageUsers, _currentPageUsers) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage) &&
+            (identical(other.totalPages, totalPages) ||
+                other.totalPages == totalPages) &&
+            (identical(other.itemsPerPage, itemsPerPage) ||
+                other.itemsPerPage == itemsPerPage) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_allUsers),
+      const DeepCollectionEquality().hash(_currentPageUsers),
+      currentPage,
+      totalPages,
+      itemsPerPage,
+      isLoading,
+      errorMessage);
+
+  @override
+  String toString() {
+    return 'PaginateUserState(allUsers: $allUsers, currentPageUsers: $currentPageUsers, currentPage: $currentPage, totalPages: $totalPages, itemsPerPage: $itemsPerPage, isLoading: $isLoading, errorMessage: $errorMessage)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$PaginateUserStateCopyWith<$Res>
+    implements $PaginateUserStateCopyWith<$Res> {
+  factory _$PaginateUserStateCopyWith(
+          _PaginateUserState value, $Res Function(_PaginateUserState) _then) =
+      __$PaginateUserStateCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {List<UserInfo> allUsers,
+      List<UserInfo> currentPageUsers,
+      int currentPage,
+      int totalPages,
+      int itemsPerPage,
+      bool isLoading,
+      String? errorMessage});
+}
+
+/// @nodoc
+class __$PaginateUserStateCopyWithImpl<$Res>
+    implements _$PaginateUserStateCopyWith<$Res> {
+  __$PaginateUserStateCopyWithImpl(this._self, this._then);
+
+  final _PaginateUserState _self;
+  final $Res Function(_PaginateUserState) _then;
+
+  /// Create a copy of PaginateUserState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? allUsers = null,
+    Object? currentPageUsers = null,
+    Object? currentPage = null,
+    Object? totalPages = null,
+    Object? itemsPerPage = null,
+    Object? isLoading = null,
+    Object? errorMessage = freezed,
+  }) {
+    return _then(_PaginateUserState(
+      allUsers: null == allUsers
+          ? _self._allUsers
+          : allUsers // ignore: cast_nullable_to_non_nullable
+              as List<UserInfo>,
+      currentPageUsers: null == currentPageUsers
+          ? _self._currentPageUsers
+          : currentPageUsers // ignore: cast_nullable_to_non_nullable
+              as List<UserInfo>,
+      currentPage: null == currentPage
+          ? _self.currentPage
+          : currentPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalPages: null == totalPages
+          ? _self.totalPages
+          : totalPages // ignore: cast_nullable_to_non_nullable
+              as int,
+      itemsPerPage: null == itemsPerPage
+          ? _self.itemsPerPage
+          : itemsPerPage // ignore: cast_nullable_to_non_nullable
+              as int,
+      isLoading: null == isLoading
+          ? _self.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      errorMessage: freezed == errorMessage
+          ? _self.errorMessage
+          : errorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }

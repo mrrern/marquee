@@ -1,4 +1,5 @@
 import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/utils/csv_exporter.dart';
 
 class MarqueeAdminDashboard extends StatelessWidget {
   const MarqueeAdminDashboard({super.key});
@@ -17,25 +18,73 @@ class MarqueeAdminDashboard extends StatelessWidget {
 
   Widget _buildWebLayout(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final rows = [
+            {
+              'report': 'dashboard_summary',
+              'generatedAt': DateTime.now().toIso8601String()
+            }
+          ];
+          final csv = exportToCsv(rows);
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('CSV de dashboard generado (ver consola)')));
+          // ignore: avoid_print
+          print(csv);
+        },
+        child: const Icon(Icons.download),
+      ),
       body: _buildMainContent(context, isWeb: true),
     );
   }
 
   Widget _buildTabletLayout(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final rows = [
+            {
+              'report': 'dashboard_summary',
+              'generatedAt': DateTime.now().toIso8601String()
+            }
+          ];
+          final csv = exportToCsv(rows);
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('CSV de dashboard generado (ver consola)')));
+          // ignore: avoid_print
+          print(csv);
+        },
+        child: const Icon(Icons.download),
+      ),
       body: _buildMainContent(context, isTablet: true),
     );
   }
 
   Widget _buildMobileLayout(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final rows = [
+            {
+              'report': 'dashboard_summary',
+              'generatedAt': DateTime.now().toIso8601String()
+            }
+          ];
+          final csv = exportToCsv(rows);
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('CSV de dashboard generado (ver consola)')));
+          // ignore: avoid_print
+          print(csv);
+        },
+        child: const Icon(Icons.download),
+      ),
       body: _buildMainContent(context, isMobile: true),
     );
   }
 
   Widget _buildMainContent(BuildContext context,
       {bool isWeb = false, bool isTablet = false, bool isMobile = false}) {
-    final screenSize = MediaQuery.of(context).size;
+    // final screenSize = MediaQuery.of(context).size; // unused
 
     return Stack(
       children: [
