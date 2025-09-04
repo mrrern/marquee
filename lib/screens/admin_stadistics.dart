@@ -1,7 +1,4 @@
 import 'package:bodas/routes/linkspaper.dart';
-import 'package:bodas/utils/csv_exporter.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:bodas/logic/statistics_logic.dart';
 
 class AdminStadisticsScreen extends ConsumerWidget {
   const AdminStadisticsScreen({super.key});

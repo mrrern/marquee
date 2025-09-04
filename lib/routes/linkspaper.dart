@@ -15,6 +15,9 @@ export 'package:file_picker/file_picker.dart';
 export 'package:dropdown_button2/dropdown_button2.dart';
 export 'package:shared_preferences/shared_preferences.dart';
 export 'package:supabase_flutter/supabase_flutter.dart';
+export 'package:bodas/utils/csv_exporter.dart';
+export 'package:syncfusion_flutter_charts/charts.dart';
+export 'package:bodas/logic/statistics_logic.dart';
 
 // Pantallas
 export 'package:bodas/app.dart';
