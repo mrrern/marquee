@@ -30,13 +30,7 @@ class HeaderWidget extends ConsumerWidget {
             ),
 
             // Exit button
-            GestureDetector(
-              onTap: () => exit,
-              child: ButtonItem(
-                title: "Salir",
-                route: '/access',
-              ),
-            ),
+            ButtonExit(title: "Salir", route: "/access")
           ],
         ),
       ),

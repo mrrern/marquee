@@ -103,42 +103,6 @@ class MovilNavbar extends ConsumerWidget {
   }
 }
 
-class FormHeader extends ConsumerWidget {
-  const FormHeader({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    bool state = true;
-
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
-    return Container(
-      color: Colors.white,
-      padding: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.width < 640 ? 10 : 6,
-        vertical: MediaQuery.of(context).size.width < 640 ? 15 : 7,
-      ),
-      width: width,
-      height: height * .1,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            onTap: () => context.go('/'),
-            child: Image.asset(
-              logo,
-              width: MediaQuery.of(context).size.width < 640 ? 160 : 216,
-              height: 46,
-              fit: BoxFit.contain,
-            ),
-          ),
-          ButtonItem(title: "Salir", route: "/access")
-        ],
-      ),
-    );
-  }
-}
-
 class AdminNavBar extends ConsumerWidget {
   const AdminNavBar({super.key});
 
@@ -154,9 +118,9 @@ class AdminNavBar extends ConsumerWidget {
           GestureDetector(
             onTap: () => context.go('/'),
             child: Image.asset(
-              'assets/mw.png', // Replace with actual asset path
-              width: isMobile ? 156 : 309,
-              height: isMobile ? null : 65,
+              'assets/mw.png',
+              width: isMobile ? 117 : 231.75,
+              height: isMobile ? null : 48.75,
               fit: BoxFit.contain,
               colorBlendMode: BlendMode.colorDodge,
             ),
@@ -165,51 +129,20 @@ class AdminNavBar extends ConsumerWidget {
           // Nav links
           Row(
             children: [
-              _buildNavItem('Menu', isMobile, '/admin', context),
+              ButtonItem(title: 'Menu', route: '/admin'),
               SizedBox(
                 width: isMobile ? 7 : 24,
               ),
-              _buildNavItem('Usuario', isMobile, '/admin/usuarios', context),
+              ButtonItem(title: 'Usuario', route: '/admin/usuarios'),
               SizedBox(
                 width: isMobile ? 7 : 24,
               ),
-              _buildNavItem('Notas', isMobile, '/admin/notas', context),
+              ButtonItem(title: 'Notas', route: '/admin/notas'),
               SizedBox(width: isMobile ? 7 : 24),
-              GestureDetector(
-                  onTap: () {
-                    Future.microtask(() {
-                      ref.read(authProvider.notifier).signOut();
-                      context.go('/');
-                    });
-                  },
-                  child: Text(
-                    'Salir',
-                    style: GoogleFonts.inter(
-                      fontSize: isMobile ? 16 : 20,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  )),
+              ButtonExit(title: 'Salir', route: '/access'),
             ],
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildNavItem(
-      String text, bool isMobile, String route, BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        context.go(route);
-      },
-      child: Text(
-        text,
-        style: GoogleFonts.inter(
-          fontSize: isMobile ? 16 : 20,
-          fontWeight: FontWeight.w700,
-          color: Colors.white,
-        ),
       ),
     );
   }

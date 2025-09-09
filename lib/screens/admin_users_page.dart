@@ -11,14 +11,14 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final isMobile = size.width < 850;
-
+    final isMobile = size.width < 600;
+    final isTablet = size.width >= 600 && size.width < 850;
     final paginateState = ref.watch(paginateUsersProvider);
     final usersAsync = ref.watch(usersAdminProvider);
 
     return Responsive(
-      _buildMainContent(context, isMobile, usersAsync, paginateState),
-      mobile: _buildMainContent(context, true, usersAsync, paginateState),
+      _buildMainContent(context, isTablet, usersAsync, paginateState),
+      mobile: _buildMainContent(context, isMobile, usersAsync, paginateState),
       web: _buildMainContent(context, false, usersAsync, paginateState),
     );
   }
@@ -157,16 +157,17 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                       child: Container(
                         padding: EdgeInsets.all(isMobile ? 8 : 20),
                         decoration: BoxDecoration(
-                          image: const DecorationImage(
-                            image: AssetImage('assets/pizarra.png'),
-                            fit: BoxFit.cover,
-                          ),
+                          color: Colors.white.withValues(alpha: 0.04),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: usersAsync.when(
                           loading: () =>
                               const Center(child: CircularProgressIndicator()),
-                          error: (e, st) => Center(child: Text('Error: $e')),
+                          error: (e, st) {
+                            debugPrint('Error loading users: $e');
+                            debugPrint(st.toString());
+                            return Center(child: Text('Error: $e'));
+                          },
                           data: (allUsers) {
                             final pageState = paginateState;
                             final shown = pageState.currentPageUsers;
