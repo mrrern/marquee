@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bodas/routes/linkspaper.dart';
 
 class NotesLogic {
@@ -123,26 +125,46 @@ class NotesLogic {
   }
 
   /// Obtiene todas las notas del sistema junto con información mínima del usuario
-  /// usando la vista `listar_notas` (la vista debe devolver campos de nota + campos de usuario)
+  /// usando la vista `listar_notas`. La vista debe devolver columnas de la tabla
+  /// `notas` (id, boda_id, title, description, images, created_at, ...) y además
+  /// información mínima del usuario (usuario_id, usuario_nombre, usuario_email).
   Future<List<AdminNoteView>> fetchAllNotes() async {
     try {
       final resp = await _supabase
-          .from('listar_notas')
+          .from('notas')
           .select()
           .order('created_at', ascending: false);
+
       final rows = (resp as List).cast<dynamic>();
+
       return rows.map((r) {
         final map = Map<String, dynamic>.from(r as Map);
-        final note = NotesModel.fromJson(map);
-        final usuarioId = map['usuario_id'] is int
-            ? map['usuario_id'] as int
-            : (map['user_id'] is int ? map['user_id'] as int : null);
-        final usuarioNombre = map['usuario_nombre'] as String? ??
-            map['nombre'] as String? ??
-            map['user_nombre'] as String?;
-        final usuarioEmail = map['usuario_email'] as String? ??
-            map['email'] as String? ??
-            map['user_email'] as String?;
+
+        // Construir NotesModel (aseguramos formatos compatibles)
+        // Nota: NotesModel.fromJson tolera tipos esperados; adaptamos campos si vienen en snake_case
+        final noteMap = <String, dynamic>{
+          'id': _parseInt(map['id']),
+          'bodaId': _parseInt(map['boda_id'] ?? map['bodaId']),
+          'title': (map['title'] ?? map['titulo'] ?? '')?.toString(),
+          'description':
+              (map['description'] ?? map['descripcion'] ?? '')?.toString(),
+          'images': _parseImages(map['images']),
+          'file': map['file']?.toString(),
+          'createdAt': _parseDate(map['created_at'] ?? map['createdAt']),
+          'updatedAt': _parseDate(map['updated_at'] ?? map['updatedAt']),
+          'isDeleted': map['is_deleted'] == true || map['isDeleted'] == true,
+        };
+
+        final note = NotesModel.fromJson(noteMap);
+
+        final usuarioId = _parseInt(map['usuario_id'] ?? map['user_id']);
+        final usuarioNombre =
+            (map['usuario_nombre'] ?? map['nombre'] ?? map['user_nombre'])
+                ?.toString();
+        final usuarioEmail =
+            (map['usuario_email'] ?? map['email'] ?? map['user_email'])
+                ?.toString();
+
         return AdminNoteView(
           note: note,
           usuarioId: usuarioId,
@@ -150,13 +172,54 @@ class NotesLogic {
           usuarioEmail: usuarioEmail,
         );
       }).toList();
-    } catch (e) {
-      throw Exception('Error al obtener notas administrativas: $e');
+    } catch (e, st) {
+      throw Exception('Error al obtener notas administrativas: $e\n$st');
     }
+  }
+
+  // helpers
+  static int? _parseInt(dynamic v) {
+    if (v == null) return null;
+    if (v is int) return v;
+    if (v is String) return int.tryParse(v);
+    if (v is double) return v.toInt();
+    return null;
+  }
+
+  static DateTime? _parseDate(dynamic v) {
+    if (v == null) return null;
+    if (v is DateTime) return v;
+    if (v is String) {
+      try {
+        return DateTime.parse(v);
+      } catch (_) {
+        // intentar con formatos comunes
+        try {
+          return DateFormat('yyyy-MM-dd HH:mm:ss').parse(v);
+        } catch (_) {
+          return null;
+        }
+      }
+    }
+    return null;
+  }
+
+  static Map<String, dynamic>? _parseImages(dynamic v) {
+    if (v == null) return null;
+    if (v is Map) return Map<String, dynamic>.from(v);
+    if (v is String) {
+      try {
+        final decoded = jsonDecode(v);
+        if (decoded is Map) return Map<String, dynamic>.from(decoded);
+      } catch (_) {
+        return null;
+      }
+    }
+    return null;
   }
 }
 
-// Nueva clase de vista para administradores
+// Nueva clase de vista para administradores (tipada)
 class AdminNoteView {
   final NotesModel note;
   final int? usuarioId;

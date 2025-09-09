@@ -10,58 +10,142 @@ class NotesAdminScreen extends ConsumerStatefulWidget {
 class _AdminNotesScreenState extends ConsumerState<NotesAdminScreen> {
   @override
   Widget build(BuildContext context) {
-    final notesState = ref.watch(notesAdminProvider);
+    return Responsive(
+      _buildWebLayout(
+        context,
+      ),
+      mobile: _buildWebLayout(context, isMobile: true),
+      web: _buildWebLayout(context),
+    );
+  }
 
-    final size = MediaQuery.of(context).size;
-    final isMobile = size.width < 850;
+  Widget _buildWebLayout(BuildContext context, {isMobile = false}) {
+    final notesState = ref.watch(notesAdminProvider);
 
     return notesState.when(
       loading: () =>
           const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (e, st) => Scaffold(
-        body: Center(child: Text('Error cargando notas: $e')),
+        body: Stack(
+          children: [
+            // Background color
+            Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: Colors.white,
+            ),
+
+            // Noise texture
+            Positioned(
+              top: -0.8,
+              left: -1,
+              child: Transform.rotate(
+                angle: 179.864 * (3.14159 / 180), // Convert degrees to radians
+                child: Image.asset(
+                  back2,
+                  width: 1442,
+                  height: 1028,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+
+            // Gradient overlay
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 359,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0xFF0C0C0C),
+                      Color(0x00737373),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+            // Main Content (error message)
+            Positioned.fill(
+              child: Center(
+                child: SizedBox(
+                    width: isMobile ? 400 : 1000,
+                    height: isMobile ? 500 : 850,
+                    child: Text('Error cargando notas: $e')),
+              ),
+            ),
+
+            // Header
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: AdminNavBar(),
+            ),
+          ],
+        ),
       ),
       data: (notes) {
         return Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              final list = notes;
-              final rows = list
-                  .map<Map<String, dynamic>>((n) => {
-                        'id': n.note.id.toString(),
-                        'usuario':
-                            n.usuarioNombre ?? n.usuarioId?.toString() ?? '',
-                        'nota': n.note.description,
-                      })
-                  .toList();
-
-              if (rows.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('No hay notas para exportar')));
-                return;
-              }
-
-              final csv = exportToCsv(rows);
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('CSV de notas generado (ver consola)')));
-              // ignore: avoid_print
-              print(csv);
-            },
-            child: const Icon(Icons.download),
-          ),
-          body: SizedBox(
-            width: double.infinity,
-            height: double.infinity,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: isMobile ? 10 : 40,
-                vertical: isMobile ? 10 : 20,
+          body: Stack(
+            children: [
+              // Background color
+              Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.white,
               ),
-              child: Column(
-                children: [
-                  AdminNavBar(),
-                  const SizedBox(height: 20),
-                  Container(
+
+              // Noise texture
+              Positioned(
+                top: -0.8,
+                left: -1,
+                child: Transform.rotate(
+                  angle:
+                      179.864 * (3.14159 / 180), // Convert degrees to radians
+                  child: Image.asset(
+                    back2,
+                    width: 1442,
+                    height: 1028,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+
+              // Gradient overlay
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  height: 359,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xFF0C0C0C),
+                        Color(0x00737373),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              //Barra incial
+              Positioned(
+                top: isMobile ? 120 : 110,
+                left: isMobile ? 10 : 50,
+                right: isMobile ? 10 : 50,
+                child: SizedBox(
+                  width: isMobile ? double.infinity : 800,
+                  height: isMobile ? 60 : 70,
+                  child: Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: const Color(0xFFD9D9D9),
@@ -89,8 +173,18 @@ class _AdminNotesScreenState extends ConsumerState<NotesAdminScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Expanded(
+                ),
+              ),
+              // Main Content (notes list)
+              Positioned.fill(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: isMobile ? 200 : 190,
+                    left: isMobile ? 10 : 50,
+                    right: isMobile ? 10 : 50,
+                    bottom: 20,
+                  ),
+                  child: Expanded(
                     child: SingleChildScrollView(
                       child: Container(
                         constraints: const BoxConstraints(minHeight: 570),
@@ -98,7 +192,7 @@ class _AdminNotesScreenState extends ConsumerState<NotesAdminScreen> {
                         decoration: BoxDecoration(
                           image: const DecorationImage(
                             image: AssetImage(pizarra),
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fill,
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -136,7 +230,8 @@ class _AdminNotesScreenState extends ConsumerState<NotesAdminScreen> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 8, vertical: 6),
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.85),
+                                          color: Colors.white
+                                              .withValues(alpha: 0.85),
                                           borderRadius:
                                               BorderRadius.circular(6),
                                         ),
@@ -153,6 +248,7 @@ class _AdminNotesScreenState extends ConsumerState<NotesAdminScreen> {
                                         ),
                                       ),
                                       const SizedBox(height: 8),
+                                      // NoteCard acepta NotesModel; usamos item.note
                                       Expanded(
                                           child: NoteCard(note: item.note)),
                                     ],
@@ -162,10 +258,16 @@ class _AdminNotesScreenState extends ConsumerState<NotesAdminScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
-                ],
+                ),
               ),
-            ),
+              // Header
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: AdminNavBar(),
+              ),
+            ],
           ),
         );
       },

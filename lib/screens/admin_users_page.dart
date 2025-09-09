@@ -17,42 +17,6 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
     final usersAsync = ref.watch(usersAdminProvider);
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          // Try to export current page users to CSV
-          final users = ref.read(usersAdminProvider).when(
-                data: (d) => d,
-                loading: () => <dynamic>[],
-                error: (_, __) => <dynamic>[],
-              );
-
-          final rows = users.map<Map<String, dynamic>>((u) {
-            final map = <String, dynamic>{
-              'id': (u as dynamic).id ??
-                  (u as dynamic).user_id ??
-                  (u as dynamic).usuario_id,
-              'nombre': (u as dynamic).nombre ?? '',
-              'email': (u as dynamic).email ?? (u as dynamic).correo ?? '',
-              'rol': (u as dynamic).rol ?? '',
-            };
-            return map;
-          }).toList();
-
-          if (rows.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('No hay datos para exportar')));
-            return;
-          }
-
-          final csv = exportToCsv(rows);
-          // For now just show a success message and print to console
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('CSV generado (ver consola)')));
-          // ignore: avoid_print
-          print(csv);
-        },
-        child: const Icon(Icons.download),
-      ),
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
