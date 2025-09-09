@@ -46,3 +46,4 @@ app.*.map.json
 pubspec.lock
 kilo_readme.md
 cursor_rules.md
+.vscode/mcp.json
