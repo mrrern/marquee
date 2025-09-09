@@ -239,10 +239,12 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
   );
 
   try {
-    // Realiza el login y obtiene el userInfo actualizado
-    final (token, userInfo) =
-        await ref.read(authServiceProvider).signInWithInfo(email, password);
+    // Realiza el login usando el AuthInfoNotifier para actualizar el estado global
+    await ref.read(authInfoProvider.notifier).signIn(email, password);
     context.pop(); // Remove loading dialog
+
+    final authState = ref.read(authInfoProvider);
+    final userInfo = authState.value;
 
     if (userInfo == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -255,15 +257,16 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
       return;
     }
 
-    // Actualiza el provider con la nueva información de usuario
-    ref.read(authInfoProvider.notifier).state = AsyncValue.data(userInfo);
+    // Obtener las bodas del usuario usando WeddingLogic y decidir navegación
+    final bodas =
+        await ref.read(weddingLogicProvider).fetchWeddings(userInfo.id);
+    final hasWeddingWithInfo =
+        bodas.isNotEmpty && bodas.any((b) => b.hasInformation());
 
-    // Navega según la información recabada
-    if (userInfo.bodas.isNotEmpty &&
-        userInfo.bodas.any((boda) => boda.hasInformation())) {
-      context.goNamed('notes'); // USAR goNamed con el nombre
+    if (hasWeddingWithInfo) {
+      context.go('/notes');
     } else {
-      context.goNamed('boda'); // USAR goNamed con el nombre
+      context.go('/boda');
     }
   } catch (e) {
     context.pop(); // Remove loading dialog

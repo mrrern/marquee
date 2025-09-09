@@ -143,44 +143,12 @@ class AuthService {
           print(
               'Listar Boda Data for user ID ${response.user!.id}: $bodasData');
 
-          // Map the bodas data to Boda objects with null safety
-          final bodas = bodasData.map((bodaData) {
-            return Boda(
-              id: bodaData['id'],
-              usuarioId: bodaData['user_id']?.toString() ?? '',
-              fecha:
-                  DateTime.tryParse(bodaData['fecha'] ?? '') ?? DateTime.now(),
-              ubicacion: bodaData['ubicacion'] ?? '',
-              invitados: (bodaData['invitados'] as num?)?.toDouble() ?? 0.0,
-              estadoId: bodaData['estado_boda'] ?? 0,
-              bodaTipo: bodaData['tipo_boda'] ?? '',
-              createdAt: DateTime.tryParse(bodaData['created_at'] ?? '') ??
-                  DateTime.now(),
-              updatedAt: DateTime.tryParse(bodaData['updated_at'] ?? '') ??
-                  DateTime.now(),
-              isDeleted: bodaData['is_deleted'] ?? false,
-              novioNombre: bodaData['novio_nombre'] ?? '',
-              noviaNombre: bodaData['novia_nombre'] ?? '',
-              phoneNovio: bodaData['phone_novio'] ?? '',
-              phoneNovia: bodaData['phone_novia'] ?? '',
-              novioBirthday:
-                  DateTime.tryParse(bodaData['novio_birthday'] ?? '') ??
-                      DateTime.now(),
-              noviaBirthday:
-                  DateTime.tryParse(bodaData['novia_birthday'] ?? '') ??
-                      DateTime.now(),
-              novioEmail: bodaData['novio_email'] ?? '',
-              noviaEmail: bodaData['novia_email'] ?? '',
-            );
-          }).toList();
-
-          // Create UserInfo with the bodas data
+          // Create UserInfo
           final userInfo = UserInfo(
             id: userData['id'] ?? '',
             nombre: userData['nombre'] ?? '',
             email: userData['email'] ?? '',
             rol: userData['user_rol'] ?? 'User',
-            bodas: bodas,
           );
 
           return (response.session?.accessToken, userInfo);

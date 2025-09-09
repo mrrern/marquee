@@ -259,12 +259,6 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                                             Expanded(
                                                 flex: 3, child: Text(u.email)),
                                             Expanded(
-                                                flex: 2,
-                                                child: Text(_formatDate(u
-                                                        .bodas.isNotEmpty
-                                                    ? u.bodas.first.createdAt
-                                                    : null))),
-                                            Expanded(
                                               flex: 2,
                                               child: Row(
                                                 mainAxisAlignment:

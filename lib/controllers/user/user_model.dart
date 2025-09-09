@@ -11,7 +11,6 @@ abstract class UserModel with _$UserModel {
     required String email,
     required String password,
     @JsonKey(name: 'rol_id') required int rolId,
-    @Default([]) List<Boda> bodas,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
@@ -25,7 +24,6 @@ abstract class UserInfo with _$UserInfo {
     required String nombre,
     required String email,
     required String rol,
-    @Default([]) List<Boda> bodas,
   }) = _UserInfo;
 
   factory UserInfo.fromJson(Map<String, dynamic> json) =>

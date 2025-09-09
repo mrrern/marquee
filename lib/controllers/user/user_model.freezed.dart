@@ -20,7 +20,6 @@ mixin _$UserModel {
   String get password;
   @JsonKey(name: 'rol_id')
   int get rolId;
-  List<Boda> get bodas;
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
@@ -42,18 +41,17 @@ mixin _$UserModel {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
-            (identical(other.rolId, rolId) || other.rolId == rolId) &&
-            const DeepCollectionEquality().equals(other.bodas, bodas));
+            (identical(other.rolId, rolId) || other.rolId == rolId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, nombre, email, password,
-      rolId, const DeepCollectionEquality().hash(bodas));
+  int get hashCode =>
+      Object.hash(runtimeType, id, nombre, email, password, rolId);
 
   @override
   String toString() {
-    return 'UserModel(id: $id, nombre: $nombre, email: $email, password: $password, rolId: $rolId, bodas: $bodas)';
+    return 'UserModel(id: $id, nombre: $nombre, email: $email, password: $password, rolId: $rolId)';
   }
 }
 
@@ -67,8 +65,7 @@ abstract mixin class $UserModelCopyWith<$Res> {
       String nombre,
       String email,
       String password,
-      @JsonKey(name: 'rol_id') int rolId,
-      List<Boda> bodas});
+      @JsonKey(name: 'rol_id') int rolId});
 }
 
 /// @nodoc
@@ -88,7 +85,6 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
     Object? email = null,
     Object? password = null,
     Object? rolId = null,
-    Object? bodas = null,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -111,10 +107,6 @@ class _$UserModelCopyWithImpl<$Res> implements $UserModelCopyWith<$Res> {
           ? _self.rolId
           : rolId // ignore: cast_nullable_to_non_nullable
               as int,
-      bodas: null == bodas
-          ? _self.bodas
-          : bodas // ignore: cast_nullable_to_non_nullable
-              as List<Boda>,
     ));
   }
 }
@@ -213,15 +205,15 @@ extension UserModelPatterns on UserModel {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(String id, String nombre, String email, String password,
-            @JsonKey(name: 'rol_id') int rolId, List<Boda> bodas)?
+            @JsonKey(name: 'rol_id') int rolId)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _UserModel() when $default != null:
-        return $default(_that.id, _that.nombre, _that.email, _that.password,
-            _that.rolId, _that.bodas);
+        return $default(
+            _that.id, _that.nombre, _that.email, _that.password, _that.rolId);
       case _:
         return orElse();
     }
@@ -243,14 +235,14 @@ extension UserModelPatterns on UserModel {
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
     TResult Function(String id, String nombre, String email, String password,
-            @JsonKey(name: 'rol_id') int rolId, List<Boda> bodas)
+            @JsonKey(name: 'rol_id') int rolId)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UserModel():
-        return $default(_that.id, _that.nombre, _that.email, _that.password,
-            _that.rolId, _that.bodas);
+        return $default(
+            _that.id, _that.nombre, _that.email, _that.password, _that.rolId);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -271,14 +263,14 @@ extension UserModelPatterns on UserModel {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(String id, String nombre, String email, String password,
-            @JsonKey(name: 'rol_id') int rolId, List<Boda> bodas)?
+            @JsonKey(name: 'rol_id') int rolId)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UserModel() when $default != null:
-        return $default(_that.id, _that.nombre, _that.email, _that.password,
-            _that.rolId, _that.bodas);
+        return $default(
+            _that.id, _that.nombre, _that.email, _that.password, _that.rolId);
       case _:
         return null;
     }
@@ -293,9 +285,7 @@ class _UserModel implements UserModel {
       required this.nombre,
       required this.email,
       required this.password,
-      @JsonKey(name: 'rol_id') required this.rolId,
-      final List<Boda> bodas = const []})
-      : _bodas = bodas;
+      @JsonKey(name: 'rol_id') required this.rolId});
   factory _UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
 
@@ -310,14 +300,6 @@ class _UserModel implements UserModel {
   @override
   @JsonKey(name: 'rol_id')
   final int rolId;
-  final List<Boda> _bodas;
-  @override
-  @JsonKey()
-  List<Boda> get bodas {
-    if (_bodas is EqualUnmodifiableListView) return _bodas;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_bodas);
-  }
 
   /// Create a copy of UserModel
   /// with the given fields replaced by the non-null parameter values.
@@ -344,18 +326,17 @@ class _UserModel implements UserModel {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
-            (identical(other.rolId, rolId) || other.rolId == rolId) &&
-            const DeepCollectionEquality().equals(other._bodas, _bodas));
+            (identical(other.rolId, rolId) || other.rolId == rolId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, nombre, email, password,
-      rolId, const DeepCollectionEquality().hash(_bodas));
+  int get hashCode =>
+      Object.hash(runtimeType, id, nombre, email, password, rolId);
 
   @override
   String toString() {
-    return 'UserModel(id: $id, nombre: $nombre, email: $email, password: $password, rolId: $rolId, bodas: $bodas)';
+    return 'UserModel(id: $id, nombre: $nombre, email: $email, password: $password, rolId: $rolId)';
   }
 }
 
@@ -372,8 +353,7 @@ abstract mixin class _$UserModelCopyWith<$Res>
       String nombre,
       String email,
       String password,
-      @JsonKey(name: 'rol_id') int rolId,
-      List<Boda> bodas});
+      @JsonKey(name: 'rol_id') int rolId});
 }
 
 /// @nodoc
@@ -393,7 +373,6 @@ class __$UserModelCopyWithImpl<$Res> implements _$UserModelCopyWith<$Res> {
     Object? email = null,
     Object? password = null,
     Object? rolId = null,
-    Object? bodas = null,
   }) {
     return _then(_UserModel(
       id: null == id
@@ -416,10 +395,6 @@ class __$UserModelCopyWithImpl<$Res> implements _$UserModelCopyWith<$Res> {
           ? _self.rolId
           : rolId // ignore: cast_nullable_to_non_nullable
               as int,
-      bodas: null == bodas
-          ? _self._bodas
-          : bodas // ignore: cast_nullable_to_non_nullable
-              as List<Boda>,
     ));
   }
 }
@@ -430,7 +405,6 @@ mixin _$UserInfo {
   String get nombre;
   String get email;
   String get rol;
-  List<Boda> get bodas;
 
   /// Create a copy of UserInfo
   /// with the given fields replaced by the non-null parameter values.
@@ -450,18 +424,16 @@ mixin _$UserInfo {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.nombre, nombre) || other.nombre == nombre) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.rol, rol) || other.rol == rol) &&
-            const DeepCollectionEquality().equals(other.bodas, bodas));
+            (identical(other.rol, rol) || other.rol == rol));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, nombre, email, rol,
-      const DeepCollectionEquality().hash(bodas));
+  int get hashCode => Object.hash(runtimeType, id, nombre, email, rol);
 
   @override
   String toString() {
-    return 'UserInfo(id: $id, nombre: $nombre, email: $email, rol: $rol, bodas: $bodas)';
+    return 'UserInfo(id: $id, nombre: $nombre, email: $email, rol: $rol)';
   }
 }
 
@@ -470,8 +442,7 @@ abstract mixin class $UserInfoCopyWith<$Res> {
   factory $UserInfoCopyWith(UserInfo value, $Res Function(UserInfo) _then) =
       _$UserInfoCopyWithImpl;
   @useResult
-  $Res call(
-      {String id, String nombre, String email, String rol, List<Boda> bodas});
+  $Res call({String id, String nombre, String email, String rol});
 }
 
 /// @nodoc
@@ -490,7 +461,6 @@ class _$UserInfoCopyWithImpl<$Res> implements $UserInfoCopyWith<$Res> {
     Object? nombre = null,
     Object? email = null,
     Object? rol = null,
-    Object? bodas = null,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -509,10 +479,6 @@ class _$UserInfoCopyWithImpl<$Res> implements $UserInfoCopyWith<$Res> {
           ? _self.rol
           : rol // ignore: cast_nullable_to_non_nullable
               as String,
-      bodas: null == bodas
-          ? _self.bodas
-          : bodas // ignore: cast_nullable_to_non_nullable
-              as List<Boda>,
     ));
   }
 }
@@ -610,16 +576,14 @@ extension UserInfoPatterns on UserInfo {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String id, String nombre, String email, String rol,
-            List<Boda> bodas)?
+    TResult Function(String id, String nombre, String email, String rol)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _UserInfo() when $default != null:
-        return $default(
-            _that.id, _that.nombre, _that.email, _that.rol, _that.bodas);
+        return $default(_that.id, _that.nombre, _that.email, _that.rol);
       case _:
         return orElse();
     }
@@ -640,15 +604,13 @@ extension UserInfoPatterns on UserInfo {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String id, String nombre, String email, String rol,
-            List<Boda> bodas)
+    TResult Function(String id, String nombre, String email, String rol)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UserInfo():
-        return $default(
-            _that.id, _that.nombre, _that.email, _that.rol, _that.bodas);
+        return $default(_that.id, _that.nombre, _that.email, _that.rol);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -668,15 +630,13 @@ extension UserInfoPatterns on UserInfo {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String id, String nombre, String email, String rol,
-            List<Boda> bodas)?
+    TResult? Function(String id, String nombre, String email, String rol)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UserInfo() when $default != null:
-        return $default(
-            _that.id, _that.nombre, _that.email, _that.rol, _that.bodas);
+        return $default(_that.id, _that.nombre, _that.email, _that.rol);
       case _:
         return null;
     }
@@ -690,9 +650,7 @@ class _UserInfo implements UserInfo {
       {required this.id,
       required this.nombre,
       required this.email,
-      required this.rol,
-      final List<Boda> bodas = const []})
-      : _bodas = bodas;
+      required this.rol});
   factory _UserInfo.fromJson(Map<String, dynamic> json) =>
       _$UserInfoFromJson(json);
 
@@ -704,14 +662,6 @@ class _UserInfo implements UserInfo {
   final String email;
   @override
   final String rol;
-  final List<Boda> _bodas;
-  @override
-  @JsonKey()
-  List<Boda> get bodas {
-    if (_bodas is EqualUnmodifiableListView) return _bodas;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_bodas);
-  }
 
   /// Create a copy of UserInfo
   /// with the given fields replaced by the non-null parameter values.
@@ -736,18 +686,16 @@ class _UserInfo implements UserInfo {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.nombre, nombre) || other.nombre == nombre) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.rol, rol) || other.rol == rol) &&
-            const DeepCollectionEquality().equals(other._bodas, _bodas));
+            (identical(other.rol, rol) || other.rol == rol));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, nombre, email, rol,
-      const DeepCollectionEquality().hash(_bodas));
+  int get hashCode => Object.hash(runtimeType, id, nombre, email, rol);
 
   @override
   String toString() {
-    return 'UserInfo(id: $id, nombre: $nombre, email: $email, rol: $rol, bodas: $bodas)';
+    return 'UserInfo(id: $id, nombre: $nombre, email: $email, rol: $rol)';
   }
 }
 
@@ -758,8 +706,7 @@ abstract mixin class _$UserInfoCopyWith<$Res>
       __$UserInfoCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {String id, String nombre, String email, String rol, List<Boda> bodas});
+  $Res call({String id, String nombre, String email, String rol});
 }
 
 /// @nodoc
@@ -778,7 +725,6 @@ class __$UserInfoCopyWithImpl<$Res> implements _$UserInfoCopyWith<$Res> {
     Object? nombre = null,
     Object? email = null,
     Object? rol = null,
-    Object? bodas = null,
   }) {
     return _then(_UserInfo(
       id: null == id
@@ -797,10 +743,6 @@ class __$UserInfoCopyWithImpl<$Res> implements _$UserInfoCopyWith<$Res> {
           ? _self.rol
           : rol // ignore: cast_nullable_to_non_nullable
               as String,
-      bodas: null == bodas
-          ? _self._bodas
-          : bodas // ignore: cast_nullable_to_non_nullable
-              as List<Boda>,
     ));
   }
 }

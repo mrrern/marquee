@@ -5,6 +5,8 @@ class WeddingFormFields extends ConsumerWidget {
 
   Future<void> _guardarBoda(BuildContext context, WidgetRef ref) async {
     final userInfo = ref.read(authInfoProvider).value;
+    final bodas =
+        await ref.read(weddingLogicProvider).fetchWeddings(userInfo?.id ?? '');
     if (userInfo == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Usuario no autenticado')),
@@ -14,7 +16,7 @@ class WeddingFormFields extends ConsumerWidget {
 
     final formState = ref.read(weddingFormProvider);
     final boda = Boda(
-      id: userInfo.bodas.first.id,
+      id: bodas.isNotEmpty ? bodas.first.id : 0,
       usuarioId: userInfo.id,
       fecha: DateTime.now(),
       ubicacion: formState.ubicacion,

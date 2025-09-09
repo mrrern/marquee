@@ -12,10 +12,6 @@ _UserModel _$UserModelFromJson(Map<String, dynamic> json) => _UserModel(
       email: json['email'] as String,
       password: json['password'] as String,
       rolId: (json['rol_id'] as num).toInt(),
-      bodas: (json['bodas'] as List<dynamic>?)
-              ?.map((e) => Boda.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
     );
 
 Map<String, dynamic> _$UserModelToJson(_UserModel instance) =>
@@ -25,7 +21,6 @@ Map<String, dynamic> _$UserModelToJson(_UserModel instance) =>
       'email': instance.email,
       'password': instance.password,
       'rol_id': instance.rolId,
-      'bodas': instance.bodas,
     };
 
 _UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => _UserInfo(
@@ -33,10 +28,6 @@ _UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => _UserInfo(
       nombre: json['nombre'] as String,
       email: json['email'] as String,
       rol: json['rol'] as String,
-      bodas: (json['bodas'] as List<dynamic>?)
-              ?.map((e) => Boda.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
     );
 
 Map<String, dynamic> _$UserInfoToJson(_UserInfo instance) => <String, dynamic>{
@@ -44,7 +35,6 @@ Map<String, dynamic> _$UserInfoToJson(_UserInfo instance) => <String, dynamic>{
       'nombre': instance.nombre,
       'email': instance.email,
       'rol': instance.rol,
-      'bodas': instance.bodas,
     };
 
 _Boda _$BodaFromJson(Map<String, dynamic> json) => _Boda(

@@ -3,14 +3,83 @@ import 'package:bodas/routes/linkspaper.dart';
 class UserLogic {
   final SupabaseClient _supabase = Supabase.instance.client;
 
+  /// Normalize a raw map from `user_info` view into the shape expected by UserInfo
+  Map<String, dynamic> _normalizeUserMap(Map<String, dynamic> map) {
+    // Ensure string fields are non-null strings
+    final id = (map['id'] ?? map['user_id'] ?? '').toString();
+    final nombre =
+        (map['nombre'] ?? map['name'] ?? map['user_nombre'] ?? '').toString();
+    final email =
+        (map['email'] ?? map['correo'] ?? map['user_email'] ?? '').toString();
+    final rol = (map['rol'] ?? map['role'] ?? '').toString();
+
+    return {
+      'id': id,
+      'nombre': nombre,
+      'email': email,
+      'rol': rol,
+    };
+  }
+
+  /// Devuelve un mapa userId -> cantidad de bodas en la vista `listar_boda`
+  /// Para eficiencia consulta todos los registros con usuario_id en la lista
+  /// y agrupa en memoria.
+  Future<Map<String, int>> fetchWeddingsCountForUsers(
+      List<String> userIds) async {
+    if (userIds.isEmpty) return {};
+    try {
+      // Intentamos usar .in_ para filtrar por varios ids
+      dynamic resp;
+      // Intentamos filtrar en servidor por usuario_id; si no está disponible,
+      // fallback a traer todos y filtrar en memoria.
+      try {
+        resp = await _supabase
+            .from('listar_boda')
+            .select('usuario_id')
+            .eq('is_deleted', false);
+      } catch (_) {
+        resp = await _supabase
+            .from('listar_boda')
+            .select('usuario_id')
+            .eq('is_deleted', false);
+      }
+
+      final rows = (resp as List).cast<dynamic>();
+      final Map<String, int> counts = {};
+      for (final r in rows) {
+        try {
+          final m = Map<String, dynamic>.from(r as Map);
+          final uid = (m['usuario_id'] ?? m['user_id'])?.toString() ?? '';
+          if (uid.isEmpty) continue;
+          if (!userIds.contains(uid)) continue;
+          counts[uid] = (counts[uid] ?? 0) + 1;
+        } catch (_) {
+          continue;
+        }
+      }
+
+      // Ensure zero counts for users with no bodas
+      for (final id in userIds) {
+        counts.putIfAbsent(id, () => 0);
+      }
+
+      return counts;
+    } catch (e) {
+      // En caso de error devolvemos vacío y permitimos que la UI lo trate
+      return {for (var id in userIds) id: 0};
+    }
+  }
+
   /// Obtiene todos los usuarios desde la vista `user_info`
   Future<List<UserInfo>> fetchAllUsers() async {
     try {
       final resp = await _supabase.from('user_info').select().order('nombre');
       final rows = (resp as List).cast<dynamic>();
-      return rows
-          .map((r) => UserInfo.fromJson(Map<String, dynamic>.from(r as Map)))
-          .toList();
+      return rows.map((r) {
+        final map = Map<String, dynamic>.from(r as Map);
+        final normalized = _normalizeUserMap(map);
+        return UserInfo.fromJson(normalized);
+      }).toList();
     } catch (e) {
       throw Exception('Error al obtener usuarios: $e');
     }
@@ -22,7 +91,9 @@ class UserLogic {
       final resp =
           await _supabase.from('user_info').select().eq('id', id).maybeSingle();
       if (resp == null) return null;
-      return UserInfo.fromJson(Map<String, dynamic>.from(resp as Map));
+      final map = Map<String, dynamic>.from(resp as Map);
+      final normalized = _normalizeUserMap(map);
+      return UserInfo.fromJson(normalized);
     } catch (e) {
       throw Exception('Error al obtener usuario $id: $e');
     }
@@ -133,7 +204,7 @@ class PaginateUsersNotifier extends StateNotifier<PaginateUserState> {
         currentPageUsers: currentPageUsers,
         isLoading: false,
       );
-    } catch (e, st) {
+    } catch (e) {
       state = state.copyWith(isLoading: false, errorMessage: e.toString());
     }
   }
