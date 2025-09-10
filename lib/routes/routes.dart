@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bodas/routes/linkspaper.dart';
 import 'package:bodas/screens/admin_stadistics.dart';
+import 'package:bodas/screens/contratados_page.dart';
 
 // Provider para el router que depende del estado de autenticación
 
@@ -160,7 +161,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/admin/contratados',
         name: 'contratados',
-        builder: (context, state) => const Placeholder(),
+        builder: (context, state) => const ContratadosScreen(),
       ),
       GoRoute(
         path: '/admin/notas',
