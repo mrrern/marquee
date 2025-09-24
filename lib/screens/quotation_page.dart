@@ -34,7 +34,7 @@ class _QuotationRequestScreenState
           // Tablet
           Column(
             children: [
-              _buildHeader(context),
+              AdminNavBar(),
               _buildTitle(context),
               Expanded(
                 child: SingleChildScrollView(
@@ -54,7 +54,7 @@ class _QuotationRequestScreenState
           // Mobile
           mobile: Column(
             children: [
-              _buildHeader(context),
+              AdminNavBar(),
               _buildTitle(context),
               Expanded(
                 child: SingleChildScrollView(
@@ -75,7 +75,7 @@ class _QuotationRequestScreenState
           // Web
           web: Column(
             children: [
-              _buildHeader(context),
+              AdminNavBar(),
               _buildTitle(context),
               Expanded(
                 child: SingleChildScrollView(
@@ -93,66 +93,6 @@ class _QuotationRequestScreenState
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFF0C0C0C), Color(0x00737373)],
-        ),
-      ),
-      child: Responsive.isMobile(context)
-          ? Column(
-              children: [
-                Image.asset(
-                  logo,
-                  width: 200,
-                  height: 42,
-                ),
-                const SizedBox(height: 20),
-                _buildNavLinks(),
-              ],
-            )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(
-                  logo,
-                  width: 309,
-                  height: 65,
-                ),
-                _buildNavLinks(),
-              ],
-            ),
-    );
-  }
-
-  Widget _buildNavLinks() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _navLink('Usuario'),
-        const SizedBox(width: 20),
-        _navLink('Menú'),
-        const SizedBox(width: 20),
-        _navLink('Salir'),
-      ],
-    );
-  }
-
-  Widget _navLink(String text) {
-    return Text(
-      text,
-      style: GoogleFonts.inter(
-        color: Colors.white,
-        fontSize: 20,
-        fontWeight: FontWeight.w700,
       ),
     );
   }

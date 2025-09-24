@@ -373,60 +373,143 @@ class ContratadosTable extends StatelessWidget {
     return Column(
       children: [
         if (!isMobile)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Row(
-              children: const [
-                Expanded(flex: 2, child: Text('Usuario')),
-                Expanded(flex: 2, child: Text('Estado')),
-                Expanded(flex: 2, child: Text('Fecha')),
-                Expanded(flex: 2, child: Text('Ceremonia')),
-                Expanded(flex: 1, child: Text('Invitados')),
-                Expanded(flex: 2, child: Text('Lugar')),
-                Expanded(flex: 1, child: Text('Ficha musical')),
-              ],
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                    minWidth: MediaQuery.of(context).size.width - 80),
+                child: Table(
+                  border: TableBorder.symmetric(
+                    inside: const BorderSide(color: Colors.black12, width: 1),
+                  ),
+                  columnWidths: const {
+                    0: FlexColumnWidth(2),
+                    1: FlexColumnWidth(2),
+                    2: FlexColumnWidth(2),
+                    3: FlexColumnWidth(2),
+                    4: FlexColumnWidth(1),
+                    5: FlexColumnWidth(2),
+                    6: FlexColumnWidth(1),
+                  },
+                  children: [
+                    // header
+                    TableRow(
+                      decoration: BoxDecoration(color: Colors.grey[200]),
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Text('Usuario', style: TextStyle(fontWeight: FontWeight.w600)),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Text('Estado', style: TextStyle(fontWeight: FontWeight.w600)),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Text('Fecha', style: TextStyle(fontWeight: FontWeight.w600)),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Text('Ceremonia', style: TextStyle(fontWeight: FontWeight.w600)),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Text('Invitados', style: TextStyle(fontWeight: FontWeight.w600)),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Text('Lugar', style: TextStyle(fontWeight: FontWeight.w600)),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(12.0),
+                          child: Text('Ficha musical', style: TextStyle(fontWeight: FontWeight.w600)),
+                        ),
+                      ],
+                    ),
+
+                    // data rows
+                    for (final r in rows)
+                      TableRow(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text((r['name_user'] ?? r['nombre'] ?? '-').toString()),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text((r['estado_boda'] ?? '-').toString()),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text((r['fecha'] ?? '-').toString()),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text((r['tipo_boda'] ?? '-').toString()),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text((r['invitados']?.toString() ?? '-').toString()),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Text((r['ubicacion'] ?? '-').toString()),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Icon(
+                              (r['music_complete'] ?? false) ? Icons.check_circle : Icons.error,
+                              color: (r['music_complete'] ?? false) ? Colors.green : Colors.orange,
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              ),
             ),
           ),
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: rows.length,
-          separatorBuilder: (_, __) => const Divider(height: 1),
-          itemBuilder: (context, index) {
-            final r = rows[index];
-            final userName = r['name_user'] ?? r['nombre'] ?? '-';
-            final estado = r['estado_boda'] ?? '-';
-            final fecha = r['fecha'] ?? '-';
-            final ceremonia = (r['tipo_boda'] ?? '-');
-            final invitados = r['invitados']?.toString() ?? '-';
-            final lugar = r['ubicacion'] ?? '-';
+        // mobile list/cards
+        if (isMobile)
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: rows.length,
+            separatorBuilder: (_, __) => const Divider(height: 1),
+            itemBuilder: (context, index) {
+              final r = rows[index];
+              final userName = r['name_user'] ?? r['nombre'] ?? '-';
+              final estado = r['estado_boda'] ?? '-';
+              final fecha = r['fecha'] ?? '-';
+              final ceremonia = (r['tipo_boda'] ?? '-');
+              final invitados = r['invitados']?.toString() ?? '-';
+              final lugar = r['ubicacion'] ?? '-';
 
-            // Determine if music is complete by querying musica_por_boda rows later, for now show placeholder
-            final musicComplete = r['music_complete'] ?? false;
+              final musicComplete = r['music_complete'] ?? false;
 
-            return Container(
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
-              child: Row(
-                children: [
-                  Expanded(flex: 2, child: Text(userName.toString())),
-                  Expanded(flex: 2, child: Text(estado.toString())),
-                  Expanded(flex: 2, child: Text(fecha.toString())),
-                  Expanded(flex: 2, child: Text(ceremonia.toString())),
-                  Expanded(flex: 1, child: Text(invitados.toString())),
-                  Expanded(flex: 2, child: Text(lugar.toString())),
-                  Expanded(
-                    flex: 1,
-                    child: Icon(
-                      musicComplete == true ? Icons.check_circle : Icons.error,
-                      color:
-                          musicComplete == true ? Colors.green : Colors.orange,
+              return Container(
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                child: Row(
+                  children: [
+                    Expanded(flex: 2, child: Text(userName.toString())),
+                    Expanded(flex: 2, child: Text(estado.toString())),
+                    Expanded(flex: 2, child: Text(fecha.toString())),
+                    Expanded(flex: 2, child: Text(ceremonia.toString())),
+                    Expanded(flex: 1, child: Text(invitados.toString())),
+                    Expanded(flex: 2, child: Text(lugar.toString())),
+                    Expanded(
+                      flex: 1,
+                      child: Icon(
+                        musicComplete == true ? Icons.check_circle : Icons.error,
+                        color: musicComplete == true ? Colors.green : Colors.orange,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
+                  ],
+                ),
+              );
+            },
+          ),
       ],
     );
   }

@@ -28,121 +28,130 @@ class QuotationCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Header row
-          Container(
-            height: 40,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: const BoxDecoration(
-              color: Color(0xFFD9D9D9),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
+          // Header + user row using Table for consistent columns
+          Table(
+            columnWidths: const {
+              0: FlexColumnWidth(3),
+              1: FlexColumnWidth(2),
+              2: FlexColumnWidth(1.5),
+            },
+            children: [
+              TableRow(
+                children: [
+                  Container(
+                    height: 40,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFD9D9D9),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                      ),
+                    ),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Nombre',
+                      style: GoogleFonts.inter(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF667085),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFD9D9D9),
+                    ),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Estado',
+                      style: GoogleFonts.inter(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF667085),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 40,
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    decoration: const BoxDecoration(
+                      color: Color(0xFFD9D9D9),
+                    ),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Prioridad',
+                      style: GoogleFonts.inter(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF667085),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 130,
-                  child: Text(
-                    'Nombre',
-                    style: GoogleFonts.inter(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF667085),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 129,
-                  child: Text(
-                    'Estado',
-                    style: GoogleFonts.inter(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF667085),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 103,
-                  child: Text(
-                    'Prioridad',
-                    style: GoogleFonts.inter(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w500,
-                      color: const Color(0xFF667085),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
 
-          // User row
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Row(
-              children: [
-                // User info
-                Row(
-                  children: [
-                    _buildAvatar(quotation),
-                    const SizedBox(width: 8),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
+              TableRow(children: [
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      _buildAvatar(quotation),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Text(
                           quotation.nombre,
                           style: GoogleFonts.inter(
                             fontSize: 10,
                             fontWeight: FontWeight.w500,
                             color: const Color(0xFF101828),
                           ),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-
-                const Spacer(),
-
-                // Status
-                Row(
-                  children: [
-                    Container(
-                      width: 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: quotation.isSumitedBoda
-                            ? const Color(0xFF12B76A)
-                            : Colors.grey,
                       ),
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      'Activo',
-                      style: GoogleFonts.inter(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(0xFF027A48),
-                      ),
-                    ),
-                  ],
-                ),
-
-                const Spacer(),
-
-                // Date
-                Text(
-                  quotation.fechaUltimaBoda.toString(),
-                  style: GoogleFonts.inter(
-                    fontSize: 10,
-                    color: const Color(0xFF667085),
+                    ],
                   ),
                 ),
-              ],
-            ),
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 8,
+                        height: 8,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: quotation.isSumitedBoda
+                              ? const Color(0xFF12B76A)
+                              : Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        'Activo',
+                        style: GoogleFonts.inter(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                          color: const Color(0xFF027A48),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Text(
+                    quotation.fechaUltimaBoda.toString(),
+                    style: GoogleFonts.inter(
+                      fontSize: 10,
+                      color: const Color(0xFF667085),
+                    ),
+                  ),
+                ),
+              ]),
+            ],
           ),
 
           // Divider with labels
