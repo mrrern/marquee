@@ -180,215 +180,276 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                if (!isMobile)
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0),
-                                    child: Row(
-                                      children: const [
-                                        Expanded(
-                                            flex: 3, child: Text('Nombre')),
-                                        Expanded(flex: 2, child: Text('Rol')),
-                                        Expanded(
-                                            flex: 3, child: Text('Correo')),
-                                        Expanded(flex: 2, child: Text('Fecha')),
-                                        Expanded(
-                                            flex: 2, child: Text('Acciones')),
-                                      ],
-                                    ),
-                                  ),
-                                const SizedBox(height: 6),
-                                Expanded(
-                                  child: ListView.separated(
-                                    itemCount: shown.length,
-                                    separatorBuilder: (_, __) => const Divider(
-                                        height: 1, color: Colors.white24),
-                                    itemBuilder: (context, index) {
-                                      final u = shown[index];
-                                      return Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 12, horizontal: 8),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white
-                                              .withValues(alpha: 0.06),
-                                          borderRadius:
-                                              BorderRadius.circular(6),
-                                        ),
-                                        child: Row(
+                                // Desktop/tablet: show a material Table with header and rows
+                                if (!isMobile) ...[
+                                  const SizedBox(height: 6),
+                                  Expanded(
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: ConstrainedBox(
+                                        constraints: BoxConstraints(
+                                            minWidth: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                80),
+                                        child: Table(
+                                          border: TableBorder.symmetric(
+                                            inside: const BorderSide(
+                                                color: Colors.white24,
+                                                width: 1),
+                                          ),
+                                          columnWidths: const {
+                                            0: FlexColumnWidth(3),
+                                            1: FlexColumnWidth(2),
+                                            2: FlexColumnWidth(3),
+                                            3: FlexColumnWidth(2),
+                                            4: FlexColumnWidth(2),
+                                          },
                                           children: [
-                                            Expanded(
-                                              flex: 3,
-                                              child: Row(
+                                            // Header row
+                                            TableRow(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white
+                                                      .withAlpha(2)),
+                                              children: const [
+                                                Padding(
+                                                  padding: EdgeInsets.all(12.0),
+                                                  child: Text('Nombre',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.all(12.0),
+                                                  child: Text('Rol',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.all(12.0),
+                                                  child: Text('Correo',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.all(12.0),
+                                                  child: Text('Fecha',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsets.all(12.0),
+                                                  child: Text('Acciones',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                ),
+                                              ],
+                                            ),
+
+                                            // Data rows
+                                            for (final u in shown)
+                                              TableRow(
                                                 children: [
-                                                  CircleAvatar(
-                                                    radius: 20,
-                                                    child: Text(
-                                                        u.nombre.isNotEmpty
-                                                            ? u.nombre[0]
-                                                            : 'U'),
-                                                  ),
-                                                  const SizedBox(width: 10),
-                                                  Flexible(
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            12.0),
+                                                    child: Row(
                                                       children: [
-                                                        Text(u.nombre,
-                                                            style: const TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600)),
+                                                        CircleAvatar(
+                                                          radius: 20,
+                                                          child: Text(u.nombre
+                                                                  .isNotEmpty
+                                                              ? u.nombre[0]
+                                                              : 'U'),
+                                                        ),
                                                         const SizedBox(
-                                                            height: 6),
-                                                        Text('@${u.nombre}',
-                                                            style:
-                                                                const TextStyle(
-                                                                    color: Colors
-                                                                        .grey,
-                                                                    fontSize:
-                                                                        12)),
+                                                            width: 10),
+                                                        Flexible(
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Text(u.nombre,
+                                                                  style: const TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600)),
+                                                              const SizedBox(
+                                                                  height: 6),
+                                                              Text(
+                                                                  '@${u.nombre}',
+                                                                  style: const TextStyle(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      fontSize:
+                                                                          12)),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              12.0),
+                                                      child: Text(u.rol)),
+                                                  Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              12.0),
+                                                      child: Text(u.email)),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            12.0),
+                                                    child: Text(''),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        IconButton(
+                                                          onPressed: () =>
+                                                              context.pushNamed(
+                                                                  'user_edit',
+                                                                  extra: u),
+                                                          icon: const Icon(
+                                                              Icons.edit,
+                                                              size: 18),
+                                                        ),
+                                                        IconButton(
+                                                          onPressed: () async {
+                                                            final confirm =
+                                                                await showDialog<
+                                                                    bool>(
+                                                              context: context,
+                                                              builder: (c) =>
+                                                                  AlertDialog(
+                                                                title: const Text(
+                                                                    'Eliminar usuario'),
+                                                                content: Text(
+                                                                    '¿Eliminar a ${u.nombre}?'),
+                                                                actions: [
+                                                                  TextButton(
+                                                                      onPressed: () =>
+                                                                          Navigator.of(c).pop(
+                                                                              false),
+                                                                      child: const Text(
+                                                                          'Cancelar')),
+                                                                  TextButton(
+                                                                      onPressed: () =>
+                                                                          Navigator.of(c).pop(
+                                                                              true),
+                                                                      child: const Text(
+                                                                          'Eliminar')),
+                                                                ],
+                                                              ),
+                                                            );
+                                                            if (confirm ??
+                                                                false) {
+                                                              await ref
+                                                                  .read(usersAdminProvider
+                                                                      .notifier)
+                                                                  .removeUser(
+                                                                      u.id);
+                                                              await ref
+                                                                  .read(paginateUsersProvider
+                                                                      .notifier)
+                                                                  .refresh();
+                                                            }
+                                                          },
+                                                          icon: const Icon(
+                                                              Icons.delete,
+                                                              size: 18),
+                                                        ),
                                                       ],
                                                     ),
                                                   ),
                                                 ],
                                               ),
-                                            ),
-                                            Expanded(
-                                                flex: 2, child: Text(u.rol)),
-                                            Expanded(
-                                                flex: 3, child: Text(u.email)),
-                                            Expanded(
-                                              flex: 2,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  IconButton(
-                                                    onPressed: () => context
-                                                        .pushNamed('user_edit',
-                                                            extra: u),
-                                                    icon: const Icon(Icons.edit,
-                                                        size: 18),
-                                                  ),
-                                                  IconButton(
-                                                    onPressed: () async {
-                                                      final confirm =
-                                                          await showDialog<
-                                                              bool>(
-                                                        context: context,
-                                                        builder: (c) =>
-                                                            AlertDialog(
-                                                          title: const Text(
-                                                              'Eliminar usuario'),
-                                                          content: Text(
-                                                              '¿Eliminar a ${u.nombre}?'),
-                                                          actions: [
-                                                            TextButton(
-                                                                onPressed: () =>
-                                                                    Navigator.of(
-                                                                            c)
-                                                                        .pop(
-                                                                            false),
-                                                                child: const Text(
-                                                                    'Cancelar')),
-                                                            TextButton(
-                                                                onPressed: () =>
-                                                                    Navigator.of(
-                                                                            c)
-                                                                        .pop(
-                                                                            true),
-                                                                child: const Text(
-                                                                    'Eliminar')),
-                                                          ],
-                                                        ),
-                                                      );
-                                                      if (confirm ?? false) {
-                                                        await ref
-                                                            .read(
-                                                                usersAdminProvider
-                                                                    .notifier)
-                                                            .removeUser(u.id);
-                                                        await ref
-                                                            .read(
-                                                                paginateUsersProvider
-                                                                    .notifier)
-                                                            .refresh();
-                                                      }
-                                                    },
-                                                    icon: const Icon(
-                                                        Icons.delete,
-                                                        size: 18),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
                                           ],
                                         ),
-                                      );
-                                    },
-                                  ),
-                                ),
-
-                                // Pagination controls
-                                const SizedBox(height: 12),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    IconButton(
-                                      onPressed: () => ref
-                                          .read(paginateUsersProvider.notifier)
-                                          .changePage((paginateState
-                                                      .currentPage -
-                                                  1)
-                                              .clamp(
-                                                  1, paginateState.totalPages)),
-                                      icon: const Icon(Icons.chevron_left),
+                                      ),
                                     ),
-                                    for (int i = 1;
-                                        i <= paginateState.totalPages;
-                                        i++)
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 4.0),
-                                        child: GestureDetector(
-                                          onTap: () => ref
-                                              .read(paginateUsersProvider
-                                                  .notifier)
-                                              .changePage(i),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 6),
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  i == paginateState.currentPage
-                                                      ? Colors.white
-                                                      : Colors.transparent,
-                                              borderRadius:
-                                                  BorderRadius.circular(6),
+                                  ),
+                                  const SizedBox(height: 12),
+                                  // Pagination controls (desktop)
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () => ref
+                                            .read(
+                                                paginateUsersProvider.notifier)
+                                            .changePage(
+                                                (paginateState.currentPage - 1)
+                                                    .clamp(
+                                                        1,
+                                                        paginateState
+                                                            .totalPages)),
+                                        icon: const Icon(Icons.chevron_left),
+                                      ),
+                                      for (int i = 1;
+                                          i <= paginateState.totalPages;
+                                          i++)
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 4.0),
+                                          child: GestureDetector(
+                                            onTap: () => ref
+                                                .read(paginateUsersProvider
+                                                    .notifier)
+                                                .changePage(i),
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 6),
+                                              decoration: BoxDecoration(
+                                                color: i ==
+                                                        paginateState
+                                                            .currentPage
+                                                    ? Colors.white
+                                                    : Colors.transparent,
+                                                borderRadius:
+                                                    BorderRadius.circular(6),
+                                              ),
+                                              child: Text('$i',
+                                                  style: TextStyle(
+                                                      color: i ==
+                                                              paginateState
+                                                                  .currentPage
+                                                          ? Colors.black
+                                                          : Colors.white)),
                                             ),
-                                            child: Text('$i',
-                                                style: TextStyle(
-                                                    color: i ==
-                                                            paginateState
-                                                                .currentPage
-                                                        ? Colors.black
-                                                        : Colors.white)),
                                           ),
                                         ),
+                                      IconButton(
+                                        onPressed: () => ref
+                                            .read(
+                                                paginateUsersProvider.notifier)
+                                            .changePage(
+                                                (paginateState.currentPage + 1)
+                                                    .clamp(
+                                                        1,
+                                                        paginateState
+                                                            .totalPages)),
+                                        icon: const Icon(Icons.chevron_right),
                                       ),
-                                    IconButton(
-                                      onPressed: () => ref
-                                          .read(paginateUsersProvider.notifier)
-                                          .changePage((paginateState
-                                                      .currentPage +
-                                                  1)
-                                              .clamp(
-                                                  1, paginateState.totalPages)),
-                                      icon: const Icon(Icons.chevron_right),
-                                    ),
-                                  ],
-                                ),
+                                    ],
+                                  ),
+                                ]
                               ],
                             );
                           },
@@ -412,5 +473,4 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
       ),
     );
   }
-
 }

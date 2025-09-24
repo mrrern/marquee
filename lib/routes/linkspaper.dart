@@ -33,7 +33,7 @@ export 'package:bodas/screens/note_page.dart';
 export 'package:bodas/screens/admin_dashboard.dart';
 export 'package:bodas/screens/quotation_page.dart';
 export 'package:bodas/screens/notification_page.dart';
-export 'package:bodas/screens/remarketing_page.dart';
+export 'package:bodas/screens/admin_remarketing_page.dart';
 export 'package:bodas/screens/access_admin_page.dart';
 export 'package:bodas/logic/marketing_logic.dart';
 export 'package:bodas/controllers/cotizacion/cotizacion_request.dart';

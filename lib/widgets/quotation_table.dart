@@ -22,227 +22,257 @@ class QuotationTable extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: DataTable(
-            headingRowColor: WidgetStateProperty.all(const Color(0xFFECECEC)),
-            dataRowMinHeight: 70,
-            dataRowMaxHeight: 70,
-            columns: [
-              DataColumn(
-                label: Checkbox(
-                  value: false,
-                  onChanged: (value) {},
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Nombre',
-                  style: GoogleFonts.inter(
-                    fontSize: 17, // 20 * 0.85
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF667085),
+          child: Table(
+            border: TableBorder.symmetric(
+              inside: const BorderSide(color: Color(0xFFEEEEEE), width: 1),
+            ),
+            columnWidths: const {
+              0: FixedColumnWidth(48),
+              1: FlexColumnWidth(3),
+              2: FlexColumnWidth(2),
+              3: FlexColumnWidth(1.5),
+              4: FlexColumnWidth(1.5),
+              5: FlexColumnWidth(2),
+              6: FlexColumnWidth(1.5),
+              7: FlexColumnWidth(1.5),
+              8: FlexColumnWidth(1.5),
+              9: FlexColumnWidth(1.5),
+            },
+            children: [
+              // Header
+              TableRow(
+                decoration: BoxDecoration(color: const Color(0xFFECECEC)),
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: SizedBox.shrink(),
                   ),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Fecha',
-                  style: GoogleFonts.inter(
-                    fontSize: 17, // 20 * 0.85
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF667085),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Invitados',
-                  style: GoogleFonts.inter(
-                    fontSize: 17, // 20 * 0.85
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF667085),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Ceremonia',
-                  style: GoogleFonts.inter(
-                    fontSize: 17, // 20 * 0.85
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF667085),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Lugar',
-                  style: GoogleFonts.inter(
-                    fontSize: 17, // 20 * 0.85
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF667085),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Cotización',
-                  style: GoogleFonts.inter(
-                    fontSize: 17, // 20 * 0.85
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF667085),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Contrato firmado',
-                  style: GoogleFonts.inter(
-                    fontSize: 17, // 20 * 0.85
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF667085),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Contactar',
-                  style: GoogleFonts.inter(
-                    fontSize: 17, // 20 * 0.85
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF667085),
-                  ),
-                ),
-              ),
-              DataColumn(
-                label: Text(
-                  'Contratados',
-                  style: GoogleFonts.inter(
-                    fontSize: 17, // 20 * 0.85
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF667085),
-                  ),
-                ),
-              ),
-            ],
-            rows: quotations.map((quotation) {
-              return DataRow(
-                cells: [
-                  DataCell(
-                    Checkbox(
-                      value: false,
-                      onChanged: (value) {},
-                    ),
-                  ),
-                  DataCell(
-                    Row(
-                      children: [
-                        _buildAvatar(quotation),
-                        const SizedBox(width: 10), // 12 * 0.85
-                        Text(
-                          quotation.nombre,
-                          style: GoogleFonts.inter(
-                            fontSize: 12, // 14 * 0.85
-                            fontWeight: FontWeight.w500,
-                            color: const Color(0xFF101828),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  DataCell(
-                    Text(
-                      quotation.fechaUltimaBoda.toString(),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      'Nombre',
                       style: GoogleFonts.inter(
-                        fontSize: 12, // 14 * 0.85
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
                         color: const Color(0xFF667085),
                       ),
                     ),
                   ),
-                  DataCell(
-                    Text(
-                      quotation.invitados.toString(),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      'Fecha',
                       style: GoogleFonts.inter(
-                        fontSize: 12, // 14 * 0.85
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
                         color: const Color(0xFF667085),
                       ),
                     ),
                   ),
-                  DataCell(
-                    Text(
-                      quotation.tipoCeremonia,
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      'Invitados',
                       style: GoogleFonts.inter(
-                        fontSize: 12, // 14 * 0.85
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
                         color: const Color(0xFF667085),
                       ),
                     ),
                   ),
-                  DataCell(
-                    Text(
-                      quotation.lugarCeremonia,
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      'Ceremonia',
                       style: GoogleFonts.inter(
-                        fontSize: 12, // 14 * 0.85
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
                         color: const Color(0xFF667085),
                       ),
                     ),
                   ),
-                  DataCell(
-                    quotation.isSumitedBoda
-                        ? Icon(
-                            Icons.picture_as_pdf,
-                            size: 46,
-                          ) // 54 * 0.85
-                        : const SizedBox(),
-                  ),
-                  DataCell(
-                    quotation.isSumitedBoda
-                        ? Icon(
-                            Icons.picture_as_pdf,
-                            size: 46,
-                          ) // 54 * 0.85
-                        : const SizedBox(),
-                  ),
-                  DataCell(
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.phone,
-                          size: 17, // 20 * 0.85
-                          color: Colors.black.withValues(alpha: 0.59),
-                        ),
-                        const SizedBox(width: 8), // 10 * 0.85
-                        Icon(
-                          Icons.message,
-                          size: 17, // 20 * 0.85
-                          color: Colors.black.withValues(alpha: 0.59),
-                        ),
-                      ],
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      'Lugar',
+                      style: GoogleFonts.inter(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF667085),
+                      ),
                     ),
                   ),
-                  DataCell(
-                    quotation.isSumitedBoda
-                        ? Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 7, // 8 * 0.85
-                              vertical: 2,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFECFDF3),
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Text(
-                              'Aceptar',
-                              style: GoogleFonts.inter(
-                                fontSize: 10, // 12 * 0.85
-                                fontWeight: FontWeight.w500,
-                                color: const Color(0xFF027A48),
-                              ),
-                            ),
-                          )
-                        : const SizedBox(),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      'Cotización',
+                      style: GoogleFonts.inter(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF667085),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      'Contrato firmado',
+                      style: GoogleFonts.inter(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF667085),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      'Contactar',
+                      style: GoogleFonts.inter(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF667085),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      'Contratados',
+                      style: GoogleFonts.inter(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF667085),
+                      ),
+                    ),
                   ),
                 ],
-              );
-            }).toList(),
+              ),
+
+              // Data rows
+              for (final quotation in quotations)
+                TableRow(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Checkbox(
+                        value: false,
+                        onChanged: (value) {},
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        children: [
+                          _buildAvatar(quotation),
+                          const SizedBox(width: 10),
+                          Text(
+                            quotation.nombre,
+                            style: GoogleFonts.inter(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: const Color(0xFF101828),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        quotation.fechaUltimaBoda.toString(),
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          color: const Color(0xFF667085),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        quotation.invitados.toString(),
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          color: const Color(0xFF667085),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        quotation.tipoCeremonia,
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          color: const Color(0xFF667085),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        quotation.lugarCeremonia,
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          color: const Color(0xFF667085),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: quotation.isSumitedBoda
+                          ? const Icon(Icons.picture_as_pdf, size: 46)
+                          : const SizedBox(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: quotation.isSumitedBoda
+                          ? const Icon(Icons.picture_as_pdf, size: 46)
+                          : const SizedBox(),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.phone,
+                            size: 17,
+                            color: Colors.black.withValues(alpha: 0.59),
+                          ),
+                          const SizedBox(width: 8),
+                          Icon(
+                            Icons.message,
+                            size: 17,
+                            color: Colors.black.withValues(alpha: 0.59),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: quotation.isSumitedBoda
+                          ? Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 7,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFECFDF3),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Text(
+                                'Aceptar',
+                                style: GoogleFonts.inter(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xFF027A48),
+                                ),
+                              ),
+                            )
+                          : const SizedBox(),
+                    ),
+                  ],
+                ),
+            ],
           ),
         ),
       ),

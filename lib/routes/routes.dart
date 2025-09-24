@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bodas/routes/linkspaper.dart';
 import 'package:bodas/screens/admin_stadistics.dart';
-import 'package:bodas/screens/contratados_page.dart';
+import 'package:bodas/screens/admin_contratados_page.dart';
 
 // Provider para el router que depende del estado de autenticación
 

@@ -18,60 +18,87 @@ class RemarketingTable extends ConsumerWidget {
         borderRadius: BorderRadius.circular(20),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: DataTable(
-            headingRowColor: WidgetStateProperty.all(const Color(0xFFECECEC)),
-            dataRowMinHeight: 70,
-            columns: [
-              DataColumn(
-                label: Text('Nombre', style: _headerTextStyle()),
-              ),
-              DataColumn(
-                label: Text('Estado', style: _headerTextStyle()),
-              ),
-              DataColumn(
-                label: Text('Fecha', style: _headerTextStyle()),
-              ),
-              DataColumn(
-                label: Text('Correo', style: _headerTextStyle()),
-              ),
-              DataColumn(
-                label: Text('Redactar', style: _headerTextStyle()),
-              ),
-            ],
-            rows: users.asMap().entries.map((entry) {
-              final user = entry.value;
-              return DataRow(
-                cells: [
-                  DataCell(Text(user.nombre)),
-                  DataCell(
-                    Row(
-                      children: [
-                        Container(
-                          width: 10,
-                          height: 10,
-                          decoration: BoxDecoration(
-                            color: getStatusColor(user.tieneBodaActiva),
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(user.tieneBodaActiva ? "Si" : "No"),
-                      ],
-                    ),
+          child: Table(
+            border: TableBorder.symmetric(
+              inside: const BorderSide(color: Color(0xFFEEEEEE), width: 1),
+            ),
+            columnWidths: const {
+              0: FlexColumnWidth(3),
+              1: FlexColumnWidth(1),
+              2: FlexColumnWidth(2),
+              3: FlexColumnWidth(3),
+              4: FixedColumnWidth(80),
+            },
+            children: [
+              TableRow(
+                decoration: BoxDecoration(color: const Color(0xFFECECEC)),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text('Nombre', style: _headerTextStyle()),
                   ),
-                  DataCell(Text(user.fechaCreacion.toIso8601String())),
-                  DataCell(Text(user.email)),
-                  DataCell(
-                    Checkbox(
-                      value: user.isSelected,
-                      onChanged: (value) => ref
-                          .read(selectedRemarketingUserProvider.notifier)
-                          .state = user,
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text('Estado', style: _headerTextStyle()),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text('Fecha', style: _headerTextStyle()),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text('Correo', style: _headerTextStyle()),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text('Redactar', style: _headerTextStyle()),
                   ),
                 ],
-              );
-            }).toList(),
+              ),
+              for (final user in users)
+                TableRow(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(user.nombre),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 10,
+                            height: 10,
+                            decoration: BoxDecoration(
+                              color: getStatusColor(user.tieneBodaActiva),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(user.tieneBodaActiva ? 'Si' : 'No'),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(user.fechaCreacion.toIso8601String()),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(user.email),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Checkbox(
+                        value: user.isSelected,
+                        onChanged: (value) => ref
+                            .read(selectedRemarketingUserProvider.notifier)
+                            .state = user,
+                      ),
+                    ),
+                  ],
+                ),
+            ],
           ),
         ),
       ),
