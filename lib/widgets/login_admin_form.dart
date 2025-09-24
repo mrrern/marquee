@@ -216,6 +216,7 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
 
   try {
     await ref.read(authServiceProvider).signInWithInfo(email, password);
+    if (!context.mounted) return;
     context.pop(); // Remove loading dialog
 
     final user = ref.read(authInfoProvider).value;
@@ -230,6 +231,7 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
       return;
     }
 
+    if (!context.mounted) return;
     if (user.rol == 'Administrador') {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -249,14 +251,16 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
       );
     }
   } catch (e) {
-    context.pop(); // Remove loading dialog
-    print('Login error: $e');
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Error al iniciar sesión: ${e.toString()}'),
-        backgroundColor: Colors.red,
-        duration: const Duration(seconds: 4),
-      ),
-    );
+    if (context.mounted) context.pop(); // Remove loading dialog
+    debugPrint('Login error: $e');
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al iniciar sesión: ${e.toString()}'),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 4),
+        ),
+      );
+    }
   }
 }

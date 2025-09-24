@@ -376,6 +376,7 @@ Future<void> _handleRegister(WidgetRef ref, BuildContext context) async {
   try {
     if (password == confirmPassword) {
       await ref.read(authServiceProvider).signUp(email, password, name, 2);
+      if (!context.mounted) return;
       context.pop();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -387,13 +388,16 @@ Future<void> _handleRegister(WidgetRef ref, BuildContext context) async {
     final user = ref.read(authProvider).value;
     if (user == null) {
       await ref.read(authServiceProvider).signIn(email, password);
+      if (!context.mounted) return;
       context.go('/boda');
     }
   } catch (e) {
-    context.pop();
+    if (context.mounted) context.pop();
     print(e);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
-    );
+    if (context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
+      );
+    }
   }
 }

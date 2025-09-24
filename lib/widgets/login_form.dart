@@ -241,6 +241,8 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
   try {
     // Realiza el login usando el AuthInfoNotifier para actualizar el estado global
     await ref.read(authInfoProvider.notifier).signIn(email, password);
+    // The widget may have been disposed while awaiting; check before using context
+    if (!context.mounted) return;
     context.pop(); // Remove loading dialog
 
     final authState = ref.read(authInfoProvider);
@@ -260,6 +262,8 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
     // Obtener las bodas del usuario usando WeddingLogic y decidir navegación
     final bodas =
         await ref.read(weddingLogicProvider).fetchWeddings(userInfo.id);
+    // Again ensure the context is still active before navigating
+    if (!context.mounted) return;
     final hasWeddingWithInfo =
         bodas.isNotEmpty && bodas.any((b) => b.hasInformation());
 
@@ -269,13 +273,16 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
       context.go('/boda');
     }
   } catch (e) {
-    context.pop(); // Remove loading dialog
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Error al iniciar sesión: ${e.toString()}'),
-        backgroundColor: Colors.red,
-        duration: const Duration(seconds: 4),
-      ),
-    );
+    // Attempt to remove loading dialog only if still mounted
+    if (context.mounted) {
+      context.pop(); // Remove loading dialog
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al iniciar sesión: ${e.toString()}'),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 4),
+        ),
+      );
+    }
   }
 }

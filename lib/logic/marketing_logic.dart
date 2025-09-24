@@ -12,26 +12,49 @@ class MarketingLogic {
 
     for (final user in users) {
       debugPrint('DEBUG: User data: $user');
-      debugPrint('DEBUG: user["id"] type: ${user['id'].runtimeType}, value: ${user['id']}');
+      debugPrint(
+          'DEBUG: user["id"] type: ${user['id'].runtimeType}, value: ${user['id']}');
       final String userId = user['id'].toString();
-      debugPrint('DEBUG: Converted userId: $userId (type: ${userId.runtimeType})');
+      debugPrint(
+          'DEBUG: Converted userId: $userId (type: ${userId.runtimeType})');
       final String nombre = user['nombre'] ?? '';
       final String email = user['email'] ?? '';
       final DateTime fechaCreacion =
           DateTime.tryParse(user['created_at'] ?? '') ?? DateTime.now();
 
       // 2. Buscar si tiene boda activa
-      debugPrint('DEBUG: Querying listar_boda with usuario_id=$userId');
-      final bodasResponse = await supabase
-          .from('listar_boda')
-          .select()
-          .eq('usuario_id', userId)
-          .eq('is_deleted', false);
-      final List bodas = bodasResponse as List;
-      debugPrint('DEBUG: Bodas query result: $bodas');
-      final bool tieneBodaActiva = bodas.isNotEmpty;
-      final String? bodaId =
-          tieneBodaActiva ? bodas.first['id'].toString() : null;
+      debugPrint('DEBUG: Querying listar_boda (lenient) for userId=$userId');
+      final bodasResponse = await supabase.from('listar_boda').select();
+      final List<dynamic> bodasAll = bodasResponse as List<dynamic>;
+      debugPrint('DEBUG: Raw listar_boda rows count: ${bodasAll.length}');
+
+      // Helper to read user id and is_deleted from a row using multiple possible keys
+      List<Map<String, dynamic>> filteredBodas = [];
+      for (final b in bodasAll) {
+        if (b is! Map) continue;
+        final Map<String, dynamic> row =
+            Map<String, dynamic>.from(b as Map<String, dynamic>);
+        final String? rowUserId = (row['user_id'] ??
+                row['usuario_id'] ??
+                row['userId'] ??
+                row['usuarioId'])
+            ?.toString();
+        final dynamic isDeletedRaw =
+            row['is_deleted'] ?? row['isDeleted'] ?? false;
+        final bool isDeleted =
+            (isDeletedRaw == true) || (isDeletedRaw?.toString() == 'true');
+        if (rowUserId == userId && !isDeleted) filteredBodas.add(row);
+      }
+
+      debugPrint(
+          'DEBUG: Filtered bodas for userId=$userId count: ${filteredBodas.length}');
+      final bool tieneBodaActiva = filteredBodas.isNotEmpty;
+      final String? bodaId = tieneBodaActiva
+          ? (filteredBodas.first['id'] ??
+                  filteredBodas.first['ID'] ??
+                  filteredBodas.first['boda_id'])
+              ?.toString()
+          : null;
       debugPrint('DEBUG: tieneBodaActiva: $tieneBodaActiva, bodaId: $bodaId');
 
       try {
@@ -45,7 +68,8 @@ class MarketingLogic {
           mailto: 'mailto:$email',
         );
         remarketingUsers.add(model);
-        debugPrint('DEBUG: Successfully created RemarketingUserModel for userId: $userId');
+        debugPrint(
+            'DEBUG: Successfully created RemarketingUserModel for userId: $userId');
       } catch (e) {
         debugPrint('DEBUG: Error creating RemarketingUserModel: $e');
       }
@@ -55,7 +79,8 @@ class MarketingLogic {
   }
 
   Future<RemarketingUserModel?> getRemarketingUser(String userId) async {
-    debugPrint('DEBUG: getRemarketingUser called with userId: $userId (type: ${userId.runtimeType})');
+    debugPrint(
+        'DEBUG: getRemarketingUser called with userId: $userId (type: ${userId.runtimeType})');
     final userResponse =
         await supabase.from('user_info').select().eq('id', userId).single();
     debugPrint('DEBUG: userResponse: $userResponse');
@@ -65,17 +90,33 @@ class MarketingLogic {
     }
 
     // Buscar si tiene boda activa
-    debugPrint('DEBUG: Querying listar_boda with usuario_id=$userId');
-    final bodasResponse = await supabase
-        .from('listar_boda')
-        .select()
-        .eq('usuario_id', userId)
-        .eq('is_deleted', false);
-    final List bodas = bodasResponse as List;
-    debugPrint('DEBUG: Bodas query result: $bodas');
-    final bool tieneBodaActiva = bodas.isNotEmpty;
-    final String? bodaId =
-        tieneBodaActiva ? bodas.first['id'].toString() : null;
+    debugPrint('DEBUG: Querying listar_boda with user_id=$userId');
+    final bodasResponse = await supabase.from('listar_boda').select();
+    final List<dynamic> bodasAll = bodasResponse as List<dynamic>;
+    final filteredBodas = bodasAll.where((b) {
+      if (b is! Map) return false;
+      final Map<String, dynamic> row =
+          Map<String, dynamic>.from(b as Map<String, dynamic>);
+      final String? rowUserId = (row['user_id'] ??
+              row['usuario_id'] ??
+              row['userId'] ??
+              row['usuarioId'])
+          ?.toString();
+      final dynamic isDeletedRaw =
+          row['is_deleted'] ?? row['isDeleted'] ?? false;
+      final bool isDeleted =
+          (isDeletedRaw == true) || (isDeletedRaw?.toString() == 'true');
+      return rowUserId == userId && !isDeleted;
+    }).toList();
+    debugPrint(
+        'DEBUG: Filtered bodas for userId=$userId count: ${filteredBodas.length}');
+    final bool tieneBodaActiva = filteredBodas.isNotEmpty;
+    final String? bodaId = tieneBodaActiva
+        ? (filteredBodas.first['id'] ??
+                filteredBodas.first['ID'] ??
+                filteredBodas.first['boda_id'])
+            ?.toString()
+        : null;
     debugPrint('DEBUG: tieneBodaActiva: $tieneBodaActiva, bodaId: $bodaId');
 
     try {
@@ -83,13 +124,14 @@ class MarketingLogic {
         id: userResponse['id'].toString(),
         nombre: userResponse['nombre'] ?? '',
         email: userResponse['email'] ?? '',
-        fechaCreacion:
-            DateTime.tryParse(userResponse['created_at'] ?? '') ?? DateTime.now(),
+        fechaCreacion: DateTime.tryParse(userResponse['created_at'] ?? '') ??
+            DateTime.now(),
         tieneBodaActiva: tieneBodaActiva,
         bodaId: bodaId,
         mailto: 'mailto:${userResponse['email'] ?? ''}',
       );
-      debugPrint('DEBUG: Successfully created RemarketingUserModel for userId: $userId');
+      debugPrint(
+          'DEBUG: Successfully created RemarketingUserModel for userId: $userId');
       return model;
     } catch (e) {
       debugPrint('DEBUG: Error creating RemarketingUserModel: $e');

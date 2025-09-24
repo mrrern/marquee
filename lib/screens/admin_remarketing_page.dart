@@ -10,6 +10,48 @@ class RemarketingPage extends ConsumerWidget {
     return Scaffold(
       body: Stack(
         children: [
+          // Background color
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: Colors.white,
+          ),
+
+          // Noise texture
+          Positioned(
+            top: -0.8,
+            left: -1,
+            child: Transform.rotate(
+              angle: 179.864 * (3.14159 / 180), // Convert degrees to radians
+              child: Image.asset(
+                back2,
+                width: 1442,
+                height: 1028,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+
+          // Gradient overlay
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 359,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xFF0C0C0C),
+                    Color(0x00737373),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
           // Contenido principal con padding superior para el header
           Padding(
             padding: const EdgeInsets.only(
@@ -22,38 +64,67 @@ class RemarketingPage extends ConsumerWidget {
                   return const Center(
                       child: Text('No hay usuarios para remarketing.'));
                 }
-                return ListView.separated(
-                  itemCount: users.length,
-                  separatorBuilder: (_, __) => const Divider(),
-                  itemBuilder: (context, index) {
-                    final user = users[index];
-                    return ListTile(
-                      leading: CircleAvatar(
-                          child: Text(
-                              user.nombre.isNotEmpty ? user.nombre[0] : '?')),
-                      title: Text(user.nombre),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(user.email),
-                          Text(
-                              'Creado: ${user.fechaCreacion.toLocal().toString().split(' ')[0]}'),
-                          Text(user.tieneBodaActiva
-                              ? 'Boda activa: Sí'
-                              : 'Boda activa: No'),
-                        ],
+
+                // Responsive: table on desktop/web, cards/list on mobile
+                return Responsive(
+                  // Desktop / large screens
+                  Column(
+                    children: [
+                      AdminNavBar(),
+                      Container(
+                        color: Colors.white,
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              children: [
+                                RemarketingTable(users: users),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.email),
-                        onPressed: () {
-                          final uri = Uri.parse(user.mailto);
-                          // Usa launchUrl si tienes url_launcher, o muestra el mailto
-                          launchUrl(uri);
-                        },
-                        tooltip: 'Enviar correo',
+                    ],
+                  ),
+
+                  // Mobile
+                  mobile: Column(
+                    children: [
+                      AdminNavBar(),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              children: [
+                                ...users.map((u) => RemarketingCard(user: u)),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                    );
-                  },
+                    ],
+                  ),
+
+                  // Web (treat same as desktop)
+                  web: Column(
+                    children: [
+                      AdminNavBar(),
+                      Container(
+                        color: Colors.white,
+                        child: SingleChildScrollView(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              children: [
+                                RemarketingTable(users: users),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),
