@@ -413,14 +413,4 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
     );
   }
 
-  String _formatDate(dynamic d) {
-    if (d == null) return '-';
-    try {
-      if (d is String) return DateFormat('dd/MM/yy').format(DateTime.parse(d));
-      if (d is DateTime) return DateFormat('dd/MM/yy').format(d);
-      return d.toString();
-    } catch (_) {
-      return d.toString();
-    }
-  }
 }

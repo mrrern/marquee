@@ -5,7 +5,6 @@ class HeaderWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final exit = ref.read(authProvider.notifier).signOut();
     final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = screenWidth < 991;
 

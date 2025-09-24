@@ -61,9 +61,9 @@ class StatisticsLogic {
       try {
         final fecha = r['fecha'];
         DateTime dt;
-        if (fecha is String)
+        if (fecha is String) {
           dt = DateTime.parse(fecha);
-        else if (fecha is DateTime)
+        } else if (fecha is DateTime)
           dt = fecha;
         else
           continue;
@@ -71,7 +71,9 @@ class StatisticsLogic {
       } catch (_) {}
     }
     final result = <MonthlyCount>[];
-    for (var i = 0; i < 12; i++) result.add(MonthlyCount(i + 1, counts[i]));
+    for (var i = 0; i < 12; i++) {
+      result.add(MonthlyCount(i + 1, counts[i]));
+    }
     return result;
   }
 

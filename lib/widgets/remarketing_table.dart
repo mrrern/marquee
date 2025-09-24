@@ -39,7 +39,6 @@ class RemarketingTable extends ConsumerWidget {
               ),
             ],
             rows: users.asMap().entries.map((entry) {
-              final index = entry.key;
               final user = entry.value;
               return DataRow(
                 cells: [

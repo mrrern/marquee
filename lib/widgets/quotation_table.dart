@@ -1,4 +1,3 @@
-import 'package:bodas/logic/cotizacion_logic.dart';
 import 'package:bodas/routes/linkspaper.dart';
 
 class QuotationTable extends StatelessWidget {
