@@ -92,7 +92,6 @@ class QuotationCard extends StatelessWidget {
                   ),
                 ],
               ),
-
               TableRow(children: [
                 Padding(
                   padding: const EdgeInsets.all(12),

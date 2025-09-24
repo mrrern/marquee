@@ -399,31 +399,38 @@ class ContratadosTable extends StatelessWidget {
                       children: const [
                         Padding(
                           padding: EdgeInsets.all(12.0),
-                          child: Text('Usuario', style: TextStyle(fontWeight: FontWeight.w600)),
+                          child: Text('Usuario',
+                              style: TextStyle(fontWeight: FontWeight.w600)),
                         ),
                         Padding(
                           padding: EdgeInsets.all(12.0),
-                          child: Text('Estado', style: TextStyle(fontWeight: FontWeight.w600)),
+                          child: Text('Estado',
+                              style: TextStyle(fontWeight: FontWeight.w600)),
                         ),
                         Padding(
                           padding: EdgeInsets.all(12.0),
-                          child: Text('Fecha', style: TextStyle(fontWeight: FontWeight.w600)),
+                          child: Text('Fecha',
+                              style: TextStyle(fontWeight: FontWeight.w600)),
                         ),
                         Padding(
                           padding: EdgeInsets.all(12.0),
-                          child: Text('Ceremonia', style: TextStyle(fontWeight: FontWeight.w600)),
+                          child: Text('Ceremonia',
+                              style: TextStyle(fontWeight: FontWeight.w600)),
                         ),
                         Padding(
                           padding: EdgeInsets.all(12.0),
-                          child: Text('Invitados', style: TextStyle(fontWeight: FontWeight.w600)),
+                          child: Text('Invitados',
+                              style: TextStyle(fontWeight: FontWeight.w600)),
                         ),
                         Padding(
                           padding: EdgeInsets.all(12.0),
-                          child: Text('Lugar', style: TextStyle(fontWeight: FontWeight.w600)),
+                          child: Text('Lugar',
+                              style: TextStyle(fontWeight: FontWeight.w600)),
                         ),
                         Padding(
                           padding: EdgeInsets.all(12.0),
-                          child: Text('Ficha musical', style: TextStyle(fontWeight: FontWeight.w600)),
+                          child: Text('Ficha musical',
+                              style: TextStyle(fontWeight: FontWeight.w600)),
                         ),
                       ],
                     ),
@@ -434,7 +441,8 @@ class ContratadosTable extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: Text((r['name_user'] ?? r['nombre'] ?? '-').toString()),
+                            child: Text((r['name_user'] ?? r['nombre'] ?? '-')
+                                .toString()),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(12.0),
@@ -450,7 +458,8 @@ class ContratadosTable extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: Text((r['invitados']?.toString() ?? '-').toString()),
+                            child: Text(
+                                (r['invitados']?.toString() ?? '-').toString()),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(12.0),
@@ -459,8 +468,12 @@ class ContratadosTable extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Icon(
-                              (r['music_complete'] ?? false) ? Icons.check_circle : Icons.error,
-                              color: (r['music_complete'] ?? false) ? Colors.green : Colors.orange,
+                              (r['music_complete'] ?? false)
+                                  ? Icons.check_circle
+                                  : Icons.error,
+                              color: (r['music_complete'] ?? false)
+                                  ? Colors.green
+                                  : Colors.orange,
                             ),
                           ),
                         ],
@@ -489,7 +502,8 @@ class ContratadosTable extends StatelessWidget {
               final musicComplete = r['music_complete'] ?? false;
 
               return Container(
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                 child: Row(
                   children: [
                     Expanded(flex: 2, child: Text(userName.toString())),
@@ -501,8 +515,12 @@ class ContratadosTable extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: Icon(
-                        musicComplete == true ? Icons.check_circle : Icons.error,
-                        color: musicComplete == true ? Colors.green : Colors.orange,
+                        musicComplete == true
+                            ? Icons.check_circle
+                            : Icons.error,
+                        color: musicComplete == true
+                            ? Colors.green
+                            : Colors.orange,
                       ),
                     ),
                   ],
