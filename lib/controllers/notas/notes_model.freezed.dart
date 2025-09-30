@@ -15,13 +15,17 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$NotesModel {
   int get id;
+  @JsonKey(name: 'boda_id')
   int get bodaId;
   String get title;
   String get description;
   Map<String, dynamic>? get images;
   String? get file;
+  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
+  @JsonKey(name: 'updated_at')
   DateTime? get updatedAt;
+  @JsonKey(name: 'is_deleted')
   bool get isDeleted;
 
   /// Create a copy of NotesModel
@@ -82,14 +86,14 @@ abstract mixin class $NotesModelCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      int bodaId,
+      @JsonKey(name: 'boda_id') int bodaId,
       String title,
       String description,
       Map<String, dynamic>? images,
       String? file,
-      DateTime? createdAt,
-      DateTime? updatedAt,
-      bool isDeleted});
+      @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'updated_at') DateTime? updatedAt,
+      @JsonKey(name: 'is_deleted') bool isDeleted});
 }
 
 /// @nodoc
@@ -250,14 +254,14 @@ extension NotesModelPatterns on NotesModel {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
             int id,
-            int bodaId,
+            @JsonKey(name: 'boda_id') int bodaId,
             String title,
             String description,
             Map<String, dynamic>? images,
             String? file,
-            DateTime? createdAt,
-            DateTime? updatedAt,
-            bool isDeleted)?
+            @JsonKey(name: 'created_at') DateTime? createdAt,
+            @JsonKey(name: 'updated_at') DateTime? updatedAt,
+            @JsonKey(name: 'is_deleted') bool isDeleted)?
         $default, {
     required TResult orElse(),
   }) {
@@ -296,14 +300,14 @@ extension NotesModelPatterns on NotesModel {
   TResult when<TResult extends Object?>(
     TResult Function(
             int id,
-            int bodaId,
+            @JsonKey(name: 'boda_id') int bodaId,
             String title,
             String description,
             Map<String, dynamic>? images,
             String? file,
-            DateTime? createdAt,
-            DateTime? updatedAt,
-            bool isDeleted)
+            @JsonKey(name: 'created_at') DateTime? createdAt,
+            @JsonKey(name: 'updated_at') DateTime? updatedAt,
+            @JsonKey(name: 'is_deleted') bool isDeleted)
         $default,
   ) {
     final _that = this;
@@ -340,14 +344,14 @@ extension NotesModelPatterns on NotesModel {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
             int id,
-            int bodaId,
+            @JsonKey(name: 'boda_id') int bodaId,
             String title,
             String description,
             Map<String, dynamic>? images,
             String? file,
-            DateTime? createdAt,
-            DateTime? updatedAt,
-            bool isDeleted)?
+            @JsonKey(name: 'created_at') DateTime? createdAt,
+            @JsonKey(name: 'updated_at') DateTime? updatedAt,
+            @JsonKey(name: 'is_deleted') bool isDeleted)?
         $default,
   ) {
     final _that = this;
@@ -374,14 +378,14 @@ extension NotesModelPatterns on NotesModel {
 class _NotesModel implements NotesModel {
   const _NotesModel(
       {required this.id,
-      required this.bodaId,
+      @JsonKey(name: 'boda_id') required this.bodaId,
       required this.title,
       required this.description,
       final Map<String, dynamic>? images,
       this.file,
-      this.createdAt,
-      this.updatedAt,
-      this.isDeleted = false})
+      @JsonKey(name: 'created_at') this.createdAt,
+      @JsonKey(name: 'updated_at') this.updatedAt,
+      @JsonKey(name: 'is_deleted') this.isDeleted = false})
       : _images = images;
   factory _NotesModel.fromJson(Map<String, dynamic> json) =>
       _$NotesModelFromJson(json);
@@ -389,6 +393,7 @@ class _NotesModel implements NotesModel {
   @override
   final int id;
   @override
+  @JsonKey(name: 'boda_id')
   final int bodaId;
   @override
   final String title;
@@ -407,11 +412,13 @@ class _NotesModel implements NotesModel {
   @override
   final String? file;
   @override
+  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @override
+  @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
   @override
-  @JsonKey()
+  @JsonKey(name: 'is_deleted')
   final bool isDeleted;
 
   /// Create a copy of NotesModel
@@ -479,14 +486,14 @@ abstract mixin class _$NotesModelCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
-      int bodaId,
+      @JsonKey(name: 'boda_id') int bodaId,
       String title,
       String description,
       Map<String, dynamic>? images,
       String? file,
-      DateTime? createdAt,
-      DateTime? updatedAt,
-      bool isDeleted});
+      @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'updated_at') DateTime? updatedAt,
+      @JsonKey(name: 'is_deleted') bool isDeleted});
 }
 
 /// @nodoc

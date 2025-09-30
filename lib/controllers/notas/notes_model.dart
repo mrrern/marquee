@@ -7,14 +7,14 @@ part 'notes_model.g.dart';
 abstract class NotesModel with _$NotesModel {
   const factory NotesModel({
     required int id,
-    required int bodaId,
+    @JsonKey(name: 'boda_id') required int bodaId,
     required String title,
     required String description,
     Map<String, dynamic>? images,
     String? file,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    @Default(false) bool isDeleted,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
+    @JsonKey(name: 'updated_at') DateTime? updatedAt,
+    @JsonKey(name: 'is_deleted') @Default(false) bool isDeleted,
   }) = _NotesModel;
 
   factory NotesModel.fromJson(Map<String, dynamic> json) =>

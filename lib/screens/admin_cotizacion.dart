@@ -1,15 +1,13 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-class QuotationRequestScreen extends ConsumerStatefulWidget {
-  const QuotationRequestScreen({super.key});
+class CotizacionPage extends ConsumerStatefulWidget {
+  const CotizacionPage({super.key});
 
   @override
-  ConsumerState<QuotationRequestScreen> createState() =>
-      _QuotationRequestScreenState();
+  ConsumerState<CotizacionPage> createState() => _CotizacionPageState();
 }
 
-class _QuotationRequestScreenState
-    extends ConsumerState<QuotationRequestScreen> {
+class _CotizacionPageState extends ConsumerState<CotizacionPage> {
   @override
   void initState() {
     super.initState();
