@@ -132,16 +132,9 @@ class AuthService {
             throw Exception('User info not found');
           }
 
-          // Get bodas from listar_boda view
-          final bodasData = await _supabase
-              .from('listar_boda')
-              .select()
-              .eq('user_id', response.user!.id)
-              .eq('is_deleted', false);
-
           // Log listar_boda data
-          debugPrint(
-              'Listar Boda Data for user ID ${response.user!.id}: $bodasData');
+          // debugPrint(
+          //     'Listar Boda Data for user ID ${response.user!.id}: $bodasData');
 
           // Create UserInfo
           final userInfo = UserInfo(

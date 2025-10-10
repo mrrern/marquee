@@ -20,29 +20,76 @@ class CotizacionLogic {
     required bool isAdmin,
   }) async {
     try {
-      // Crear el path del archivo en el storage
-      final String fileName = file.path.split('/').last;
-      final String storagePath = 'bodas/$bodaId/$fileName';
+      // Forzar un nombre estable para permitir sobrescritura admin/usuario
+      final String originalName = file.path.split('/').last;
+      final String ext =
+          (originalName.contains('.') ? originalName.split('.').last : 'pdf')
+              .toLowerCase();
+      final String storagePath = 'bodas/$bodaId/cotizacion.$ext';
 
-      // Subir el archivo al storage
-      await _supabase.storage.from('archives-bodas').upload(storagePath, file);
+      // Intentar primero en bucket `cotizaciones`, si no existe usar `archives-bodas`
+      final List<String> bucketCandidates = ['cotizaciones', 'archives-bodas'];
+      String? selectedBucket;
 
-      // Obtener la URL pública del archivo
-      final String fileUrl =
-          _supabase.storage.from('archives-bodas').getPublicUrl(storagePath);
+      Object? lastError;
+      for (final bucket in bucketCandidates) {
+        try {
+          await _supabase.storage.from(bucket).upload(storagePath, file,
+              fileOptions: const FileOptions(upsert: true));
+          selectedBucket = bucket;
+          break;
+        } catch (e) {
+          lastError = e;
+        }
+      }
 
-      // Crear el registro en la tabla uploaded_files
-      final Map<String, dynamic> data = {
-        'boda_id': bodaId,
-        if (isAdmin) 'file_path_admin': fileUrl,
-        if (!isAdmin) 'file_path_user': fileUrl,
-        'created_at': DateTime.now().toIso8601String(),
-      };
+      if (selectedBucket == null) {
+        throw Exception(
+            'No se pudo subir el archivo a ningún bucket: $lastError');
+      }
 
-      final response =
-          await _supabase.from('uploaded_files').insert(data).select().single();
+      // Generar URL firmada (los buckets son privados por RLS)
+      final signed = await _supabase.storage
+          .from(selectedBucket)
+          .createSignedUrl(storagePath, 60 * 60 * 24 * 7); // 7 días
+      final String fileUrl = signed;
 
-      return CotizacionModel.fromJson(response);
+      // Upsert en `uploaded_files` por boda_id
+      final List existing = await _supabase
+          .from('uploaded_files')
+          .select('id')
+          .eq('boda_id', bodaId)
+          .limit(1);
+
+      if (existing.isNotEmpty) {
+        final int existingId = (existing.first)['id'] as int;
+        final Map<String, dynamic> updateData = {
+          if (isAdmin) 'file_path_admin': fileUrl,
+          if (!isAdmin) 'file_path_user': fileUrl,
+          'updated_at': DateTime.now().toIso8601String(),
+        };
+        final response = await _supabase
+            .from('uploaded_files')
+            .update(updateData)
+            .eq('id', existingId)
+            .select()
+            .single();
+        return CotizacionModel.fromJson(response);
+      } else {
+        final Map<String, dynamic> insertData = {
+          'boda_id': bodaId,
+          if (isAdmin) 'file_path_admin': fileUrl,
+          if (!isAdmin) 'file_path_user': fileUrl,
+          'created_at': DateTime.now().toIso8601String(),
+          'updated_at': DateTime.now().toIso8601String(),
+        };
+        final response = await _supabase
+            .from('uploaded_files')
+            .insert(insertData)
+            .select()
+            .single();
+        return CotizacionModel.fromJson(response);
+      }
     } catch (e) {
       throw Exception('Error al subir el archivo: $e');
     }

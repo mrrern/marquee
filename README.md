@@ -75,3 +75,137 @@ lib/
 │  ├─ models/              # Modelos de datos
 │  ├─ utils/               # Utilidades compartidas
 │  └─ constants/           # Constantes y enumeraciones
+```
+
+## 📦 Supabase Storage: Flujo de Cotizaciones
+
+Este proyecto utiliza Supabase Storage para gestionar el flujo de cotizaciones:
+- Admin sube archivo de cotización.
+- Usuario descarga el archivo.
+- Usuario sube su versión y sobrescribe la del admin en la misma ruta.
+
+### Bucket y Políticas (ejecutar en el SQL editor de Supabase)
+
+1) Helper de rol admin utilizando tablas `public.users` y `public.users_rol`:
+
+```sql
+create or replace function public.is_admin()
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1
+    from public.users u
+    join public.users_rol r on r.id = u.rol_id
+    where u.id = auth.uid()
+      and lower(r.nombre) = 'admin'
+  );
+$$;
+```
+
+2) Crear bucket privado `cotizaciones` si no existe:
+
+```sql
+insert into storage.buckets (id, name, public)
+select 'cotizaciones', 'cotizaciones', false
+where not exists (
+  select 1 from storage.buckets where id = 'cotizaciones'
+);
+```
+
+3) Políticas RLS para `storage.objects` (bucket `cotizaciones`):
+
+```sql
+do $$ begin
+  if not exists (
+    select 1 from pg_policies where schemaname = 'storage' and tablename = 'objects' and policyname = 'cotizaciones select for authenticated'
+  ) then
+    create policy "cotizaciones select for authenticated"
+      on storage.objects for select to authenticated
+      using ( bucket_id = 'cotizaciones' );
+  end if;
+
+  if not exists (
+    select 1 from pg_policies where schemaname = 'storage' and tablename = 'objects' and policyname = 'cotizaciones insert admin or owner'
+  ) then
+    create policy "cotizaciones insert admin or owner"
+      on storage.objects for insert to authenticated
+      with check (
+        bucket_id = 'cotizaciones' and (public.is_admin() or owner_id::uuid = auth.uid())
+      );
+  end if;
+
+  if not exists (
+    select 1 from pg_policies where schemaname = 'storage' and tablename = 'objects' and policyname = 'cotizaciones update admin or owner'
+  ) then
+    create policy "cotizaciones update admin or owner"
+      on storage.objects for update to authenticated
+      using ( bucket_id = 'cotizaciones' and (public.is_admin() or owner_id::uuid = auth.uid()) )
+      with check ( bucket_id = 'cotizaciones' and (public.is_admin() or owner_id::uuid = auth.uid()) );
+  end if;
+
+  if not exists (
+    select 1 from pg_policies where schemaname = 'storage' and tablename = 'objects' and policyname = 'cotizaciones delete admin'
+  ) then
+    create policy "cotizaciones delete admin"
+      on storage.objects for delete to authenticated
+      using ( bucket_id = 'cotizaciones' and public.is_admin() );
+  end if;
+end $$ language plpgsql;
+```
+
+4) (Opcional) Aplicar las mismas políticas al bucket existente `archives-bodas`:
+
+```sql
+do $$ begin
+  if not exists (
+    select 1 from pg_policies where schemaname = 'storage' and tablename = 'objects' and policyname = 'archives-bodas select for authenticated'
+  ) then
+    create policy "archives-bodas select for authenticated"
+      on storage.objects for select to authenticated
+      using ( bucket_id = 'archives-bodas' );
+  end if;
+
+  if not exists (
+    select 1 from pg_policies where schemaname = 'storage' and tablename = 'objects' and policyname = 'archives-bodas insert admin or owner'
+  ) then
+    create policy "archives-bodas insert admin or owner"
+      on storage.objects for insert to authenticated
+      with check (
+        bucket_id = 'archives-bodas' and (public.is_admin() or owner_id::uuid = auth.uid())
+      );
+  end if;
+
+  if not exists (
+    select 1 from pg_policies where schemaname = 'storage' and tablename = 'objects' and policyname = 'archives-bodas update admin or owner'
+  ) then
+    create policy "archives-bodas update admin or owner"
+      on storage.objects for update to authenticated
+      using ( bucket_id = 'archives-bodas' and (public.is_admin() or owner_id::uuid = auth.uid()) )
+      with check ( bucket_id = 'archives-bodas' and (public.is_admin() or owner_id::uuid = auth.uid()) );
+  end if;
+
+  if not exists (
+    select 1 from pg_policies where schemaname = 'storage' and tablename = 'objects' and policyname = 'archives-bodas delete admin'
+  ) then
+    create policy "archives-bodas delete admin"
+      on storage.objects for delete to authenticated
+      using ( bucket_id = 'archives-bodas' and public.is_admin() );
+  end if;
+end $$ language plpgsql;
+```
+
+### Descarga con URLs firmadas y sobrescritura
+
+- La lógica en `lib/logic/cotizacion_logic.dart` sube a `bodas/{bodaId}/cotizacion.{ext}` con `upsert: true`.
+- Genera URL firmada por 7 días con `createSignedUrl`. Puedes regenerarla cuando expire:
+
+```dart
+final url = await Supabase.instance.client.storage
+  .from('cotizaciones')
+  .createSignedUrl('bodas/${bodaId}/cotizacion.pdf', 60 * 60 * 24 * 7);
+```
+
+Si el bucket `cotizaciones` aún no existe, se usa `archives-bodas` como fallback.

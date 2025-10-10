@@ -238,12 +238,18 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
     builder: (context) => const Center(child: CircularProgressIndicator()),
   );
 
+  bool dialogClosed = false;
+
   try {
     // Realiza el login usando el AuthInfoNotifier para actualizar el estado global
     await ref.read(authInfoProvider.notifier).signIn(email, password);
     // The widget may have been disposed while awaiting; check before using context
     if (!context.mounted) return;
-    context.pop(); // Remove loading dialog
+
+    if (context.mounted && !dialogClosed) {
+      context.pop(); // Remove loading dialog
+      dialogClosed = true;
+    }
 
     final authState = ref.read(authInfoProvider);
     final userInfo = authState.value;
@@ -273,9 +279,13 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
       context.go('/boda');
     }
   } catch (e) {
-    // Attempt to remove loading dialog only if still mounted
-    if (context.mounted) {
+    // Attempt to remove loading dialog only if still mounted and not already closed
+    if (context.mounted && !dialogClosed) {
       context.pop(); // Remove loading dialog
+      dialogClosed = true;
+    }
+
+    if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error al iniciar sesión: ${e.toString()}'),

@@ -184,78 +184,72 @@ class _AdminNotesScreenState extends ConsumerState<NotesAdminScreen> {
                     right: isMobile ? 10 : 50,
                     bottom: 20,
                   ),
-                  child: Expanded(
-                    child: SingleChildScrollView(
-                      child: Container(
-                        constraints: const BoxConstraints(minHeight: 570),
-                        padding: EdgeInsets.all(isMobile ? 10 : 20),
-                        decoration: BoxDecoration(
-                          image: const DecorationImage(
-                            image: AssetImage(pizarra),
-                            fit: BoxFit.fill,
-                          ),
-                          borderRadius: BorderRadius.circular(10),
+                  child: SingleChildScrollView(
+                    child: Container(
+                      constraints: const BoxConstraints(minHeight: 570),
+                      padding: EdgeInsets.all(isMobile ? 10 : 20),
+                      decoration: BoxDecoration(
+                        image: const DecorationImage(
+                          image: AssetImage(pizarra),
+                          fit: BoxFit.fill,
                         ),
-                        child: notes.isEmpty
-                            ? const Center(
-                                child: Text(
-                                  'No hay notas registradas',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Inter',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: notes.isEmpty
+                          ? const Center(
+                              child: Text(
+                                'No hay notas registradas',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Inter',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                              )
-                            : GridView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: isMobile ? 1 : 3,
-                                  crossAxisSpacing: 20,
-                                  mainAxisSpacing: 20,
-                                  childAspectRatio:
-                                      isMobile ? 3 / 1 : 217 / 241,
-                                ),
-                                itemCount: notes.length,
-                                itemBuilder: (context, index) {
-                                  final item = notes[index];
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 6),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white
-                                              .withValues(alpha: 0.85),
-                                          borderRadius:
-                                              BorderRadius.circular(6),
-                                        ),
-                                        child: Text(
-                                          item.usuarioNombre != null
-                                              ? 'Usuario: ${item.usuarioNombre} ${item.usuarioEmail != null ? '(${item.usuarioEmail})' : ''}'
-                                              : 'Usuario ID: ${item.usuarioId ?? 'desconocido'}',
-                                          style: const TextStyle(
-                                            color: Color(0xFF333333),
-                                            fontFamily: 'Inter',
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                              ),
+                            )
+                          : GridView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: isMobile ? 1 : 3,
+                                crossAxisSpacing: 20,
+                                mainAxisSpacing: 20,
+                                childAspectRatio: isMobile ? 3 / 1 : 217 / 241,
+                              ),
+                              itemCount: notes.length,
+                              itemBuilder: (context, index) {
+                                final item = notes[index];
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 6),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white
+                                            .withValues(alpha: 0.85),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Text(
+                                        item.usuarioNombre != null
+                                            ? 'Usuario: ${item.usuarioNombre} ${item.usuarioEmail != null ? '(${item.usuarioEmail})' : ''}'
+                                            : 'Usuario ID: ${item.usuarioId ?? 'desconocido'}',
+                                        style: const TextStyle(
+                                          color: Color(0xFF333333),
+                                          fontFamily: 'Inter',
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      const SizedBox(height: 8),
-                                      // NoteCard acepta NotesModel; usamos item.note
-                                      Expanded(
-                                          child: NoteCard(note: item.note)),
-                                    ],
-                                  );
-                                },
-                              ),
-                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    // NoteCard acepta NotesModel; usamos item.note
+                                    Expanded(child: NoteCard(note: item.note)),
+                                  ],
+                                );
+                              },
+                            ),
                     ),
                   ),
                 ),

@@ -53,15 +53,22 @@ class AdminStadisticsScreen extends ConsumerWidget {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 2),
                   AdminNavBar(),
-                  const SizedBox(height: 10),
-                  Center(
-                    child: Text('Estadística',
-                        style: GoogleFonts.inter(
-                            fontSize: 32, fontWeight: FontWeight.w700)),
+                  const SizedBox(height: 2),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text('Estadística',
+                          style: GoogleFonts.inter(
+                              fontSize: 32, fontWeight: FontWeight.w700)),
+                    ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
 
                   // Summary cards
                   Row(
