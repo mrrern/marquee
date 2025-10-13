@@ -35,12 +35,12 @@ class UserLogic {
       try {
         resp = await _supabase
             .from('listar_boda')
-            .select('usuario_id')
+            .select('user_id')
             .eq('is_deleted', false);
       } catch (_) {
         resp = await _supabase
             .from('listar_boda')
-            .select('usuario_id')
+            .select('user_id')
             .eq('is_deleted', false);
       }
 

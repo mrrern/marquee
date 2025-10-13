@@ -77,7 +77,7 @@ class WeddingLogic {
     final response = await supabase
         .from('listar_boda')
         .select()
-        .eq('usuario_id', usuarioId)
+        .eq('user_id', usuarioId)
         .eq('is_deleted', false);
 
     final data = response;
