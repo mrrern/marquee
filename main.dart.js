@@ -54784,7 +54784,7 @@ aNh(a){var s=0,r=A.x(t.Md),q,p=this,o,n
 var $async$ta=A.t(function(b,c){if(b===1)return A.u(c,r)
 while(true)switch(s){case 0:n=J
 s=3
-return A.r(p.a.fA("listar_boda").hr(0).jp("usuario_id",a).jp("is_deleted",!1),$async$ta)
+return A.r(p.a.fA("listar_boda").hr(0).jp("user_id",a).jp("is_deleted",!1),$async$ta)
 case 3:o=n.eX(c,new A.aMf(),t.UY)
 o=A.V(o,o.$ti.i("ah.E"))
 q=o
@@ -54861,8 +54861,8 @@ break
 case 1:return A.v(q,r)}})
 return A.w($async$AE,r)}}
 A.aMf.prototype={
-$1(a){var s=J.af(a),r=B.d.e5(A.e4(s.h(a,"id"))),q=A.aI(s.h(a,"usuarioId")),p=A.hP(A.aI(s.h(a,"fecha"))),o=A.aI(s.h(a,"ubicacion")),n=A.e4(s.h(a,"invitados")),m=A.aI(s.h(a,"estadoId")),l=B.d.e5(A.e4(s.h(a,"bodaTipo"))),k=A.hP(A.aI(s.h(a,"createdAt"))),j=A.hP(A.aI(s.h(a,"updatedAt"))),i=A.ke(s.h(a,"isDeleted")),h=A.aI(s.h(a,"novioNombre")),g=A.aI(s.h(a,"noviaNombre")),f=A.aI(s.h(a,"phoneNovio")),e=A.aI(s.h(a,"phoneNovia")),d=A.hP(A.aI(s.h(a,"novioBirthday"))),c=A.hP(A.aI(s.h(a,"noviaBirthday"))),b=A.aI(s.h(a,"novioEmail"))
-return A.bd3(l,k,m,p,r,n,i===!0,c,A.aI(s.h(a,"noviaEmail")),g,d,b,h,e,f,o,j,q)},
+$1(a){var s=J.af(a),r=B.d.e5(A.e4(s.h(a,"id"))),q=A.aI(s.h(a,"user_id")),p=A.hP(A.aI(s.h(a,"fecha"))),o=A.aI(s.h(a,"ubicacion")),n=A.e4(s.h(a,"invitados")),m=A.aI(s.h(a,"estado_boda")),l=B.d.e5(A.e4(s.h(a,"tipo_boda"))),k=A.hP(A.aI(s.h(a,"created_at"))),j=A.hP(A.aI(s.h(a,"updated_at"))),i=A.ke(s.h(a,"is_deleted")),h=A.aI(s.h(a,"novio_nombre")),g=A.aI(s.h(a,"novia_nombre")),f=A.aI(s.h(a,"phone_novio")),e=A.aI(s.h(a,"phone_novia")),d=A.hP(A.aI(s.h(a,"novio_birthday"))),c=A.hP(A.aI(s.h(a,"novia_birthday"))),b=A.aI(s.h(a,"novio_email"))
+return A.bd3(l,k,m,p,r,n,i===!0,c,A.aI(s.h(a,"novia_email")),g,d,b,h,e,f,o,j,q)},
 $S:360}
 A.aMb.prototype={
 $1(a){var s="createdAt",r="updatedAt",q=J.af(a),p=B.d.e5(A.e4(q.h(a,"id"))),o=A.aI(q.h(a,"descripcion")),n=A.ke(q.h(a,"isDeleted")),m=q.h(a,s)==null?null:A.hP(A.aI(q.h(a,s)))
