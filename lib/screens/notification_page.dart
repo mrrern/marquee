@@ -35,7 +35,7 @@ class NotificationScreen extends ConsumerWidget {
                         const SizedBox(height: 20),
                         const NotificationFilterWidget(),
                         const SizedBox(height: 20),
-                        NotificationListWidget(),
+                        const NotificationListWidget(),
                         const SizedBox(height: 40),
                         FooterWidget(),
                       ],

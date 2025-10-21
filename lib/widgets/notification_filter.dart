@@ -1,4 +1,3 @@
-
 import 'package:bodas/routes/linkspaper.dart';
 
 class NotificationFilterWidget extends ConsumerWidget {
@@ -43,21 +42,27 @@ class NotificationFilterWidget extends ConsumerWidget {
                 ref,
                 'Todas',
                 currentFilter == NotificationFilter.all,
-                () => ref.read(currentFilterProvider.notifier).setFilter(NotificationFilter.all),
+                () => ref
+                    .read(currentFilterProvider.notifier)
+                    .setFilter(NotificationFilter.all),
               ),
               _buildFilterChip(
                 context,
                 ref,
                 'No leídas',
                 currentFilter == NotificationFilter.unread,
-                () => ref.read(currentFilterProvider.notifier).setFilter(NotificationFilter.unread),
+                () => ref
+                    .read(currentFilterProvider.notifier)
+                    .setFilter(NotificationFilter.unread),
               ),
               _buildFilterChip(
                 context,
                 ref,
                 'Importantes',
                 currentFilter == NotificationFilter.important,
-                () => ref.read(currentFilterProvider.notifier).setFilter(NotificationFilter.important),
+                () => ref
+                    .read(currentFilterProvider.notifier)
+                    .setFilter(NotificationFilter.important),
               ),
             ],
           ),
@@ -79,22 +84,26 @@ class NotificationFilterWidget extends ConsumerWidget {
                 ref,
                 'Más recientes',
                 currentOrder == NotificationOrder.newest,
-                () => ref.read(currentOrderProvider.notifier).setOrder(NotificationOrder.newest),
+                () => ref
+                    .read(currentOrderProvider.notifier)
+                    .setOrder(NotificationOrder.newest),
               ),
               _buildFilterChip(
                 context,
                 ref,
                 'Más antiguas',
                 currentOrder == NotificationOrder.oldest,
-                () => ref.read(currentOrderProvider.notifier).setOrder(NotificationOrder.oldest),
+                () => ref
+                    .read(currentOrderProvider.notifier)
+                    .setOrder(NotificationOrder.oldest),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          if (ref.watch(hasUnreadNotificationsProvider))
+          if ((ref.watch(unreadCountProvider).valueOrNull ?? 0) > 0)
             ElevatedButton.icon(
               onPressed: () {
-                ref.read(notificationListProvider.notifier).markAllAsRead();
+                ref.read(notificationsLogicProvider).markAllAsRead();
               },
               icon: const Icon(Icons.check_circle_outline),
               label: Text(

@@ -750,22 +750,36 @@ class __$UserInfoCopyWithImpl<$Res> implements _$UserInfoCopyWith<$Res> {
 /// @nodoc
 mixin _$Boda {
   int get id;
+  @JsonKey(name: 'user_id')
   String get usuarioId;
   DateTime get fecha;
   String get ubicacion;
   double get invitados;
+  @JsonKey(name: 'estado_boda')
   String get estadoId;
+  @JsonKey(name: 'tipo_boda')
   int get bodaTipo;
+  @JsonKey(name: 'created_at')
   DateTime get createdAt;
+  @JsonKey(name: 'updated_at')
   DateTime get updatedAt;
+  @JsonKey(name: 'is_deleted')
   bool get isDeleted;
+  @JsonKey(name: 'novio_nombre')
   String get novioNombre;
+  @JsonKey(name: 'novia_nombre')
   String get noviaNombre;
+  @JsonKey(name: 'phone_novio')
   String get phoneNovio;
+  @JsonKey(name: 'phone_novia')
   String get phoneNovia;
+  @JsonKey(name: 'novio_birthday')
   DateTime get novioBirthday;
+  @JsonKey(name: 'novia_birthday')
   DateTime get noviaBirthday;
+  @JsonKey(name: 'novio_email')
   String get novioEmail;
+  @JsonKey(name: 'novia_email')
   String get noviaEmail;
 
   /// Create a copy of Boda
@@ -855,23 +869,23 @@ abstract mixin class $BodaCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      String usuarioId,
+      @JsonKey(name: 'user_id') String usuarioId,
       DateTime fecha,
       String ubicacion,
       double invitados,
-      String estadoId,
-      int bodaTipo,
-      DateTime createdAt,
-      DateTime updatedAt,
-      bool isDeleted,
-      String novioNombre,
-      String noviaNombre,
-      String phoneNovio,
-      String phoneNovia,
-      DateTime novioBirthday,
-      DateTime noviaBirthday,
-      String novioEmail,
-      String noviaEmail});
+      @JsonKey(name: 'estado_boda') String estadoId,
+      @JsonKey(name: 'tipo_boda') int bodaTipo,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt,
+      @JsonKey(name: 'is_deleted') bool isDeleted,
+      @JsonKey(name: 'novio_nombre') String novioNombre,
+      @JsonKey(name: 'novia_nombre') String noviaNombre,
+      @JsonKey(name: 'phone_novio') String phoneNovio,
+      @JsonKey(name: 'phone_novia') String phoneNovia,
+      @JsonKey(name: 'novio_birthday') DateTime novioBirthday,
+      @JsonKey(name: 'novia_birthday') DateTime noviaBirthday,
+      @JsonKey(name: 'novio_email') String novioEmail,
+      @JsonKey(name: 'novia_email') String noviaEmail});
 }
 
 /// @nodoc
@@ -1077,23 +1091,23 @@ extension BodaPatterns on Boda {
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(
             int id,
-            String usuarioId,
+            @JsonKey(name: 'user_id') String usuarioId,
             DateTime fecha,
             String ubicacion,
             double invitados,
-            String estadoId,
-            int bodaTipo,
-            DateTime createdAt,
-            DateTime updatedAt,
-            bool isDeleted,
-            String novioNombre,
-            String noviaNombre,
-            String phoneNovio,
-            String phoneNovia,
-            DateTime novioBirthday,
-            DateTime noviaBirthday,
-            String novioEmail,
-            String noviaEmail)?
+            @JsonKey(name: 'estado_boda') String estadoId,
+            @JsonKey(name: 'tipo_boda') int bodaTipo,
+            @JsonKey(name: 'created_at') DateTime createdAt,
+            @JsonKey(name: 'updated_at') DateTime updatedAt,
+            @JsonKey(name: 'is_deleted') bool isDeleted,
+            @JsonKey(name: 'novio_nombre') String novioNombre,
+            @JsonKey(name: 'novia_nombre') String noviaNombre,
+            @JsonKey(name: 'phone_novio') String phoneNovio,
+            @JsonKey(name: 'phone_novia') String phoneNovia,
+            @JsonKey(name: 'novio_birthday') DateTime novioBirthday,
+            @JsonKey(name: 'novia_birthday') DateTime noviaBirthday,
+            @JsonKey(name: 'novio_email') String novioEmail,
+            @JsonKey(name: 'novia_email') String noviaEmail)?
         $default, {
     required TResult orElse(),
   }) {
@@ -1141,23 +1155,23 @@ extension BodaPatterns on Boda {
   TResult when<TResult extends Object?>(
     TResult Function(
             int id,
-            String usuarioId,
+            @JsonKey(name: 'user_id') String usuarioId,
             DateTime fecha,
             String ubicacion,
             double invitados,
-            String estadoId,
-            int bodaTipo,
-            DateTime createdAt,
-            DateTime updatedAt,
-            bool isDeleted,
-            String novioNombre,
-            String noviaNombre,
-            String phoneNovio,
-            String phoneNovia,
-            DateTime novioBirthday,
-            DateTime noviaBirthday,
-            String novioEmail,
-            String noviaEmail)
+            @JsonKey(name: 'estado_boda') String estadoId,
+            @JsonKey(name: 'tipo_boda') int bodaTipo,
+            @JsonKey(name: 'created_at') DateTime createdAt,
+            @JsonKey(name: 'updated_at') DateTime updatedAt,
+            @JsonKey(name: 'is_deleted') bool isDeleted,
+            @JsonKey(name: 'novio_nombre') String novioNombre,
+            @JsonKey(name: 'novia_nombre') String noviaNombre,
+            @JsonKey(name: 'phone_novio') String phoneNovio,
+            @JsonKey(name: 'phone_novia') String phoneNovia,
+            @JsonKey(name: 'novio_birthday') DateTime novioBirthday,
+            @JsonKey(name: 'novia_birthday') DateTime noviaBirthday,
+            @JsonKey(name: 'novio_email') String novioEmail,
+            @JsonKey(name: 'novia_email') String noviaEmail)
         $default,
   ) {
     final _that = this;
@@ -1203,23 +1217,23 @@ extension BodaPatterns on Boda {
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(
             int id,
-            String usuarioId,
+            @JsonKey(name: 'user_id') String usuarioId,
             DateTime fecha,
             String ubicacion,
             double invitados,
-            String estadoId,
-            int bodaTipo,
-            DateTime createdAt,
-            DateTime updatedAt,
-            bool isDeleted,
-            String novioNombre,
-            String noviaNombre,
-            String phoneNovio,
-            String phoneNovia,
-            DateTime novioBirthday,
-            DateTime noviaBirthday,
-            String novioEmail,
-            String noviaEmail)?
+            @JsonKey(name: 'estado_boda') String estadoId,
+            @JsonKey(name: 'tipo_boda') int bodaTipo,
+            @JsonKey(name: 'created_at') DateTime createdAt,
+            @JsonKey(name: 'updated_at') DateTime updatedAt,
+            @JsonKey(name: 'is_deleted') bool isDeleted,
+            @JsonKey(name: 'novio_nombre') String novioNombre,
+            @JsonKey(name: 'novia_nombre') String noviaNombre,
+            @JsonKey(name: 'phone_novio') String phoneNovio,
+            @JsonKey(name: 'phone_novia') String phoneNovia,
+            @JsonKey(name: 'novio_birthday') DateTime novioBirthday,
+            @JsonKey(name: 'novia_birthday') DateTime noviaBirthday,
+            @JsonKey(name: 'novio_email') String novioEmail,
+            @JsonKey(name: 'novia_email') String noviaEmail)?
         $default,
   ) {
     final _that = this;
@@ -1255,29 +1269,30 @@ extension BodaPatterns on Boda {
 class _Boda extends Boda {
   const _Boda(
       {required this.id,
-      required this.usuarioId,
+      @JsonKey(name: 'user_id') required this.usuarioId,
       required this.fecha,
       required this.ubicacion,
       required this.invitados,
-      required this.estadoId,
-      required this.bodaTipo,
-      required this.createdAt,
-      required this.updatedAt,
-      this.isDeleted = false,
-      required this.novioNombre,
-      required this.noviaNombre,
-      required this.phoneNovio,
-      required this.phoneNovia,
-      required this.novioBirthday,
-      required this.noviaBirthday,
-      required this.novioEmail,
-      required this.noviaEmail})
+      @JsonKey(name: 'estado_boda') required this.estadoId,
+      @JsonKey(name: 'tipo_boda') required this.bodaTipo,
+      @JsonKey(name: 'created_at') required this.createdAt,
+      @JsonKey(name: 'updated_at') required this.updatedAt,
+      @JsonKey(name: 'is_deleted') this.isDeleted = false,
+      @JsonKey(name: 'novio_nombre') required this.novioNombre,
+      @JsonKey(name: 'novia_nombre') required this.noviaNombre,
+      @JsonKey(name: 'phone_novio') required this.phoneNovio,
+      @JsonKey(name: 'phone_novia') required this.phoneNovia,
+      @JsonKey(name: 'novio_birthday') required this.novioBirthday,
+      @JsonKey(name: 'novia_birthday') required this.noviaBirthday,
+      @JsonKey(name: 'novio_email') required this.novioEmail,
+      @JsonKey(name: 'novia_email') required this.noviaEmail})
       : super._();
   factory _Boda.fromJson(Map<String, dynamic> json) => _$BodaFromJson(json);
 
   @override
   final int id;
   @override
+  @JsonKey(name: 'user_id')
   final String usuarioId;
   @override
   final DateTime fecha;
@@ -1286,31 +1301,43 @@ class _Boda extends Boda {
   @override
   final double invitados;
   @override
+  @JsonKey(name: 'estado_boda')
   final String estadoId;
   @override
+  @JsonKey(name: 'tipo_boda')
   final int bodaTipo;
   @override
+  @JsonKey(name: 'created_at')
   final DateTime createdAt;
   @override
+  @JsonKey(name: 'updated_at')
   final DateTime updatedAt;
   @override
-  @JsonKey()
+  @JsonKey(name: 'is_deleted')
   final bool isDeleted;
   @override
+  @JsonKey(name: 'novio_nombre')
   final String novioNombre;
   @override
+  @JsonKey(name: 'novia_nombre')
   final String noviaNombre;
   @override
+  @JsonKey(name: 'phone_novio')
   final String phoneNovio;
   @override
+  @JsonKey(name: 'phone_novia')
   final String phoneNovia;
   @override
+  @JsonKey(name: 'novio_birthday')
   final DateTime novioBirthday;
   @override
+  @JsonKey(name: 'novia_birthday')
   final DateTime noviaBirthday;
   @override
+  @JsonKey(name: 'novio_email')
   final String novioEmail;
   @override
+  @JsonKey(name: 'novia_email')
   final String noviaEmail;
 
   /// Create a copy of Boda
@@ -1406,23 +1433,23 @@ abstract mixin class _$BodaCopyWith<$Res> implements $BodaCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      String usuarioId,
+      @JsonKey(name: 'user_id') String usuarioId,
       DateTime fecha,
       String ubicacion,
       double invitados,
-      String estadoId,
-      int bodaTipo,
-      DateTime createdAt,
-      DateTime updatedAt,
-      bool isDeleted,
-      String novioNombre,
-      String noviaNombre,
-      String phoneNovio,
-      String phoneNovia,
-      DateTime novioBirthday,
-      DateTime noviaBirthday,
-      String novioEmail,
-      String noviaEmail});
+      @JsonKey(name: 'estado_boda') String estadoId,
+      @JsonKey(name: 'tipo_boda') int bodaTipo,
+      @JsonKey(name: 'created_at') DateTime createdAt,
+      @JsonKey(name: 'updated_at') DateTime updatedAt,
+      @JsonKey(name: 'is_deleted') bool isDeleted,
+      @JsonKey(name: 'novio_nombre') String novioNombre,
+      @JsonKey(name: 'novia_nombre') String noviaNombre,
+      @JsonKey(name: 'phone_novio') String phoneNovio,
+      @JsonKey(name: 'phone_novia') String phoneNovia,
+      @JsonKey(name: 'novio_birthday') DateTime novioBirthday,
+      @JsonKey(name: 'novia_birthday') DateTime noviaBirthday,
+      @JsonKey(name: 'novio_email') String novioEmail,
+      @JsonKey(name: 'novia_email') String noviaEmail});
 }
 
 /// @nodoc

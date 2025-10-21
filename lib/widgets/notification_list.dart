@@ -5,10 +5,10 @@ class NotificationListWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifications = ref.watch(filteredAndSortedNotificationsProvider);
+    final notifications = ref.watch(notificationsStreamProvider);
     final bool isMobile = Responsive.isMobile(context);
 
-    if (notifications.isEmpty) {
+    if (!notifications.hasValue || notifications.valueOrNull == null) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -48,10 +48,12 @@ class NotificationListWidget extends ConsumerWidget {
       child: Column(
         children: [
           buildHeader(context),
-          ...notifications.map((notification) => NotificationItem(
-                notification: notification,
-                onTap: () => showNotificationDialog(context, ref, notification),
-              )),
+          ...notifications.valueOrNull?.map((notification) => NotificationItem(
+                    notification: notification,
+                    onTap: () =>
+                        showNotificationDialog(context, ref, notification),
+                  )) ??
+              [],
         ],
       ),
     );
@@ -144,12 +146,13 @@ class NotificationListWidget extends ConsumerWidget {
     );
   }
 
-  void showNotificationDialog(BuildContext context, WidgetRef ref, NotificationModel notification) {
+  void showNotificationDialog(
+      BuildContext context, WidgetRef ref, NotificationsModel notification) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          notification.title,
+          notification.title ?? '',
           style: GoogleFonts.inter(
             fontWeight: FontWeight.w600,
             fontSize: 18,
@@ -163,7 +166,7 @@ class NotificationListWidget extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  notification.content,
+                  notification.body ?? '',
                   style: GoogleFonts.inter(
                     fontSize: 16,
                   ),
@@ -173,14 +176,14 @@ class NotificationListWidget extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      notification.formattedDate,
+                      notification.createdAt.toLocal().toString(),
                       style: GoogleFonts.inter(
                         fontSize: 14,
                         color: Colors.grey,
                       ),
                     ),
                     Text(
-                      notification.filterType,
+                      notification.type,
                       style: GoogleFonts.inter(
                         fontSize: 14,
                         color: Colors.grey,
@@ -196,8 +199,10 @@ class NotificationListWidget extends ConsumerWidget {
           TextButton(
             onPressed: () {
               // Marcar como leída al cerrar
-              if (!notification.isRead) {
-                ref.read(notificationListProvider.notifier).markAsRead(notification.id);
+              if (notification.readAt == null) {
+                ref
+                    .read(notificationsLogicProvider)
+                    .markAsRead(notification.id);
               }
               Navigator.of(context).pop();
             },

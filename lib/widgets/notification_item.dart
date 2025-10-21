@@ -1,7 +1,7 @@
 import 'package:bodas/routes/linkspaper.dart';
 
 class NotificationItem extends ConsumerWidget {
-  final NotificationModel notification;
+  final NotificationsModel notification;
   final VoidCallback onTap;
 
   const NotificationItem({
@@ -16,7 +16,7 @@ class NotificationItem extends ConsumerWidget {
     final bool isTablet = Responsive.isTablet(context);
 
     // Determinar si mostrar el texto completo o truncado
-    String displayContent = notification.content;
+    String displayContent = notification.body ?? '';
     bool showReadMore = false;
 
     if (isMobile && displayContent.length > 50) {
@@ -59,7 +59,7 @@ class NotificationItem extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  notification.title,
+                  notification.title ?? '',
                   style: GoogleFonts.inter(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
@@ -93,14 +93,14 @@ class NotificationItem extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                notification.formattedDate,
+                notification.createdAt.toLocal().toString(),
                 style: GoogleFonts.inter(
                   fontSize: 12,
                 ),
               ),
               const SizedBox(height: 5),
               Text(
-                notification.filterType,
+                notification.type,
                 style: GoogleFonts.inter(
                   fontSize: 12,
                 ),
@@ -130,7 +130,7 @@ class NotificationItem extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    notification.title,
+                    notification.title ?? '',
                     style: GoogleFonts.inter(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -166,7 +166,7 @@ class NotificationItem extends ConsumerWidget {
           SizedBox(
             width: 150,
             child: Text(
-              notification.formattedDate,
+              notification.createdAt.toLocal().toString(),
               style: GoogleFonts.inter(
                 fontSize: 14,
               ),
@@ -175,7 +175,7 @@ class NotificationItem extends ConsumerWidget {
           SizedBox(
             width: 100,
             child: Text(
-              notification.filterType,
+              notification.type,
               style: GoogleFonts.inter(
                 fontSize: 14,
               ),
