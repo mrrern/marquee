@@ -5,10 +5,9 @@ class MarketingLogic {
 
   Future<List<RemarketingUserModel>> getRemarketingUsers() async {
     // 1. Obtener todos los usuarios
-    final usersResponse = await supabase
-        .from('user_info')
-        .select()
-        .contains('user_rol', "Usuario");
+    // Use eq instead of contains to avoid Postgres '@>' operator on text
+    final usersResponse =
+        await supabase.from('user_info').select().eq('user_rol', 'Usuario');
     final List users = usersResponse as List;
     debugPrint('DEBUG: Fetched ${users.length} users from user_info');
     List<RemarketingUserModel> remarketingUsers = [];
@@ -87,10 +86,8 @@ class MarketingLogic {
     required int pageSize,
   }) async {
     // Obtener todos los usuarios (se recomienda optimizar a paginación en BD más adelante)
-    final usersResponse = await supabase
-        .from('user_info')
-        .select()
-        .contains('user_rol', "Usuario");
+    final usersResponse =
+        await supabase.from('user_info').select().eq('user_rol', 'Usuario');
     final List users = usersResponse as List;
     final totalItems = users.length;
 
@@ -262,8 +259,9 @@ final remarketingUserProvider =
 });
 
 /// Provider para obtener usuarios de remarketing paginados
-final marketingPaginatedProvider = FutureProvider.family<
-    RemarketingPaginatedResponse, RemarketingPagination>((ref, pagination) async {
+final marketingPaginatedProvider =
+    FutureProvider.family<RemarketingPaginatedResponse, RemarketingPagination>(
+        (ref, pagination) async {
   final logic = MarketingLogic();
   return await logic.getRemarketingUsersPaginated(
     page: pagination.page,
