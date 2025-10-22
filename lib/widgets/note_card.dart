@@ -140,7 +140,7 @@ class NoteCard extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
               Container(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withValues(alpha: 0.5),
                 child: Center(
                   child: Text(
                     '+${imageList.length - 3}',
@@ -296,7 +296,7 @@ class _AddNoteDialogState extends ConsumerState<AddNoteDialog> {
                     backgroundColor: const Color(0xFFD9D9D9),
                     foregroundColor: Colors.black,
                     elevation: 7,
-                    shadowColor: Colors.black.withOpacity(0.25),
+                    shadowColor: Colors.black.withValues(alpha: 0.25),
                   ),
                   child: _isLoading
                       ? const SizedBox(

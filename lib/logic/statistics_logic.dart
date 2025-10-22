@@ -63,10 +63,11 @@ class StatisticsLogic {
         DateTime dt;
         if (fecha is String) {
           dt = DateTime.parse(fecha);
-        } else if (fecha is DateTime)
+        } else if (fecha is DateTime) {
           dt = fecha;
-        else
+        } else {
           continue;
+        }
         if (dt.year == year) counts[dt.month - 1]++;
       } catch (_) {}
     }

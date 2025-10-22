@@ -13,6 +13,732 @@ part of 'remarketing_model.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
+mixin _$RemarketingPagination {
+  int get page;
+  int get pageSize;
+  int get totalItems;
+
+  /// Create a copy of RemarketingPagination
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $RemarketingPaginationCopyWith<RemarketingPagination> get copyWith =>
+      _$RemarketingPaginationCopyWithImpl<RemarketingPagination>(
+          this as RemarketingPagination, _$identity);
+
+  /// Serializes this RemarketingPagination to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is RemarketingPagination &&
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.pageSize, pageSize) ||
+                other.pageSize == pageSize) &&
+            (identical(other.totalItems, totalItems) ||
+                other.totalItems == totalItems));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, page, pageSize, totalItems);
+
+  @override
+  String toString() {
+    return 'RemarketingPagination(page: $page, pageSize: $pageSize, totalItems: $totalItems)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $RemarketingPaginationCopyWith<$Res> {
+  factory $RemarketingPaginationCopyWith(RemarketingPagination value,
+          $Res Function(RemarketingPagination) _then) =
+      _$RemarketingPaginationCopyWithImpl;
+  @useResult
+  $Res call({int page, int pageSize, int totalItems});
+}
+
+/// @nodoc
+class _$RemarketingPaginationCopyWithImpl<$Res>
+    implements $RemarketingPaginationCopyWith<$Res> {
+  _$RemarketingPaginationCopyWithImpl(this._self, this._then);
+
+  final RemarketingPagination _self;
+  final $Res Function(RemarketingPagination) _then;
+
+  /// Create a copy of RemarketingPagination
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? page = null,
+    Object? pageSize = null,
+    Object? totalItems = null,
+  }) {
+    return _then(_self.copyWith(
+      page: null == page
+          ? _self.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      pageSize: null == pageSize
+          ? _self.pageSize
+          : pageSize // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalItems: null == totalItems
+          ? _self.totalItems
+          : totalItems // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [RemarketingPagination].
+extension RemarketingPaginationPatterns on RemarketingPagination {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_RemarketingPagination value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _RemarketingPagination() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_RemarketingPagination value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _RemarketingPagination():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_RemarketingPagination value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _RemarketingPagination() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(int page, int pageSize, int totalItems)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _RemarketingPagination() when $default != null:
+        return $default(_that.page, _that.pageSize, _that.totalItems);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(int page, int pageSize, int totalItems) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _RemarketingPagination():
+        return $default(_that.page, _that.pageSize, _that.totalItems);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(int page, int pageSize, int totalItems)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _RemarketingPagination() when $default != null:
+        return $default(_that.page, _that.pageSize, _that.totalItems);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _RemarketingPagination implements RemarketingPagination {
+  const _RemarketingPagination(
+      {this.page = 1, this.pageSize = 20, this.totalItems = 0});
+  factory _RemarketingPagination.fromJson(Map<String, dynamic> json) =>
+      _$RemarketingPaginationFromJson(json);
+
+  @override
+  @JsonKey()
+  final int page;
+  @override
+  @JsonKey()
+  final int pageSize;
+  @override
+  @JsonKey()
+  final int totalItems;
+
+  /// Create a copy of RemarketingPagination
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$RemarketingPaginationCopyWith<_RemarketingPagination> get copyWith =>
+      __$RemarketingPaginationCopyWithImpl<_RemarketingPagination>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$RemarketingPaginationToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _RemarketingPagination &&
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.pageSize, pageSize) ||
+                other.pageSize == pageSize) &&
+            (identical(other.totalItems, totalItems) ||
+                other.totalItems == totalItems));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, page, pageSize, totalItems);
+
+  @override
+  String toString() {
+    return 'RemarketingPagination(page: $page, pageSize: $pageSize, totalItems: $totalItems)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$RemarketingPaginationCopyWith<$Res>
+    implements $RemarketingPaginationCopyWith<$Res> {
+  factory _$RemarketingPaginationCopyWith(_RemarketingPagination value,
+          $Res Function(_RemarketingPagination) _then) =
+      __$RemarketingPaginationCopyWithImpl;
+  @override
+  @useResult
+  $Res call({int page, int pageSize, int totalItems});
+}
+
+/// @nodoc
+class __$RemarketingPaginationCopyWithImpl<$Res>
+    implements _$RemarketingPaginationCopyWith<$Res> {
+  __$RemarketingPaginationCopyWithImpl(this._self, this._then);
+
+  final _RemarketingPagination _self;
+  final $Res Function(_RemarketingPagination) _then;
+
+  /// Create a copy of RemarketingPagination
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? page = null,
+    Object? pageSize = null,
+    Object? totalItems = null,
+  }) {
+    return _then(_RemarketingPagination(
+      page: null == page
+          ? _self.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      pageSize: null == pageSize
+          ? _self.pageSize
+          : pageSize // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalItems: null == totalItems
+          ? _self.totalItems
+          : totalItems // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$RemarketingPaginatedResponse {
+  List<RemarketingUserModel> get items;
+  int get page;
+  int get pageSize;
+  @JsonKey(name: 'totalItem')
+  int get totalItems;
+
+  /// Create a copy of RemarketingPaginatedResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $RemarketingPaginatedResponseCopyWith<RemarketingPaginatedResponse>
+      get copyWith => _$RemarketingPaginatedResponseCopyWithImpl<
+              RemarketingPaginatedResponse>(
+          this as RemarketingPaginatedResponse, _$identity);
+
+  /// Serializes this RemarketingPaginatedResponse to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is RemarketingPaginatedResponse &&
+            const DeepCollectionEquality().equals(other.items, items) &&
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.pageSize, pageSize) ||
+                other.pageSize == pageSize) &&
+            (identical(other.totalItems, totalItems) ||
+                other.totalItems == totalItems));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(items), page, pageSize, totalItems);
+
+  @override
+  String toString() {
+    return 'RemarketingPaginatedResponse(items: $items, page: $page, pageSize: $pageSize, totalItems: $totalItems)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $RemarketingPaginatedResponseCopyWith<$Res> {
+  factory $RemarketingPaginatedResponseCopyWith(
+          RemarketingPaginatedResponse value,
+          $Res Function(RemarketingPaginatedResponse) _then) =
+      _$RemarketingPaginatedResponseCopyWithImpl;
+  @useResult
+  $Res call(
+      {List<RemarketingUserModel> items,
+      int page,
+      int pageSize,
+      @JsonKey(name: 'totalItem') int totalItems});
+}
+
+/// @nodoc
+class _$RemarketingPaginatedResponseCopyWithImpl<$Res>
+    implements $RemarketingPaginatedResponseCopyWith<$Res> {
+  _$RemarketingPaginatedResponseCopyWithImpl(this._self, this._then);
+
+  final RemarketingPaginatedResponse _self;
+  final $Res Function(RemarketingPaginatedResponse) _then;
+
+  /// Create a copy of RemarketingPaginatedResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? items = null,
+    Object? page = null,
+    Object? pageSize = null,
+    Object? totalItems = null,
+  }) {
+    return _then(_self.copyWith(
+      items: null == items
+          ? _self.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<RemarketingUserModel>,
+      page: null == page
+          ? _self.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      pageSize: null == pageSize
+          ? _self.pageSize
+          : pageSize // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalItems: null == totalItems
+          ? _self.totalItems
+          : totalItems // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [RemarketingPaginatedResponse].
+extension RemarketingPaginatedResponsePatterns on RemarketingPaginatedResponse {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_RemarketingPaginatedResponse value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _RemarketingPaginatedResponse() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_RemarketingPaginatedResponse value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _RemarketingPaginatedResponse():
+        return $default(_that);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_RemarketingPaginatedResponse value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _RemarketingPaginatedResponse() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(List<RemarketingUserModel> items, int page, int pageSize,
+            @JsonKey(name: 'totalItem') int totalItems)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _RemarketingPaginatedResponse() when $default != null:
+        return $default(
+            _that.items, _that.page, _that.pageSize, _that.totalItems);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(List<RemarketingUserModel> items, int page, int pageSize,
+            @JsonKey(name: 'totalItem') int totalItems)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _RemarketingPaginatedResponse():
+        return $default(
+            _that.items, _that.page, _that.pageSize, _that.totalItems);
+      case _:
+        throw StateError('Unexpected subclass');
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(List<RemarketingUserModel> items, int page, int pageSize,
+            @JsonKey(name: 'totalItem') int totalItems)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _RemarketingPaginatedResponse() when $default != null:
+        return $default(
+            _that.items, _that.page, _that.pageSize, _that.totalItems);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _RemarketingPaginatedResponse implements RemarketingPaginatedResponse {
+  const _RemarketingPaginatedResponse(
+      {required final List<RemarketingUserModel> items,
+      required this.page,
+      required this.pageSize,
+      @JsonKey(name: 'totalItem') required this.totalItems})
+      : _items = items;
+  factory _RemarketingPaginatedResponse.fromJson(Map<String, dynamic> json) =>
+      _$RemarketingPaginatedResponseFromJson(json);
+
+  final List<RemarketingUserModel> _items;
+  @override
+  List<RemarketingUserModel> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_items);
+  }
+
+  @override
+  final int page;
+  @override
+  final int pageSize;
+  @override
+  @JsonKey(name: 'totalItem')
+  final int totalItems;
+
+  /// Create a copy of RemarketingPaginatedResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$RemarketingPaginatedResponseCopyWith<_RemarketingPaginatedResponse>
+      get copyWith => __$RemarketingPaginatedResponseCopyWithImpl<
+          _RemarketingPaginatedResponse>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$RemarketingPaginatedResponseToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _RemarketingPaginatedResponse &&
+            const DeepCollectionEquality().equals(other._items, _items) &&
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.pageSize, pageSize) ||
+                other.pageSize == pageSize) &&
+            (identical(other.totalItems, totalItems) ||
+                other.totalItems == totalItems));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_items), page, pageSize, totalItems);
+
+  @override
+  String toString() {
+    return 'RemarketingPaginatedResponse(items: $items, page: $page, pageSize: $pageSize, totalItems: $totalItems)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$RemarketingPaginatedResponseCopyWith<$Res>
+    implements $RemarketingPaginatedResponseCopyWith<$Res> {
+  factory _$RemarketingPaginatedResponseCopyWith(
+          _RemarketingPaginatedResponse value,
+          $Res Function(_RemarketingPaginatedResponse) _then) =
+      __$RemarketingPaginatedResponseCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {List<RemarketingUserModel> items,
+      int page,
+      int pageSize,
+      @JsonKey(name: 'totalItem') int totalItems});
+}
+
+/// @nodoc
+class __$RemarketingPaginatedResponseCopyWithImpl<$Res>
+    implements _$RemarketingPaginatedResponseCopyWith<$Res> {
+  __$RemarketingPaginatedResponseCopyWithImpl(this._self, this._then);
+
+  final _RemarketingPaginatedResponse _self;
+  final $Res Function(_RemarketingPaginatedResponse) _then;
+
+  /// Create a copy of RemarketingPaginatedResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? items = null,
+    Object? page = null,
+    Object? pageSize = null,
+    Object? totalItems = null,
+  }) {
+    return _then(_RemarketingPaginatedResponse(
+      items: null == items
+          ? _self._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<RemarketingUserModel>,
+      page: null == page
+          ? _self.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      pageSize: null == pageSize
+          ? _self.pageSize
+          : pageSize // ignore: cast_nullable_to_non_nullable
+              as int,
+      totalItems: null == totalItems
+          ? _self.totalItems
+          : totalItems // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
 mixin _$RemarketingUserModel {
   String get id;
   String get nombre;

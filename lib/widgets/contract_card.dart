@@ -102,7 +102,7 @@ class ContractCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
-        color: status.color.withOpacity(0.1),
+        color: status.color.withAlpha(0),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: status.color),
       ),

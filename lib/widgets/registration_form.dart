@@ -393,7 +393,7 @@ Future<void> _handleRegister(WidgetRef ref, BuildContext context) async {
     }
   } catch (e) {
     if (context.mounted) context.pop();
-    print(e);
+    debugPrint(e.toString());
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),

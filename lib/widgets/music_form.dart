@@ -233,12 +233,12 @@ class MusicFormContent extends ConsumerWidget {
               final esposo = ref.watch(groomLinksProvider.notifier);
               final esposa = ref.watch(groomLinksProvider.notifier);
 
-              print(esposa);
+              debugPrint(esposa.toString());
               ref
                   .read(weddingMusicFormProvider.notifier)
                   .addBrideSong(esposa.toString());
 
-              print(esposo);
+              debugPrint(esposo.toString());
               ref
                   .read(weddingMusicFormProvider.notifier)
                   .addGroomSong(esposo.toString());

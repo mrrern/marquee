@@ -1,4 +1,4 @@
-  import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/linkspaper.dart';
 
 // Definimos el Notifier para nuestra lista de canciones
 class NovioListNotifier extends Notifier<List<String>> {
@@ -14,7 +14,7 @@ class NovioListNotifier extends Notifier<List<String>> {
     // más la nueva canción. Esto asegura la inmutabilidad y notifica a los oyentes [5, 8-11].
     state = [...state, newSong];
     // Opcional: Para depuración, puedes imprimir el estado actual [12].
-    print(
+    debugPrint(
         'Canción agregada: $newSong. Total de canciones: Novio ${state.length}');
   }
 
@@ -23,7 +23,7 @@ class NovioListNotifier extends Notifier<List<String>> {
     if (index >= 0 && index < state.length) {
       final updatedList = List<String>.from(state)..removeAt(index);
       state = updatedList; // Actualiza el estado [8].
-      print(
+      debugPrint(
           'Canción eliminada en índice $index. Total de canciones: Novio ${state.length}');
     }
   }
@@ -31,7 +31,7 @@ class NovioListNotifier extends Notifier<List<String>> {
   // Método para borrar todas las canciones
   void clearAllSongs() {
     state = []; // Asigna una lista vacía al estado [13].
-    print('Todas las canciones han sido borradas.');
+    debugPrint('Todas las canciones han sido borradas.');
   }
 }
 
@@ -49,7 +49,7 @@ class NoviaListNotifier extends Notifier<List<String>> {
     // más la nueva canción. Esto asegura la inmutabilidad y notifica a los oyentes [5, 8-11].
     state = [...state, newSong];
     // Opcional: Para depuración, puedes imprimir el estado actual [12].
-    print(
+    debugPrint(
         'Canción agregada: $newSong. Total de canciones: Novio ${state.length}');
   }
 
@@ -58,7 +58,7 @@ class NoviaListNotifier extends Notifier<List<String>> {
     if (index >= 0 && index < state.length) {
       final updatedList = List<String>.from(state)..removeAt(index);
       state = updatedList; // Actualiza el estado [8].
-      print(
+      debugPrint(
           'Canción eliminada en índice $index. Total de canciones: Novia ${state.length}');
     }
   }
@@ -66,7 +66,7 @@ class NoviaListNotifier extends Notifier<List<String>> {
   // Método para borrar todas las canciones
   void clearAllSongs() {
     state = []; // Asigna una lista vacía al estado [13].
-    print('Todas las canciones han sido borradas.');
+    debugPrint('Todas las canciones han sido borradas.');
   }
 }
 

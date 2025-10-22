@@ -103,14 +103,14 @@ class MusicLogic {
           .eq('is_deleted', false)
           .order('id');
 
-      print('Respuesta de Supabase: $response');
+      debugPrint('Respuesta de Supabase: $response');
 
       final data = response as List;
-      print('Número de tipos de música encontrados: ${data.length}');
+      debugPrint('Número de tipos de música encontrados: ${data.length}');
 
       return data.map((json) => MusicType.fromJson(json)).toList();
     } catch (e) {
-      print('Error al obtener tipos de música: $e');
+      debugPrint('Error al obtener tipos de música: $e');
       throw Exception('Error al obtener los tipos de música: $e');
     }
   }
