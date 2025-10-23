@@ -28,6 +28,9 @@ _UserInfo _$UserInfoFromJson(Map<String, dynamic> json) => _UserInfo(
       nombre: json['nombre'] as String,
       email: json['email'] as String,
       rol: json['rol'] as String,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$UserInfoToJson(_UserInfo instance) => <String, dynamic>{
@@ -35,6 +38,7 @@ Map<String, dynamic> _$UserInfoToJson(_UserInfo instance) => <String, dynamic>{
       'nombre': instance.nombre,
       'email': instance.email,
       'rol': instance.rol,
+      'createdAt': instance.createdAt?.toIso8601String(),
     };
 
 _Boda _$BodaFromJson(Map<String, dynamic> json) => _Boda(

@@ -405,6 +405,7 @@ mixin _$UserInfo {
   String get nombre;
   String get email;
   String get rol;
+  DateTime? get createdAt;
 
   /// Create a copy of UserInfo
   /// with the given fields replaced by the non-null parameter values.
@@ -424,16 +425,19 @@ mixin _$UserInfo {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.nombre, nombre) || other.nombre == nombre) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.rol, rol) || other.rol == rol));
+            (identical(other.rol, rol) || other.rol == rol) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, nombre, email, rol);
+  int get hashCode =>
+      Object.hash(runtimeType, id, nombre, email, rol, createdAt);
 
   @override
   String toString() {
-    return 'UserInfo(id: $id, nombre: $nombre, email: $email, rol: $rol)';
+    return 'UserInfo(id: $id, nombre: $nombre, email: $email, rol: $rol, createdAt: $createdAt)';
   }
 }
 
@@ -442,7 +446,12 @@ abstract mixin class $UserInfoCopyWith<$Res> {
   factory $UserInfoCopyWith(UserInfo value, $Res Function(UserInfo) _then) =
       _$UserInfoCopyWithImpl;
   @useResult
-  $Res call({String id, String nombre, String email, String rol});
+  $Res call(
+      {String id,
+      String nombre,
+      String email,
+      String rol,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -461,6 +470,7 @@ class _$UserInfoCopyWithImpl<$Res> implements $UserInfoCopyWith<$Res> {
     Object? nombre = null,
     Object? email = null,
     Object? rol = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -479,6 +489,10 @@ class _$UserInfoCopyWithImpl<$Res> implements $UserInfoCopyWith<$Res> {
           ? _self.rol
           : rol // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: freezed == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -576,14 +590,16 @@ extension UserInfoPatterns on UserInfo {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String id, String nombre, String email, String rol)?
+    TResult Function(String id, String nombre, String email, String rol,
+            DateTime? createdAt)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _UserInfo() when $default != null:
-        return $default(_that.id, _that.nombre, _that.email, _that.rol);
+        return $default(
+            _that.id, _that.nombre, _that.email, _that.rol, _that.createdAt);
       case _:
         return orElse();
     }
@@ -604,13 +620,15 @@ extension UserInfoPatterns on UserInfo {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String id, String nombre, String email, String rol)
+    TResult Function(String id, String nombre, String email, String rol,
+            DateTime? createdAt)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UserInfo():
-        return $default(_that.id, _that.nombre, _that.email, _that.rol);
+        return $default(
+            _that.id, _that.nombre, _that.email, _that.rol, _that.createdAt);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -630,13 +648,15 @@ extension UserInfoPatterns on UserInfo {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String id, String nombre, String email, String rol)?
+    TResult? Function(String id, String nombre, String email, String rol,
+            DateTime? createdAt)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _UserInfo() when $default != null:
-        return $default(_that.id, _that.nombre, _that.email, _that.rol);
+        return $default(
+            _that.id, _that.nombre, _that.email, _that.rol, _that.createdAt);
       case _:
         return null;
     }
@@ -650,7 +670,8 @@ class _UserInfo implements UserInfo {
       {required this.id,
       required this.nombre,
       required this.email,
-      required this.rol});
+      required this.rol,
+      this.createdAt});
   factory _UserInfo.fromJson(Map<String, dynamic> json) =>
       _$UserInfoFromJson(json);
 
@@ -662,6 +683,8 @@ class _UserInfo implements UserInfo {
   final String email;
   @override
   final String rol;
+  @override
+  final DateTime? createdAt;
 
   /// Create a copy of UserInfo
   /// with the given fields replaced by the non-null parameter values.
@@ -686,16 +709,19 @@ class _UserInfo implements UserInfo {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.nombre, nombre) || other.nombre == nombre) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.rol, rol) || other.rol == rol));
+            (identical(other.rol, rol) || other.rol == rol) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, nombre, email, rol);
+  int get hashCode =>
+      Object.hash(runtimeType, id, nombre, email, rol, createdAt);
 
   @override
   String toString() {
-    return 'UserInfo(id: $id, nombre: $nombre, email: $email, rol: $rol)';
+    return 'UserInfo(id: $id, nombre: $nombre, email: $email, rol: $rol, createdAt: $createdAt)';
   }
 }
 
@@ -706,7 +732,12 @@ abstract mixin class _$UserInfoCopyWith<$Res>
       __$UserInfoCopyWithImpl;
   @override
   @useResult
-  $Res call({String id, String nombre, String email, String rol});
+  $Res call(
+      {String id,
+      String nombre,
+      String email,
+      String rol,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -725,6 +756,7 @@ class __$UserInfoCopyWithImpl<$Res> implements _$UserInfoCopyWith<$Res> {
     Object? nombre = null,
     Object? email = null,
     Object? rol = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_UserInfo(
       id: null == id
@@ -743,6 +775,10 @@ class __$UserInfoCopyWithImpl<$Res> implements _$UserInfoCopyWith<$Res> {
           ? _self.rol
           : rol // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: freezed == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }

@@ -106,3 +106,4 @@ export 'package:bodas/widgets/custom_carousel.dart';
 export 'package:bodas/widgets/player_video.dart';
 export 'package:bodas/widgets/login_admin_form.dart';
 export 'package:bodas/widgets/dynamic_fields.dart';
+export 'package:bodas/widgets/titles.dart';

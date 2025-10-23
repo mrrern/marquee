@@ -24,6 +24,7 @@ class _CotizacionPageState extends ConsumerState<CotizacionPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(cotizacionRequestPaginationProvider);
     final currentQuotations = state.currentPageRequests;
+    final text = "Solicitud de Cotización";
 
     return Scaffold(
       body: Container(
@@ -33,7 +34,7 @@ class _CotizacionPageState extends ConsumerState<CotizacionPage> {
           Column(
             children: [
               AdminNavBar(),
-              _buildTitle(context),
+              BuildTitleWidget(text: text),
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
@@ -53,7 +54,7 @@ class _CotizacionPageState extends ConsumerState<CotizacionPage> {
           mobile: Column(
             children: [
               AdminNavBar(),
-              _buildTitle(context),
+              BuildTitleWidget(text: text),
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
@@ -74,7 +75,7 @@ class _CotizacionPageState extends ConsumerState<CotizacionPage> {
           web: Column(
             children: [
               AdminNavBar(),
-              _buildTitle(context),
+              BuildTitleWidget(text: text),
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
@@ -90,35 +91,6 @@ class _CotizacionPageState extends ConsumerState<CotizacionPage> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTitle(BuildContext context) {
-    double fontSize = 45.0;
-
-    if (Responsive.isMobile(context)) {
-      fontSize = 25.0;
-    } else if (Responsive.isTablet(context)) {
-      fontSize = 35.0;
-    }
-
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: const Color(0xFFD9D9D9),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Text(
-        'Solicitud de cotización',
-        textAlign: TextAlign.center,
-        style: GoogleFonts.inter(
-          color: const Color(0xFF616161),
-          fontSize: fontSize,
-          fontWeight: FontWeight.w600,
         ),
       ),
     );

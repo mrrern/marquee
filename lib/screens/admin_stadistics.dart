@@ -9,6 +9,7 @@ class AdminStadisticsScreen extends ConsumerWidget {
     final statsAsync = ref.watch(statisticsProvider(year));
     final size = MediaQuery.of(context).size;
     final isMobile = size.width < 850;
+    final text = "Estadisticas";
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -56,18 +57,7 @@ class AdminStadisticsScreen extends ConsumerWidget {
                   const SizedBox(height: 2),
                   AdminNavBar(),
                   const SizedBox(height: 2),
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: Text('Estadística',
-                          style: GoogleFonts.inter(
-                              fontSize: 32, fontWeight: FontWeight.w700)),
-                    ),
-                  ),
+                  BuildTitleWidget(text: text),
                   const SizedBox(height: 10),
 
                   // Summary cards

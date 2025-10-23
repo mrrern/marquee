@@ -11,13 +11,17 @@ class UserLogic {
         (map['nombre'] ?? map['name'] ?? map['user_nombre'] ?? '').toString();
     final email =
         (map['email'] ?? map['correo'] ?? map['user_email'] ?? '').toString();
-    final rol = (map['rol'] ?? map['role'] ?? '').toString();
+    final rol = (map['rol'] ?? map['user_rol'] ?? '').toString();
+    final createdAt = map['created_at'] != null
+        ? DateTime.tryParse(map['created_at'])?.toIso8601String()
+        : DateTime.now().toIso8601String();
 
     return {
       'id': id,
       'nombre': nombre,
       'email': email,
       'rol': rol,
+      'createdAt': createdAt,
     };
   }
 

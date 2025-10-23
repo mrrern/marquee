@@ -24,6 +24,7 @@ abstract class UserInfo with _$UserInfo {
     required String nombre,
     required String email,
     required String rol,
+    DateTime? createdAt,
   }) = _UserInfo;
 
   factory UserInfo.fromJson(Map<String, dynamic> json) =>

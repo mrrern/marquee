@@ -35,8 +35,8 @@ class _ContratadosScreenState extends ConsumerState<ContratadosScreen> {
         child: Responsive(
           Column(
             children: [
-              _buildHeader(context),
-              _buildTitle(context),
+              AdminNavBar(),
+              BuildTitleWidget(text: 'Usuarios Contratados'),
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
@@ -154,8 +154,8 @@ class _ContratadosScreenState extends ConsumerState<ContratadosScreen> {
           ),
           mobile: Column(
             children: [
-              _buildHeader(context),
-              _buildTitle(context),
+              AdminNavBar(),
+              BuildTitleWidget(text: 'Usuarios Contratados'),
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
@@ -194,8 +194,8 @@ class _ContratadosScreenState extends ConsumerState<ContratadosScreen> {
           ),
           web: Column(
             children: [
-              _buildHeader(context),
-              _buildTitle(context),
+              AdminNavBar(),
+              BuildTitleWidget(text: 'Usuarios Contratados'),
               Expanded(
                 child: SingleChildScrollView(
                   child: Padding(
@@ -270,95 +270,6 @@ class _ContratadosScreenState extends ConsumerState<ContratadosScreen> {
           icon: const Icon(Icons.last_page),
         ),
       ],
-    );
-  }
-
-  Widget _buildHeader(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFF0C0C0C), Color(0x00737373)],
-        ),
-      ),
-      child: Responsive.isMobile(context)
-          ? Column(
-              children: [
-                Image.asset(
-                  logo,
-                  width: 200,
-                  height: 42,
-                ),
-                const SizedBox(height: 20),
-                _buildNavLinks(),
-              ],
-            )
-          : Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(
-                  logo,
-                  width: 309,
-                  height: 65,
-                ),
-                _buildNavLinks(),
-              ],
-            ),
-    );
-  }
-
-  Widget _buildNavLinks() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _navLink('Usuario'),
-        const SizedBox(width: 20),
-        _navLink('Menú'),
-        const SizedBox(width: 20),
-        _navLink('Salir'),
-      ],
-    );
-  }
-
-  Widget _navLink(String text) {
-    return Text(
-      text,
-      style: GoogleFonts.inter(
-        color: Colors.white,
-        fontSize: 20,
-        fontWeight: FontWeight.w700,
-      ),
-    );
-  }
-
-  Widget _buildTitle(BuildContext context) {
-    double fontSize = 45.0;
-
-    if (Responsive.isMobile(context)) {
-      fontSize = 25.0;
-    } else if (Responsive.isTablet(context)) {
-      fontSize = 35.0;
-    }
-
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: const Color(0xFFD9D9D9),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Text(
-        'Bodas contratadas',
-        textAlign: TextAlign.center,
-        style: GoogleFonts.inter(
-          color: const Color(0xFF616161),
-          fontSize: fontSize,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
     );
   }
 }

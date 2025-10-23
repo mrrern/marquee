@@ -8,6 +8,7 @@ class NotesAdminScreen extends ConsumerStatefulWidget {
 }
 
 class _AdminNotesScreenState extends ConsumerState<NotesAdminScreen> {
+  final text = "Notas del Sistema";
   @override
   Widget build(BuildContext context) {
     return Responsive(
@@ -21,6 +22,7 @@ class _AdminNotesScreenState extends ConsumerState<NotesAdminScreen> {
 
   Widget _buildWebLayout(BuildContext context, {isMobile = false}) {
     final notesState = ref.watch(notesAdminProvider);
+    final text = "Notas del Sistema";
 
     return notesState.when(
       loading: () =>
@@ -142,38 +144,7 @@ class _AdminNotesScreenState extends ConsumerState<NotesAdminScreen> {
                 top: isMobile ? 120 : 110,
                 left: isMobile ? 10 : 50,
                 right: isMobile ? 10 : 50,
-                child: SizedBox(
-                  width: isMobile ? double.infinity : 800,
-                  height: isMobile ? 60 : 70,
-                  child: Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFD9D9D9),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            "Todas las notas del sistema. Aquí puedes ver a qué usuario pertenece cada nota y gestionarlas.",
-                            style: TextStyle(
-                              color: const Color(0xFF797979),
-                              fontFamily: 'Inter',
-                              fontSize: isMobile ? 12 : 15,
-                              fontWeight: FontWeight.w500,
-                              height: 1.3,
-                            ),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () =>
-                              ref.read(notesAdminProvider.notifier).refresh(),
-                          icon: const Icon(Icons.refresh),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                child: BuildTitleWidget(text: text),
               ),
               // Main Content (notes list)
               Positioned.fill(

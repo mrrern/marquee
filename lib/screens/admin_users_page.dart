@@ -15,7 +15,6 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
     final isTablet = size.width >= 600 && size.width < 850;
     final paginateState = ref.watch(paginateUsersProvider);
     final usersAsync = ref.watch(usersAdminProvider);
-
     return Responsive(
       _buildMainContent(context, isTablet, usersAsync, paginateState),
       mobile: _buildMainContent(context, isMobile, usersAsync, paginateState),
@@ -25,6 +24,7 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
 
   Widget _buildMainContent(BuildContext context, bool isMobile,
       AsyncValue<List<UserInfo>> usersAsync, PaginateUserState paginateState) {
+    final text = "Usuarios registrados";
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -36,7 +36,7 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                         'email': u.email,
                         'nombre': u.nombre,
                         'rol': u.rol,
-                        'createdAt': DateTime.now().toIso8601String(),
+                        'createdAt': u.createdAt,
                       })
                   .toList();
               final csv = exportToCsv(rows);
@@ -114,50 +114,44 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 80),
-                    Text(
-                      'Usuarios registrados',
-                      style: GoogleFonts.inter(
-                        fontSize: isMobile ? 20 : 32,
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xFF333333),
-                      ),
-                    ),
+                    BuildTitleWidget(text: text),
                     const SizedBox(height: 12),
 
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFD9D9D9),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Gestiona los usuarios: editar, eliminar y navegar entre páginas.',
-                              style: TextStyle(
-                                color: const Color(0xFF797979),
-                                fontSize: isMobile ? 12 : 14,
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () =>
-                                ref.read(usersAdminProvider.notifier).refresh(),
-                            icon: const Icon(Icons.refresh),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Container(
+                    //   padding: const EdgeInsets.all(16),
+                    //   decoration: BoxDecoration(
+                    //     color: const Color(0xFFD9D9D9),
+                    //     borderRadius: BorderRadius.circular(10),
+                    //   ),
+                    //   child: Row(
+                    //     children: [
+                    //       Expanded(
+                    //         child: Text(
+                    //           'Gestiona los usuarios: editar, eliminar y navegar entre usuarios.',
+                    //           style: TextStyle(
+                    //             color: const Color(0xFF797979),
+                    //             fontSize: isMobile ? 12 : 14,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //       IconButton(
+                    //         onPressed: () =>
+                    //             ref.read(usersAdminProvider.notifier).refresh(),
+                    //         icon: const Icon(Icons.refresh),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
 
-                    const SizedBox(height: 16),
+                    // const SizedBox(height: 16),
 
                     // Users table container
                     Expanded(
                       child: Container(
                         padding: EdgeInsets.all(isMobile ? 8 : 20),
+                        height: MediaQuery.of(context).size.height * .6,
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.04),
+                          color: Colors.white.withValues(alpha: 0.7),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: usersAsync.when(
