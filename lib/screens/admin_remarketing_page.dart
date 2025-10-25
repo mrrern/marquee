@@ -1,35 +1,52 @@
 import 'package:bodas/routes/linkspaper.dart';
 
-/// Estado local de paginación para la pantalla de remarketing
 final remarketingPaginationProvider =
     StateProvider.autoDispose<RemarketingPagination>((ref) {
   return const RemarketingPagination();
 });
 
-class RemarketingPage extends ConsumerWidget {
+class RemarketingPage extends ConsumerStatefulWidget {
   const RemarketingPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<RemarketingPage> createState() => _RemarketingPageState();
+}
+
+class _RemarketingPageState extends ConsumerState<RemarketingPage> {
+  int _currentPage = 1;
+  int _itemsPerPage = 10;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final size = MediaQuery.of(context).size;
+      final isMobile = size.width < 850;
+      setState(() {
+        _itemsPerPage = isMobile ? 6 : 10;
+        _currentPage = 1;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final pagination = ref.watch(remarketingPaginationProvider);
     final pageAsync = ref.watch(marketingPaginatedProvider(pagination));
 
     return Scaffold(
       body: Stack(
         children: [
-          // Background color
           Container(
             width: double.infinity,
             height: double.infinity,
             color: Colors.white,
           ),
-
-          // Noise texture
           Positioned(
             top: -0.8,
             left: -1,
             child: Transform.rotate(
-              angle: 179.864 * (3.14159 / 180), // Convert degrees to radians
+              angle: 179.864 * (3.14159 / 180),
               child: Image.asset(
                 back2,
                 width: 1442,
@@ -38,8 +55,6 @@ class RemarketingPage extends ConsumerWidget {
               ),
             ),
           ),
-
-          // Gradient overlay
           Positioned(
             top: 0,
             left: 0,
@@ -58,140 +73,174 @@ class RemarketingPage extends ConsumerWidget {
               ),
             ),
           ),
+          Positioned(
+            top: 110,
+            left: 50,
+            right: 50,
+            child: BuildTitleWidget(text: 'Usuarios Remarketing'),
+          ),
+          Positioned.fill(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 190, left: 50, right: 50, bottom: 20),
+              child: SingleChildScrollView(
+                child: Container(
+                  constraints: const BoxConstraints(minHeight: 570),
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: pageAsync.when(
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (e, st) => Center(child: Text('Error: $e')),
+                    data: (pageData) {
+                      final users = pageData.items;
+                      if (users.isEmpty) {
+                        return Container(
+                          width: double.maxFinite,
+                          height: MediaQuery.of(context).size.height * .6,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.8),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: const Center(
+                              child: Text('No hay usuarios para remarketing.')),
+                        );
+                      }
 
-          // Contenido principal con padding superior para el header
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 80), // Ajusta según la altura del AdminNavBar
-            child: pageAsync.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, st) => Center(child: Text('Error: $e')),
-              data: (pageData) {
-                final users = pageData.items;
-                if (users.isEmpty) {
-                  return const Center(
-                      child: Text('No hay usuarios para remarketing.'));
-                }
+                      final totalPages =
+                          (pageData.totalItems / pageData.pageSize)
+                              .ceil()
+                              .clamp(1, 9999);
 
-                // Responsive: table on desktop/web, cards/list on mobile
-                return Responsive(
-                  // Desktop / large screens
-                  Column(
-                    children: [
-                      Container(
-                        color: Colors.white,
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: RemarketingTable(
+                      final isMobile = MediaQuery.of(context).size.width < 600;
+                      if (!isMobile) {
+                        return Column(
+                          children: [
+                            RemarketingTable(
                               pageData: pageData,
                               onPageChange: (newPage) {
                                 ref
-                                    .read(remarketingPaginationProvider.notifier)
+                                    .read(
+                                        remarketingPaginationProvider.notifier)
                                     .state = pagination.copyWith(page: newPage);
                               },
                               onPageSizeChange: (newSize) {
                                 ref
-                                    .read(remarketingPaginationProvider.notifier)
-                                    .state = pagination.copyWith(
-                                  page: 1,
-                                  pageSize: newSize,
-                                );
+                                        .read(remarketingPaginationProvider
+                                            .notifier)
+                                        .state =
+                                    pagination.copyWith(
+                                        page: 1, pageSize: newSize);
                               },
                             ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                            const SizedBox(height: 12),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  onPressed: pageData.page > 1
+                                      ? () => ref
+                                          .read(remarketingPaginationProvider
+                                              .notifier)
+                                          .state = pagination.copyWith(page: 1)
+                                      : null,
+                                  icon: const Icon(Icons.first_page),
+                                ),
+                                IconButton(
+                                  onPressed: pageData.page > 1
+                                      ? () => ref
+                                              .read(
+                                                  remarketingPaginationProvider
+                                                      .notifier)
+                                              .state =
+                                          pagination.copyWith(
+                                              page: pageData.page - 1)
+                                      : null,
+                                  icon: const Icon(Icons.chevron_left),
+                                ),
+                                Text('Página ${pageData.page} de $totalPages'),
+                                IconButton(
+                                  onPressed: pageData.page < totalPages
+                                      ? () => ref
+                                              .read(
+                                                  remarketingPaginationProvider
+                                                      .notifier)
+                                              .state =
+                                          pagination.copyWith(
+                                              page: pageData.page + 1)
+                                      : null,
+                                  icon: const Icon(Icons.chevron_right),
+                                ),
+                                IconButton(
+                                  onPressed: pageData.page < totalPages
+                                      ? () => ref
+                                              .read(
+                                                  remarketingPaginationProvider
+                                                      .notifier)
+                                              .state =
+                                          pagination.copyWith(page: totalPages)
+                                      : null,
+                                  icon: const Icon(Icons.last_page),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      }
 
-                  // Mobile
-                  mobile: Column(
-                    children: [
-                      SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
+                      // Mobile: lista de tarjetas y paginación
+                      return Column(
+                        children: [
+                          ...users.map((u) => RemarketingCard(user: u)),
+                          const SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              ...users.map((u) => RemarketingCard(user: u)),
-                              const SizedBox(height: 12),
+                              Text('Total: ${pageData.totalItems}'),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Total: ${pageData.totalItems}'),
-                                  Row(
-                                    children: [
-                                      IconButton(
-                                        onPressed: pageData.page > 1
-                                            ? () => ref
-                                                .read(remarketingPaginationProvider
-                                                    .notifier)
-                                                .state = pagination.copyWith(
-                                                  page: pageData.page - 1,
-                                                )
-                                            : null,
-                                        icon: const Icon(Icons.chevron_left),
-                                      ),
-                                      Text(
-                                          'Página ${pageData.page} de ${pageData.pageSize <= 0 ? 0 : ((pageData.totalItems + pageData.pageSize - 1) / pageData.pageSize).floor()}'),
-                                      IconButton(
-                                        onPressed: (pageData.pageSize > 0 &&
-                                                pageData.page * pageData.pageSize <
-                                                    pageData.totalItems)
-                                            ? () => ref
-                                                .read(remarketingPaginationProvider
-                                                    .notifier)
-                                                .state = pagination.copyWith(
-                                                  page: pageData.page + 1,
-                                                )
-                                            : null,
-                                        icon: const Icon(Icons.chevron_right),
-                                      ),
-                                    ],
+                                  IconButton(
+                                    onPressed: pageData.page > 1
+                                        ? () => ref
+                                                .read(
+                                                    remarketingPaginationProvider
+                                                        .notifier)
+                                                .state =
+                                            pagination.copyWith(
+                                                page: pageData.page - 1)
+                                        : null,
+                                    icon: const Icon(Icons.chevron_left),
+                                  ),
+                                  Text(
+                                      'Página ${pageData.page} de $totalPages'),
+                                  IconButton(
+                                    onPressed: (pageData.pageSize > 0 &&
+                                            pageData.page * pageData.pageSize <
+                                                pageData.totalItems)
+                                        ? () => ref
+                                                .read(
+                                                    remarketingPaginationProvider
+                                                        .notifier)
+                                                .state =
+                                            pagination.copyWith(
+                                                page: pageData.page + 1)
+                                        : null,
+                                    icon: const Icon(Icons.chevron_right),
                                   ),
                                 ],
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                    ],
+                        ],
+                      );
+                    },
                   ),
-
-                  // Web (treat same as desktop)
-                  web: Column(
-                    children: [
-                      Container(
-                        color: Colors.white,
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: RemarketingTable(
-                              pageData: pageData,
-                              onPageChange: (newPage) {
-                                ref
-                                    .read(remarketingPaginationProvider.notifier)
-                                    .state = pagination.copyWith(page: newPage);
-                              },
-                              onPageSizeChange: (newSize) {
-                                ref
-                                    .read(remarketingPaginationProvider.notifier)
-                                    .state = pagination.copyWith(
-                                  page: 1,
-                                  pageSize: newSize,
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+                ),
+              ),
             ),
           ),
-          // Header fijo
           const Positioned(
             top: 0,
             left: 0,

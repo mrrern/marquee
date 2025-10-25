@@ -26,33 +26,33 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
       AsyncValue<List<UserInfo>> usersAsync, PaginateUserState paginateState) {
     final text = "Usuarios registrados";
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          usersAsync.when(
-            data: (users) {
-              final rows = users
-                  .map((u) => {
-                        'id': u.id,
-                        'email': u.email,
-                        'nombre': u.nombre,
-                        'rol': u.rol,
-                        'createdAt': u.createdAt,
-                      })
-                  .toList();
-              final csv = exportToCsv(rows);
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text('CSV de usuarios generado (ver consola)')));
-              // ignore: avoid_print
-              print(csv);
-            },
-            loading: () => ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Cargando usuarios...'))),
-            error: (e, st) => ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Error generando CSV'))),
-          );
-        },
-        child: const Icon(Icons.add_to_photos),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     usersAsync.when(
+      //       data: (users) {
+      //         final rows = users
+      //             .map((u) => {
+      //                   'id': u.id,
+      //                   'email': u.email,
+      //                   'nombre': u.nombre,
+      //                   'rol': u.rol,
+      //                   'createdAt': u.createdAt,
+      //                 })
+      //             .toList();
+      //         final csv = exportToCsv(rows);
+      //         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      //             content: Text('CSV de usuarios generado (ver consola)')));
+      //         // ignore: avoid_print
+      //         print(csv);
+      //       },
+      //       loading: () => ScaffoldMessenger.of(context).showSnackBar(
+      //           const SnackBar(content: Text('Cargando usuarios...'))),
+      //       error: (e, st) => ScaffoldMessenger.of(context).showSnackBar(
+      //           const SnackBar(content: Text('Error generando CSV'))),
+      //     );
+      //   },
+      //   child: const Icon(Icons.add_to_photos),
+      // ),
       body: Stack(
         children: [
           // Background color
@@ -113,6 +113,7 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    //Titulo de la pagina
                     const SizedBox(height: 80),
                     BuildTitleWidget(text: text),
                     const SizedBox(height: 12),
@@ -204,7 +205,7 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                                             TableRow(
                                               decoration: BoxDecoration(
                                                   color: Colors.white
-                                                      .withAlpha(2)),
+                                                      .withAlpha(3)),
                                               children: const [
                                                 Padding(
                                                   padding: EdgeInsets.all(12.0),

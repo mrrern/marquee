@@ -22,111 +22,165 @@ class _CotizacionPageState extends ConsumerState<CotizacionPage> {
 
   @override
   Widget build(BuildContext context) {
+    return Responsive(
+      _buildWebLayout(context),
+      mobile: _buildWebLayout(context, isMobile: true),
+      web: _buildWebLayout(context),
+    );
+  }
+
+  Widget _buildWebLayout(BuildContext context, {bool isMobile = false}) {
     final state = ref.watch(cotizacionRequestPaginationProvider);
     final currentQuotations = state.currentPageRequests;
     final text = "Solicitud de Cotización";
 
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: Responsive(
-          // Tablet
-          Column(
-            children: [
-              AdminNavBar(),
-              BuildTitleWidget(text: text),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
+      body: Stack(
+        children: [
+          // Background color
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: Colors.white,
+          ),
+
+          // Noise texture
+          Positioned(
+            top: -0.8,
+            left: -1,
+            child: Transform.rotate(
+              angle: 179.864 * (3.14159 / 180), // Convert degrees to radians
+              child: Image.asset(
+                back2,
+                width: 1442,
+                height: 1028,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+
+          // Gradient overlay
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 359,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xFF0C0C0C),
+                    Color(0x00737373),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          // Title bar
+          Positioned(
+            top: isMobile ? 120 : 110,
+            left: isMobile ? 10 : 50,
+            right: isMobile ? 10 : 50,
+            child: BuildTitleWidget(text: text),
+          ),
+
+          // Main content
+          Positioned.fill(
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: isMobile ? 200 : 190,
+                left: isMobile ? 10 : 50,
+                right: isMobile ? 10 : 50,
+                bottom: 20,
+              ),
+              child: SingleChildScrollView(
+                child: Container(
+                  constraints: const BoxConstraints(minHeight: 570),
+                  padding: EdgeInsets.all(isMobile ? 10 : 20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (!isMobile) ...[
+                        // Table for tablet/web
                         QuotationTable(quotations: currentQuotations),
+                        const SizedBox(height: 12),
+                        _buildPagination(state),
+                      ] else ...[
+                        // Cards for mobile
+                        ...currentQuotations.map((q) => Padding(
+                              padding: const EdgeInsets.only(bottom: 12.0),
+                              child: QuotationCard(quotation: q),
+                            )),
+                        const SizedBox(height: 12),
                         _buildPagination(state),
                       ],
-                    ),
+                    ],
                   ),
                 ),
               ),
-            ],
+            ),
           ),
-          // Mobile
-          mobile: Column(
-            children: [
-              AdminNavBar(),
-              BuildTitleWidget(text: text),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        ...currentQuotations.map(
-                            (quotation) => QuotationCard(quotation: quotation)),
-                        _buildPagination(state),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
+
+          // Header
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: AdminNavBar(),
           ),
-          // Web
-          web: Column(
-            children: [
-              AdminNavBar(),
-              BuildTitleWidget(text: text),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        QuotationTable(quotations: currentQuotations),
-                        _buildPagination(state),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }
 
   Widget _buildPagination(CotizacionRequestPaginationState state) {
-    return Container(
-      margin: const EdgeInsets.only(top: 20, bottom: 40),
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      decoration: BoxDecoration(
-        color: const Color(0xFFD9D9D9),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          for (int i = 1; i <= state.totalPages; i++)
-            GestureDetector(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+          onPressed: () => ref
+              .read(cotizacionRequestPaginationProvider.notifier)
+              .changePage((state.currentPage - 1).clamp(1, state.totalPages)),
+          icon: const Icon(Icons.chevron_left),
+        ),
+        for (int i = 1; i <= state.totalPages; i++)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            child: GestureDetector(
               onTap: () => ref
                   .read(cotizacionRequestPaginationProvider.notifier)
                   .changePage(i),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: i == state.currentPage
+                      ? Colors.white
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(6),
+                ),
                 child: Text(
-                  i == state.currentPage ? 'Pag $i' : '$i',
-                  style: GoogleFonts.inter(
-                    fontSize: 15,
-                    color: i == state.currentPage
-                        ? Colors.black
-                        : const Color(0xFF999999),
+                  '$i',
+                  style: TextStyle(
+                    color: i == state.currentPage ? Colors.black : Colors.white,
                   ),
                 ),
               ),
             ),
-        ],
-      ),
+          ),
+        IconButton(
+          onPressed: () => ref
+              .read(cotizacionRequestPaginationProvider.notifier)
+              .changePage((state.currentPage + 1).clamp(1, state.totalPages)),
+          icon: const Icon(Icons.chevron_right),
+        ),
+      ],
     );
   }
 }

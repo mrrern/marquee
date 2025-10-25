@@ -107,3 +107,4 @@ export 'package:bodas/widgets/player_video.dart';
 export 'package:bodas/widgets/login_admin_form.dart';
 export 'package:bodas/widgets/dynamic_fields.dart';
 export 'package:bodas/widgets/titles.dart';
+export 'package:bodas/widgets/table_marquee.dart';
