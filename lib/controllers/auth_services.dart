@@ -267,8 +267,11 @@ class AuthInfoNotifier extends StateNotifier<AsyncValue<UserInfo?>> {
 
   Future<void> signOut() async {
     state = const AsyncValue.loading();
+    final prefs = await SharedPreferences.getInstance();
     try {
       await _authService.signOut();
+      await prefs.remove('user_info');
+
       state = const AsyncValue.data(null);
     } catch (e, st) {
       state = AsyncValue.error(e, st);
