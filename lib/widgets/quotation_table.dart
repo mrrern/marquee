@@ -3,11 +3,13 @@ import 'package:bodas/routes/linkspaper.dart';
 class QuotationTable extends StatelessWidget {
   final List<CotizacionRequest> quotations;
   final Function(CotizacionLogic)? onSelect;
+  final Function(String userId)? onAccept;
 
   const QuotationTable({
     super.key,
     required this.quotations,
     this.onSelect,
+    this.onAccept,
   });
 
   @override
@@ -136,26 +138,76 @@ class QuotationTable extends StatelessWidget {
                     ],
                   );
                 case 9:
-                  return quotation.isSumitedBoda
+                  return quotation.isActive
                       ? Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 7,
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFECFDF3),
+                            color: const Color(0xFF027A48).withOpacity(0.1),
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          child: Text(
-                            'Aceptar',
-                            style: GoogleFonts.inter(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: const Color(0xFF027A48),
-                            ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.check_circle,
+                                size: 12,
+                                color: const Color(0xFF027A48),
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                'Activa',
+                                style: GoogleFonts.inter(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xFF027A48),
+                                ),
+                              ),
+                            ],
                           ),
                         )
-                      : const SizedBox();
+                      : GestureDetector(
+                          onTap: () {
+                            if (onAccept != null) {
+                              onAccept!(quotation.userId);
+                            }
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 7,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFECFDF3),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: const Color(0xFF027A48).withOpacity(0.3),
+                                width: 1,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.check,
+                                  size: 12,
+                                  color: const Color(0xFF027A48),
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'Aceptar',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xFF027A48),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
                 default:
                   return const SizedBox();
               }

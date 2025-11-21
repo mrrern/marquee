@@ -73,6 +73,18 @@ class WeddingLogic {
     }
   }
 
+  // Actualizar el estado isActive de una boda (cuando se acepta la cotización)
+  Future<void> updateIsActive(String bodaId, bool isActive) async {
+    try {
+      await supabase.from('boda').update({
+        'is_active': isActive,
+        'updated_at': DateTime.now().toIso8601String(),
+      }).eq('id', bodaId);
+    } catch (e) {
+      throw Exception('Error al actualizar el estado activo de la boda: $e');
+    }
+  }
+
   // Obtener bodas usando el view listar_boda
   Future<List<Boda>> fetchWeddings(String usuarioId) async {
     final response = await supabase

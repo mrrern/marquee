@@ -117,7 +117,54 @@ class _CotizacionPageState extends ConsumerState<CotizacionPage> {
                       children: [
                         if (!isMobile) ...[
                           // Table for tablet/web
-                          QuotationTable(quotations: currentQuotations),
+                          QuotationTable(
+                            quotations: currentQuotations,
+                            onAccept: (userId) async {
+                              try {
+                                // Obtener la boda correspondiente al userId
+                                final weddingLogic =
+                                    ref.read(weddingLogicProvider);
+                                final allWeddings =
+                                    await ref.read(allWeddingsProvider.future);
+                                final wedding = allWeddings.firstWhere(
+                                  (w) => w.usuarioId == userId,
+                                  orElse: () =>
+                                      throw Exception('Boda no encontrada'),
+                                );
+
+                                // Actualizar isActive a true
+                                await weddingLogic.updateIsActive(
+                                    wedding.id.toString(), true);
+
+                                // Refrescar los datos
+                                await ref
+                                    .read(cotizacionRequestPaginationProvider
+                                        .notifier)
+                                    .loadRequests();
+
+                                // Mostrar mensaje de éxito
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Cotización aceptada exitosamente'),
+                                      backgroundColor: Color(0xFF027A48),
+                                    ),
+                                  );
+                                }
+                              } catch (e) {
+                                // Mostrar mensaje de error
+                                if (context.mounted) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Error: $e'),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
+                              }
+                            },
+                          ),
                           const SizedBox(height: 12),
                           _buildPagination(state),
                         ] else ...[
