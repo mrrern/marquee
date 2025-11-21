@@ -1,6 +1,7 @@
 import 'package:bodas/routes/linkspaper.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:io';
+import 'package:bodas/controllers/user/user_model.dart';
 
 part 'cotizacion_logic.freezed.dart';
 
@@ -121,15 +122,38 @@ class CotizacionLogic {
     }
   }
 
-  /// Obtiene todas las solicitudes de cotización (mock, reemplaza con lógica real)
+  /// Obtiene todas las solicitudes de cotización desde listar_boda
   Future<List<CotizacionRequest>> getAllCotizacionRequests() async {
-    // Aquí deberías consultar Supabase y armar la lista real
-    // Ejemplo mock:
-    return _supabase.from('bodas_lista').select().then(
-          (data) => (data as List)
-              .map((json) => CotizacionRequest.fromJson(json))
-              .toList(),
+    try {
+      // Consultar desde la vista listar_boda
+      final response =
+          await _supabase.from('listar_boda').select().eq('is_deleted', false);
+
+      // Mapear de Boda a CotizacionRequest
+      return (response as List).map((json) {
+        final boda = Boda.fromJson(json);
+
+        // Determinar si está activa/contratada basándose en el estado
+        final isActive = boda.estadoId.toLowerCase().contains('contrat') ||
+            boda.estadoId.toLowerCase().contains('activ');
+
+        return CotizacionRequest(
+          userId: boda.usuarioId,
+          nombre: '${boda.novioNombre} & ${boda.noviaNombre}',
+          email: boda.novioEmail,
+          telefonoNovio: boda.phoneNovio,
+          telefonoNovia: boda.phoneNovia,
+          lugarCeremonia: boda.ubicacion,
+          isSumitedBoda: isActive,
+          isActive: isActive,
+          fechaUltimaBoda: boda.fecha,
+          invitados: boda.invitados.round(),
+          tipoCeremonia: boda.bodaTipo.toString(),
         );
+      }).toList();
+    } catch (e) {
+      throw Exception('Error al obtener las solicitudes de cotización: $e');
+    }
   }
 }
 

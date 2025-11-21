@@ -791,6 +791,7 @@ mixin _$Boda {
   DateTime get fecha;
   String get ubicacion;
   double get invitados;
+  bool get isActive;
   @JsonKey(name: 'estado_boda')
   String get estadoId;
   @JsonKey(name: 'tipo_boda')
@@ -841,6 +842,8 @@ mixin _$Boda {
                 other.ubicacion == ubicacion) &&
             (identical(other.invitados, invitados) ||
                 other.invitados == invitados) &&
+            (identical(other.isActive, isActive) ||
+                other.isActive == isActive) &&
             (identical(other.estadoId, estadoId) ||
                 other.estadoId == estadoId) &&
             (identical(other.bodaTipo, bodaTipo) ||
@@ -871,30 +874,32 @@ mixin _$Boda {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      usuarioId,
-      fecha,
-      ubicacion,
-      invitados,
-      estadoId,
-      bodaTipo,
-      createdAt,
-      updatedAt,
-      isDeleted,
-      novioNombre,
-      noviaNombre,
-      phoneNovio,
-      phoneNovia,
-      novioBirthday,
-      noviaBirthday,
-      novioEmail,
-      noviaEmail);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        usuarioId,
+        fecha,
+        ubicacion,
+        invitados,
+        isActive,
+        estadoId,
+        bodaTipo,
+        createdAt,
+        updatedAt,
+        isDeleted,
+        novioNombre,
+        noviaNombre,
+        phoneNovio,
+        phoneNovia,
+        novioBirthday,
+        noviaBirthday,
+        novioEmail,
+        noviaEmail
+      ]);
 
   @override
   String toString() {
-    return 'Boda(id: $id, usuarioId: $usuarioId, fecha: $fecha, ubicacion: $ubicacion, invitados: $invitados, estadoId: $estadoId, bodaTipo: $bodaTipo, createdAt: $createdAt, updatedAt: $updatedAt, isDeleted: $isDeleted, novioNombre: $novioNombre, noviaNombre: $noviaNombre, phoneNovio: $phoneNovio, phoneNovia: $phoneNovia, novioBirthday: $novioBirthday, noviaBirthday: $noviaBirthday, novioEmail: $novioEmail, noviaEmail: $noviaEmail)';
+    return 'Boda(id: $id, usuarioId: $usuarioId, fecha: $fecha, ubicacion: $ubicacion, invitados: $invitados, isActive: $isActive, estadoId: $estadoId, bodaTipo: $bodaTipo, createdAt: $createdAt, updatedAt: $updatedAt, isDeleted: $isDeleted, novioNombre: $novioNombre, noviaNombre: $noviaNombre, phoneNovio: $phoneNovio, phoneNovia: $phoneNovia, novioBirthday: $novioBirthday, noviaBirthday: $noviaBirthday, novioEmail: $novioEmail, noviaEmail: $noviaEmail)';
   }
 }
 
@@ -909,6 +914,7 @@ abstract mixin class $BodaCopyWith<$Res> {
       DateTime fecha,
       String ubicacion,
       double invitados,
+      bool isActive,
       @JsonKey(name: 'estado_boda') String estadoId,
       @JsonKey(name: 'tipo_boda') int bodaTipo,
       @JsonKey(name: 'created_at') DateTime createdAt,
@@ -941,6 +947,7 @@ class _$BodaCopyWithImpl<$Res> implements $BodaCopyWith<$Res> {
     Object? fecha = null,
     Object? ubicacion = null,
     Object? invitados = null,
+    Object? isActive = null,
     Object? estadoId = null,
     Object? bodaTipo = null,
     Object? createdAt = null,
@@ -976,6 +983,10 @@ class _$BodaCopyWithImpl<$Res> implements $BodaCopyWith<$Res> {
           ? _self.invitados
           : invitados // ignore: cast_nullable_to_non_nullable
               as double,
+      isActive: null == isActive
+          ? _self.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
       estadoId: null == estadoId
           ? _self.estadoId
           : estadoId // ignore: cast_nullable_to_non_nullable
@@ -1131,6 +1142,7 @@ extension BodaPatterns on Boda {
             DateTime fecha,
             String ubicacion,
             double invitados,
+            bool isActive,
             @JsonKey(name: 'estado_boda') String estadoId,
             @JsonKey(name: 'tipo_boda') int bodaTipo,
             @JsonKey(name: 'created_at') DateTime createdAt,
@@ -1156,6 +1168,7 @@ extension BodaPatterns on Boda {
             _that.fecha,
             _that.ubicacion,
             _that.invitados,
+            _that.isActive,
             _that.estadoId,
             _that.bodaTipo,
             _that.createdAt,
@@ -1195,6 +1208,7 @@ extension BodaPatterns on Boda {
             DateTime fecha,
             String ubicacion,
             double invitados,
+            bool isActive,
             @JsonKey(name: 'estado_boda') String estadoId,
             @JsonKey(name: 'tipo_boda') int bodaTipo,
             @JsonKey(name: 'created_at') DateTime createdAt,
@@ -1219,6 +1233,7 @@ extension BodaPatterns on Boda {
             _that.fecha,
             _that.ubicacion,
             _that.invitados,
+            _that.isActive,
             _that.estadoId,
             _that.bodaTipo,
             _that.createdAt,
@@ -1257,6 +1272,7 @@ extension BodaPatterns on Boda {
             DateTime fecha,
             String ubicacion,
             double invitados,
+            bool isActive,
             @JsonKey(name: 'estado_boda') String estadoId,
             @JsonKey(name: 'tipo_boda') int bodaTipo,
             @JsonKey(name: 'created_at') DateTime createdAt,
@@ -1281,6 +1297,7 @@ extension BodaPatterns on Boda {
             _that.fecha,
             _that.ubicacion,
             _that.invitados,
+            _that.isActive,
             _that.estadoId,
             _that.bodaTipo,
             _that.createdAt,
@@ -1309,6 +1326,7 @@ class _Boda extends Boda {
       required this.fecha,
       required this.ubicacion,
       required this.invitados,
+      required this.isActive,
       @JsonKey(name: 'estado_boda') required this.estadoId,
       @JsonKey(name: 'tipo_boda') required this.bodaTipo,
       @JsonKey(name: 'created_at') required this.createdAt,
@@ -1336,6 +1354,8 @@ class _Boda extends Boda {
   final String ubicacion;
   @override
   final double invitados;
+  @override
+  final bool isActive;
   @override
   @JsonKey(name: 'estado_boda')
   final String estadoId;
@@ -1404,6 +1424,8 @@ class _Boda extends Boda {
                 other.ubicacion == ubicacion) &&
             (identical(other.invitados, invitados) ||
                 other.invitados == invitados) &&
+            (identical(other.isActive, isActive) ||
+                other.isActive == isActive) &&
             (identical(other.estadoId, estadoId) ||
                 other.estadoId == estadoId) &&
             (identical(other.bodaTipo, bodaTipo) ||
@@ -1434,30 +1456,32 @@ class _Boda extends Boda {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      usuarioId,
-      fecha,
-      ubicacion,
-      invitados,
-      estadoId,
-      bodaTipo,
-      createdAt,
-      updatedAt,
-      isDeleted,
-      novioNombre,
-      noviaNombre,
-      phoneNovio,
-      phoneNovia,
-      novioBirthday,
-      noviaBirthday,
-      novioEmail,
-      noviaEmail);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        usuarioId,
+        fecha,
+        ubicacion,
+        invitados,
+        isActive,
+        estadoId,
+        bodaTipo,
+        createdAt,
+        updatedAt,
+        isDeleted,
+        novioNombre,
+        noviaNombre,
+        phoneNovio,
+        phoneNovia,
+        novioBirthday,
+        noviaBirthday,
+        novioEmail,
+        noviaEmail
+      ]);
 
   @override
   String toString() {
-    return 'Boda(id: $id, usuarioId: $usuarioId, fecha: $fecha, ubicacion: $ubicacion, invitados: $invitados, estadoId: $estadoId, bodaTipo: $bodaTipo, createdAt: $createdAt, updatedAt: $updatedAt, isDeleted: $isDeleted, novioNombre: $novioNombre, noviaNombre: $noviaNombre, phoneNovio: $phoneNovio, phoneNovia: $phoneNovia, novioBirthday: $novioBirthday, noviaBirthday: $noviaBirthday, novioEmail: $novioEmail, noviaEmail: $noviaEmail)';
+    return 'Boda(id: $id, usuarioId: $usuarioId, fecha: $fecha, ubicacion: $ubicacion, invitados: $invitados, isActive: $isActive, estadoId: $estadoId, bodaTipo: $bodaTipo, createdAt: $createdAt, updatedAt: $updatedAt, isDeleted: $isDeleted, novioNombre: $novioNombre, noviaNombre: $noviaNombre, phoneNovio: $phoneNovio, phoneNovia: $phoneNovia, novioBirthday: $novioBirthday, noviaBirthday: $noviaBirthday, novioEmail: $novioEmail, noviaEmail: $noviaEmail)';
   }
 }
 
@@ -1473,6 +1497,7 @@ abstract mixin class _$BodaCopyWith<$Res> implements $BodaCopyWith<$Res> {
       DateTime fecha,
       String ubicacion,
       double invitados,
+      bool isActive,
       @JsonKey(name: 'estado_boda') String estadoId,
       @JsonKey(name: 'tipo_boda') int bodaTipo,
       @JsonKey(name: 'created_at') DateTime createdAt,
@@ -1505,6 +1530,7 @@ class __$BodaCopyWithImpl<$Res> implements _$BodaCopyWith<$Res> {
     Object? fecha = null,
     Object? ubicacion = null,
     Object? invitados = null,
+    Object? isActive = null,
     Object? estadoId = null,
     Object? bodaTipo = null,
     Object? createdAt = null,
@@ -1540,6 +1566,10 @@ class __$BodaCopyWithImpl<$Res> implements _$BodaCopyWith<$Res> {
           ? _self.invitados
           : invitados // ignore: cast_nullable_to_non_nullable
               as double,
+      isActive: null == isActive
+          ? _self.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
+              as bool,
       estadoId: null == estadoId
           ? _self.estadoId
           : estadoId // ignore: cast_nullable_to_non_nullable

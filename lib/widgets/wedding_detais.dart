@@ -16,25 +16,25 @@ class WeddingFormFields extends ConsumerWidget {
 
     final formState = ref.read(weddingFormProvider);
     final boda = Boda(
-      id: bodas.isNotEmpty ? bodas.first.id : 0,
-      usuarioId: userInfo.id,
-      fecha: DateTime.now(),
-      ubicacion: formState.ubicacion,
-      invitados: double.tryParse(formState.invitados) ?? 0,
-      estadoId: '1',
-      bodaTipo: formState.selectedBodaTipo,
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
-      isDeleted: false,
-      novioNombre: formState.novioNombre,
-      noviaNombre: formState.noviaNombre,
-      phoneNovio: formState.phoneNovio,
-      phoneNovia: formState.phoneNovia,
-      novioBirthday: formState.novioBirthday ?? DateTime.now(),
-      noviaBirthday: formState.noviaBirthday ?? DateTime.now(),
-      novioEmail: formState.novioEmail,
-      noviaEmail: formState.noviaEmail,
-    );
+        id: bodas.isNotEmpty ? bodas.first.id : 0,
+        usuarioId: userInfo.id,
+        fecha: DateTime.now(),
+        ubicacion: formState.ubicacion,
+        invitados: double.tryParse(formState.invitados) ?? 0,
+        estadoId: '1',
+        bodaTipo: formState.selectedBodaTipo,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        isDeleted: false,
+        novioNombre: formState.novioNombre,
+        noviaNombre: formState.noviaNombre,
+        phoneNovio: formState.phoneNovio,
+        phoneNovia: formState.phoneNovia,
+        novioBirthday: formState.novioBirthday ?? DateTime.now(),
+        noviaBirthday: formState.noviaBirthday ?? DateTime.now(),
+        novioEmail: formState.novioEmail,
+        noviaEmail: formState.noviaEmail,
+        isActive: false);
 
     try {
       await ref.read(weddingsProvider(userInfo.id).notifier).addWedding(boda);

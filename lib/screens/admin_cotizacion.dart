@@ -17,6 +17,8 @@ class _CotizacionPageState extends ConsumerState<CotizacionPage> {
       ref
           .read(cotizacionRequestPaginationProvider.notifier)
           .updateItemsPerPage(isMobile ? 4 : 6);
+      // Refresh data to show newly created weddings
+      ref.read(cotizacionRequestPaginationProvider.notifier).loadRequests();
     });
   }
 
@@ -96,31 +98,39 @@ class _CotizacionPageState extends ConsumerState<CotizacionPage> {
                 right: isMobile ? 10 : 50,
                 bottom: 20,
               ),
-              child: SingleChildScrollView(
-                child: Container(
-                  constraints: const BoxConstraints(minHeight: 570),
-                  padding: EdgeInsets.all(isMobile ? 10 : 20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (!isMobile) ...[
-                        // Table for tablet/web
-                        QuotationTable(quotations: currentQuotations),
-                        const SizedBox(height: 12),
-                        _buildPagination(state),
-                      ] else ...[
-                        // Cards for mobile
-                        ...currentQuotations.map((q) => Padding(
-                              padding: const EdgeInsets.only(bottom: 12.0),
-                              child: QuotationCard(quotation: q),
-                            )),
-                        const SizedBox(height: 12),
-                        _buildPagination(state),
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  await ref
+                      .read(cotizacionRequestPaginationProvider.notifier)
+                      .loadRequests();
+                },
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Container(
+                    constraints: const BoxConstraints(minHeight: 570),
+                    padding: EdgeInsets.all(isMobile ? 10 : 20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (!isMobile) ...[
+                          // Table for tablet/web
+                          QuotationTable(quotations: currentQuotations),
+                          const SizedBox(height: 12),
+                          _buildPagination(state),
+                        ] else ...[
+                          // Cards for mobile
+                          ...currentQuotations.map((q) => Padding(
+                                padding: const EdgeInsets.only(bottom: 12.0),
+                                child: QuotationCard(quotation: q),
+                              )),
+                          const SizedBox(height: 12),
+                          _buildPagination(state),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
                 ),
               ),
@@ -135,6 +145,13 @@ class _CotizacionPageState extends ConsumerState<CotizacionPage> {
             child: AdminNavBar(),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ref.read(cotizacionRequestPaginationProvider.notifier).loadRequests();
+        },
+        tooltip: 'Refrescar cotizaciones',
+        child: const Icon(Icons.refresh),
       ),
     );
   }

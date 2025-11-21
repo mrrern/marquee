@@ -39,6 +39,7 @@ abstract class Boda with _$Boda {
     required DateTime fecha,
     required String ubicacion,
     required double invitados,
+    required bool isActive,
     @JsonKey(name: 'estado_boda') required String estadoId,
     @JsonKey(name: 'tipo_boda') required int bodaTipo,
     @JsonKey(name: 'created_at') required DateTime createdAt,

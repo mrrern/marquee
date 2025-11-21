@@ -13,6 +13,7 @@ abstract class CotizacionRequest with _$CotizacionRequest {
     required String telefonoNovia,
     required String lugarCeremonia,
     required bool isSumitedBoda,
+    @JsonKey(name: 'isActive') @Default(false) bool isActive,
     required DateTime fechaUltimaBoda,
     required int invitados,
     required String tipoCeremonia,

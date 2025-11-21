@@ -21,6 +21,8 @@ mixin _$CotizacionRequest {
   String get telefonoNovia;
   String get lugarCeremonia;
   bool get isSumitedBoda;
+  @JsonKey(name: 'isActive')
+  bool get isActive;
   DateTime get fechaUltimaBoda;
   int get invitados;
   String get tipoCeremonia;
@@ -52,6 +54,8 @@ mixin _$CotizacionRequest {
                 other.lugarCeremonia == lugarCeremonia) &&
             (identical(other.isSumitedBoda, isSumitedBoda) ||
                 other.isSumitedBoda == isSumitedBoda) &&
+            (identical(other.isActive, isActive) ||
+                other.isActive == isActive) &&
             (identical(other.fechaUltimaBoda, fechaUltimaBoda) ||
                 other.fechaUltimaBoda == fechaUltimaBoda) &&
             (identical(other.invitados, invitados) ||
@@ -71,13 +75,14 @@ mixin _$CotizacionRequest {
       telefonoNovia,
       lugarCeremonia,
       isSumitedBoda,
+      isActive,
       fechaUltimaBoda,
       invitados,
       tipoCeremonia);
 
   @override
   String toString() {
-    return 'CotizacionRequest(userId: $userId, nombre: $nombre, email: $email, telefonoNovio: $telefonoNovio, telefonoNovia: $telefonoNovia, lugarCeremonia: $lugarCeremonia, isSumitedBoda: $isSumitedBoda, fechaUltimaBoda: $fechaUltimaBoda, invitados: $invitados, tipoCeremonia: $tipoCeremonia)';
+    return 'CotizacionRequest(userId: $userId, nombre: $nombre, email: $email, telefonoNovio: $telefonoNovio, telefonoNovia: $telefonoNovia, lugarCeremonia: $lugarCeremonia, isSumitedBoda: $isSumitedBoda, isActive: $isActive, fechaUltimaBoda: $fechaUltimaBoda, invitados: $invitados, tipoCeremonia: $tipoCeremonia)';
   }
 }
 
@@ -95,6 +100,7 @@ abstract mixin class $CotizacionRequestCopyWith<$Res> {
       String telefonoNovia,
       String lugarCeremonia,
       bool isSumitedBoda,
+      @JsonKey(name: 'isActive') bool isActive,
       DateTime fechaUltimaBoda,
       int invitados,
       String tipoCeremonia});
@@ -120,6 +126,7 @@ class _$CotizacionRequestCopyWithImpl<$Res>
     Object? telefonoNovia = null,
     Object? lugarCeremonia = null,
     Object? isSumitedBoda = null,
+    Object? isActive = null,
     Object? fechaUltimaBoda = null,
     Object? invitados = null,
     Object? tipoCeremonia = null,
@@ -152,6 +159,10 @@ class _$CotizacionRequestCopyWithImpl<$Res>
       isSumitedBoda: null == isSumitedBoda
           ? _self.isSumitedBoda
           : isSumitedBoda // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isActive: null == isActive
+          ? _self.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
               as bool,
       fechaUltimaBoda: null == fechaUltimaBoda
           ? _self.fechaUltimaBoda
@@ -270,6 +281,7 @@ extension CotizacionRequestPatterns on CotizacionRequest {
             String telefonoNovia,
             String lugarCeremonia,
             bool isSumitedBoda,
+            @JsonKey(name: 'isActive') bool isActive,
             DateTime fechaUltimaBoda,
             int invitados,
             String tipoCeremonia)?
@@ -287,6 +299,7 @@ extension CotizacionRequestPatterns on CotizacionRequest {
             _that.telefonoNovia,
             _that.lugarCeremonia,
             _that.isSumitedBoda,
+            _that.isActive,
             _that.fechaUltimaBoda,
             _that.invitados,
             _that.tipoCeremonia);
@@ -318,6 +331,7 @@ extension CotizacionRequestPatterns on CotizacionRequest {
             String telefonoNovia,
             String lugarCeremonia,
             bool isSumitedBoda,
+            @JsonKey(name: 'isActive') bool isActive,
             DateTime fechaUltimaBoda,
             int invitados,
             String tipoCeremonia)
@@ -334,6 +348,7 @@ extension CotizacionRequestPatterns on CotizacionRequest {
             _that.telefonoNovia,
             _that.lugarCeremonia,
             _that.isSumitedBoda,
+            _that.isActive,
             _that.fechaUltimaBoda,
             _that.invitados,
             _that.tipoCeremonia);
@@ -364,6 +379,7 @@ extension CotizacionRequestPatterns on CotizacionRequest {
             String telefonoNovia,
             String lugarCeremonia,
             bool isSumitedBoda,
+            @JsonKey(name: 'isActive') bool isActive,
             DateTime fechaUltimaBoda,
             int invitados,
             String tipoCeremonia)?
@@ -380,6 +396,7 @@ extension CotizacionRequestPatterns on CotizacionRequest {
             _that.telefonoNovia,
             _that.lugarCeremonia,
             _that.isSumitedBoda,
+            _that.isActive,
             _that.fechaUltimaBoda,
             _that.invitados,
             _that.tipoCeremonia);
@@ -400,6 +417,7 @@ class _CotizacionRequest implements CotizacionRequest {
       required this.telefonoNovia,
       required this.lugarCeremonia,
       required this.isSumitedBoda,
+      @JsonKey(name: 'isActive') this.isActive = false,
       required this.fechaUltimaBoda,
       required this.invitados,
       required this.tipoCeremonia});
@@ -420,6 +438,9 @@ class _CotizacionRequest implements CotizacionRequest {
   final String lugarCeremonia;
   @override
   final bool isSumitedBoda;
+  @override
+  @JsonKey(name: 'isActive')
+  final bool isActive;
   @override
   final DateTime fechaUltimaBoda;
   @override
@@ -458,6 +479,8 @@ class _CotizacionRequest implements CotizacionRequest {
                 other.lugarCeremonia == lugarCeremonia) &&
             (identical(other.isSumitedBoda, isSumitedBoda) ||
                 other.isSumitedBoda == isSumitedBoda) &&
+            (identical(other.isActive, isActive) ||
+                other.isActive == isActive) &&
             (identical(other.fechaUltimaBoda, fechaUltimaBoda) ||
                 other.fechaUltimaBoda == fechaUltimaBoda) &&
             (identical(other.invitados, invitados) ||
@@ -477,13 +500,14 @@ class _CotizacionRequest implements CotizacionRequest {
       telefonoNovia,
       lugarCeremonia,
       isSumitedBoda,
+      isActive,
       fechaUltimaBoda,
       invitados,
       tipoCeremonia);
 
   @override
   String toString() {
-    return 'CotizacionRequest(userId: $userId, nombre: $nombre, email: $email, telefonoNovio: $telefonoNovio, telefonoNovia: $telefonoNovia, lugarCeremonia: $lugarCeremonia, isSumitedBoda: $isSumitedBoda, fechaUltimaBoda: $fechaUltimaBoda, invitados: $invitados, tipoCeremonia: $tipoCeremonia)';
+    return 'CotizacionRequest(userId: $userId, nombre: $nombre, email: $email, telefonoNovio: $telefonoNovio, telefonoNovia: $telefonoNovia, lugarCeremonia: $lugarCeremonia, isSumitedBoda: $isSumitedBoda, isActive: $isActive, fechaUltimaBoda: $fechaUltimaBoda, invitados: $invitados, tipoCeremonia: $tipoCeremonia)';
   }
 }
 
@@ -503,6 +527,7 @@ abstract mixin class _$CotizacionRequestCopyWith<$Res>
       String telefonoNovia,
       String lugarCeremonia,
       bool isSumitedBoda,
+      @JsonKey(name: 'isActive') bool isActive,
       DateTime fechaUltimaBoda,
       int invitados,
       String tipoCeremonia});
@@ -528,6 +553,7 @@ class __$CotizacionRequestCopyWithImpl<$Res>
     Object? telefonoNovia = null,
     Object? lugarCeremonia = null,
     Object? isSumitedBoda = null,
+    Object? isActive = null,
     Object? fechaUltimaBoda = null,
     Object? invitados = null,
     Object? tipoCeremonia = null,
@@ -560,6 +586,10 @@ class __$CotizacionRequestCopyWithImpl<$Res>
       isSumitedBoda: null == isSumitedBoda
           ? _self.isSumitedBoda
           : isSumitedBoda // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isActive: null == isActive
+          ? _self.isActive
+          : isActive // ignore: cast_nullable_to_non_nullable
               as bool,
       fechaUltimaBoda: null == fechaUltimaBoda
           ? _self.fechaUltimaBoda

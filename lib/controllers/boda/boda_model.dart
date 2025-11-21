@@ -33,65 +33,27 @@ abstract class BodaTipo with _$BodaTipo {
 }
 
 /// Estado del formulario de boda
-class WeddingFormState {
-  final String novioNombre;
-  final String noviaNombre;
-  final String phoneNovio;
-  final String phoneNovia;
-  final String novioEmail;
-  final String noviaEmail;
-  final String invitados;
-  final String ubicacion;
-  final DateTime? novioBirthday;
-  final DateTime? noviaBirthday;
-  final int selectedBodaTipo;
-
-  WeddingFormState({
-    this.novioNombre = '',
-    this.noviaNombre = '',
-    this.phoneNovio = '',
-    this.phoneNovia = '',
-    this.novioEmail = '',
-    this.noviaEmail = '',
-    this.invitados = '',
-    this.ubicacion = '',
-    this.novioBirthday,
-    this.noviaBirthday,
-    this.selectedBodaTipo = 1,
-  });
-
-  WeddingFormState copyWith({
-    String? novioNombre,
-    String? noviaNombre,
-    String? phoneNovio,
-    String? phoneNovia,
-    String? novioEmail,
-    String? noviaEmail,
-    String? invitados,
-    String? ubicacion,
+@freezed
+abstract class WeddingFormState with _$WeddingFormState {
+  const factory WeddingFormState({
+    @Default('') String novioNombre,
+    @Default('') String noviaNombre,
+    @Default('') String phoneNovio,
+    @Default('') String phoneNovia,
+    @Default('') String novioEmail,
+    @Default('') String noviaEmail,
+    @Default('') String invitados,
+    @Default('') String ubicacion,
     DateTime? novioBirthday,
     DateTime? noviaBirthday,
-    int? selectedBodaTipo,
-  }) {
-    return WeddingFormState(
-      novioNombre: novioNombre ?? this.novioNombre,
-      noviaNombre: noviaNombre ?? this.noviaNombre,
-      phoneNovio: phoneNovio ?? this.phoneNovio,
-      phoneNovia: phoneNovia ?? this.phoneNovia,
-      novioEmail: novioEmail ?? this.novioEmail,
-      noviaEmail: noviaEmail ?? this.noviaEmail,
-      invitados: invitados ?? this.invitados,
-      ubicacion: ubicacion ?? this.ubicacion,
-      novioBirthday: novioBirthday ?? this.novioBirthday,
-      noviaBirthday: noviaBirthday ?? this.noviaBirthday,
-      selectedBodaTipo: selectedBodaTipo ?? this.selectedBodaTipo,
-    );
-  }
+    @Default(1) int selectedBodaTipo,
+    @Default(false) bool isActive,
+  }) = _WeddingFormState;
 }
 
 /// Notifier para el estado del formulario de boda
 class WeddingFormNotifier extends StateNotifier<WeddingFormState> {
-  WeddingFormNotifier() : super(WeddingFormState());
+  WeddingFormNotifier() : super(const WeddingFormState());
 
   void updateNovioNombre(String value) {
     state = state.copyWith(novioNombre: value);
@@ -137,8 +99,12 @@ class WeddingFormNotifier extends StateNotifier<WeddingFormState> {
     state = state.copyWith(selectedBodaTipo: value);
   }
 
+  void updateIsActive(bool value) {
+    state = state.copyWith(isActive: value);
+  }
+
   void reset() {
-    state = WeddingFormState();
+    state = const WeddingFormState();
   }
 }
 

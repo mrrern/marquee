@@ -29,6 +29,7 @@ class WeddingLogic {
       'novio_email': boda.novioEmail,
       'novia_email': boda.noviaEmail,
       'is_deleted': false,
+      'is_active': boda.isActive,
       'created_at': DateTime.now().toIso8601String(),
       'updated_at': DateTime.now().toIso8601String(),
     });
