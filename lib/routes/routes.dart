@@ -144,11 +144,9 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: 'notificacion',
         builder: (context, state) => NotificationScreen(),
       ),
+
       // Admin routes
-      GoRoute(
-        path: '/access-admin',
-        builder: (context, state) => AccessAdminPage(),
-      ),
+
       GoRoute(
         path: '/admin',
         name: 'admindashboard',

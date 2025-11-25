@@ -286,6 +286,7 @@ Future<void> _handleLogin(WidgetRef ref, BuildContext context) async {
     }
 
     if (context.mounted) {
+      debugPrint(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error al iniciar sesión: ${e.toString()}'),

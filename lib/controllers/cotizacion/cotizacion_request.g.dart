@@ -19,6 +19,8 @@ _CotizacionRequest _$CotizacionRequestFromJson(Map<String, dynamic> json) =>
       fechaUltimaBoda: DateTime.parse(json['fechaUltimaBoda'] as String),
       invitados: (json['invitados'] as num).toInt(),
       tipoCeremonia: json['tipoCeremonia'] as String,
+      estadoId: (json['estado_id'] as num?)?.toInt(),
+      bodaId: (json['boda_id'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$CotizacionRequestToJson(_CotizacionRequest instance) =>
@@ -34,4 +36,6 @@ Map<String, dynamic> _$CotizacionRequestToJson(_CotizacionRequest instance) =>
       'fechaUltimaBoda': instance.fechaUltimaBoda.toIso8601String(),
       'invitados': instance.invitados,
       'tipoCeremonia': instance.tipoCeremonia,
+      'estado_id': instance.estadoId,
+      'boda_id': instance.bodaId,
     };

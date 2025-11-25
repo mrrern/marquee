@@ -30,26 +30,24 @@ class QuotationTable extends StatelessWidget {
               '',
               'Nombre',
               'Fecha',
+              'Estado',
               'Invitados',
               'Ceremonia',
               'Lugar',
-              'Cotización',
-              'Contrato firmado',
               'Contactar',
-              'Contratados',
+              'Acciones',
             ],
             data: quotations,
             columnWidths: const {
               0: FixedColumnWidth(48),
               1: FlexColumnWidth(3),
               2: FlexColumnWidth(2),
-              3: FlexColumnWidth(1.5),
-              4: FlexColumnWidth(1.5),
-              5: FlexColumnWidth(2),
-              6: FlexColumnWidth(1.5),
-              7: FlexColumnWidth(1.5),
-              8: FlexColumnWidth(1.5),
-              9: FlexColumnWidth(1.5),
+              3: FlexColumnWidth(2), // Estado
+              4: FlexColumnWidth(1.5), // Invitados
+              5: FlexColumnWidth(1.5), // Ceremonia
+              6: FlexColumnWidth(2), // Lugar
+              7: FlexColumnWidth(1.5), // Contactar
+              8: FlexColumnWidth(2.5), // Acciones
             },
             headerTextStyle: GoogleFonts.inter(
               fontSize: 17,
@@ -90,6 +88,8 @@ class QuotationTable extends StatelessWidget {
                     ),
                   );
                 case 3:
+                  return _buildStatusBadge(quotation.estadoId ?? 0);
+                case 4:
                   return Text(
                     quotation.invitados.toString(),
                     style: GoogleFonts.inter(
@@ -97,7 +97,7 @@ class QuotationTable extends StatelessWidget {
                       color: const Color(0xFF667085),
                     ),
                   );
-                case 4:
+                case 5:
                   return Text(
                     quotation.tipoCeremonia,
                     style: GoogleFonts.inter(
@@ -105,7 +105,7 @@ class QuotationTable extends StatelessWidget {
                       color: const Color(0xFF667085),
                     ),
                   );
-                case 5:
+                case 6:
                   return Text(
                     quotation.lugarCeremonia,
                     style: GoogleFonts.inter(
@@ -113,15 +113,7 @@ class QuotationTable extends StatelessWidget {
                       color: const Color(0xFF667085),
                     ),
                   );
-                case 6:
-                  return quotation.isSumitedBoda
-                      ? const Icon(Icons.picture_as_pdf, size: 46)
-                      : const SizedBox();
                 case 7:
-                  return quotation.isSumitedBoda
-                      ? const Icon(Icons.picture_as_pdf, size: 46)
-                      : const SizedBox();
-                case 8:
                   return Row(
                     children: [
                       Icon(
@@ -137,77 +129,8 @@ class QuotationTable extends StatelessWidget {
                       ),
                     ],
                   );
-                case 9:
-                  return quotation.isActive
-                      ? Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 7,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF027A48).withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.check_circle,
-                                size: 12,
-                                color: const Color(0xFF027A48),
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                'Activa',
-                                style: GoogleFonts.inter(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xFF027A48),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : GestureDetector(
-                          onTap: () {
-                            if (onAccept != null) {
-                              onAccept!(quotation.userId);
-                            }
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 7,
-                              vertical: 2,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFECFDF3),
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: const Color(0xFF027A48).withOpacity(0.3),
-                                width: 1,
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.check,
-                                  size: 12,
-                                  color: const Color(0xFF027A48),
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  'Aceptar',
-                                  style: GoogleFonts.inter(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w500,
-                                    color: const Color(0xFF027A48),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
+                case 8:
+                  return _buildActionButton(context, quotation);
                 default:
                   return const SizedBox();
               }
@@ -216,6 +139,157 @@ class QuotationTable extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildStatusBadge(int estadoId) {
+    String label;
+    Color bgColor;
+    Color textColor;
+
+    switch (estadoId) {
+      case 1:
+        label = 'Cotizando';
+        bgColor = const Color(0xFFFEF3F2);
+        textColor = const Color(0xFFB42318);
+        break;
+      case 2:
+        label = 'Enviado';
+        bgColor = const Color(0xFFF8F9FC);
+        textColor = const Color(0xFF3538CD);
+        break;
+      case 3:
+        label = 'Entregado';
+        bgColor = const Color(0xFFFFF4ED);
+        textColor = const Color(0xFFDC6803);
+        break;
+      default:
+        label = 'Desconocido';
+        bgColor = const Color(0xFFF2F4F7);
+        textColor = const Color(0xFF475467);
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Text(
+        label,
+        style: GoogleFonts.inter(
+          fontSize: 11,
+          fontWeight: FontWeight.w500,
+          color: textColor,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActionButton(BuildContext context, CotizacionRequest quotation) {
+    final estadoId = quotation.estadoId ?? 0;
+
+    switch (estadoId) {
+      case 1: // Cotizando - Admin debe subir cotización
+        return GestureDetector(
+          onTap: () {
+            // TODO: Implementar diálogo para subir archivo
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                  content: Text('Subir cotización - Por implementar')),
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: const Color(0xFFECFDF3),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: const Color(0xFF027A48).withOpacity(0.3),
+                width: 1,
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.upload_file,
+                    size: 14, color: Color(0xFF027A48)),
+                const SizedBox(width: 4),
+                Text(
+                  'Subir Cotización',
+                  style: GoogleFonts.inter(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF027A48),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+
+      case 2: // Enviado - Esperando que usuario firme
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          decoration: BoxDecoration(
+            color: const Color(0xFFF8F9FC),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.schedule, size: 14, color: Color(0xFF3538CD)),
+              const SizedBox(width: 4),
+              Text(
+                'Esperando firma',
+                style: GoogleFonts.inter(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFF3538CD),
+                ),
+              ),
+            ],
+          ),
+        );
+
+      case 3: // Entregado - Admin puede autorizar
+        return GestureDetector(
+          onTap: () {
+            if (onAccept != null) {
+              onAccept!(quotation.userId);
+            }
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            decoration: BoxDecoration(
+              color: const Color(0xFFECFDF3),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: const Color(0xFF027A48).withOpacity(0.3),
+                width: 1,
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.check_circle,
+                    size: 14, color: Color(0xFF027A48)),
+                const SizedBox(width: 4),
+                Text(
+                  'Autorizar',
+                  style: GoogleFonts.inter(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF027A48),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+
+      default:
+        return const SizedBox();
+    }
   }
 
   Widget _buildAvatar(CotizacionRequest quotation) {

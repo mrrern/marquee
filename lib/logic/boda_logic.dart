@@ -85,6 +85,18 @@ class WeddingLogic {
     }
   }
 
+  // Actualizar el estado de una boda (para el flujo de trabajo de cotización)
+  Future<void> updateWeddingStatus(int bodaId, int newStatus) async {
+    try {
+      await supabase.from('boda').update({
+        'estado_boda': newStatus,
+        'updated_at': DateTime.now().toIso8601String(),
+      }).eq('id', bodaId);
+    } catch (e) {
+      throw Exception('Error al actualizar el estado de la boda: $e');
+    }
+  }
+
   // Obtener bodas usando el view listar_boda
   Future<List<Boda>> fetchWeddings(String usuarioId) async {
     final response = await supabase
@@ -219,17 +231,17 @@ final allWeddingsProvider = FutureProvider<List<Boda>>((ref) async {
   return logic.fetchAllFromListarBoda();
 });
 
-// Provider que devuelve solo las bodas marcadas como contratadas (filtrado cliente)
+// Provider que devuelve solo las bodas marcadas como contratadas (estado 4)
 // Para la UI admin de "contratados" vamos a retornar una lista de mapas
 // con los campos necesarios extraídos de la vista `listar_boda`.
 final contractedWeddingsProvider =
     FutureProvider<List<Map<String, dynamic>>>((ref) async {
   final logic = ref.watch(weddingLogicProvider);
   final rows = await logic.fetchAllListarBodaRaw();
-  // Filtramos por la columna 'estado_boda' que viene en la vista
+  // Filtrar solo bodas con estado 4 (Contratada)
   final filtered = rows.where((r) {
-    final estado = (r['estado_boda'] ?? '').toString().toLowerCase();
-    return estado.contains('contrat');
+    final estado = r['estado_boda'];
+    return estado == 4;
   }).toList();
 
   return filtered;

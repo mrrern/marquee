@@ -132,7 +132,9 @@ class _CotizacionPageState extends ConsumerState<CotizacionPage> {
                                       throw Exception('Boda no encontrada'),
                                 );
 
-                                // Actualizar isActive a true
+                                // Actualizar estado a 4 (Contratada) y marcar como activa
+                                await weddingLogic.updateWeddingStatus(
+                                    wedding.id, 4);
                                 await weddingLogic.updateIsActive(
                                     wedding.id.toString(), true);
 
@@ -147,7 +149,7 @@ class _CotizacionPageState extends ConsumerState<CotizacionPage> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text(
-                                          'Cotización aceptada exitosamente'),
+                                          'Cotización autorizada y contratada exitosamente'),
                                       backgroundColor: Color(0xFF027A48),
                                     ),
                                   );

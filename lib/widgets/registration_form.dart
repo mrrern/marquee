@@ -389,10 +389,10 @@ Future<void> _handleRegister(WidgetRef ref, BuildContext context) async {
     if (user == null) {
       await ref.read(authServiceProvider).signIn(email, password);
       if (!context.mounted) return;
-      context.go('/boda');
+      context.pushNamed('/boda');
     }
   } catch (e) {
-    if (context.mounted) context.pop();
+    if (context.mounted) context.pushNamed('/access');
     debugPrint(e.toString());
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(

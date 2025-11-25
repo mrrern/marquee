@@ -26,33 +26,16 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
       AsyncValue<List<UserInfo>> usersAsync, PaginateUserState paginateState) {
     final text = "Usuarios registrados";
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     usersAsync.when(
-      //       data: (users) {
-      //         final rows = users
-      //             .map((u) => {
-      //                   'id': u.id,
-      //                   'email': u.email,
-      //                   'nombre': u.nombre,
-      //                   'rol': u.rol,
-      //                   'createdAt': u.createdAt,
-      //                 })
-      //             .toList();
-      //         final csv = exportToCsv(rows);
-      //         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      //             content: Text('CSV de usuarios generado (ver consola)')));
-      //         // ignore: avoid_print
-      //         print(csv);
-      //       },
-      //       loading: () => ScaffoldMessenger.of(context).showSnackBar(
-      //           const SnackBar(content: Text('Cargando usuarios...'))),
-      //       error: (e, st) => ScaffoldMessenger.of(context).showSnackBar(
-      //           const SnackBar(content: Text('Error generando CSV'))),
-      //     );
-      //   },
-      //   child: const Icon(Icons.add_to_photos),
-      // ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          // Navegar a la página de registro para añadir nuevo usuario
+          context.pushNamed('sign');
+        },
+        icon: const Icon(Icons.person_add),
+        label: const Text('Añadir Usuario'),
+        backgroundColor: const Color(0xFF0C0C0C),
+        foregroundColor: Colors.white,
+      ),
       body: Stack(
         children: [
           // Background color
@@ -322,6 +305,8 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                                                           icon: const Icon(
                                                               Icons.edit,
                                                               size: 18),
+                                                          tooltip:
+                                                              'Editar usuario',
                                                         ),
                                                         IconButton(
                                                           onPressed: () async {
@@ -332,9 +317,9 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                                                               builder: (c) =>
                                                                   AlertDialog(
                                                                 title: const Text(
-                                                                    'Eliminar usuario'),
+                                                                    'Deshabilitar usuario'),
                                                                 content: Text(
-                                                                    '¿Eliminar a ${u.nombre}?'),
+                                                                    '¿Deshabilitar a ${u.nombre}?\n\nEsto hará un soft delete (el usuario no se eliminará permanentemente).'),
                                                                 actions: [
                                                                   TextButton(
                                                                       onPressed: () =>
@@ -347,7 +332,7 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                                                                           Navigator.of(c).pop(
                                                                               true),
                                                                       child: const Text(
-                                                                          'Eliminar')),
+                                                                          'Deshabilitar')),
                                                                 ],
                                                               ),
                                                             );
@@ -365,8 +350,113 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                                                             }
                                                           },
                                                           icon: const Icon(
-                                                              Icons.delete,
+                                                              Icons.block,
                                                               size: 18),
+                                                          tooltip:
+                                                              'Deshabilitar (Soft Delete)',
+                                                        ),
+                                                        IconButton(
+                                                          onPressed: () async {
+                                                            final confirm =
+                                                                await showDialog<
+                                                                    bool>(
+                                                              context: context,
+                                                              builder: (c) =>
+                                                                  AlertDialog(
+                                                                title: const Text(
+                                                                    'ELIMINAR PERMANENTEMENTE',
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .red,
+                                                                        fontWeight:
+                                                                            FontWeight.bold)),
+                                                                content: Text(
+                                                                    '⚠️ ¿Está SEGURO de eliminar PERMANENTEMENTE a ${u.nombre}?\n\nEsta acción:\n• Eliminará al usuario de la base de datos\n• Eliminará su acceso de signIn\n• NO SE PUEDE DESHACER\n\n¿Desea continuar?'),
+                                                                actions: [
+                                                                  TextButton(
+                                                                      onPressed: () =>
+                                                                          Navigator.of(c).pop(
+                                                                              false),
+                                                                      child: const Text(
+                                                                          'Cancelar')),
+                                                                  TextButton(
+                                                                      style: TextButton
+                                                                          .styleFrom(
+                                                                        foregroundColor:
+                                                                            Colors.red,
+                                                                      ),
+                                                                      onPressed: () =>
+                                                                          Navigator.of(c).pop(
+                                                                              true),
+                                                                      child: const Text(
+                                                                          'ELIMINAR PERMANENTEMENTE',
+                                                                          style:
+                                                                              TextStyle(fontWeight: FontWeight.bold))),
+                                                                ],
+                                                              ),
+                                                            );
+                                                            if (confirm ??
+                                                                false) {
+                                                              try {
+                                                                // Usar deleteHard para eliminación permanente
+                                                                await ref
+                                                                    .read(
+                                                                        userLogicProvider)
+                                                                    .deleteHard(
+                                                                        u.id);
+
+                                                                // Refrescar la lista de usuarios
+                                                                await ref
+                                                                    .read(usersAdminProvider
+                                                                        .notifier)
+                                                                    .refresh();
+                                                                await ref
+                                                                    .read(paginateUsersProvider
+                                                                        .notifier)
+                                                                    .refresh();
+
+                                                                // Mostrar mensaje de éxito
+                                                                if (context
+                                                                    .mounted) {
+                                                                  ScaffoldMessenger.of(
+                                                                          context)
+                                                                      .showSnackBar(
+                                                                    SnackBar(
+                                                                      content: Text(
+                                                                          'Usuario ${u.nombre} eliminado permanentemente'),
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .green,
+                                                                    ),
+                                                                  );
+                                                                }
+                                                              } catch (e) {
+                                                                // Mostrar mensaje de error
+                                                                if (context
+                                                                    .mounted) {
+                                                                  ScaffoldMessenger.of(
+                                                                          context)
+                                                                      .showSnackBar(
+                                                                    SnackBar(
+                                                                      content: Text(
+                                                                          'Error al eliminar: $e'),
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .red,
+                                                                    ),
+                                                                  );
+                                                                }
+                                                              }
+                                                            }
+                                                          },
+                                                          icon: const Icon(
+                                                              Icons
+                                                                  .delete_forever,
+                                                              size: 18,
+                                                              color:
+                                                                  Colors.red),
+                                                          tooltip:
+                                                              'Eliminar permanentemente (Hard Delete)',
                                                         ),
                                                       ],
                                                     ),

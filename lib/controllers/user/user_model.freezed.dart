@@ -791,10 +791,13 @@ mixin _$Boda {
   DateTime get fecha;
   String get ubicacion;
   double get invitados;
+  @JsonKey(name: 'is_active')
   bool get isActive;
   @JsonKey(name: 'estado_boda')
-  String get estadoId;
+  @EstadoBodaConverter()
+  int get estadoId;
   @JsonKey(name: 'tipo_boda')
+  @TipoBodaConverter()
   int get bodaTipo;
   @JsonKey(name: 'created_at')
   DateTime get createdAt;
@@ -914,9 +917,9 @@ abstract mixin class $BodaCopyWith<$Res> {
       DateTime fecha,
       String ubicacion,
       double invitados,
-      bool isActive,
-      @JsonKey(name: 'estado_boda') String estadoId,
-      @JsonKey(name: 'tipo_boda') int bodaTipo,
+      @JsonKey(name: 'is_active') bool isActive,
+      @JsonKey(name: 'estado_boda') @EstadoBodaConverter() int estadoId,
+      @JsonKey(name: 'tipo_boda') @TipoBodaConverter() int bodaTipo,
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'updated_at') DateTime updatedAt,
       @JsonKey(name: 'is_deleted') bool isDeleted,
@@ -990,7 +993,7 @@ class _$BodaCopyWithImpl<$Res> implements $BodaCopyWith<$Res> {
       estadoId: null == estadoId
           ? _self.estadoId
           : estadoId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       bodaTipo: null == bodaTipo
           ? _self.bodaTipo
           : bodaTipo // ignore: cast_nullable_to_non_nullable
@@ -1142,9 +1145,9 @@ extension BodaPatterns on Boda {
             DateTime fecha,
             String ubicacion,
             double invitados,
-            bool isActive,
-            @JsonKey(name: 'estado_boda') String estadoId,
-            @JsonKey(name: 'tipo_boda') int bodaTipo,
+            @JsonKey(name: 'is_active') bool isActive,
+            @JsonKey(name: 'estado_boda') @EstadoBodaConverter() int estadoId,
+            @JsonKey(name: 'tipo_boda') @TipoBodaConverter() int bodaTipo,
             @JsonKey(name: 'created_at') DateTime createdAt,
             @JsonKey(name: 'updated_at') DateTime updatedAt,
             @JsonKey(name: 'is_deleted') bool isDeleted,
@@ -1208,9 +1211,9 @@ extension BodaPatterns on Boda {
             DateTime fecha,
             String ubicacion,
             double invitados,
-            bool isActive,
-            @JsonKey(name: 'estado_boda') String estadoId,
-            @JsonKey(name: 'tipo_boda') int bodaTipo,
+            @JsonKey(name: 'is_active') bool isActive,
+            @JsonKey(name: 'estado_boda') @EstadoBodaConverter() int estadoId,
+            @JsonKey(name: 'tipo_boda') @TipoBodaConverter() int bodaTipo,
             @JsonKey(name: 'created_at') DateTime createdAt,
             @JsonKey(name: 'updated_at') DateTime updatedAt,
             @JsonKey(name: 'is_deleted') bool isDeleted,
@@ -1272,9 +1275,9 @@ extension BodaPatterns on Boda {
             DateTime fecha,
             String ubicacion,
             double invitados,
-            bool isActive,
-            @JsonKey(name: 'estado_boda') String estadoId,
-            @JsonKey(name: 'tipo_boda') int bodaTipo,
+            @JsonKey(name: 'is_active') bool isActive,
+            @JsonKey(name: 'estado_boda') @EstadoBodaConverter() int estadoId,
+            @JsonKey(name: 'tipo_boda') @TipoBodaConverter() int bodaTipo,
             @JsonKey(name: 'created_at') DateTime createdAt,
             @JsonKey(name: 'updated_at') DateTime updatedAt,
             @JsonKey(name: 'is_deleted') bool isDeleted,
@@ -1326,9 +1329,11 @@ class _Boda extends Boda {
       required this.fecha,
       required this.ubicacion,
       required this.invitados,
-      required this.isActive,
-      @JsonKey(name: 'estado_boda') required this.estadoId,
-      @JsonKey(name: 'tipo_boda') required this.bodaTipo,
+      @JsonKey(name: 'is_active') this.isActive = false,
+      @JsonKey(name: 'estado_boda')
+      @EstadoBodaConverter()
+      required this.estadoId,
+      @JsonKey(name: 'tipo_boda') @TipoBodaConverter() required this.bodaTipo,
       @JsonKey(name: 'created_at') required this.createdAt,
       @JsonKey(name: 'updated_at') required this.updatedAt,
       @JsonKey(name: 'is_deleted') this.isDeleted = false,
@@ -1355,12 +1360,15 @@ class _Boda extends Boda {
   @override
   final double invitados;
   @override
+  @JsonKey(name: 'is_active')
   final bool isActive;
   @override
   @JsonKey(name: 'estado_boda')
-  final String estadoId;
+  @EstadoBodaConverter()
+  final int estadoId;
   @override
   @JsonKey(name: 'tipo_boda')
+  @TipoBodaConverter()
   final int bodaTipo;
   @override
   @JsonKey(name: 'created_at')
@@ -1497,9 +1505,9 @@ abstract mixin class _$BodaCopyWith<$Res> implements $BodaCopyWith<$Res> {
       DateTime fecha,
       String ubicacion,
       double invitados,
-      bool isActive,
-      @JsonKey(name: 'estado_boda') String estadoId,
-      @JsonKey(name: 'tipo_boda') int bodaTipo,
+      @JsonKey(name: 'is_active') bool isActive,
+      @JsonKey(name: 'estado_boda') @EstadoBodaConverter() int estadoId,
+      @JsonKey(name: 'tipo_boda') @TipoBodaConverter() int bodaTipo,
       @JsonKey(name: 'created_at') DateTime createdAt,
       @JsonKey(name: 'updated_at') DateTime updatedAt,
       @JsonKey(name: 'is_deleted') bool isDeleted,
@@ -1573,7 +1581,7 @@ class __$BodaCopyWithImpl<$Res> implements _$BodaCopyWith<$Res> {
       estadoId: null == estadoId
           ? _self.estadoId
           : estadoId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       bodaTipo: null == bodaTipo
           ? _self.bodaTipo
           : bodaTipo // ignore: cast_nullable_to_non_nullable

@@ -1,4 +1,6 @@
+import 'package:bodas/controllers/user/tipo_boda.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'estado_boda_converter.dart';
 
 part 'user_model.freezed.dart';
 part 'user_model.g.dart';
@@ -39,9 +41,9 @@ abstract class Boda with _$Boda {
     required DateTime fecha,
     required String ubicacion,
     required double invitados,
-    required bool isActive,
-    @JsonKey(name: 'estado_boda') required String estadoId,
-    @JsonKey(name: 'tipo_boda') required int bodaTipo,
+    @JsonKey(name: 'is_active') @Default(false) bool isActive,
+    @JsonKey(name: 'estado_boda') @EstadoBodaConverter() required int estadoId,
+    @JsonKey(name: 'tipo_boda') @TipoBodaConverter() required int bodaTipo,
     @JsonKey(name: 'created_at') required DateTime createdAt,
     @JsonKey(name: 'updated_at') required DateTime updatedAt,
     @JsonKey(name: 'is_deleted') @Default(false) bool isDeleted,

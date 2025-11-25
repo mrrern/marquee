@@ -223,6 +223,7 @@ class ContratadosTable extends StatelessWidget {
             'Invitados',
             'Lugar',
             'Ficha musical',
+            'Acción',
           ],
           data: rows,
           minWidth: minWidth,
@@ -234,6 +235,7 @@ class ContratadosTable extends StatelessWidget {
             4: FlexColumnWidth(1),
             5: FlexColumnWidth(2),
             6: FlexColumnWidth(1),
+            7: FlexColumnWidth(1.5), // Acción
           },
           headerTextStyle: const TextStyle(fontWeight: FontWeight.w600),
           headerBackgroundColor: Colors.grey[200],
@@ -259,6 +261,49 @@ class ContratadosTable extends StatelessWidget {
                 return Icon(
                   musicComplete == true ? Icons.check_circle : Icons.error,
                   color: musicComplete == true ? Colors.green : Colors.orange,
+                );
+              case 7:
+                // Botón para marcar como completada
+                return Consumer(
+                  builder: (context, ref, _) {
+                    return IconButton(
+                      icon: const Icon(Icons.check_circle_outline),
+                      color: const Color(0xFF027A48),
+                      tooltip: 'Marcar como completada',
+                      onPressed: () async {
+                        try {
+                          final bodaId = row['id'] as int?;
+                          if (bodaId == null) {
+                            throw Exception('ID de boda no encontrado');
+                          }
+
+                          final weddingLogic = ref.read(weddingLogicProvider);
+                          await weddingLogic.updateWeddingStatus(bodaId, 6);
+
+                          // Refrescar los datos
+                          ref.invalidate(contractedWeddingsProvider);
+
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Boda marcada como completada'),
+                                backgroundColor: Color(0xFF027A48),
+                              ),
+                            );
+                          }
+                        } catch (e) {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Error: $e'),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
+                        }
+                      },
+                    );
+                  },
                 );
               default:
                 return const SizedBox.shrink();

@@ -17,6 +17,8 @@ abstract class CotizacionRequest with _$CotizacionRequest {
     required DateTime fechaUltimaBoda,
     required int invitados,
     required String tipoCeremonia,
+    @JsonKey(name: 'estado_id') int? estadoId, // Estado de la boda (1-6)
+    @JsonKey(name: 'boda_id') int? bodaId, // ID de la boda para acciones
   }) = _CotizacionRequest;
 
   factory CotizacionRequest.fromJson(Map<String, dynamic> json) =>

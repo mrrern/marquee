@@ -126,6 +126,20 @@ class UserLogic {
       throw Exception('Error al eliminar usuario $id: $e');
     }
   }
+
+  /// Hard delete: elimina permanentemente al usuario y su acceso de signIn
+  /// de la base de datos y de Supabase Auth
+  Future<void> deleteHard(String id) async {
+    try {
+      // 1. Eliminar el usuario de Supabase Auth (esto elimina su acceso de signIn)
+      await _supabase.auth.admin.deleteUser(id);
+
+      // 2. Eliminar el registro del usuario de la tabla `users`
+      await _supabase.from('users').delete().eq('id', id);
+    } catch (e) {
+      throw Exception('Error al eliminar permanentemente usuario $id: $e');
+    }
+  }
 }
 
 // Provider de la lógica

@@ -1,7 +1,6 @@
 import 'package:bodas/routes/linkspaper.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'dart:io';
-import 'package:bodas/controllers/user/user_model.dart';
 
 part 'cotizacion_logic.freezed.dart';
 
@@ -123,6 +122,7 @@ class CotizacionLogic {
   }
 
   /// Obtiene todas las solicitudes de cotización desde listar_boda
+  /// Filtra solo estados 1-3 (Cotizando, Enviado, Entregado)
   Future<List<CotizacionRequest>> getAllCotizacionRequests() async {
     try {
       // Consultar desde la vista listar_boda
@@ -130,12 +130,8 @@ class CotizacionLogic {
           await _supabase.from('listar_boda').select().eq('is_deleted', false);
 
       // Mapear de Boda a CotizacionRequest
-      return (response as List).map((json) {
+      final allRequests = (response as List).map((json) {
         final boda = Boda.fromJson(json);
-
-        // Determinar si está activa/contratada basándose en el estado
-        final isActive = boda.estadoId.toLowerCase().contains('contrat') ||
-            boda.estadoId.toLowerCase().contains('activ');
 
         return CotizacionRequest(
           userId: boda.usuarioId,
@@ -144,12 +140,20 @@ class CotizacionLogic {
           telefonoNovio: boda.phoneNovio,
           telefonoNovia: boda.phoneNovia,
           lugarCeremonia: boda.ubicacion,
-          isSumitedBoda: isActive,
-          isActive: isActive,
+          isSumitedBoda: boda.isActive,
+          isActive: boda.isActive,
           fechaUltimaBoda: boda.fecha,
           invitados: boda.invitados.round(),
           tipoCeremonia: boda.bodaTipo.toString(),
+          estadoId: boda.estadoId, // Incluir estado
+          bodaId: boda.id, // Incluir ID de boda
         );
+      }).toList();
+
+      // Filtrar solo estados 1, 2, 3 (Cotizando, Enviado, Entregado)
+      return allRequests.where((request) {
+        final estado = request.estadoId ?? 0;
+        return estado >= 1 && estado <= 3;
       }).toList();
     } catch (e) {
       throw Exception('Error al obtener las solicitudes de cotización: $e');

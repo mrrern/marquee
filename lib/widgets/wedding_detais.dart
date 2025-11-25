@@ -21,7 +21,7 @@ class WeddingFormFields extends ConsumerWidget {
         fecha: DateTime.now(),
         ubicacion: formState.ubicacion,
         invitados: double.tryParse(formState.invitados) ?? 0,
-        estadoId: '1',
+        estadoId: 1,
         bodaTipo: formState.selectedBodaTipo,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),

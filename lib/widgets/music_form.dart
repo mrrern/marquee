@@ -22,7 +22,7 @@ class MusicFormContent extends ConsumerWidget {
             _buildCeremonySection(formNotifier, formState, context),
             _buildCocktailSection(formNotifier, formState, ref),
             _buildMealTimeSection(formNotifier),
-            _buildOpenBarSection(formNotifier, context, ref),
+            _buildOpenBarSection(formNotifier, context, ref, formState),
           ],
         ),
       ),
@@ -173,7 +173,7 @@ class MusicFormContent extends ConsumerWidget {
   }
 
   Widget _buildOpenBarSection(WeddingMusicFormNotifier formNotifier,
-      BuildContext context, WidgetRef ref) {
+      BuildContext context, WidgetRef ref, WeddingMusicFormData formState) {
     final formKeyMusic = GlobalKey<FormState>();
 
     return _buildFormSection(
@@ -198,19 +198,35 @@ class MusicFormContent extends ConsumerWidget {
         const SizedBox(height: 14),
         _buildLinkInputSection(ref),
         const SizedBox(height: 22),
-        _buildRadioQuestion('¿Hay invitados de nacionalidad distinta?'),
+        _buildRadioQuestion(
+          '¿Hay invitados de nacionalidad distinta?',
+          formState.hasForeignGuests,
+          formNotifier.toggleForeignGuests,
+        ),
         const SizedBox(height: 16),
-        _buildRadioQuestion('¿Pondríamos alguna canción de su País?'),
+        _buildRadioQuestion(
+          '¿Pondríamos alguna canción de su País?',
+          formState.playForeignMusic,
+          formNotifier.togglePlayForeignMusic,
+        ),
         const SizedBox(height: 16),
         _buildSectionText('¿Cuál?'),
         const SizedBox(height: 10),
         const FormInputField(),
         const SizedBox(height: 14),
-        _buildRadioQuestion('¿Se aceptarán peticiones de los invitados?'),
+        _buildRadioQuestion(
+          '¿Se aceptarán peticiones de los invitados?',
+          formState.acceptGuestRequests,
+          formNotifier.toggleAcceptGuestRequests,
+        ),
         const SizedBox(height: 11),
         _buildSectionText('¿Se aceptará canciones o géneros prohibidos?...'),
         const SizedBox(height: 16),
-        _buildRadioQuestion(''),
+        _buildRadioQuestion(
+          '',
+          formState.hasForbiddenSongs,
+          formNotifier.toggleForbiddenSongs,
+        ),
         const SizedBox(height: 18),
         _buildSectionText('¿Cuál?'),
         const SizedBox(height: 17),
@@ -438,7 +454,11 @@ class MusicFormContent extends ConsumerWidget {
     );
   }
 
-  Widget _buildRadioQuestion(String question) {
+  Widget _buildRadioQuestion(
+    String question,
+    bool currentValue,
+    Function(bool) onChanged,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -452,10 +472,18 @@ class MusicFormContent extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.only(left: 50),
           child: Row(
-            children: const [
-              RadioOption(label: 'Si', isSelected: true),
-              SizedBox(width: 40),
-              RadioOption(label: 'No', isSelected: false),
+            children: [
+              RadioOption(
+                label: 'Si',
+                isSelected: currentValue,
+                onTap: () => onChanged(true),
+              ),
+              const SizedBox(width: 40),
+              RadioOption(
+                label: 'No',
+                isSelected: !currentValue,
+                onTap: () => onChanged(false),
+              ),
             ],
           ),
         ),

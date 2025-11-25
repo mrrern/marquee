@@ -26,6 +26,10 @@ mixin _$CotizacionRequest {
   DateTime get fechaUltimaBoda;
   int get invitados;
   String get tipoCeremonia;
+  @JsonKey(name: 'estado_id')
+  int? get estadoId; // Estado de la boda (1-6)
+  @JsonKey(name: 'boda_id')
+  int? get bodaId;
 
   /// Create a copy of CotizacionRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -61,7 +65,10 @@ mixin _$CotizacionRequest {
             (identical(other.invitados, invitados) ||
                 other.invitados == invitados) &&
             (identical(other.tipoCeremonia, tipoCeremonia) ||
-                other.tipoCeremonia == tipoCeremonia));
+                other.tipoCeremonia == tipoCeremonia) &&
+            (identical(other.estadoId, estadoId) ||
+                other.estadoId == estadoId) &&
+            (identical(other.bodaId, bodaId) || other.bodaId == bodaId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -78,11 +85,13 @@ mixin _$CotizacionRequest {
       isActive,
       fechaUltimaBoda,
       invitados,
-      tipoCeremonia);
+      tipoCeremonia,
+      estadoId,
+      bodaId);
 
   @override
   String toString() {
-    return 'CotizacionRequest(userId: $userId, nombre: $nombre, email: $email, telefonoNovio: $telefonoNovio, telefonoNovia: $telefonoNovia, lugarCeremonia: $lugarCeremonia, isSumitedBoda: $isSumitedBoda, isActive: $isActive, fechaUltimaBoda: $fechaUltimaBoda, invitados: $invitados, tipoCeremonia: $tipoCeremonia)';
+    return 'CotizacionRequest(userId: $userId, nombre: $nombre, email: $email, telefonoNovio: $telefonoNovio, telefonoNovia: $telefonoNovia, lugarCeremonia: $lugarCeremonia, isSumitedBoda: $isSumitedBoda, isActive: $isActive, fechaUltimaBoda: $fechaUltimaBoda, invitados: $invitados, tipoCeremonia: $tipoCeremonia, estadoId: $estadoId, bodaId: $bodaId)';
   }
 }
 
@@ -103,7 +112,9 @@ abstract mixin class $CotizacionRequestCopyWith<$Res> {
       @JsonKey(name: 'isActive') bool isActive,
       DateTime fechaUltimaBoda,
       int invitados,
-      String tipoCeremonia});
+      String tipoCeremonia,
+      @JsonKey(name: 'estado_id') int? estadoId,
+      @JsonKey(name: 'boda_id') int? bodaId});
 }
 
 /// @nodoc
@@ -130,6 +141,8 @@ class _$CotizacionRequestCopyWithImpl<$Res>
     Object? fechaUltimaBoda = null,
     Object? invitados = null,
     Object? tipoCeremonia = null,
+    Object? estadoId = freezed,
+    Object? bodaId = freezed,
   }) {
     return _then(_self.copyWith(
       userId: null == userId
@@ -176,6 +189,14 @@ class _$CotizacionRequestCopyWithImpl<$Res>
           ? _self.tipoCeremonia
           : tipoCeremonia // ignore: cast_nullable_to_non_nullable
               as String,
+      estadoId: freezed == estadoId
+          ? _self.estadoId
+          : estadoId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      bodaId: freezed == bodaId
+          ? _self.bodaId
+          : bodaId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -284,7 +305,9 @@ extension CotizacionRequestPatterns on CotizacionRequest {
             @JsonKey(name: 'isActive') bool isActive,
             DateTime fechaUltimaBoda,
             int invitados,
-            String tipoCeremonia)?
+            String tipoCeremonia,
+            @JsonKey(name: 'estado_id') int? estadoId,
+            @JsonKey(name: 'boda_id') int? bodaId)?
         $default, {
     required TResult orElse(),
   }) {
@@ -302,7 +325,9 @@ extension CotizacionRequestPatterns on CotizacionRequest {
             _that.isActive,
             _that.fechaUltimaBoda,
             _that.invitados,
-            _that.tipoCeremonia);
+            _that.tipoCeremonia,
+            _that.estadoId,
+            _that.bodaId);
       case _:
         return orElse();
     }
@@ -334,7 +359,9 @@ extension CotizacionRequestPatterns on CotizacionRequest {
             @JsonKey(name: 'isActive') bool isActive,
             DateTime fechaUltimaBoda,
             int invitados,
-            String tipoCeremonia)
+            String tipoCeremonia,
+            @JsonKey(name: 'estado_id') int? estadoId,
+            @JsonKey(name: 'boda_id') int? bodaId)
         $default,
   ) {
     final _that = this;
@@ -351,7 +378,9 @@ extension CotizacionRequestPatterns on CotizacionRequest {
             _that.isActive,
             _that.fechaUltimaBoda,
             _that.invitados,
-            _that.tipoCeremonia);
+            _that.tipoCeremonia,
+            _that.estadoId,
+            _that.bodaId);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -382,7 +411,9 @@ extension CotizacionRequestPatterns on CotizacionRequest {
             @JsonKey(name: 'isActive') bool isActive,
             DateTime fechaUltimaBoda,
             int invitados,
-            String tipoCeremonia)?
+            String tipoCeremonia,
+            @JsonKey(name: 'estado_id') int? estadoId,
+            @JsonKey(name: 'boda_id') int? bodaId)?
         $default,
   ) {
     final _that = this;
@@ -399,7 +430,9 @@ extension CotizacionRequestPatterns on CotizacionRequest {
             _that.isActive,
             _that.fechaUltimaBoda,
             _that.invitados,
-            _that.tipoCeremonia);
+            _that.tipoCeremonia,
+            _that.estadoId,
+            _that.bodaId);
       case _:
         return null;
     }
@@ -420,7 +453,9 @@ class _CotizacionRequest implements CotizacionRequest {
       @JsonKey(name: 'isActive') this.isActive = false,
       required this.fechaUltimaBoda,
       required this.invitados,
-      required this.tipoCeremonia});
+      required this.tipoCeremonia,
+      @JsonKey(name: 'estado_id') this.estadoId,
+      @JsonKey(name: 'boda_id') this.bodaId});
   factory _CotizacionRequest.fromJson(Map<String, dynamic> json) =>
       _$CotizacionRequestFromJson(json);
 
@@ -447,6 +482,13 @@ class _CotizacionRequest implements CotizacionRequest {
   final int invitados;
   @override
   final String tipoCeremonia;
+  @override
+  @JsonKey(name: 'estado_id')
+  final int? estadoId;
+// Estado de la boda (1-6)
+  @override
+  @JsonKey(name: 'boda_id')
+  final int? bodaId;
 
   /// Create a copy of CotizacionRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -486,7 +528,10 @@ class _CotizacionRequest implements CotizacionRequest {
             (identical(other.invitados, invitados) ||
                 other.invitados == invitados) &&
             (identical(other.tipoCeremonia, tipoCeremonia) ||
-                other.tipoCeremonia == tipoCeremonia));
+                other.tipoCeremonia == tipoCeremonia) &&
+            (identical(other.estadoId, estadoId) ||
+                other.estadoId == estadoId) &&
+            (identical(other.bodaId, bodaId) || other.bodaId == bodaId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -503,11 +548,13 @@ class _CotizacionRequest implements CotizacionRequest {
       isActive,
       fechaUltimaBoda,
       invitados,
-      tipoCeremonia);
+      tipoCeremonia,
+      estadoId,
+      bodaId);
 
   @override
   String toString() {
-    return 'CotizacionRequest(userId: $userId, nombre: $nombre, email: $email, telefonoNovio: $telefonoNovio, telefonoNovia: $telefonoNovia, lugarCeremonia: $lugarCeremonia, isSumitedBoda: $isSumitedBoda, isActive: $isActive, fechaUltimaBoda: $fechaUltimaBoda, invitados: $invitados, tipoCeremonia: $tipoCeremonia)';
+    return 'CotizacionRequest(userId: $userId, nombre: $nombre, email: $email, telefonoNovio: $telefonoNovio, telefonoNovia: $telefonoNovia, lugarCeremonia: $lugarCeremonia, isSumitedBoda: $isSumitedBoda, isActive: $isActive, fechaUltimaBoda: $fechaUltimaBoda, invitados: $invitados, tipoCeremonia: $tipoCeremonia, estadoId: $estadoId, bodaId: $bodaId)';
   }
 }
 
@@ -530,7 +577,9 @@ abstract mixin class _$CotizacionRequestCopyWith<$Res>
       @JsonKey(name: 'isActive') bool isActive,
       DateTime fechaUltimaBoda,
       int invitados,
-      String tipoCeremonia});
+      String tipoCeremonia,
+      @JsonKey(name: 'estado_id') int? estadoId,
+      @JsonKey(name: 'boda_id') int? bodaId});
 }
 
 /// @nodoc
@@ -557,6 +606,8 @@ class __$CotizacionRequestCopyWithImpl<$Res>
     Object? fechaUltimaBoda = null,
     Object? invitados = null,
     Object? tipoCeremonia = null,
+    Object? estadoId = freezed,
+    Object? bodaId = freezed,
   }) {
     return _then(_CotizacionRequest(
       userId: null == userId
@@ -603,6 +654,14 @@ class __$CotizacionRequestCopyWithImpl<$Res>
           ? _self.tipoCeremonia
           : tipoCeremonia // ignore: cast_nullable_to_non_nullable
               as String,
+      estadoId: freezed == estadoId
+          ? _self.estadoId
+          : estadoId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      bodaId: freezed == bodaId
+          ? _self.bodaId
+          : bodaId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
