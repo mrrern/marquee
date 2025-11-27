@@ -173,6 +173,40 @@ class AuthService {
   }
 
   Stream<AuthState> get authStateChanges => _supabase.auth.onAuthStateChange;
+
+  /// Solicita el envío de un email para restablecer la contraseña
+  Future<void> requestPasswordReset(String email) async {
+    try {
+      await _supabase.auth.resetPasswordForEmail(
+        email.toLowerCase(),
+        redirectTo: 'https://vokwhcnpfzotvuvggjdt.supabase.co/auth/v1/verify',
+      );
+    } on AuthException catch (e) {
+      debugPrint('Error requesting password reset: ${e.message}');
+      throw Exception(
+          'No se pudo enviar el correo de recuperación. Verifica tu email.');
+    } catch (e) {
+      debugPrint('Error requesting password reset: $e');
+      throw Exception(
+          'Ocurrió un error al solicitar el restablecimiento de contraseña.');
+    }
+  }
+
+  /// Actualiza la contraseña del usuario autenticado
+  Future<void> resetPassword(String newPassword) async {
+    try {
+      await _supabase.auth.updateUser(
+        UserAttributes(password: newPassword),
+      );
+    } on AuthException catch (e) {
+      debugPrint('Error resetting password: ${e.message}');
+      throw Exception(
+          'No se pudo actualizar la contraseña. Intenta nuevamente.');
+    } catch (e) {
+      debugPrint('Error resetting password: $e');
+      throw Exception('Ocurrió un error al cambiar la contraseña.');
+    }
+  }
 }
 
 class AuthNotifier extends StateNotifier<AsyncValue<UserModel?>> {

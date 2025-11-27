@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:bodas/routes/linkspaper.dart';
 import 'package:bodas/screens/admin_stadistics.dart';
 import 'package:bodas/screens/admin_contratados_page.dart';
+import 'package:bodas/screens/forgot_password_page.dart';
+import 'package:bodas/screens/reset_password_page.dart';
 
 // Provider para el router que depende del estado de autenticación
 
@@ -25,6 +27,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         '/',
         '/sign',
         '/access',
+        '/forgot-password',
+        '/reset-password',
       };
 
       // Rutas de administrador
@@ -108,6 +112,16 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/sign',
         builder: (context, state) => SignPage(),
+      ),
+      GoRoute(
+        path: '/forgot-password',
+        name: 'forgot-password',
+        builder: (context, state) => ForgotPasswordScreenResponsive(),
+      ),
+      GoRoute(
+        path: '/reset-password',
+        name: 'reset-password',
+        builder: (context, state) => ResetPasswordScreenResponsive(),
       ),
       GoRoute(
         path: '/contract',
