@@ -1,11 +1,11 @@
 {
-    "name": "bodas",
-    "short_name": "bodas",
+    "name": "Marquee Bodas",
+    "short_name": "Marquee",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#ffffff",
-    "description": "A new Flutter project.",
+    "description": "Marquee Audiovisuales",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
