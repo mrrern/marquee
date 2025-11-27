@@ -56927,7 +56927,7 @@ I3(){var s=0,r=A.u(t.uJ),q,p=2,o=[],n=this,m,l,k,j,i,h,g,f
 var $async$I3=A.p(function(a,b){if(a===1){o.push(b)
 s=p}for(;;)switch(s){case 0:p=4
 s=7
-return A.o(n.a.e3("listar_notas").hg(0).K1(0,"created_at",!1),$async$I3)
+return A.o(n.a.e3("notas").hg(0).K1(0,"created_at",!1),$async$I3)
 case 7:m=b
 l=J.ih(m,t.z)
 i=l
