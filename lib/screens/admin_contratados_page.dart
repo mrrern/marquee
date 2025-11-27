@@ -9,7 +9,7 @@ class ContratadosScreen extends ConsumerStatefulWidget {
 }
 
 class _ContratadosScreenState extends ConsumerState<ContratadosScreen> {
-  String _search = '';
+  final String _search = '';
   int _currentPage = 1;
   int _itemsPerPage = 6;
 

@@ -131,7 +131,7 @@ class NotesLogic {
   Future<List<AdminNoteView>> fetchAllNotes() async {
     try {
       final resp = await _supabase
-          .from('listar_notas')
+          .from('notas')
           .select()
           .order('created_at', ascending: false);
 
