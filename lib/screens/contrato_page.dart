@@ -8,6 +8,70 @@ class InicialForm extends ConsumerStatefulWidget {
 }
 
 class _InicialFormState extends ConsumerState<InicialForm> {
+  int? _bodaId;
+  CotizacionModel? _cotizacion;
+  bool _isLoading = true;
+  bool _hasDownloaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final usuarioId = prefs.getString('usuarioId');
+      if (usuarioId == null) {
+        setState(() => _isLoading = false);
+        return;
+      }
+
+      final bodas =
+          await ref.read(weddingLogicProvider).fetchWeddings(usuarioId);
+      if (bodas.isEmpty) {
+        setState(() => _isLoading = false);
+        return;
+      }
+
+      final bodaId = bodas.first.id;
+      _bodaId = bodaId;
+
+      // Fetch uploaded files (contracts)
+      final files = await CotizacionLogic().getFilesByBodaId(bodaId);
+      if (files.isNotEmpty) {
+        // Assuming the latest file or specific logic to pick the contract
+        // For now, taking the first one that has an admin file
+        try {
+          _cotizacion = files.firstWhere((f) => f.archivoAdmin != null);
+        } catch (_) {
+          // No admin file found
+        }
+      }
+    } catch (e) {
+      debugPrint('Error loading contract data: $e');
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  void _handleDownload() async {
+    if (_cotizacion?.archivoAdmin != null) {
+      final url = Uri.parse(_cotizacion!.archivoAdmin!);
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url);
+        setState(() {
+          _hasDownloaded = true;
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No se pudo abrir el archivo')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -124,56 +188,43 @@ class _InicialFormState extends ConsumerState<InicialForm> {
                             children: [
                               SizedBox(height: isMobile ? 260 : 220),
 
-                              // Grey box with icon and text
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: isMobile ? 20 : 59,
-                                  vertical: 71,
-                                ),
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromRGBO(217, 217, 217, 0.93),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      'assets/images/icon.png', // Replace with actual icon
-                                      width: 62,
-                                      height: 62,
-                                      fit: BoxFit.contain,
-                                    ),
-                                    const SizedBox(width: 49),
-                                    Expanded(
-                                      child: Text(
-                                        'Agradecemos tu registro. Te enviaremos a la brevedad posible tu presupuesto con la información proporcionada.',
-                                        style: TextStyle(
-                                          fontFamily: 'Inter',
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w500,
-                                          color: AppColors.mediumGrey,
-                                          height: 1.0,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              if (_isLoading)
+                                const Center(child: CircularProgressIndicator())
+                              else if (_bodaId == null)
+                                const Text(
+                                    'No se encontró información de la boda.')
+                              else ...[
+                                // Download Widget (Admin Contract)
+                                if (_cotizacion?.archivoAdmin != null)
+                                  _buildDownloadWidget(isMobile),
 
-                              // Button
+                                const SizedBox(height: 20),
+
+                                // Upload Widget (User Signed Contract)
+                                // Show only if downloaded or if user already uploaded something previously (optional logic)
+                                if (_hasDownloaded ||
+                                    _cotizacion?.archivoCliente != null)
+                                  FileUploadWidget(
+                                    bodaId: _bodaId!,
+                                    onUploadComplete: () {
+                                      // Refresh data or show success message
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                'Contrato subido exitosamente')),
+                                      );
+                                    },
+                                  ),
+                              ],
+
+                              // Button (Optional, maybe to proceed or just the upload widget is enough)
+                              /*
                               SizedBox(height: isMobile ? 40 : 93),
                               Center(
                                 child: ElevatedButton(
-                                  onPressed: () async {
-                                    // Implement file picking functionality
-                                    FilePickerResult? result =
-                                        await FilePicker.platform.pickFiles();
-                                    if (result != null) {
-                                      // Handle the selected file
-                                      // PlatformFile file = result.files.first;
-                                      // You can now use the file
-                                    }
+                                  onPressed: () {
+                                    // Logic to proceed
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor:
@@ -197,6 +248,7 @@ class _InicialFormState extends ConsumerState<InicialForm> {
                                   ),
                                 ),
                               ),
+                              */
                             ],
                           ),
                         ),
@@ -212,6 +264,75 @@ class _InicialFormState extends ConsumerState<InicialForm> {
             child: SidebarMenu(),
           )
         ],
+      ),
+    );
+  }
+
+  Widget _buildDownloadWidget(bool isMobile) {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: const Color(0xEED9D9D9),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 71, horizontal: 59),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth < 640) {
+            return SizedBox(
+              width: 288,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildDownloadIcon(),
+                  const SizedBox(height: 20),
+                  _buildDownloadText(),
+                ],
+              ),
+            );
+          }
+
+          return Row(
+            children: [
+              _buildDownloadIcon(),
+              const SizedBox(width: 49),
+              Expanded(
+                child: _buildDownloadText(),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildDownloadIcon() {
+    return InkWell(
+      onTap: _handleDownload,
+      child: Container(
+        width: 62,
+        height: 62,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+        ),
+        child: const Icon(
+          Icons.download,
+          size: 30,
+          color: Color(0xFF808080),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDownloadText() {
+    return Text(
+      'Descarga aquí el presupuesto enviado por el administrador.',
+      style: GoogleFonts.inter(
+        fontSize: 15,
+        fontWeight: FontWeight.w500,
+        color: const Color(0xFF808080),
+        height: 1.0,
       ),
     );
   }

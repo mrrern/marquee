@@ -101,34 +101,6 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                     BuildTitleWidget(text: text),
                     const SizedBox(height: 12),
 
-                    // Container(
-                    //   padding: const EdgeInsets.all(16),
-                    //   decoration: BoxDecoration(
-                    //     color: const Color(0xFFD9D9D9),
-                    //     borderRadius: BorderRadius.circular(10),
-                    //   ),
-                    //   child: Row(
-                    //     children: [
-                    //       Expanded(
-                    //         child: Text(
-                    //           'Gestiona los usuarios: editar, eliminar y navegar entre usuarios.',
-                    //           style: TextStyle(
-                    //             color: const Color(0xFF797979),
-                    //             fontSize: isMobile ? 12 : 14,
-                    //           ),
-                    //         ),
-                    //       ),
-                    //       IconButton(
-                    //         onPressed: () =>
-                    //             ref.read(usersAdminProvider.notifier).refresh(),
-                    //         icon: const Icon(Icons.refresh),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-
-                    // const SizedBox(height: 16),
-
                     // Users table container
                     Expanded(
                       child: Container(

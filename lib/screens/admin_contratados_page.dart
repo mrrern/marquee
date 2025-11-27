@@ -210,7 +210,7 @@ class ContratadosTable extends StatelessWidget {
       final minWidth = math.max(800.0, screenWidth - 80);
       // limit height to avoid unbounded height inside parent ScrollViews
       final tableHeight =
-          math.min(640.0, MediaQuery.of(context).size.height * 0.6);
+          math.min(640.0, MediaQuery.of(context).size.height * 0.65);
 
       return SizedBox(
         height: tableHeight,

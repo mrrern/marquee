@@ -41,13 +41,13 @@ class QuotationTable extends StatelessWidget {
             columnWidths: const {
               0: FixedColumnWidth(48),
               1: FlexColumnWidth(3),
-              2: FlexColumnWidth(2),
+              2: FlexColumnWidth(1.1),
               3: FlexColumnWidth(2), // Estado
-              4: FlexColumnWidth(1.5), // Invitados
+              4: FlexColumnWidth(1.2), // Invitados
               5: FlexColumnWidth(1.5), // Ceremonia
               6: FlexColumnWidth(2), // Lugar
-              7: FlexColumnWidth(1.5), // Contactar
-              8: FlexColumnWidth(2.5), // Acciones
+              7: FlexColumnWidth(1.3), // Contactar
+              8: FlexColumnWidth(2), // Acciones
             },
             headerTextStyle: GoogleFonts.inter(
               fontSize: 17,
@@ -71,6 +71,7 @@ class QuotationTable extends StatelessWidget {
                       const SizedBox(width: 10),
                       Text(
                         quotation.nombre,
+                        overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.inter(
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
@@ -81,14 +82,16 @@ class QuotationTable extends StatelessWidget {
                   );
                 case 2:
                   return Text(
-                    quotation.fechaUltimaBoda.toString(),
+                    DateFormat('yyyy-MM-dd').format(quotation.fechaUltimaBoda),
                     style: GoogleFonts.inter(
                       fontSize: 12,
                       color: const Color(0xFF667085),
                     ),
                   );
                 case 3:
-                  return _buildStatusBadge(quotation.estadoId ?? 0);
+                  return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: _buildStatusBadge(quotation.estadoId ?? 0));
                 case 4:
                   return Text(
                     quotation.invitados.toString(),
@@ -176,6 +179,7 @@ class QuotationTable extends StatelessWidget {
       ),
       child: Text(
         label,
+        textAlign: TextAlign.center,
         style: GoogleFonts.inter(
           fontSize: 11,
           fontWeight: FontWeight.w500,

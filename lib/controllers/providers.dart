@@ -284,6 +284,42 @@ class WeddingMusicFormNotifier extends StateNotifier<WeddingMusicFormData> {
     state = state.copyWith(lectures: updatedReadings);
   }
 
+  /// Update cocktail playlist
+  void updateCoctelPlaylist(String value) {
+    state = state.copyWith(musicCoctelPlaylist: value);
+  }
+
+  /// Add a new extra reading row
+  void addExtraReading() {
+    final updatedExtReadings = [...?state.musicLecExt];
+    updatedExtReadings.add(CeremonyReading(
+      name: "",
+      selectedOption: "Nosotros nos encargamos",
+    ));
+    state = state.copyWith(musicLecExt: updatedExtReadings);
+  }
+
+  /// Remove an extra reading row
+  void removeExtraReading(int index) {
+    if (state.musicLecExt == null || state.musicLecExt!.isEmpty) return;
+    final updatedExtReadings = [...?state.musicLecExt];
+    if (index >= 0 && index < updatedExtReadings.length) {
+      updatedExtReadings.removeAt(index);
+      state = state.copyWith(musicLecExt: updatedExtReadings);
+    }
+  }
+
+  /// Update an extra reading name
+  void updateExtraReadingName(int index, String newName) {
+    if (state.musicLecExt == null) return;
+    final updatedExtReadings = [...?state.musicLecExt];
+    if (index >= 0 && index < updatedExtReadings.length) {
+      updatedExtReadings[index] =
+          updatedExtReadings[index].copyWith(name: newName);
+      state = state.copyWith(musicLecExt: updatedExtReadings);
+    }
+  }
+
   /// Save form data
   Future<bool> saveForm() async {
     return true;

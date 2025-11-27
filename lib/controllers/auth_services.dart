@@ -20,6 +20,8 @@ class AuthService {
             .single();
 
         final user = UserModel.fromJson(userData);
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('user', user.toJson().toString());
         return (response.session?.accessToken, user);
       }
       return (null, null);

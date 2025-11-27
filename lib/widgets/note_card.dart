@@ -1,4 +1,5 @@
 import 'package:bodas/routes/linkspaper.dart';
+import 'dart:io';
 
 class NoteCard extends StatelessWidget {
   final NotesModel note;
@@ -178,12 +179,32 @@ class _AddNoteDialogState extends ConsumerState<AddNoteDialog> {
   final TextEditingController _contentController = TextEditingController();
   bool _isLoading = false;
   String? _errorMessage;
+  final List<File> _selectedImages = [];
 
   @override
   void dispose() {
     _titleController.dispose();
     _contentController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickImages() async {
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: true,
+      );
+
+      if (result != null) {
+        setState(() {
+          _selectedImages.addAll(result.paths.map((path) => File(path!)));
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'Error al seleccionar imágenes: $e';
+      });
+    }
   }
 
   Future<void> _submitNote() async {
@@ -203,24 +224,43 @@ class _AddNoteDialogState extends ConsumerState<AddNoteDialog> {
     });
 
     try {
+      final Map<String, dynamic> imageUrls = {};
+
+      // Subir imágenes si hay seleccionadas
+      if (_selectedImages.isNotEmpty) {
+        final notesLogic = ref.read(notesLogicProvider);
+        for (var i = 0; i < _selectedImages.length; i++) {
+          final file = _selectedImages[i];
+          final url = await notesLogic.uploadImage(
+            bodaId: widget.bodaId,
+            file: file,
+          );
+          imageUrls['image_$i'] = url;
+        }
+      }
+
       await ref.read(notesProvider.notifier).addNote(
-        bodaId: widget.bodaId,
-        title: title,
-        description: content,
-        images: {}, // Puedes implementar la subida de imágenes después
-      );
+            bodaId: widget.bodaId,
+            title: title,
+            description: content,
+            images: imageUrls,
+          );
       if (widget.onNoteAdded != null) {
         widget.onNoteAdded!();
       }
-      Navigator.of(context).pop();
+      if (mounted) Navigator.of(context).pop();
     } catch (e) {
-      setState(() {
-        _errorMessage = 'Error al guardar la nota: $e';
-      });
+      if (mounted) {
+        setState(() {
+          _errorMessage = 'Error al guardar la nota: $e';
+        });
+      }
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -265,6 +305,82 @@ class _AddNoteDialogState extends ConsumerState<AddNoteDialog> {
                 contentPadding: EdgeInsets.all(15),
               ),
             ),
+            const SizedBox(height: 10),
+            // Área de selección de imágenes
+            Row(
+              children: [
+                ElevatedButton.icon(
+                  onPressed: _isLoading ? null : _pickImages,
+                  icon: const Icon(Icons.image, size: 18),
+                  label: const Text('Adjuntar Imagen'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    foregroundColor: const Color(0xFF667085),
+                    elevation: 0,
+                    side: const BorderSide(color: Color(0xFFD0D5DD)),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  '${_selectedImages.length} imágenes seleccionadas',
+                  style: const TextStyle(
+                    color: Color(0xFF667085),
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+            if (_selectedImages.isNotEmpty) ...[
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 60,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _selectedImages.length,
+                  itemBuilder: (context, index) {
+                    return Stack(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            image: DecorationImage(
+                              image: FileImage(_selectedImages[index]),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 0,
+                          right: 8,
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _selectedImages.removeAt(index);
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: const BoxDecoration(
+                                color: Colors.black54,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.close,
+                                size: 12,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
             if (_errorMessage != null) ...[
               const SizedBox(height: 10),
               Text(

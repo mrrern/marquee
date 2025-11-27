@@ -34,10 +34,18 @@ class _SidebarMenuState extends State<SidebarMenu> {
       duration: const Duration(milliseconds: 300),
       width: sidebarWidth,
       height: sidebarHeight,
-      decoration: BoxDecoration(
-        color: const Color(0xFFD9D9D9),
-        borderRadius: BorderRadius.circular(10),
-      ),
+      decoration: isExpanded
+          ? BoxDecoration(
+              color: const Color(0xFFD9D9D9),
+              borderRadius: BorderRadius.circular(10),
+            )
+          : BoxDecoration(
+              color: const Color(0xFFD9D9D9),
+              borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+            ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -64,6 +72,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 20),
               child: Text(
                 'Bienvenido',
+                overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.inter(
                   fontSize: 25,
                   fontWeight: FontWeight.w600,
@@ -147,6 +156,7 @@ class _SidebarMenuState extends State<SidebarMenu> {
               Expanded(
                 child: Text(
                   label,
+                  overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,

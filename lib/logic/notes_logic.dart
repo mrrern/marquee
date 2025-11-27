@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bodas/routes/linkspaper.dart';
+import 'dart:io';
 
 class NotesLogic {
   final SupabaseClient _supabase = Supabase.instance.client;
@@ -31,6 +32,58 @@ class NotesLogic {
       return NotesModel.fromJson(response);
     } catch (e) {
       throw Exception('Error al crear la nota: $e');
+    }
+  }
+
+  /// Sube una imagen al storage de Supabase
+  Future<String> uploadImage({
+    required int bodaId,
+    required File file,
+  }) async {
+    try {
+      final String originalName = file.path.split('/').last;
+      final String ext =
+          (originalName.contains('.') ? originalName.split('.').last : 'jpg')
+              .toLowerCase();
+      final String fileName =
+          '${DateTime.now().millisecondsSinceEpoch}_$originalName';
+      final String storagePath = 'bodas/$bodaId/notes/$fileName';
+
+      // Intentar subir al bucket 'bodas' (o 'cotizaciones' si es el que se usa)
+      // Basado en cotizacion_logic, parece que se usa 'cotizaciones' o 'archives-bodas'
+      // Pero para notas idealmente sería 'bodas' o 'public'.
+      // Probaremos con 'cotizaciones' que sabemos que existe y es accesible,
+      // o 'archives-bodas'.
+      // Sin embargo, para imágenes de notas, lo ideal es que sean visibles.
+      // Asumiremos 'cotizaciones' por ahora ya que vimos que funciona en cotizacion_logic.
+
+      final List<String> bucketCandidates = ['cotizaciones', 'archives-bodas'];
+      String? selectedBucket;
+      Object? lastError;
+
+      for (final bucket in bucketCandidates) {
+        try {
+          await _supabase.storage.from(bucket).upload(storagePath, file,
+              fileOptions: const FileOptions(upsert: true));
+          selectedBucket = bucket;
+          break;
+        } catch (e) {
+          lastError = e;
+        }
+      }
+
+      if (selectedBucket == null) {
+        throw Exception(
+            'No se pudo subir la imagen a ningún bucket: $lastError');
+      }
+
+      // Generar URL firmada
+      final signed = await _supabase.storage
+          .from(selectedBucket)
+          .createSignedUrl(storagePath, 60 * 60 * 24 * 365); // 1 año
+      return signed;
+    } catch (e) {
+      throw Exception('Error al subir la imagen: $e');
     }
   }
 

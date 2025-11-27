@@ -40,6 +40,9 @@ abstract class BodaMusic with _$BodaMusic {
     DateTime? createdAt,
     DateTime? updatedAt,
     @Default(false) bool isDeleted,
+    @JsonKey(name: "music_lec_ext") Map<String, dynamic>? musicLecExt,
+    @JsonKey(name: "music_coctel_playlist")
+    Map<String, dynamic>? musicCoctelPlaylist,
   }) = _BodaMusic;
 
   factory BodaMusic.fromJson(Map<String, dynamic> json) =>

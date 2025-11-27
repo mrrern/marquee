@@ -149,6 +149,10 @@ class WeddingMusicFormData {
   int? selectecMusicType;
   String? cocktailMusic;
   String? cocktailMusicStyle;
+  String? musicCoctelPlaylist;
+
+  // Extra readings
+  List<CeremonyReading>? musicLecExt;
 
   // Dinner
   String? entranceToHallMusic;
@@ -187,6 +191,7 @@ class WeddingMusicFormData {
     this.selectecMusicType,
     this.cocktailMusic,
     this.cocktailMusicStyle,
+    this.musicCoctelPlaylist,
     this.entranceToHallMusic,
     this.dinnerMusic,
     this.cakeCuttingMusic,
@@ -205,12 +210,14 @@ class WeddingMusicFormData {
     this.lastSong,
     this.additionalNotes,
     List<CeremonyReading>? lectures,
-  }) : lectures = lectures ??
+    List<CeremonyReading>? musicLecExt,
+  })  : lectures = lectures ??
             List.generate(
               4,
               (index) => CeremonyReading(
                   name: "", selectedOption: "Nosotros nos encargamos"),
-            );
+            ),
+        musicLecExt = musicLecExt ?? [];
 
   // Copy with method for immutability
   WeddingMusicFormData copyWith({
@@ -223,6 +230,7 @@ class WeddingMusicFormData {
     String? ceremonyEndMusic,
     String? cocktailMusic,
     String? cocktailMusicStyle,
+    String? musicCoctelPlaylist,
     String? entranceToHallMusic,
     String? dinnerMusic,
     String? cakeCuttingMusic,
@@ -241,6 +249,7 @@ class WeddingMusicFormData {
     String? lastSong,
     String? additionalNotes,
     int? selectecMusicType,
+    List<CeremonyReading>? musicLecExt,
   }) {
     return WeddingMusicFormData(
       entranceMusic: entranceMusic ?? this.entranceMusic,
@@ -252,6 +261,7 @@ class WeddingMusicFormData {
       ceremonyEndMusic: ceremonyEndMusic ?? this.ceremonyEndMusic,
       cocktailMusic: cocktailMusic ?? this.cocktailMusic,
       cocktailMusicStyle: cocktailMusicStyle ?? this.cocktailMusicStyle,
+      musicCoctelPlaylist: musicCoctelPlaylist ?? this.musicCoctelPlaylist,
       entranceToHallMusic: entranceToHallMusic ?? this.entranceToHallMusic,
       dinnerMusic: dinnerMusic ?? this.dinnerMusic,
       cakeCuttingMusic: cakeCuttingMusic ?? this.cakeCuttingMusic,
@@ -271,6 +281,8 @@ class WeddingMusicFormData {
       additionalNotes: additionalNotes ?? this.additionalNotes,
       selectecMusicType: selectecMusicType ?? this.selectecMusicType,
       lectures: lectures ?? this.lectures?.map((e) => e.copyWith()).toList(),
+      musicLecExt:
+          musicLecExt ?? this.musicLecExt?.map((e) => e.copyWith()).toList(),
     );
   }
 }

@@ -13,7 +13,7 @@ class FormInputField extends StatelessWidget {
     this.hintText,
     this.controller,
     this.cambio,
-    this.height = 35,
+    this.height = 40,
     this.multiline = false,
     this.icon,
   });
@@ -24,7 +24,7 @@ class FormInputField extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         color: const Color(0xFFD9D9D9),
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(15),
       ),
       child: TextFormField(
         controller: controller,

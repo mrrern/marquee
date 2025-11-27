@@ -45,6 +45,9 @@ _BodaMusic _$BodaMusicFromJson(Map<String, dynamic> json) => _BodaMusic(
           ? null
           : DateTime.parse(json['updatedAt'] as String),
       isDeleted: json['isDeleted'] as bool? ?? false,
+      musicLecExt: json['music_lec_ext'] as Map<String, dynamic>?,
+      musicCoctelPlaylist:
+          json['music_coctel_playlist'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$BodaMusicToJson(_BodaMusic instance) =>
@@ -83,6 +86,8 @@ Map<String, dynamic> _$BodaMusicToJson(_BodaMusic instance) =>
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'isDeleted': instance.isDeleted,
+      'music_lec_ext': instance.musicLecExt,
+      'music_coctel_playlist': instance.musicCoctelPlaylist,
     };
 
 _MusicType _$MusicTypeFromJson(Map<String, dynamic> json) => _MusicType(

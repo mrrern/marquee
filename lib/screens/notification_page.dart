@@ -115,7 +115,6 @@ class NotificationScreen extends ConsumerWidget {
                                     Image.asset(port1, fit: BoxFit.fitHeight)),
                           ],
                         ),
-                        FooterWidget(),
                       ],
                     ),
                   ),

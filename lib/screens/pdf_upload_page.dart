@@ -122,7 +122,7 @@ class ContratoScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 42),
-        const FileUploadWidget(),
+        const FileUploadWidget(bodaId: 0),
         const SizedBox(height: 93),
         Center(
           child: HoverButton("GUARDAR FICHA", press: () {

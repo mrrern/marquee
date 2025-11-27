@@ -58,6 +58,8 @@ class MusicFormContent extends ConsumerWidget {
             'Música de fondo para la lectura de invitados evita, si es posible piezas vocales'),
         const SizedBox(height: 33),
         _buildReadingRow('Lectura', formState, formNotifier, context),
+        const SizedBox(height: 25),
+        _buildExtraReadingsSection('Lecturas Extras', formState, formNotifier),
         const SizedBox(height: 35),
         _buildSectionText('Entrega de alianzas:'),
         const SizedBox(height: 10),
@@ -135,7 +137,15 @@ class MusicFormContent extends ConsumerWidget {
             },
             loading: () => const CircularProgressIndicator(
                   color: Color(0xFFD9D9D9),
-                ))
+                )),
+        const SizedBox(height: 20),
+        _buildSectionText('Playlist del coctel (opcional):'),
+        const SizedBox(height: 12),
+        FormInputField(
+          height: 45,
+          cambio: (value) => formNotifier.updateCoctelPlaylist(value),
+          hintText: "Enlace de playlist...",
+        ),
       ],
     );
   }
@@ -396,6 +406,101 @@ class MusicFormContent extends ConsumerWidget {
           ),
         );
       }),
+    );
+  }
+
+  Widget _buildExtraReadingsSection(String label,
+      WeddingMusicFormData formState, WeddingMusicFormNotifier formNotifier) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              label,
+              style: GoogleFonts.inter(
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+            ),
+            ElevatedButton.icon(
+              onPressed: () => formNotifier.addExtraReading(),
+              icon: const Icon(Icons.add, size: 18),
+              label: const Text('Agregar'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFD9D9D9),
+                foregroundColor: Colors.black,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                textStyle: GoogleFonts.inter(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        if (formState.musicLecExt != null && formState.musicLecExt!.isNotEmpty)
+          ...formState.musicLecExt!.asMap().entries.map((entry) {
+            final index = entry.key;
+            final reading = entry.value;
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 80,
+                    child: Text(
+                      'Extra ${index + 1}',
+                      textAlign: TextAlign.left,
+                      style: GoogleFonts.inter(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  Expanded(
+                    child: Container(
+                      height: 55,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 7),
+                      child: FormInputField(
+                        hintText: "Enlace",
+                        controller: TextEditingController(text: reading.name),
+                        cambio: (value) =>
+                            formNotifier.updateExtraReadingName(index, value),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    onPressed: () => formNotifier.removeExtraReading(index),
+                    icon: const Icon(Icons.delete_outline, color: Colors.red),
+                    tooltip: 'Eliminar',
+                  ),
+                ],
+              ),
+            );
+          }),
+        if (formState.musicLecExt == null || formState.musicLecExt!.isEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Text(
+              'No hay lecturas extras. Presiona "Agregar" para crear una.',
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                color: Colors.grey,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ),
+      ],
     );
   }
 

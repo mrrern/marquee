@@ -48,6 +48,10 @@ mixin _$BodaMusic {
   DateTime? get createdAt;
   DateTime? get updatedAt;
   bool get isDeleted;
+  @JsonKey(name: "music_lec_ext")
+  Map<String, dynamic>? get musicLecExt;
+  @JsonKey(name: "music_coctel_playlist")
+  Map<String, dynamic>? get musicCoctelPlaylist;
 
   /// Create a copy of BodaMusic
   /// with the given fields replaced by the non-null parameter values.
@@ -128,7 +132,11 @@ mixin _$BodaMusic {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.isDeleted, isDeleted) ||
-                other.isDeleted == isDeleted));
+                other.isDeleted == isDeleted) &&
+            const DeepCollectionEquality()
+                .equals(other.musicLecExt, musicLecExt) &&
+            const DeepCollectionEquality()
+                .equals(other.musicCoctelPlaylist, musicCoctelPlaylist));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -168,12 +176,14 @@ mixin _$BodaMusic {
         musicComents,
         createdAt,
         updatedAt,
-        isDeleted
+        isDeleted,
+        const DeepCollectionEquality().hash(musicLecExt),
+        const DeepCollectionEquality().hash(musicCoctelPlaylist)
       ]);
 
   @override
   String toString() {
-    return 'BodaMusic(id: $id, bodaId: $bodaId, musicReception: $musicReception, musicEntradaNovio: $musicEntradaNovio, musicEntradaNovia: $musicEntradaNovia, musicLect1: $musicLect1, musicLect2: $musicLect2, musicLect3: $musicLect3, musicLect4: $musicLect4, musicAlianza: $musicAlianza, musicFirma: $musicFirma, musicEndCeremony: $musicEndCeremony, musicCoctel: $musicCoctel, musicType: $musicType, musicEntranceSalon: $musicEntranceSalon, musicDinner: $musicDinner, musicCake: $musicCake, musicRamos: $musicRamos, musicSurpise: $musicSurpise, musicBarraNovios: $musicBarraNovios, musicBarraOpcional: $musicBarraOpcional, musicNovio: $musicNovio, musicNovia: $musicNovia, invExt: $invExt, invExtMusic: $invExtMusic, musicExt: $musicExt, invPetition: $invPetition, forbidenMusic: $forbidenMusic, musicForbiden: $musicForbiden, musicFinal: $musicFinal, musicComents: $musicComents, createdAt: $createdAt, updatedAt: $updatedAt, isDeleted: $isDeleted)';
+    return 'BodaMusic(id: $id, bodaId: $bodaId, musicReception: $musicReception, musicEntradaNovio: $musicEntradaNovio, musicEntradaNovia: $musicEntradaNovia, musicLect1: $musicLect1, musicLect2: $musicLect2, musicLect3: $musicLect3, musicLect4: $musicLect4, musicAlianza: $musicAlianza, musicFirma: $musicFirma, musicEndCeremony: $musicEndCeremony, musicCoctel: $musicCoctel, musicType: $musicType, musicEntranceSalon: $musicEntranceSalon, musicDinner: $musicDinner, musicCake: $musicCake, musicRamos: $musicRamos, musicSurpise: $musicSurpise, musicBarraNovios: $musicBarraNovios, musicBarraOpcional: $musicBarraOpcional, musicNovio: $musicNovio, musicNovia: $musicNovia, invExt: $invExt, invExtMusic: $invExtMusic, musicExt: $musicExt, invPetition: $invPetition, forbidenMusic: $forbidenMusic, musicForbiden: $musicForbiden, musicFinal: $musicFinal, musicComents: $musicComents, createdAt: $createdAt, updatedAt: $updatedAt, isDeleted: $isDeleted, musicLecExt: $musicLecExt, musicCoctelPlaylist: $musicCoctelPlaylist)';
   }
 }
 
@@ -216,7 +226,10 @@ abstract mixin class $BodaMusicCopyWith<$Res> {
       String? musicComents,
       DateTime? createdAt,
       DateTime? updatedAt,
-      bool isDeleted});
+      bool isDeleted,
+      @JsonKey(name: "music_lec_ext") Map<String, dynamic>? musicLecExt,
+      @JsonKey(name: "music_coctel_playlist")
+      Map<String, dynamic>? musicCoctelPlaylist});
 }
 
 /// @nodoc
@@ -265,6 +278,8 @@ class _$BodaMusicCopyWithImpl<$Res> implements $BodaMusicCopyWith<$Res> {
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? isDeleted = null,
+    Object? musicLecExt = freezed,
+    Object? musicCoctelPlaylist = freezed,
   }) {
     return _then(_self.copyWith(
       id: null == id
@@ -403,6 +418,14 @@ class _$BodaMusicCopyWithImpl<$Res> implements $BodaMusicCopyWith<$Res> {
           ? _self.isDeleted
           : isDeleted // ignore: cast_nullable_to_non_nullable
               as bool,
+      musicLecExt: freezed == musicLecExt
+          ? _self.musicLecExt
+          : musicLecExt // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+      musicCoctelPlaylist: freezed == musicCoctelPlaylist
+          ? _self.musicCoctelPlaylist
+          : musicCoctelPlaylist // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
     ));
   }
 }
@@ -534,7 +557,10 @@ extension BodaMusicPatterns on BodaMusic {
             String? musicComents,
             DateTime? createdAt,
             DateTime? updatedAt,
-            bool isDeleted)?
+            bool isDeleted,
+            @JsonKey(name: "music_lec_ext") Map<String, dynamic>? musicLecExt,
+            @JsonKey(name: "music_coctel_playlist")
+            Map<String, dynamic>? musicCoctelPlaylist)?
         $default, {
     required TResult orElse(),
   }) {
@@ -575,7 +601,9 @@ extension BodaMusicPatterns on BodaMusic {
             _that.musicComents,
             _that.createdAt,
             _that.updatedAt,
-            _that.isDeleted);
+            _that.isDeleted,
+            _that.musicLecExt,
+            _that.musicCoctelPlaylist);
       case _:
         return orElse();
     }
@@ -630,7 +658,10 @@ extension BodaMusicPatterns on BodaMusic {
             String? musicComents,
             DateTime? createdAt,
             DateTime? updatedAt,
-            bool isDeleted)
+            bool isDeleted,
+            @JsonKey(name: "music_lec_ext") Map<String, dynamic>? musicLecExt,
+            @JsonKey(name: "music_coctel_playlist")
+            Map<String, dynamic>? musicCoctelPlaylist)
         $default,
   ) {
     final _that = this;
@@ -670,7 +701,9 @@ extension BodaMusicPatterns on BodaMusic {
             _that.musicComents,
             _that.createdAt,
             _that.updatedAt,
-            _that.isDeleted);
+            _that.isDeleted,
+            _that.musicLecExt,
+            _that.musicCoctelPlaylist);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -724,7 +757,10 @@ extension BodaMusicPatterns on BodaMusic {
             String? musicComents,
             DateTime? createdAt,
             DateTime? updatedAt,
-            bool isDeleted)?
+            bool isDeleted,
+            @JsonKey(name: "music_lec_ext") Map<String, dynamic>? musicLecExt,
+            @JsonKey(name: "music_coctel_playlist")
+            Map<String, dynamic>? musicCoctelPlaylist)?
         $default,
   ) {
     final _that = this;
@@ -764,7 +800,9 @@ extension BodaMusicPatterns on BodaMusic {
             _that.musicComents,
             _that.createdAt,
             _that.updatedAt,
-            _that.isDeleted);
+            _that.isDeleted,
+            _that.musicLecExt,
+            _that.musicCoctelPlaylist);
       case _:
         return null;
     }
@@ -808,9 +846,14 @@ class _BodaMusic implements BodaMusic {
       this.musicComents,
       this.createdAt,
       this.updatedAt,
-      this.isDeleted = false})
+      this.isDeleted = false,
+      @JsonKey(name: "music_lec_ext") final Map<String, dynamic>? musicLecExt,
+      @JsonKey(name: "music_coctel_playlist")
+      final Map<String, dynamic>? musicCoctelPlaylist})
       : _musicNovio = musicNovio,
-        _musicNovia = musicNovia;
+        _musicNovia = musicNovia,
+        _musicLecExt = musicLecExt,
+        _musicCoctelPlaylist = musicCoctelPlaylist;
   factory _BodaMusic.fromJson(Map<String, dynamic> json) =>
       _$BodaMusicFromJson(json);
 
@@ -903,6 +946,28 @@ class _BodaMusic implements BodaMusic {
   @override
   @JsonKey()
   final bool isDeleted;
+  final Map<String, dynamic>? _musicLecExt;
+  @override
+  @JsonKey(name: "music_lec_ext")
+  Map<String, dynamic>? get musicLecExt {
+    final value = _musicLecExt;
+    if (value == null) return null;
+    if (_musicLecExt is EqualUnmodifiableMapView) return _musicLecExt;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  final Map<String, dynamic>? _musicCoctelPlaylist;
+  @override
+  @JsonKey(name: "music_coctel_playlist")
+  Map<String, dynamic>? get musicCoctelPlaylist {
+    final value = _musicCoctelPlaylist;
+    if (value == null) return null;
+    if (_musicCoctelPlaylist is EqualUnmodifiableMapView)
+      return _musicCoctelPlaylist;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
 
   /// Create a copy of BodaMusic
   /// with the given fields replaced by the non-null parameter values.
@@ -988,7 +1053,11 @@ class _BodaMusic implements BodaMusic {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.isDeleted, isDeleted) ||
-                other.isDeleted == isDeleted));
+                other.isDeleted == isDeleted) &&
+            const DeepCollectionEquality()
+                .equals(other._musicLecExt, _musicLecExt) &&
+            const DeepCollectionEquality()
+                .equals(other._musicCoctelPlaylist, _musicCoctelPlaylist));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1028,12 +1097,14 @@ class _BodaMusic implements BodaMusic {
         musicComents,
         createdAt,
         updatedAt,
-        isDeleted
+        isDeleted,
+        const DeepCollectionEquality().hash(_musicLecExt),
+        const DeepCollectionEquality().hash(_musicCoctelPlaylist)
       ]);
 
   @override
   String toString() {
-    return 'BodaMusic(id: $id, bodaId: $bodaId, musicReception: $musicReception, musicEntradaNovio: $musicEntradaNovio, musicEntradaNovia: $musicEntradaNovia, musicLect1: $musicLect1, musicLect2: $musicLect2, musicLect3: $musicLect3, musicLect4: $musicLect4, musicAlianza: $musicAlianza, musicFirma: $musicFirma, musicEndCeremony: $musicEndCeremony, musicCoctel: $musicCoctel, musicType: $musicType, musicEntranceSalon: $musicEntranceSalon, musicDinner: $musicDinner, musicCake: $musicCake, musicRamos: $musicRamos, musicSurpise: $musicSurpise, musicBarraNovios: $musicBarraNovios, musicBarraOpcional: $musicBarraOpcional, musicNovio: $musicNovio, musicNovia: $musicNovia, invExt: $invExt, invExtMusic: $invExtMusic, musicExt: $musicExt, invPetition: $invPetition, forbidenMusic: $forbidenMusic, musicForbiden: $musicForbiden, musicFinal: $musicFinal, musicComents: $musicComents, createdAt: $createdAt, updatedAt: $updatedAt, isDeleted: $isDeleted)';
+    return 'BodaMusic(id: $id, bodaId: $bodaId, musicReception: $musicReception, musicEntradaNovio: $musicEntradaNovio, musicEntradaNovia: $musicEntradaNovia, musicLect1: $musicLect1, musicLect2: $musicLect2, musicLect3: $musicLect3, musicLect4: $musicLect4, musicAlianza: $musicAlianza, musicFirma: $musicFirma, musicEndCeremony: $musicEndCeremony, musicCoctel: $musicCoctel, musicType: $musicType, musicEntranceSalon: $musicEntranceSalon, musicDinner: $musicDinner, musicCake: $musicCake, musicRamos: $musicRamos, musicSurpise: $musicSurpise, musicBarraNovios: $musicBarraNovios, musicBarraOpcional: $musicBarraOpcional, musicNovio: $musicNovio, musicNovia: $musicNovia, invExt: $invExt, invExtMusic: $invExtMusic, musicExt: $musicExt, invPetition: $invPetition, forbidenMusic: $forbidenMusic, musicForbiden: $musicForbiden, musicFinal: $musicFinal, musicComents: $musicComents, createdAt: $createdAt, updatedAt: $updatedAt, isDeleted: $isDeleted, musicLecExt: $musicLecExt, musicCoctelPlaylist: $musicCoctelPlaylist)';
   }
 }
 
@@ -1079,7 +1150,10 @@ abstract mixin class _$BodaMusicCopyWith<$Res>
       String? musicComents,
       DateTime? createdAt,
       DateTime? updatedAt,
-      bool isDeleted});
+      bool isDeleted,
+      @JsonKey(name: "music_lec_ext") Map<String, dynamic>? musicLecExt,
+      @JsonKey(name: "music_coctel_playlist")
+      Map<String, dynamic>? musicCoctelPlaylist});
 }
 
 /// @nodoc
@@ -1128,6 +1202,8 @@ class __$BodaMusicCopyWithImpl<$Res> implements _$BodaMusicCopyWith<$Res> {
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? isDeleted = null,
+    Object? musicLecExt = freezed,
+    Object? musicCoctelPlaylist = freezed,
   }) {
     return _then(_BodaMusic(
       id: null == id
@@ -1266,6 +1342,14 @@ class __$BodaMusicCopyWithImpl<$Res> implements _$BodaMusicCopyWith<$Res> {
           ? _self.isDeleted
           : isDeleted // ignore: cast_nullable_to_non_nullable
               as bool,
+      musicLecExt: freezed == musicLecExt
+          ? _self._musicLecExt
+          : musicLecExt // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
+      musicCoctelPlaylist: freezed == musicCoctelPlaylist
+          ? _self._musicCoctelPlaylist
+          : musicCoctelPlaylist // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>?,
     ));
   }
 }

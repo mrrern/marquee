@@ -1,4 +1,5 @@
 import 'package:bodas/routes/linkspaper.dart';
+import 'dart:io';
 
 enum UploadState {
   initial,
@@ -7,20 +8,29 @@ enum UploadState {
   error,
 }
 
-class FileUploadWidget extends StatefulWidget {
-  const FileUploadWidget({super.key});
+class FileUploadWidget extends ConsumerStatefulWidget {
+  final int bodaId;
+  final VoidCallback? onUploadComplete;
+
+  const FileUploadWidget({
+    super.key,
+    required this.bodaId,
+    this.onUploadComplete,
+  });
 
   @override
-  State<FileUploadWidget> createState() => _FileUploadWidgetState();
+  ConsumerState<FileUploadWidget> createState() => _FileUploadWidgetState();
 }
 
-class _FileUploadWidgetState extends State<FileUploadWidget> {
+class _FileUploadWidgetState extends ConsumerState<FileUploadWidget> {
   UploadState _uploadState = UploadState.initial;
   String? _fileName;
+  String? _errorMessage;
 
   Future<void> _pickFile() async {
     setState(() {
       _uploadState = UploadState.loading;
+      _errorMessage = null;
     });
 
     try {
@@ -29,23 +39,26 @@ class _FileUploadWidgetState extends State<FileUploadWidget> {
         allowedExtensions: ['pdf', 'doc', 'docx'],
       );
 
-      if (result != null) {
-        // Simulate upload process
-        await Future.delayed(const Duration(seconds: 2));
+      if (result != null && result.files.single.path != null) {
+        final file = File(result.files.single.path!);
 
-        // For demo purposes, we'll randomly succeed or fail
-        final bool success = DateTime.now().millisecondsSinceEpoch % 2 == 0;
+        // Use CotizacionLogic to upload
+        await CotizacionLogic().uploadFile(
+          bodaId: widget.bodaId,
+          file: file,
+          isAdmin: false, // User upload
+        );
 
         setState(() {
-          if (success) {
-            _uploadState = UploadState.success;
-            _fileName = result.files.single.name;
-          } else {
-            _uploadState = UploadState.error;
-          }
+          _uploadState = UploadState.success;
+          _fileName = result.files.single.name;
         });
+
+        if (widget.onUploadComplete != null) {
+          widget.onUploadComplete!();
+        }
       } else {
-        // User canceled the picker
+        // User canceled
         setState(() {
           _uploadState = UploadState.initial;
         });
@@ -53,6 +66,7 @@ class _FileUploadWidgetState extends State<FileUploadWidget> {
     } catch (e) {
       setState(() {
         _uploadState = UploadState.error;
+        _errorMessage = e.toString();
       });
     }
   }
@@ -68,7 +82,6 @@ class _FileUploadWidgetState extends State<FileUploadWidget> {
       padding: const EdgeInsets.symmetric(vertical: 71, horizontal: 59),
       child: LayoutBuilder(
         builder: (context, constraints) {
-          // For mobile screens, use a more compact layout
           if (constraints.maxWidth < 640) {
             return SizedBox(
               width: 288,
@@ -76,7 +89,6 @@ class _FileUploadWidgetState extends State<FileUploadWidget> {
             );
           }
 
-          // For larger screens
           return Row(
             children: [
               _buildUploadIcon(),
@@ -188,13 +200,15 @@ class _FileUploadWidgetState extends State<FileUploadWidget> {
   String _getUploadMessage() {
     switch (_uploadState) {
       case UploadState.initial:
-        return 'Agradecemos tu registro. Te enviaremos a la brevedad posible tu presupuesto con la información proporcionada.';
+        return 'Sube aquí tu contrato firmado.';
       case UploadState.loading:
         return 'Subiendo archivo, por favor espere...';
       case UploadState.success:
-        return 'Archivo $_fileName subido correctamente. Te enviaremos a la brevedad posible tu presupuesto.';
+        return 'Archivo ${_fileName ?? ""} subido correctamente. Gracias.';
       case UploadState.error:
-        return 'Error al subir el archivo. Por favor, intenta nuevamente.';
+        return _errorMessage != null && _errorMessage!.contains('User canceled')
+            ? 'Subida cancelada.'
+            : 'Error al subir el archivo. Intenta nuevamente.';
     }
   }
 }
