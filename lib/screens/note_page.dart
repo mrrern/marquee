@@ -13,10 +13,17 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
     final usuarioId = prefs.getString('usuarioId');
     if (usuarioId == null) return null;
 
-    // Suponiendo que tienes un método para obtener bodas por usuarioId
-    final bodas = await ref.read(weddingLogicProvider).fetchWeddings(usuarioId);
-    if (bodas.isEmpty) return null;
-    return bodas.first.id; // O la lógica que prefieras
+    try {
+      final bodas =
+          await ref.read(weddingLogicProvider).fetchWeddings(usuarioId);
+      if (bodas.isEmpty) return null;
+      // Retornamos el ID de la primera boda encontrada
+      // (asumiendo que el usuario solo tiene una boda activa o queremos la primera)
+      return bodas.first.id;
+    } catch (e) {
+      debugPrint('Error fetching wedding for user: $e');
+      return null;
+    }
   }
 
   @override
