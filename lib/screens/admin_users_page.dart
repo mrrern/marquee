@@ -27,10 +27,7 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
     final text = "Usuarios registrados";
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // Navegar a la página de registro para añadir nuevo usuario
-          context.pushNamed('sign');
-        },
+        onPressed: () => _showAddUserDialog(context, ref),
         icon: const Icon(Icons.person_add),
         label: const Text('Añadir Usuario'),
         backgroundColor: const Color(0xFF0C0C0C),
@@ -370,12 +367,41 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                                                             if (confirm ??
                                                                 false) {
                                                               try {
-                                                                // Usar deleteHard para eliminación permanente
-                                                                await ref
-                                                                    .read(
-                                                                        userLogicProvider)
-                                                                    .deleteHard(
-                                                                        u.id);
+                                                                // Usar Edge Function para eliminación permanente
+                                                                final supabase =
+                                                                    Supabase
+                                                                        .instance
+                                                                        .client;
+                                                                final session =
+                                                                    supabase
+                                                                        .auth
+                                                                        .currentSession;
+
+                                                                if (session ==
+                                                                    null) {
+                                                                  throw Exception(
+                                                                      'No hay sesión activa');
+                                                                }
+
+                                                                final response =
+                                                                    await supabase
+                                                                        .functions
+                                                                        .invoke(
+                                                                  'admin-delete-user',
+                                                                  body: {
+                                                                    'target_user_id':
+                                                                        u.id,
+                                                                  },
+                                                                );
+
+                                                                if (response
+                                                                        .status !=
+                                                                    200) {
+                                                                  throw Exception(
+                                                                      response.data[
+                                                                              'error'] ??
+                                                                          'Error desconocido');
+                                                                }
 
                                                                 // Refrescar la lista de usuarios
                                                                 await ref
@@ -406,6 +432,8 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
                                                                 // Mostrar mensaje de error
                                                                 if (context
                                                                     .mounted) {
+                                                                  debugPrint(
+                                                                      'Error al eliminar: $e');
                                                                   ScaffoldMessenger.of(
                                                                           context)
                                                                       .showSnackBar(
@@ -528,6 +556,368 @@ class _AdminUsersScreenState extends ConsumerState<AdminUsersScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showAddUserDialog(BuildContext context, WidgetRef ref) {
+    final nameController = TextEditingController();
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+    final confirmPasswordController = TextEditingController();
+    int selectedRole = 2; // Default: Usuario (2)
+    bool isPasswordVisible = false;
+    bool isConfirmPasswordVisible = false;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            // Validaciones
+            String? nameError;
+            String? emailError;
+            String? passwordError;
+            String? confirmPasswordError;
+
+            if (nameController.text.isNotEmpty) {
+              if (nameController.text.length < 3) {
+                nameError = 'El nombre debe tener al menos 3 caracteres';
+              }
+            }
+
+            if (emailController.text.isNotEmpty) {
+              if (!emailController.text.contains('@')) {
+                emailError = 'Email inválido';
+              }
+            }
+
+            if (passwordController.text.isNotEmpty) {
+              if (passwordController.text.length < 6) {
+                passwordError =
+                    'La contraseña debe tener al menos 6 caracteres';
+              }
+            }
+
+            if (confirmPasswordController.text.isNotEmpty) {
+              if (confirmPasswordController.text.length < 6) {
+                confirmPasswordError =
+                    'La contraseña debe tener al menos 6 caracteres';
+              } else if (confirmPasswordController.text !=
+                  passwordController.text) {
+                confirmPasswordError = 'Las contraseñas no coinciden';
+              }
+            }
+
+            final isFormValid = nameController.text.isNotEmpty &&
+                emailController.text.isNotEmpty &&
+                passwordController.text.isNotEmpty &&
+                confirmPasswordController.text.isNotEmpty &&
+                nameError == null &&
+                emailError == null &&
+                passwordError == null &&
+                confirmPasswordError == null;
+
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              title: Row(
+                children: [
+                  Icon(Icons.person_add, color: const Color(0xFF7F56D9)),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Agregar Usuario',
+                    style: GoogleFonts.inter(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+              content: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Nombre
+                      Text(
+                        'Nombre',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF344054),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      TextField(
+                        controller: nameController,
+                        decoration: InputDecoration(
+                          hintText: 'Nombre completo',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 10,
+                          ),
+                          errorText: nameError,
+                        ),
+                        style: GoogleFonts.inter(fontSize: 14),
+                        onChanged: (_) => setState(() {}),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Email
+                      Text(
+                        'Email',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF344054),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      TextField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          hintText: 'correo@ejemplo.com',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 10,
+                          ),
+                          errorText: emailError,
+                        ),
+                        style: GoogleFonts.inter(fontSize: 14),
+                        keyboardType: TextInputType.emailAddress,
+                        onChanged: (_) => setState(() {}),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Contraseña
+                      Text(
+                        'Contraseña',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF344054),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      TextField(
+                        controller: passwordController,
+                        obscureText: !isPasswordVisible,
+                        decoration: InputDecoration(
+                          hintText: 'Mínimo 6 caracteres',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 10,
+                          ),
+                          errorText: passwordError,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              isPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              size: 20,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isPasswordVisible = !isPasswordVisible;
+                              });
+                            },
+                          ),
+                        ),
+                        style: GoogleFonts.inter(fontSize: 14),
+                        onChanged: (_) => setState(() {}),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Confirmar Contraseña
+                      Text(
+                        'Confirmar Contraseña',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF344054),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      TextField(
+                        controller: confirmPasswordController,
+                        obscureText: !isConfirmPasswordVisible,
+                        decoration: InputDecoration(
+                          hintText: 'Confirmar contraseña',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 10,
+                          ),
+                          errorText: confirmPasswordError,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              isConfirmPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              size: 20,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isConfirmPasswordVisible =
+                                    !isConfirmPasswordVisible;
+                              });
+                            },
+                          ),
+                        ),
+                        style: GoogleFonts.inter(fontSize: 14),
+                        onChanged: (_) => setState(() {}),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Selector de Rol
+                      Text(
+                        'Rol',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF344054),
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      DropdownButtonFormField<int>(
+                        initialValue: selectedRole,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 10,
+                          ),
+                        ),
+                        items: const [
+                          DropdownMenuItem(
+                            value: 1,
+                            child: Text('Administrador'),
+                          ),
+                          DropdownMenuItem(
+                            value: 2,
+                            child: Text('Usuario'),
+                          ),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            selectedRole = value ?? 2;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  child: Text(
+                    'Cancelar',
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: const Color(0xFF667085),
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: !isFormValid
+                      ? null
+                      : () async {
+                          // Mostrar loading
+                          Navigator.of(dialogContext).pop();
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+
+                          try {
+                            // Crear usuario
+                            await ref.read(authServiceProvider).signUp(
+                                  emailController.text.trim(),
+                                  passwordController.text,
+                                  nameController.text.trim(),
+                                  selectedRole,
+                                );
+
+                            // Refrescar lista de usuarios
+                            await ref
+                                .read(usersAdminProvider.notifier)
+                                .refresh();
+                            await ref
+                                .read(paginateUsersProvider.notifier)
+                                .refresh();
+
+                            // Cerrar loading y mostrar éxito
+                            if (context.mounted) {
+                              Navigator.of(context).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Usuario creado exitosamente',
+                                    style: GoogleFonts.inter(),
+                                  ),
+                                  backgroundColor: const Color(0xFF027A48),
+                                ),
+                              );
+                            }
+                          } catch (e) {
+                            // Cerrar loading y mostrar error
+                            if (context.mounted) {
+                              Navigator.of(context).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Error al crear usuario: $e',
+                                    style: GoogleFonts.inter(),
+                                  ),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                            }
+                          }
+                        },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF7F56D9),
+                    disabledBackgroundColor:
+                        const Color(0xFF7F56D9).withValues(alpha: 0.3),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: Text(
+                    'Crear Usuario',
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }

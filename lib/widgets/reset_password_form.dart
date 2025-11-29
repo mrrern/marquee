@@ -1,7 +1,14 @@
 import 'package:bodas/routes/linkspaper.dart';
 
 class ResetPasswordForm extends ConsumerWidget {
-  const ResetPasswordForm({super.key});
+  final String email;
+  final String token;
+
+  const ResetPasswordForm({
+    super.key,
+    required this.email,
+    required this.token,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -187,7 +194,7 @@ class ResetPasswordForm extends ConsumerWidget {
             textInputAction: TextInputAction.done,
             onSubmitted: isFormValid
                 ? (_) {
-                    _handleResetPassword(ref, context);
+                    _handleResetPassword(ref, context, email, token);
                   }
                 : null,
           ),
@@ -215,8 +222,9 @@ class ResetPasswordForm extends ConsumerWidget {
           SizedBox(height: Responsive.isWeb(context) ? 36 : 30),
           Center(
             child: InkWell(
-              onTap:
-                  isFormValid ? () => _handleResetPassword(ref, context) : null,
+              onTap: isFormValid
+                  ? () => _handleResetPassword(ref, context, email, token)
+                  : null,
               child: Container(
                 width: 189,
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -247,7 +255,12 @@ class ResetPasswordForm extends ConsumerWidget {
   }
 }
 
-Future<void> _handleResetPassword(WidgetRef ref, BuildContext context) async {
+Future<void> _handleResetPassword(
+  WidgetRef ref,
+  BuildContext context,
+  String email,
+  String token,
+) async {
   final newPassword = ref.read(newPasswordProvider);
 
   showDialog(
@@ -259,7 +272,11 @@ Future<void> _handleResetPassword(WidgetRef ref, BuildContext context) async {
   bool dialogClosed = false;
 
   try {
-    await ref.read(authServiceProvider).resetPassword(newPassword);
+    await ref.read(authServiceProvider).resetPasswordWithToken(
+          email: email,
+          token: token,
+          newPassword: newPassword,
+        );
 
     if (!context.mounted) return;
 

@@ -5,6 +5,7 @@ import 'package:bodas/screens/admin_stadistics.dart';
 import 'package:bodas/screens/admin_contratados_page.dart';
 import 'package:bodas/screens/forgot_password_page.dart';
 import 'package:bodas/screens/reset_password_page.dart';
+import 'package:bodas/screens/auth_callback_page.dart';
 
 // Provider para el router que depende del estado de autenticación
 
@@ -29,6 +30,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         '/access',
         '/forgot-password',
         '/reset-password',
+        '/auth/callback',
       };
 
       // Rutas de administrador
@@ -111,6 +113,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/sign',
+        name: 'sign',
         builder: (context, state) => SignPage(),
       ),
       GoRoute(
@@ -119,9 +122,21 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => ForgotPasswordScreenResponsive(),
       ),
       GoRoute(
-        path: '/reset-password',
+        path: '/reset-password/:email/:token',
         name: 'reset-password',
-        builder: (context, state) => ResetPasswordScreenResponsive(),
+        builder: (context, state) {
+          final email = state.pathParameters['email'] ?? '';
+          final token = state.pathParameters['token'] ?? '';
+          return ResetPasswordScreenResponsive(
+            email: email,
+            token: token,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/auth/callback',
+        name: 'auth-callback',
+        builder: (context, state) => const AuthCallbackScreen(),
       ),
       GoRoute(
         path: '/contract',

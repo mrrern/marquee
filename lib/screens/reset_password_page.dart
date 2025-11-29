@@ -2,22 +2,37 @@ import 'package:bodas/routes/linkspaper.dart';
 import 'package:bodas/widgets/reset_password_form.dart';
 
 class ResetPasswordScreenResponsive extends ConsumerWidget {
-  const ResetPasswordScreenResponsive({super.key});
+  final String email;
+  final String token;
+
+  const ResetPasswordScreenResponsive({
+    super.key,
+    required this.email,
+    required this.token,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (Responsive.isMobile(context)) {
-      return _ResetPasswordScreenMobile();
+      return _ResetPasswordScreenMobile(email: email, token: token);
     } else if (Responsive.isTablet(context)) {
-      return _ResetPasswordScreenTablet();
+      return _ResetPasswordScreenTablet(email: email, token: token);
     } else if (Responsive.isWeb(context)) {
-      return _ResetPasswordScreenWeb();
+      return _ResetPasswordScreenWeb(email: email, token: token);
     }
-    return _ResetPasswordScreenWeb();
+    return _ResetPasswordScreenWeb(email: email, token: token);
   }
 }
 
 class _ResetPasswordScreenMobile extends ConsumerWidget {
+  final String email;
+  final String token;
+
+  const _ResetPasswordScreenMobile({
+    required this.email,
+    required this.token,
+  });
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
@@ -76,7 +91,10 @@ class _ResetPasswordScreenMobile extends ConsumerWidget {
                       vertical: height * 0.05,
                     ),
                     child: Center(
-                      child: ResetPasswordForm(),
+                      child: ResetPasswordForm(
+                        email: email,
+                        token: token,
+                      ),
                     ),
                   ),
                   Padding(
@@ -94,6 +112,14 @@ class _ResetPasswordScreenMobile extends ConsumerWidget {
 }
 
 class _ResetPasswordScreenTablet extends ConsumerWidget {
+  final String email;
+  final String token;
+
+  const _ResetPasswordScreenTablet({
+    required this.email,
+    required this.token,
+  });
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
@@ -125,7 +151,10 @@ class _ResetPasswordScreenTablet extends ConsumerWidget {
                       vertical: height * 0.08,
                     ),
                     child: Center(
-                      child: ResetPasswordForm(),
+                      child: ResetPasswordForm(
+                        email: email,
+                        token: token,
+                      ),
                     ),
                   ),
                   Padding(
@@ -143,6 +172,14 @@ class _ResetPasswordScreenTablet extends ConsumerWidget {
 }
 
 class _ResetPasswordScreenWeb extends ConsumerWidget {
+  final String email;
+  final String token;
+
+  const _ResetPasswordScreenWeb({
+    required this.email,
+    required this.token,
+  });
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
@@ -174,7 +211,10 @@ class _ResetPasswordScreenWeb extends ConsumerWidget {
                       vertical: height * 0.1,
                     ),
                     child: Center(
-                      child: ResetPasswordForm(),
+                      child: ResetPasswordForm(
+                        email: email,
+                        token: token,
+                      ),
                     ),
                   ),
                   Padding(

@@ -1,4 +1,5 @@
 import 'package:bodas/routes/linkspaper.dart';
+import 'dart:io';
 
 class QuotationTable extends StatelessWidget {
   final List<CotizacionRequest> quotations;
@@ -119,16 +120,26 @@ class QuotationTable extends StatelessWidget {
                 case 7:
                   return Row(
                     children: [
-                      Icon(
-                        Icons.phone,
-                        size: 17,
-                        color: Colors.black.withValues(alpha: 0.59),
+                      IconButton(
+                        icon: Icon(
+                          Icons.phone,
+                          size: 17,
+                          color: Colors.black.withValues(alpha: 0.59),
+                        ),
+                        onPressed: () => _showPhoneDialog(context, quotation),
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
                       ),
                       const SizedBox(width: 8),
-                      Icon(
-                        Icons.message,
-                        size: 17,
-                        color: Colors.black.withValues(alpha: 0.59),
+                      IconButton(
+                        icon: Icon(
+                          Icons.message,
+                          size: 17,
+                          color: Colors.black.withValues(alpha: 0.59),
+                        ),
+                        onPressed: () => _showEmailDialog(context, quotation),
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
                       ),
                     ],
                   );
@@ -195,20 +206,14 @@ class QuotationTable extends StatelessWidget {
     switch (estadoId) {
       case 1: // Cotizando - Admin debe subir cotización
         return GestureDetector(
-          onTap: () {
-            // TODO: Implementar diálogo para subir archivo
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                  content: Text('Subir cotización - Por implementar')),
-            );
-          },
+          onTap: () => _showUploadDialog(context, quotation),
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
               color: const Color(0xFFECFDF3),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: const Color(0xFF027A48).withOpacity(0.3),
+                color: const Color(0xFF027A48).withValues(alpha: 0.3),
                 width: 1,
               ),
             ),
@@ -268,7 +273,7 @@ class QuotationTable extends StatelessWidget {
               color: const Color(0xFFECFDF3),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: const Color(0xFF027A48).withOpacity(0.3),
+                color: const Color(0xFF027A48).withValues(alpha: 0.3),
                 width: 1,
               ),
             ),
@@ -314,6 +319,463 @@ class QuotationTable extends StatelessWidget {
           color: const Color(0xFF7F56D9),
         ),
       ),
+    );
+  }
+
+  void _showPhoneDialog(BuildContext context, CotizacionRequest quotation) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Icon(Icons.phone, color: const Color(0xFF7F56D9)),
+              const SizedBox(width: 8),
+              Text(
+                'Información de Contacto',
+                style: GoogleFonts.inter(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Nombre',
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFF667085),
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                quotation.nombre,
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF101828),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Teléfono Novio',
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFF667085),
+                ),
+              ),
+              const SizedBox(height: 4),
+              SelectableText(
+                quotation.telefonoNovio,
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF101828),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Teléfono Novia',
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: const Color(0xFF667085),
+                ),
+              ),
+              const SizedBox(height: 4),
+              SelectableText(
+                quotation.telefonoNovia,
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF101828),
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: Text(
+                'Cerrar',
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF7F56D9),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showEmailDialog(BuildContext context, CotizacionRequest quotation) {
+    final subjectController = TextEditingController();
+    final bodyController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              Icon(Icons.email, color: const Color(0xFF7F56D9)),
+              const SizedBox(width: 8),
+              Text(
+                'Enviar Correo',
+                style: GoogleFonts.inter(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          content: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.4,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Para: ${quotation.email}',
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF667085),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Asunto',
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF667085),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: subjectController,
+                  decoration: InputDecoration(
+                    hintText: 'Escribe el asunto del correo',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 10,
+                    ),
+                  ),
+                  style: GoogleFonts.inter(fontSize: 14),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Cuerpo del mensaje',
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xFF667085),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: bodyController,
+                  maxLines: 8,
+                  decoration: InputDecoration(
+                    hintText: 'Escribe el mensaje aquí',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    contentPadding: const EdgeInsets.all(12),
+                  ),
+                  style: GoogleFonts.inter(fontSize: 14),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: Text(
+                'Cancelar',
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF667085),
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                _sendEmail(
+                  quotation.email,
+                  subjectController.text,
+                  bodyController.text,
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF7F56D9),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Text(
+                'Enviar',
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _sendEmail(String email, String subject, String body) async {
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: email,
+      query: _encodeQueryParameters(<String, String>{
+        'subject': subject,
+        'body': body,
+      }),
+    );
+
+    if (await canLaunchUrl(emailUri)) {
+      await launchUrl(emailUri);
+    }
+  }
+
+  String? _encodeQueryParameters(Map<String, String> params) {
+    return params.entries
+        .map((entry) =>
+            '${Uri.encodeComponent(entry.key)}=${Uri.encodeComponent(entry.value)}')
+        .join('&');
+  }
+
+  void _showUploadDialog(BuildContext context, CotizacionRequest quotation) {
+    bool isUploading = false;
+    String? selectedFileName;
+    File? selectedFile;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              title: Row(
+                children: [
+                  Icon(Icons.upload_file, color: const Color(0xFF7F56D9)),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Subir Cotización',
+                    style: GoogleFonts.inter(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+              content: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Cliente: ${quotation.nombre}',
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: const Color(0xFF667085),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    if (selectedFileName != null) ...[
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF9F5FF),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color:
+                                const Color(0xFF7F56D9).withValues(alpha: 0.3),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.insert_drive_file,
+                              color: const Color(0xFF7F56D9),
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                selectedFileName!,
+                                style: GoogleFonts.inter(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xFF101828),
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                    ],
+                    if (isUploading)
+                      Center(
+                        child: Column(
+                          children: [
+                            CircularProgressIndicator(
+                              color: const Color(0xFF7F56D9),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Subiendo archivo...',
+                              style: GoogleFonts.inter(
+                                fontSize: 12,
+                                color: const Color(0xFF667085),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              actions: [
+                if (!isUploading) ...[
+                  TextButton(
+                    onPressed: () => Navigator.of(dialogContext).pop(),
+                    child: Text(
+                      'Cancelar',
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF667085),
+                      ),
+                    ),
+                  ),
+                  OutlinedButton(
+                    onPressed: () async {
+                      FilePickerResult? result =
+                          await FilePicker.platform.pickFiles(
+                        type: FileType.custom,
+                        allowedExtensions: ['pdf', 'doc', 'docx'],
+                      );
+
+                      if (result != null) {
+                        setState(() {
+                          selectedFile = File(result.files.single.path!);
+                          selectedFileName = result.files.single.name;
+                        });
+                      }
+                    },
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(color: const Color(0xFF7F56D9)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text(
+                      'Seleccionar archivo',
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF7F56D9),
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: selectedFile == null
+                        ? null
+                        : () async {
+                            setState(() => isUploading = true);
+
+                            try {
+                              final logic = CotizacionLogic();
+                              await logic.uploadFile(
+                                bodaId: quotation.bodaId!,
+                                file: selectedFile!,
+                                isAdmin: true,
+                              );
+
+                              if (dialogContext.mounted) {
+                                Navigator.of(dialogContext).pop();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Cotización subida exitosamente',
+                                      style: GoogleFonts.inter(),
+                                    ),
+                                    backgroundColor: const Color(0xFF027A48),
+                                  ),
+                                );
+                              }
+                            } catch (e) {
+                              setState(() => isUploading = false);
+                              if (dialogContext.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Error al subir archivo: $e',
+                                      style: GoogleFonts.inter(),
+                                    ),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              }
+                            }
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF7F56D9),
+                      disabledBackgroundColor:
+                          const Color(0xFF7F56D9).withValues(alpha: 0.3),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text(
+                      'Subir',
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }

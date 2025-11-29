@@ -1,4 +1,5 @@
 import 'package:bodas/routes/linkspaper.dart';
+import 'package:flutter/foundation.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -177,9 +178,16 @@ class AuthService {
   /// Solicita el envío de un email para restablecer la contraseña
   Future<void> requestPasswordReset(String email) async {
     try {
+      // Supabase agrega el token como hash fragment (#access_token=xxx&type=recovery)
+      // Por lo que necesitamos usar una página de callback que extraiga el token
+      // y redirija a /reset-password/:email/:token
+      final baseUrl = kIsWeb ? Uri.base.origin : 'http://localhost:3000';
+      final redirectUrl =
+          '$baseUrl/auth/callback?email=${Uri.encodeComponent(email)}';
+
       await _supabase.auth.resetPasswordForEmail(
         email.toLowerCase(),
-        redirectTo: 'https://vokwhcnpfzotvuvggjdt.supabase.co/auth/v1/verify',
+        redirectTo: redirectUrl,
       );
     } on AuthException catch (e) {
       debugPrint('Error requesting password reset: ${e.message}');
@@ -204,6 +212,44 @@ class AuthService {
           'No se pudo actualizar la contraseña. Intenta nuevamente.');
     } catch (e) {
       debugPrint('Error resetting password: $e');
+      throw Exception('Ocurrió un error al cambiar la contraseña.');
+    }
+  }
+
+  /// Actualiza la contraseña usando el token de recuperación
+  Future<void> resetPasswordWithToken({
+    required String email,
+    required String token,
+    required String newPassword,
+  }) async {
+    try {
+      // Primero verificamos el token OTP
+      final response = await _supabase.auth.verifyOTP(
+        type: OtpType.recovery,
+        token: token,
+        email: email.toLowerCase(),
+      );
+
+      if (response.user == null) {
+        throw Exception('Token inválido o expirado');
+      }
+
+      // Luego actualizamos la contraseña
+      await _supabase.auth.updateUser(
+        UserAttributes(password: newPassword),
+      );
+    } on AuthException catch (e) {
+      debugPrint('Error resetting password with token: ${e.message}');
+      if (e.message.contains('expired') || e.message.contains('invalid')) {
+        throw Exception('El enlace de recuperación ha expirado o es inválido.');
+      }
+      throw Exception(
+          'No se pudo actualizar la contraseña. Intenta nuevamente.');
+    } catch (e) {
+      debugPrint('Error resetting password with token: $e');
+      if (e.toString().contains('Token inválido')) {
+        rethrow;
+      }
       throw Exception('Ocurrió un error al cambiar la contraseña.');
     }
   }
