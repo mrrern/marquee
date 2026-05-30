@@ -1,4 +1,4 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 import 'dart:io';
 
 enum UploadState {
@@ -34,7 +34,7 @@ class _FileUploadWidgetState extends ConsumerState<FileUploadWidget> {
     });
 
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
+      FilePickerResult? result = await FilePicker.pickFiles(
         type: FileType.custom,
         allowedExtensions: ['pdf', 'doc', 'docx'],
       );

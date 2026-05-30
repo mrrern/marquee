@@ -1,4 +1,4 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 
 class SidebarMenu extends StatefulWidget {
   final Function(int)? onMenuItemTap;

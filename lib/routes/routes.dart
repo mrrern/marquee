@@ -1,18 +1,13 @@
 import 'dart:async';
 
-import 'package:bodas/routes/linkspaper.dart';
-import 'package:bodas/screens/admin_stadistics.dart';
-import 'package:bodas/screens/admin_contratados_page.dart';
-import 'package:bodas/screens/forgot_password_page.dart';
-import 'package:bodas/screens/reset_password_page.dart';
-import 'package:bodas/screens/auth_callback_page.dart';
+import 'package:bodas/routes/exports.dart';
 
 // Provider para el router que depende del estado de autenticación
 
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     refreshListenable:
-        GoRouterRefreshStream(ref.watch(authInfoProvider.notifier).stream),
+        GoRouterRefreshStream(ref.watch(authInfoProvider.future).asStream()),
     redirect: (context, state) {
       final authState = ref.read(authInfoProvider);
       final userInfo = authState.value;
@@ -218,16 +213,16 @@ final routerProvider = Provider<GoRouter>((ref) {
 
 // Helper class para manejar la actualización del router
 class GoRouterRefreshStream extends ChangeNotifier {
-  GoRouterRefreshStream(Stream<AsyncValue> stream) {
+  GoRouterRefreshStream(Stream<dynamic> stream) {
     notifyListeners();
     _subscription = stream.asBroadcastStream().listen(
-      (AsyncValue value) {
+      (dynamic value) {
         notifyListeners();
       },
     );
   }
 
-  late final StreamSubscription<AsyncValue> _subscription;
+  late final StreamSubscription<dynamic> _subscription;
 
   @override
   void dispose() {

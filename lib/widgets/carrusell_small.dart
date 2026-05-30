@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 
 class CarruselF extends ConsumerStatefulWidget {
   const CarruselF({super.key});

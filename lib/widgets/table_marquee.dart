@@ -1,5 +1,5 @@
 import 'dart:math' as math;
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 
 /// TableMarquee
 ///

@@ -48,3 +48,7 @@ kilo_readme.md
 cursor_rules.md
 .vscode/mcp.json
 .kilocode/mcp.json
+
+
+fix_paginator.py
+query.md

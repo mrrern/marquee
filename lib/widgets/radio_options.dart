@@ -1,5 +1,5 @@
 
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 
 class RadioOption extends StatelessWidget {
   final String label;

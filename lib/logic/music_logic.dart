@@ -1,4 +1,7 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'music_logic.g.dart';
 
 // Provider para WeddingLogic
 final musicLogicProvider = Provider<MusicLogic>((ref) {
@@ -116,134 +119,30 @@ class MusicLogic {
   }
 }
 
-// Estado de la música
-class MusicState {
-  final List<Map<String, dynamic>> musicList;
-  final BodaMusic? currentMusic;
-  final bool isLoading;
-  final String? error;
-
-  MusicState({
-    this.musicList = const [],
-    this.currentMusic,
-    this.isLoading = false,
-    this.error,
-  });
-
-  MusicState copyWith({
-    List<Map<String, dynamic>>? musicList,
-    BodaMusic? currentMusic,
-    bool? isLoading,
-    String? error,
-  }) {
-    return MusicState(
-      musicList: musicList ?? this.musicList,
-      currentMusic: currentMusic ?? this.currentMusic,
-      isLoading: isLoading ?? this.isLoading,
-      error: error ?? this.error,
-    );
-  }
-}
-
-// Notifier para manejar el estado de la música
-class MusicNotifier extends StateNotifier<MusicState> {
-  final MusicLogic _musicLogic;
-
-  MusicNotifier(this._musicLogic) : super(MusicState());
-
-  // Cargar todas las músicas
-  Future<void> loadAllMusic() async {
-    try {
-      state = state.copyWith(isLoading: true, error: null);
-      final musicList = await _musicLogic.getAllMusicByBoda();
-      state = state.copyWith(
-        musicList: musicList,
-        isLoading: false,
-      );
-    } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
-    }
+// Notifier de música migrado a @riverpod
+@riverpod
+class Music extends _$Music {
+  @override
+  Future<BodaMusic?> build(int bodaId) async {
+    return ref.watch(musicLogicProvider).getMusicByBodaId(bodaId);
   }
 
-  // Cargar música por ID de boda
-  Future<void> loadMusicByBodaId(int bodaId) async {
-    try {
-      state = state.copyWith(isLoading: true, error: null);
-      final music = await _musicLogic.getMusicByBodaId(bodaId);
-      state = state.copyWith(
-        currentMusic: music,
-        isLoading: false,
-      );
-    } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
-    }
-  }
-
-  // Crear nueva música
   Future<void> createMusic(BodaMusic music) async {
-    try {
-      state = state.copyWith(isLoading: true, error: null);
-      final newMusic = await _musicLogic.createMusic(music);
-      state = state.copyWith(
-        currentMusic: newMusic,
-        isLoading: false,
-      );
-    } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
-    }
+    await ref.read(musicLogicProvider).createMusic(music);
+    ref.invalidateSelf();
   }
 
-  // Actualizar música
   Future<void> updateMusic(BodaMusic music) async {
-    try {
-      state = state.copyWith(isLoading: true, error: null);
-      final updatedMusic = await _musicLogic.updateMusic(music);
-      state = state.copyWith(
-        currentMusic: updatedMusic,
-        isLoading: false,
-      );
-    } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
-    }
+    await ref.read(musicLogicProvider).updateMusic(music);
+    ref.invalidateSelf();
   }
 
-  // Eliminar música
   Future<void> deleteMusic(int musicId) async {
-    try {
-      state = state.copyWith(isLoading: true, error: null);
-      await _musicLogic.deleteMusic(musicId);
-      state = state.copyWith(
-        currentMusic: null,
-        isLoading: false,
-      );
-    } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
-    }
+    await ref.read(musicLogicProvider).deleteMusic(musicId);
+    ref.invalidateSelf();
   }
 }
-
-// Provider para el MusicNotifier
-final musicProvider = StateNotifierProvider<MusicNotifier, MusicState>((ref) {
-  final musicLogic = MusicLogic(supabase);
-  return MusicNotifier(musicLogic);
-});
 
 final musicaTipoProvider = FutureProvider<List<MusicType>>((ref) async {
-  final musicTyeProvider = ref.watch(musicLogicProvider);
-  return musicTyeProvider.getMusicType();
+  return ref.watch(musicLogicProvider).getMusicType();
 });

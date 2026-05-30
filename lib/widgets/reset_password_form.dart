@@ -1,4 +1,7 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'reset_password_form.g.dart';
 
 class ResetPasswordForm extends ConsumerWidget {
   final String email;
@@ -16,7 +19,7 @@ class ResetPasswordForm extends ConsumerWidget {
     final width = size.width;
 
     final newPassword = ref.watch(newPasswordProvider);
-    final confirmPassword = ref.watch(confirmPasswordProvider);
+    final confirmPassword = ref.watch(confirmResetPasswordProvider);
     final isNewPasswordVisible = ref.watch(isNewPasswordVisibleProvider);
     final isConfirmPasswordVisible =
         ref.watch(isConfirmPasswordVisibleProvider);
@@ -162,7 +165,7 @@ class ResetPasswordForm extends ConsumerWidget {
           SizedBox(height: 10),
           TextField(
             onChanged: (value) =>
-                ref.read(confirmPasswordProvider.notifier).state = value,
+                ref.read(confirmResetPasswordProvider.notifier).state = value,
             obscureText: !isConfirmPasswordVisible,
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -296,7 +299,7 @@ Future<void> _handleResetPassword(
 
       // Clear the form
       ref.read(newPasswordProvider.notifier).state = '';
-      ref.read(confirmPasswordProvider.notifier).state = '';
+      ref.read(confirmResetPasswordProvider.notifier).state = '';
 
       // Redirect to login after a short delay
       Future.delayed(const Duration(seconds: 1), () {
@@ -325,10 +328,31 @@ Future<void> _handleResetPassword(
 }
 
 // Providers for reset password form
-final newPasswordProvider = StateProvider<String>((ref) => '');
-final confirmPasswordProvider = StateProvider<String>((ref) => '');
-final isNewPasswordVisibleProvider = StateProvider<bool>((ref) => false);
-final isConfirmPasswordVisibleProvider = StateProvider<bool>((ref) => false);
+@riverpod
+class NewPassword extends _$NewPassword {
+  @override
+  String build() => '';
+}
+
+@riverpod
+class ConfirmResetPassword extends _$ConfirmResetPassword {
+  @override
+  String build() => '';
+}
+
+@riverpod
+class IsNewPasswordVisible extends _$IsNewPasswordVisible {
+  @override
+  bool build() => false;
+  void toggle() => state = !state;
+}
+
+@riverpod
+class IsConfirmPasswordVisible extends _$IsConfirmPasswordVisible {
+  @override
+  bool build() => false;
+  void toggle() => state = !state;
+}
 
 final newPasswordErrorProvider = Provider<String?>((ref) {
   final password = ref.watch(newPasswordProvider);
@@ -342,7 +366,7 @@ final newPasswordErrorProvider = Provider<String?>((ref) {
 
 final confirmPasswordErrorProvider = Provider<String?>((ref) {
   final newPassword = ref.watch(newPasswordProvider);
-  final confirmPassword = ref.watch(confirmPasswordProvider);
+  final confirmPassword = ref.watch(confirmResetPasswordProvider);
 
   if (confirmPassword.isEmpty) return null;
 
@@ -354,7 +378,7 @@ final confirmPasswordErrorProvider = Provider<String?>((ref) {
 
 final isResetPasswordFormValidProvider = Provider<bool>((ref) {
   final newPassword = ref.watch(newPasswordProvider);
-  final confirmPassword = ref.watch(confirmPasswordProvider);
+  final confirmPassword = ref.watch(confirmResetPasswordProvider);
   final newPasswordError = ref.watch(newPasswordErrorProvider);
   final confirmPasswordError = ref.watch(confirmPasswordErrorProvider);
 

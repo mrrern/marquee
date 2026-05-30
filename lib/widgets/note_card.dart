@@ -1,4 +1,4 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 import 'dart:io';
 
 class NoteCard extends StatelessWidget {
@@ -190,7 +190,7 @@ class _AddNoteDialogState extends ConsumerState<AddNoteDialog> {
 
   Future<void> _pickImages() async {
     try {
-      final result = await FilePicker.platform.pickFiles(
+      final result = await FilePicker.pickFiles(
         type: FileType.image,
         allowMultiple: true,
       );

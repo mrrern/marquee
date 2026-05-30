@@ -1,4 +1,4 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 import 'dart:io';
 
 class QuotationTable extends StatelessWidget {
@@ -685,7 +685,7 @@ class QuotationTable extends StatelessWidget {
                   OutlinedButton(
                     onPressed: () async {
                       FilePickerResult? result =
-                          await FilePicker.platform.pickFiles(
+                          await FilePicker.pickFiles(
                         type: FileType.custom,
                         allowedExtensions: ['pdf', 'doc', 'docx'],
                       );

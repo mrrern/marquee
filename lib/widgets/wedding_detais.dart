@@ -1,4 +1,4 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 
 class WeddingFormFields extends ConsumerWidget {
   const WeddingFormFields({super.key});
@@ -204,12 +204,12 @@ class WeddingFormFields extends ConsumerWidget {
                                 style: GoogleFonts.inter(color: Colors.black),
                               ),
                               items: tipos.map((tipo) {
-                                return DropdownMenuItem<int>(
+                                return DropdownItem<int>(
                                   value: tipo.id,
                                   child: Text(tipo.descripcion),
                                 );
                               }).toList(),
-                              value: formState.selectedBodaTipo,
+                              valueListenable: ValueNotifier(formState.selectedBodaTipo),
                               onChanged: (value) {
                                 if (value != null) {
                                   formNotifier.updateSelectedBodaTipo(value);
@@ -260,8 +260,8 @@ class WeddingFormFields extends ConsumerWidget {
             const SizedBox(height: 20),
             Center(
               child: HoverButton(
-                press: () => _guardarBoda(context, ref),
                 "GUARDAR",
+                press: () => _guardarBoda(context, ref),
               ),
             ),
           ],

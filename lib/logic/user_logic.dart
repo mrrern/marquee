@@ -1,11 +1,13 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'user_logic.g.dart';
+
 
 class UserLogic {
   final SupabaseClient _supabase = Supabase.instance.client;
 
-  /// Normalize a raw map from `user_info` view into the shape expected by UserInfo
   Map<String, dynamic> _normalizeUserMap(Map<String, dynamic> map) {
-    // Ensure string fields are non-null strings
     final id = (map['id'] ?? map['user_id'] ?? '').toString();
     final nombre =
         (map['nombre'] ?? map['name'] ?? map['user_nombre'] ?? '').toString();
@@ -25,17 +27,11 @@ class UserLogic {
     };
   }
 
-  /// Devuelve un mapa userId -> cantidad de bodas en la vista `listar_boda`
-  /// Para eficiencia consulta todos los registros con usuario_id en la lista
-  /// y agrupa en memoria.
   Future<Map<String, int>> fetchWeddingsCountForUsers(
       List<String> userIds) async {
     if (userIds.isEmpty) return {};
     try {
-      // Intentamos usar .in_ para filtrar por varios ids
       dynamic resp;
-      // Intentamos filtrar en servidor por usuario_id; si no está disponible,
-      // fallback a traer todos y filtrar en memoria.
       try {
         resp = await _supabase
             .from('listar_boda')
@@ -62,19 +58,16 @@ class UserLogic {
         }
       }
 
-      // Ensure zero counts for users with no bodas
       for (final id in userIds) {
         counts.putIfAbsent(id, () => 0);
       }
 
       return counts;
     } catch (e) {
-      // En caso de error devolvemos vacío y permitimos que la UI lo trate
       return {for (var id in userIds) id: 0};
     }
   }
 
-  /// Obtiene todos los usuarios desde la vista `user_info`
   Future<List<UserInfo>> fetchAllUsers() async {
     try {
       final resp = await _supabase.from('user_info').select().order('nombre');
@@ -89,7 +82,6 @@ class UserLogic {
     }
   }
 
-  /// Obtiene un usuario por id (desde la vista `user_info`)
   Future<UserInfo?> getUserById(String id) async {
     try {
       final resp =
@@ -103,7 +95,6 @@ class UserLogic {
     }
   }
 
-  /// Actualiza campos en la tabla `users` y devuelve UserInfo actualizado desde la vista
   Future<UserInfo> updateUser(String id, Map<String, dynamic> changes) async {
     try {
       await _supabase.from('users').update(changes).eq('id', id);
@@ -115,7 +106,6 @@ class UserLogic {
     }
   }
 
-  /// Soft delete en tabla `users`
   Future<void> deleteUser(String id) async {
     try {
       await _supabase.from('users').update({
@@ -127,14 +117,9 @@ class UserLogic {
     }
   }
 
-  /// Hard delete: elimina permanentemente al usuario y su acceso de signIn
-  /// de la base de datos y de Supabase Auth
   Future<void> deleteHard(String id) async {
     try {
-      // 1. Eliminar el usuario de Supabase Auth (esto elimina su acceso de signIn)
       await _supabase.auth.admin.deleteUser(id);
-
-      // 2. Eliminar el registro del usuario de la tabla `users`
       await _supabase.from('users').delete().eq('id', id);
     } catch (e) {
       throw Exception('Error al eliminar permanentemente usuario $id: $e');
@@ -142,54 +127,32 @@ class UserLogic {
   }
 }
 
-// Provider de la lógica
-final userLogicProvider = Provider<UserLogic>((ref) {
-  return UserLogic();
-});
+// Provider de servicio
+final userLogicProvider = Provider<UserLogic>((ref) => UserLogic());
 
-// StateNotifier para administrar la lista de usuarios (pantalla admin)
-class AdminUsersNotifier extends StateNotifier<AsyncValue<List<UserInfo>>> {
-  final UserLogic logic;
-
-  AdminUsersNotifier(this.logic) : super(const AsyncValue.loading()) {
-    fetchAll();
+// Notifier admin (lista de usuarios)
+@riverpod
+class AdminUsers extends _$AdminUsers {
+  @override
+  Future<List<UserInfo>> build() async {
+    return ref.watch(userLogicProvider).fetchAllUsers();
   }
 
-  Future<void> fetchAll() async {
-    state = const AsyncValue.loading();
-    try {
-      final users = await logic.fetchAllUsers();
-      state = AsyncValue.data(users);
-    } catch (e, st) {
-      state = AsyncValue.error(e, st);
-    }
-  }
-
-  Future<void> refresh() => fetchAll();
+  Future<void> refresh() async => ref.invalidateSelf();
 
   Future<void> removeUser(String id) async {
-    try {
-      await logic.deleteUser(id);
-      await fetchAll();
-    } catch (e, st) {
-      state = AsyncValue.error(e, st);
-    }
+    await ref.read(userLogicProvider).deleteUser(id);
+    ref.invalidateSelf();
   }
 
   Future<void> editUser(String id, Map<String, dynamic> changes) async {
-    try {
-      await logic.updateUser(id, changes);
-      await fetchAll();
-    } catch (e, st) {
-      state = AsyncValue.error(e, st);
-    }
+    await ref.read(userLogicProvider).updateUser(id, changes);
+    ref.invalidateSelf();
   }
 }
 
-final usersAdminProvider =
-    StateNotifierProvider<AdminUsersNotifier, AsyncValue<List<UserInfo>>>(
-  (ref) => AdminUsersNotifier(ref.watch(userLogicProvider)),
-);
+// Alias de compatibilidad
+final usersAdminProvider = adminUsersProvider;
 
 // Helper provider para obtener un solo usuario por id
 final userInfoByIdProvider =
@@ -198,20 +161,21 @@ final userInfoByIdProvider =
   return logic.getUserById(id);
 });
 
-// ---------------------------------------------------------------------------
-// Nueva paginación usando Freezed + StateNotifier
-// ---------------------------------------------------------------------------
-class PaginateUsersNotifier extends StateNotifier<PaginateUserState> {
-  final UserLogic logic;
+// PaginateUserState está definido en lib/models/user_model.dart
 
-  PaginateUsersNotifier(this.logic) : super(const PaginateUserState()) {
-    loadAll();
+
+@riverpod
+class PaginateUsers extends _$PaginateUsers {
+  @override
+  PaginateUserState build() {
+    Future.microtask(() => loadAll());
+    return const PaginateUserState();
   }
 
   Future<void> loadAll() async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
-      final all = await logic.fetchAllUsers();
+      final all = await ref.read(userLogicProvider).fetchAllUsers();
       final totalPages =
           ((all.length) / state.itemsPerPage).ceil().clamp(1, 99999);
       final currentPageUsers = all.take(state.itemsPerPage).toList();
@@ -237,7 +201,8 @@ class PaginateUsersNotifier extends StateNotifier<PaginateUserState> {
 
   void updateItemsPerPage(int count) {
     if (count < 1) return;
-    final totalPages = ((state.allUsers.length) / count).ceil().clamp(1, 99999);
+    final totalPages =
+        ((state.allUsers.length) / count).ceil().clamp(1, 99999);
     final currentPageUsers = state.allUsers.take(count).toList();
     state = state.copyWith(
       itemsPerPage: count,
@@ -250,8 +215,6 @@ class PaginateUsersNotifier extends StateNotifier<PaginateUserState> {
   Future<void> refresh() async => loadAll();
 }
 
-final paginateUsersProvider =
-    StateNotifierProvider<PaginateUsersNotifier, PaginateUserState>((ref) {
-  final logic = ref.watch(userLogicProvider);
-  return PaginateUsersNotifier(logic);
-});
+// El provider se accede como paginateUsersProvider
+// generado por @riverpod desde la clase PaginateUsers.
+

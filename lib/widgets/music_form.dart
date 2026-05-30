@@ -1,4 +1,4 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 
 class MusicFormContent extends ConsumerWidget {
   const MusicFormContent({super.key});
@@ -99,12 +99,12 @@ class MusicFormContent extends ConsumerWidget {
                       style: GoogleFonts.inter(color: Colors.black),
                     ),
                     items: tipos.map((tipo) {
-                      return DropdownMenuItem<int>(
+                      return DropdownItem<int>(
                         value: tipo.id,
                         child: Text(tipo.descripcion),
                       );
                     }).toList(),
-                    value: formState.selectecMusicType,
+                    valueListenable: ValueNotifier(formState.selectecMusicType),
                     onChanged: (value) {
                       if (value != null) {
                         formNotifier.updateSelectedMusicType(value);
@@ -254,25 +254,28 @@ class MusicFormContent extends ConsumerWidget {
         ),
         const SizedBox(height: 29),
         Center(
-          child: HoverButton(press: () {
-            if (formKeyMusic.currentState!.validate()) {
-              final esposo = ref.watch(groomLinksProvider.notifier);
-              final esposa = ref.watch(groomLinksProvider.notifier);
+          child: HoverButton(
+            "GUARDAR",
+            press: () {
+              if (formKeyMusic.currentState!.validate()) {
+                final esposo = ref.watch(groomLinksProvider.notifier);
+                final esposa = ref.watch(groomLinksProvider.notifier);
 
-              debugPrint(esposa.toString());
-              ref
-                  .read(weddingMusicFormProvider.notifier)
-                  .addBrideSong(esposa.toString());
+                debugPrint(esposa.toString());
+                ref
+                    .read(weddingMusicFormProvider.notifier)
+                    .addBrideSong(esposa.toString());
 
-              debugPrint(esposo.toString());
-              ref
-                  .read(weddingMusicFormProvider.notifier)
-                  .addGroomSong(esposo.toString());
+                debugPrint(esposo.toString());
+                ref
+                    .read(weddingMusicFormProvider.notifier)
+                    .addGroomSong(esposo.toString());
 
-              ref.read(weddingMusicFormProvider.notifier).saveForm();
-            }
-            context.go('/contract');
-          }, "GUARDAR"),
+                ref.read(weddingMusicFormProvider.notifier).build();
+              }
+              context.go('/contract');
+            },
+          ),
         ),
       ],
     );

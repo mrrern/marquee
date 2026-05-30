@@ -1,4 +1,4 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 
 class NotificationFilterWidget extends ConsumerWidget {
   const NotificationFilterWidget({super.key});
@@ -100,7 +100,7 @@ class NotificationFilterWidget extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 16),
-          if ((ref.watch(unreadCountProvider).valueOrNull ?? 0) > 0)
+          if ((ref.watch(unreadCountProvider).asData?.value ?? 0) > 0)
             ElevatedButton.icon(
               onPressed: () {
                 ref.read(notificationsLogicProvider).markAllAsRead();

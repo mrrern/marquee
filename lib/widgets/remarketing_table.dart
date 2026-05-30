@@ -1,6 +1,5 @@
 import 'dart:math' as math;
-
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 
 // Tabla para versión desktop
 class RemarketingTable extends ConsumerWidget {
@@ -18,10 +17,6 @@ class RemarketingTable extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final users = pageData.items;
-    final currentPage = pageData.page;
-    final pageSize = pageData.pageSize;
-    final totalItems = pageData.totalItems;
-    final totalPages = (totalItems / pageSize).ceil();
     final isMobile = MediaQuery.of(context).size.width < 600;
 
     if (!isMobile) {
@@ -88,7 +83,7 @@ class RemarketingTable extends ConsumerWidget {
                         user.id,
                     onChanged: (value) => ref
                         .read(selectedRemarketingUserProvider.notifier)
-                        .state = value == true ? user : null,
+                        .select(value == true ? user : null),
                   );
                 default:
                   return const SizedBox();
@@ -149,7 +144,7 @@ class RemarketingCard extends ConsumerWidget {
               value: ref.watch(selectedRemarketingUserProvider)?.id == user.id,
               onChanged: (value) => ref
                   .read(selectedRemarketingUserProvider.notifier)
-                  .state = value == true ? user : null,
+                  .select(value == true ? user : null),
             ),
           ],
         ),

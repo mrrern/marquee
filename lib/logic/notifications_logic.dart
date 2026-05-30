@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 
 class NotificationsLogic {
   final SupabaseClient _supabase = Supabase.instance.client;

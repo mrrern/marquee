@@ -1,7 +1,10 @@
 import 'dart:convert';
 
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'dart:io';
+
+part 'notes_logic.g.dart';
 
 class NotesLogic {
   final SupabaseClient _supabase = Supabase.instance.client;
@@ -42,9 +45,6 @@ class NotesLogic {
   }) async {
     try {
       final String originalName = file.path.split('/').last;
-      final String ext =
-          (originalName.contains('.') ? originalName.split('.').last : 'jpg')
-              .toLowerCase();
       final String fileName =
           '${DateTime.now().millisecondsSinceEpoch}_$originalName';
       final String storagePath = 'bodas/$bodaId/notes/$fileName';
@@ -287,34 +287,20 @@ class AdminNoteView {
   });
 }
 
-// Provider para NotesLogic
-final notesLogicProvider = Provider<NotesLogic>((ref) {
-  return NotesLogic();
-});
+// Provider de servicio
+final notesLogicProvider = Provider<NotesLogic>((ref) => NotesLogic());
 
-// StateNotifier para el listado administrador de notas
-class AdminNotesNotifier
-    extends StateNotifier<AsyncValue<List<AdminNoteView>>> {
-  final NotesLogic logic;
-
-  AdminNotesNotifier(this.logic) : super(const AsyncValue.loading()) {
-    fetchAll();
+// Notifier admin para el listado de notas — migrado a @riverpod
+@riverpod
+class AdminNotes extends _$AdminNotes {
+  @override
+  Future<List<AdminNoteView>> build() async {
+    return ref.watch(notesLogicProvider).fetchAllNotes();
   }
 
-  Future<void> fetchAll() async {
-    state = const AsyncValue.loading();
-    try {
-      final data = await logic.fetchAllNotes();
-      state = AsyncValue.data(data);
-    } catch (e, st) {
-      state = AsyncValue.error(e, st);
-    }
-  }
-
-  Future<void> refresh() async => fetchAll();
+  Future<void> refresh() async => ref.invalidateSelf();
 }
 
-final notesAdminProvider =
-    StateNotifierProvider<AdminNotesNotifier, AsyncValue<List<AdminNoteView>>>(
-  (ref) => AdminNotesNotifier(ref.watch(notesLogicProvider)),
-);
+// Alias de compatibilidad
+// El provider generado se llama adminNotesProvider (de clase AdminNotes con @riverpod).
+final notesAdminProvider = adminNotesProvider;

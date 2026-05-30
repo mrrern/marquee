@@ -1,4 +1,7 @@
-import "package:bodas/routes/linkspaper.dart";
+import "package:bodas/routes/exports.dart";
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'boda_logic.g.dart';
 
 // Provider para WeddingLogic
 final weddingLogicProvider = Provider<WeddingLogic>((ref) {
@@ -13,63 +16,65 @@ class WeddingLogic {
 
   // Crear una nueva boda
   Future<void> createWedding(Boda boda) async {
-    final response = await supabase.from('boda').insert({
-      'usuario_id': boda.usuarioId,
-      'fecha': boda.fecha.toIso8601String(),
-      'ubicacion': boda.ubicacion,
-      'invitados': boda.invitados,
-      'estado_id': boda.estadoId,
-      'boda_tipo': boda.bodaTipo,
-      'novio_nombre': boda.novioNombre,
-      'novia_nombre': boda.noviaNombre,
-      'phone_novio': boda.phoneNovio,
-      'phone_novia': boda.phoneNovia,
-      'novio_birthday': boda.novioBirthday.toIso8601String(),
-      'novia_birthday': boda.noviaBirthday.toIso8601String(),
-      'novio_email': boda.novioEmail,
-      'novia_email': boda.noviaEmail,
-      'is_deleted': false,
-      'is_active': boda.isActive,
-      'created_at': DateTime.now().toIso8601String(),
-      'updated_at': DateTime.now().toIso8601String(),
-    });
-    if (response == null || response.error != null) {
-      throw Exception('Error al crear la boda: ${response.error?.message}');
+    try {
+      await supabase.from('boda').insert({
+        'usuario_id': boda.usuarioId,
+        'fecha': boda.fecha.toIso8601String(),
+        'ubicacion': boda.ubicacion,
+        'invitados': boda.invitados,
+        'estado_id': boda.estadoId,
+        'boda_tipo': boda.bodaTipo,
+        'novio_nombre': boda.novioNombre,
+        'novia_nombre': boda.noviaNombre,
+        'phone_novio': boda.phoneNovio,
+        'phone_novia': boda.phoneNovia,
+        'novio_birthday': boda.novioBirthday.toIso8601String(),
+        'novia_birthday': boda.noviaBirthday.toIso8601String(),
+        'novio_email': boda.novioEmail,
+        'novia_email': boda.noviaEmail,
+        'is_deleted': false,
+        'is_active': boda.isActive,
+        'created_at': DateTime.now().toIso8601String(),
+        'updated_at': DateTime.now().toIso8601String(),
+      });
+    } catch (e) {
+      throw Exception('Error al crear la boda: $e');
     }
   }
 
   // Editar una boda existente
   Future<void> updateWedding(Boda boda) async {
-    final response = await supabase.from('boda').update({
-      'fecha': boda.fecha.toIso8601String(),
-      'ubicacion': boda.ubicacion,
-      'invitados': boda.invitados,
-      'estado_id': boda.estadoId,
-      'boda_tipo': boda.bodaTipo,
-      'novio_nombre': boda.novioNombre,
-      'novia_nombre': boda.noviaNombre,
-      'phone_novio': boda.phoneNovio,
-      'phone_novia': boda.phoneNovia,
-      'novio_birthday': boda.novioBirthday.toIso8601String(),
-      'novia_birthday': boda.noviaBirthday.toIso8601String(),
-      'novio_email': boda.novioEmail,
-      'novia_email': boda.noviaEmail,
-      'updated_at': DateTime.now().toIso8601String(),
-    }).eq('id', boda.id);
-    if (response == null || response.error != null) {
-      throw Exception(
-          'Error al actualizar la boda: ${response.error?.message}');
+    try {
+      await supabase.from('boda').update({
+        'fecha': boda.fecha.toIso8601String(),
+        'ubicacion': boda.ubicacion,
+        'invitados': boda.invitados,
+        'estado_id': boda.estadoId,
+        'boda_tipo': boda.bodaTipo,
+        'novio_nombre': boda.novioNombre,
+        'novia_nombre': boda.noviaNombre,
+        'phone_novio': boda.phoneNovio,
+        'phone_novia': boda.phoneNovia,
+        'novio_birthday': boda.novioBirthday.toIso8601String(),
+        'novia_birthday': boda.noviaBirthday.toIso8601String(),
+        'novio_email': boda.novioEmail,
+        'novia_email': boda.noviaEmail,
+        'updated_at': DateTime.now().toIso8601String(),
+      }).eq('id', boda.id);
+    } catch (e) {
+      throw Exception('Error al actualizar la boda: $e');
     }
   }
 
   // Eliminar (soft delete) una boda
   Future<void> deleteWedding(String bodaId) async {
-    final response = await supabase.from('boda').update({
-      'is_deleted': true,
-      'updated_at': DateTime.now().toIso8601String(),
-    }).eq('id', bodaId);
-    if (response == null || response.error != null) {
-      throw Exception('Error al eliminar la boda: ${response.error?.message}');
+    try {
+      await supabase.from('boda').update({
+        'is_deleted': true,
+        'updated_at': DateTime.now().toIso8601String(),
+      }).eq('id', bodaId);
+    } catch (e) {
+      throw Exception('Error al eliminar la boda: $e');
     }
   }
 
@@ -89,7 +94,7 @@ class WeddingLogic {
   Future<void> updateWeddingStatus(int bodaId, int newStatus) async {
     try {
       await supabase.from('boda').update({
-        'estado_boda': newStatus,
+        'estado_id': newStatus, // columna correcta en la tabla boda
         'updated_at': DateTime.now().toIso8601String(),
       }).eq('id', bodaId);
     } catch (e) {
@@ -177,41 +182,20 @@ class WeddingLogic {
   }
 }
 
-// StateNotifier para manejar la lista de bodas
-class WeddingsNotifier extends StateNotifier<AsyncValue<List<Boda>>> {
-  final WeddingLogic logic;
-  final String usuarioId;
 
-  WeddingsNotifier(this.logic, this.usuarioId)
-      : super(const AsyncValue.loading()) {
-    fetchWeddings();
-  }
-
-  Future<void> fetchWeddings() async {
-    state = const AsyncValue.loading();
-    try {
-      final bodas = await logic.fetchWeddings(usuarioId);
-      state = AsyncValue.data(bodas);
-    } catch (e, st) {
-      state = AsyncValue.error(e, st);
-    }
+// Notifier para manejar la lista de bodas por usuario
+@riverpod
+class Weddings extends _$Weddings {
+  @override
+  Future<List<Boda>> build(String usuarioId) async {
+    return ref.watch(weddingLogicProvider).fetchWeddings(usuarioId);
   }
 
   Future<void> addWedding(Boda boda) async {
-    try {
-      await logic.createWedding(boda);
-      await fetchWeddings();
-    } catch (e, st) {
-      state = AsyncValue.error(e, st);
-    }
+    await ref.watch(weddingLogicProvider).createWedding(boda);
+    ref.invalidateSelf();
   }
 }
-
-final weddingsProvider = StateNotifierProvider.family<WeddingsNotifier,
-    AsyncValue<List<Boda>>, String>(
-  (ref, usuarioId) =>
-      WeddingsNotifier(ref.watch(weddingLogicProvider), usuarioId),
-);
 
 // Provider para los estados de boda
 final bodaEstadosProvider = FutureProvider<List<BodaEstado>>((ref) async {
@@ -238,23 +222,23 @@ final contractedWeddingsProvider =
     FutureProvider<List<Map<String, dynamic>>>((ref) async {
   final logic = ref.watch(weddingLogicProvider);
   final rows = await logic.fetchAllListarBodaRaw();
-  // Filtrar solo bodas con estado 4 (Contratada)
+  // Filtrar solo bodas con estado_id == 4 (Contratada) — comparación numérica
   final filtered = rows.where((r) {
-    final estado = r['estado_boda'];
+    final estado = r['estado_id'];
     return estado == 4;
   }).toList();
 
   return filtered;
 });
 
-class ContractedPaginationNotifier
-    extends StateNotifier<ContractedPaginationState> {
-  ContractedPaginationNotifier(this.ref)
-      : super(const ContractedPaginationState()) {
-    loadItems();
+@riverpod
+class ContractedPagination extends _$ContractedPagination {
+  @override
+  ContractedPaginationState build() {
+    // Iniciamos la carga al construir el notifier
+    Future.microtask(() => loadItems());
+    return const ContractedPaginationState();
   }
-
-  final Ref ref;
 
   Future<void> loadItems() async {
     state = state.copyWith(isLoading: true, errorMessage: null);
@@ -296,13 +280,26 @@ class ContractedPaginationNotifier
   }
 }
 
-final contractedPaginationProvider = StateNotifierProvider<
-    ContractedPaginationNotifier, ContractedPaginationState>((ref) {
-  return ContractedPaginationNotifier(ref);
-});
-
 /// Provider para el estado del formulario de boda
-final weddingFormProvider =
-    StateNotifierProvider<WeddingFormNotifier, WeddingFormState>((ref) {
-  return WeddingFormNotifier();
-});
+@riverpod
+class WeddingForm extends _$WeddingForm {
+  @override
+  WeddingFormState build() => const WeddingFormState();
+
+  void updateNovioNombre(String v) => state = state.copyWith(novioNombre: v);
+  void updateNoviaNombre(String v) => state = state.copyWith(noviaNombre: v);
+  void updatePhoneNovio(String v) => state = state.copyWith(phoneNovio: v);
+  void updatePhoneNovia(String v) => state = state.copyWith(phoneNovia: v);
+  void updateNovioEmail(String v) => state = state.copyWith(novioEmail: v);
+  void updateNoviaEmail(String v) => state = state.copyWith(noviaEmail: v);
+  void updateInvitados(String v) => state = state.copyWith(invitados: v);
+  void updateUbicacion(String v) => state = state.copyWith(ubicacion: v);
+  void updateNovioBirthday(DateTime v) =>
+      state = state.copyWith(novioBirthday: v);
+  void updateNoviaBirthday(DateTime v) =>
+      state = state.copyWith(noviaBirthday: v);
+  void updateSelectedBodaTipo(int v) =>
+      state = state.copyWith(selectedBodaTipo: v);
+  void updateIsActive(bool v) => state = state.copyWith(isActive: v);
+  void reset() => state = const WeddingFormState();
+}

@@ -1,4 +1,8 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'marketing_logic.g.dart';
+
 
 class MarketingLogic {
   final SupabaseClient supabase = Supabase.instance.client;
@@ -241,30 +245,34 @@ class MarketingLogic {
   }
 }
 
-final marketingProvider =
-    FutureProvider<List<RemarketingUserModel>>((ref) async {
-  final logic = MarketingLogic();
-  return await logic.getRemarketingUsers();
-});
+final marketingLogicProvider =
+    Provider<MarketingLogic>((ref) => MarketingLogic());
+
+@riverpod
+Future<List<RemarketingUserModel>> marketing(Ref ref) async {
+  return ref.watch(marketingLogicProvider).getRemarketingUsers();
+}
 
 // Estado para usuario seleccionado
-final selectedRemarketingUserProvider =
-    StateProvider<RemarketingUserModel?>((ref) => null);
+@riverpod
+class SelectedRemarketingUser extends _$SelectedRemarketingUser {
+  @override
+  RemarketingUserModel? build() => null;
 
-// Provider para obtener un usuario por id
-final remarketingUserProvider =
-    FutureProvider.family<RemarketingUserModel?, String>((ref, userId) async {
-  final logic = MarketingLogic();
-  return await logic.getRemarketingUser(userId);
-});
+  void select(RemarketingUserModel? user) => state = user;
+}
 
-/// Provider para obtener usuarios de remarketing paginados
-final marketingPaginatedProvider =
-    FutureProvider.family<RemarketingPaginatedResponse, RemarketingPagination>(
-        (ref, pagination) async {
-  final logic = MarketingLogic();
-  return await logic.getRemarketingUsersPaginated(
-    page: pagination.page,
-    pageSize: pagination.pageSize,
-  );
-});
+@riverpod
+Future<RemarketingUserModel?> remarketingUser(
+    Ref ref, String userId) async {
+  return ref.watch(marketingLogicProvider).getRemarketingUser(userId);
+}
+
+@riverpod
+Future<RemarketingPaginatedResponse> marketingPaginated(
+    Ref ref, RemarketingPagination pagination) async {
+  return ref.watch(marketingLogicProvider).getRemarketingUsersPaginated(
+        page: pagination.page,
+        pageSize: pagination.pageSize,
+      );
+}

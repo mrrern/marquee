@@ -1,4 +1,4 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

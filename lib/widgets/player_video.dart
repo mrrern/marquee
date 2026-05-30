@@ -1,4 +1,4 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 import 'package:video_player/video_player.dart';
 
 class PlayerVideo extends ConsumerStatefulWidget {

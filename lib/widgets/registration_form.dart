@@ -1,4 +1,4 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 
 class RegistroForm extends ConsumerWidget {
   const RegistroForm({super.key});
@@ -324,13 +324,13 @@ class RegistroForm extends ConsumerWidget {
 // Hidden text field widget for custom styling
 class HiddenTextField extends ConsumerWidget {
   final String hint;
-  final StateProvider<String> provider;
+  final void Function(String)? onChanged;
   final bool obscureText;
 
   const HiddenTextField({
     super.key,
     required this.hint,
-    required this.provider,
+    this.onChanged,
     this.obscureText = false,
   });
 
@@ -353,7 +353,7 @@ class HiddenTextField extends ConsumerWidget {
         fontWeight: FontWeight.w600,
         color: const Color(0xFF2A2A2A),
       ),
-      onChanged: (value) => ref.read(provider.notifier).state = value,
+      onChanged: onChanged,
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 
 class NotificationListWidget extends ConsumerWidget {
   const NotificationListWidget({super.key});
@@ -8,7 +8,7 @@ class NotificationListWidget extends ConsumerWidget {
     final notifications = ref.watch(notificationsStreamProvider);
     final bool isMobile = Responsive.isMobile(context);
 
-    if (!notifications.hasValue || notifications.valueOrNull == null) {
+    if (!notifications.hasValue || notifications.asData?.value == null) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -32,6 +32,8 @@ class NotificationListWidget extends ConsumerWidget {
       );
     }
 
+    final notificationList = notifications.asData?.value ?? [];
+
     return Container(
       width: isMobile ? 337 : 747,
       decoration: BoxDecoration(
@@ -48,12 +50,11 @@ class NotificationListWidget extends ConsumerWidget {
       child: Column(
         children: [
           buildHeader(context),
-          ...notifications.valueOrNull?.map((notification) => NotificationItem(
+          ...notificationList.map((notification) => NotificationItem(
                     notification: notification,
                     onTap: () =>
                         showNotificationDialog(context, ref, notification),
-                  )) ??
-              [],
+                  )),
         ],
       ),
     );

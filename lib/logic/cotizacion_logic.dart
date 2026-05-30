@@ -1,33 +1,27 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'dart:io';
 
 part 'cotizacion_logic.freezed.dart';
+part 'cotizacion_logic.g.dart';
 
 class CotizacionLogic {
   final SupabaseClient _supabase = Supabase.instance.client;
 
   /// Sube un archivo al storage de Supabase y crea un registro en la tabla uploaded_files
-  ///
-  /// [bodaId] - ID de la boda a la que pertenece el archivo
-  /// [file] - Archivo a subir
-  /// [isAdmin] - Indica si el archivo es subido por un administrador
-  ///
-  /// Retorna el objeto UploadedFile creado
   Future<CotizacionModel> uploadFile({
     required int bodaId,
     required File file,
     required bool isAdmin,
   }) async {
     try {
-      // Forzar un nombre estable para permitir sobrescritura admin/usuario
       final String originalName = file.path.split('/').last;
       final String ext =
           (originalName.contains('.') ? originalName.split('.').last : 'pdf')
               .toLowerCase();
       final String storagePath = 'bodas/$bodaId/cotizacion.$ext';
 
-      // Intentar primero en bucket `cotizaciones`, si no existe usar `archives-bodas`
       final List<String> bucketCandidates = ['cotizaciones', 'archives-bodas'];
       String? selectedBucket;
 
@@ -48,13 +42,11 @@ class CotizacionLogic {
             'No se pudo subir el archivo a ningún bucket: $lastError');
       }
 
-      // Generar URL firmada (los buckets son privados por RLS)
       final signed = await _supabase.storage
           .from(selectedBucket)
-          .createSignedUrl(storagePath, 60 * 60 * 24 * 7); // 7 días
+          .createSignedUrl(storagePath, 60 * 60 * 24 * 7);
       final String fileUrl = signed;
 
-      // Upsert en `uploaded_files` por boda_id
       final List existing = await _supabase
           .from('uploaded_files')
           .select('id')
@@ -95,7 +87,6 @@ class CotizacionLogic {
     }
   }
 
-  /// Obtiene los archivos subidos para una boda específica
   Future<List<CotizacionModel>> getFilesByBodaId(int bodaId) async {
     try {
       final response = await _supabase
@@ -110,7 +101,6 @@ class CotizacionLogic {
     }
   }
 
-  /// Elimina un archivo (soft delete)
   Future<void> deleteFile(int fileId) async {
     try {
       await _supabase
@@ -121,15 +111,11 @@ class CotizacionLogic {
     }
   }
 
-  /// Obtiene todas las solicitudes de cotización desde listar_boda
-  /// Filtra solo estados 1-3 (Cotizando, Enviado, Entregado)
   Future<List<CotizacionRequest>> getAllCotizacionRequests() async {
     try {
-      // Consultar desde la vista listar_boda
       final response =
           await _supabase.from('listar_boda').select().eq('is_deleted', false);
 
-      // Mapear de Boda a CotizacionRequest
       final allRequests = (response as List).map((json) {
         final boda = Boda.fromJson(json);
 
@@ -145,12 +131,11 @@ class CotizacionLogic {
           fechaUltimaBoda: boda.fecha,
           invitados: boda.invitados.round(),
           tipoCeremonia: boda.bodaTipo.toString(),
-          estadoId: boda.estadoId, // Incluir estado
-          bodaId: boda.id, // Incluir ID de boda
+          estadoId: boda.estadoId,
+          bodaId: boda.id,
         );
       }).toList();
 
-      // Filtrar solo estados 1, 2, 3 (Cotizando, Enviado, Entregado)
       return allRequests.where((request) {
         final estado = request.estadoId ?? 0;
         return estado >= 1 && estado <= 3;
@@ -175,19 +160,23 @@ abstract class CotizacionRequestPaginationState
   }) = _CotizacionRequestPaginationState;
 }
 
-class CotizacionRequestPaginationNotifier
-    extends StateNotifier<CotizacionRequestPaginationState> {
-  CotizacionRequestPaginationNotifier(this._logic)
-      : super(const CotizacionRequestPaginationState()) {
-    loadRequests();
-  }
+final cotizacionLogicProvider = Provider<CotizacionLogic>((ref) {
+  return CotizacionLogic();
+});
 
-  final CotizacionLogic _logic;
+@riverpod
+class CotizacionRequestPagination extends _$CotizacionRequestPagination {
+  @override
+  CotizacionRequestPaginationState build() {
+    Future.microtask(() => loadRequests());
+    return const CotizacionRequestPaginationState();
+  }
 
   Future<void> loadRequests() async {
     state = state.copyWith(isLoading: true, errorMessage: null);
     try {
-      final all = await _logic.getAllCotizacionRequests();
+      final all =
+          await ref.read(cotizacionLogicProvider).getAllCotizacionRequests();
       final totalPages =
           (all.length / state.itemsPerPage).ceil().clamp(1, 9999);
       final currentPageRequests = all.take(state.itemsPerPage).toList();
@@ -224,9 +213,6 @@ class CotizacionRequestPaginationNotifier
   }
 }
 
-final cotizacionRequestPaginationProvider = StateNotifierProvider<
-    CotizacionRequestPaginationNotifier,
-    CotizacionRequestPaginationState>((ref) {
-  final logic = CotizacionLogic();
-  return CotizacionRequestPaginationNotifier(logic);
-});
+// El provider se accede como cotizacionRequestPaginationProvider
+// generado por @riverpod desde la clase CotizacionRequestPagination.
+

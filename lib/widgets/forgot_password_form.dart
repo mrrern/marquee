@@ -1,4 +1,7 @@
-import 'package:bodas/routes/linkspaper.dart';
+import 'package:bodas/routes/exports.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'forgot_password_form.g.dart';
 
 class ForgotPasswordForm extends ConsumerWidget {
   const ForgotPasswordForm({super.key});
@@ -85,7 +88,7 @@ class ForgotPasswordForm extends ConsumerWidget {
           SizedBox(height: 10),
           TextField(
             onChanged: (value) =>
-                ref.read(forgotPasswordEmailProvider.notifier).state = value,
+                ref.read(forgotPasswordEmailProvider.notifier).set(value),
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.zero,
@@ -215,7 +218,7 @@ Future<void> _handleForgotPassword(WidgetRef ref, BuildContext context) async {
       );
 
       // Clear the form
-      ref.read(forgotPasswordEmailProvider.notifier).state = '';
+      ref.read(forgotPasswordEmailProvider.notifier).set('');
     }
   } catch (e) {
     if (context.mounted && !dialogClosed) {
@@ -237,7 +240,17 @@ Future<void> _handleForgotPassword(WidgetRef ref, BuildContext context) async {
 }
 
 // Providers for forgot password form
-final forgotPasswordEmailProvider = StateProvider<String>((ref) => '');
+@riverpod
+class ForgotPasswordEmail extends _$ForgotPasswordEmail {
+  @override
+  String build() => '';
+
+  void set(String value) => state = value;
+}
+
+// El provider se accede como forgotPasswordEmailProvider
+// generado por @riverpod desde la clase ForgotPasswordEmail.
+
 
 final forgotPasswordEmailErrorProvider = Provider<String?>((ref) {
   final email = ref.watch(forgotPasswordEmailProvider);
