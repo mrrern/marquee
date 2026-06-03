@@ -52,3 +52,9 @@ cursor_rules.md
 
 fix_paginator.py
 query.md
+
+# Environment config files
+.env
+.env.json
+*.env.json
+*.env

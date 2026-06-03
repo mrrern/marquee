@@ -53,6 +53,7 @@ export 'package:bodas/logic/marketing_logic.dart';
 export 'package:bodas/logic/statistics_logic.dart';
 export 'package:bodas/logic/webview_scrap.dart';
 export 'package:bodas/logic/csv_exporter.dart';
+export 'package:bodas/logic/env.dart';
 
 // ─── Pages ────────────────────────────────────────────────────────────────────
 export 'package:bodas/pages/main_page.dart';

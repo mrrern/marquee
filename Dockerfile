@@ -22,7 +22,9 @@ COPY . .
 RUN flutter pub get
 
 # Build the app for the web
-RUN flutter build web --wasm
+ARG SUPABASE_URL
+ARG SUPABASE_ANON_KEY
+RUN flutter build web --wasm --dart-define=SUPABASE_URL=$SUPABASE_URL --dart-define=SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY
 
 # Production stage
 FROM nginx:1.21.1-alpine
